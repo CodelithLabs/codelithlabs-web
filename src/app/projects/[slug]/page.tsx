@@ -1,10 +1,10 @@
 "use client";
 
 import { notFound } from "next/navigation";
-import { ArrowLeft, Github, ExternalLink, Calendar, Code2 } from "lucide-react";
+import { ArrowLeft, Github, ExternalLink } from "lucide-react";
 import Link from "next/link";
 
-// 1. Mock Data Database (In a real app, this would fetch from an API or Markdown files)
+// 1. Mock Data Database
 const projects = {
   "vectordefense": {
     title: "VectorDefense",
@@ -36,11 +36,21 @@ const projects = {
   }
 };
 
+// 2. Generate Static Params (Crucial for SSG)
+// This tells Next.js exactly which routes to build: /projects/vectordefense and /projects/citk-connect
+export async function generateStaticParams() {
+  return Object.keys(projects).map((slug) => ({
+    slug: slug,
+  }));
+}
+
+// 3. Page Component
 export default function ProjectPage({ params }: { params: { slug: string } }) {
-  // 2. Find the project matching the URL slug
+  // Access the project data
+  // Note: If you are using Next.js 15, you may need to await params in an async component
   const project = projects[params.slug as keyof typeof projects];
 
-  // 3. If no project found, show 404
+  // If the slug doesn't exist in our data, show 404
   if (!project) {
     return notFound();
   }
@@ -49,7 +59,10 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
     <main className="min-h-screen bg-[#0a0a0a] pt-24 pb-20 px-6">
       <div className="max-w-4xl mx-auto">
         {/* Back Button */}
-        <Link href="/" className="inline-flex items-center text-sm text-gray-500 hover:text-white transition-colors mb-8">
+        <Link 
+          href="/" 
+          className="inline-flex items-center text-sm text-gray-500 hover:text-white transition-colors mb-8"
+        >
           <ArrowLeft className="w-4 h-4 mr-2" /> Back to Operations
         </Link>
 
@@ -57,12 +70,17 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
         <div className="mb-12">
           <div className="flex flex-wrap gap-3 mb-6">
             {project.tags.map((tag) => (
-              <span key={tag} className="px-3 py-1 rounded-full bg-blue-500/10 text-blue-400 text-xs font-mono border border-blue-500/20">
+              <span 
+                key={tag} 
+                className="px-3 py-1 rounded-full bg-blue-500/10 text-blue-400 text-xs font-mono border border-blue-500/20"
+              >
                 {tag}
               </span>
             ))}
           </div>
-          <h1 className="text-4xl md:text-6xl font-bold text-white mb-4 tracking-tight">{project.title}</h1>
+          <h1 className="text-4xl md:text-6xl font-bold text-white mb-4 tracking-tight">
+            {project.title}
+          </h1>
           <p className="text-xl text-gray-400">{project.subtitle}</p>
         </div>
 
@@ -71,7 +89,9 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
           {project.stats.map((stat, i) => (
             <div key={i}>
               <div className="text-2xl font-bold text-white font-mono">{stat.value}</div>
-              <div className="text-xs text-gray-500 uppercase tracking-wider mt-1">{stat.label}</div>
+              <div className="text-xs text-gray-500 uppercase tracking-wider mt-1">
+                {stat.label}
+              </div>
             </div>
           ))}
         </div>
@@ -84,11 +104,21 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
 
         {/* Links */}
         <div className="flex gap-4">
-          <a href={project.github} target="_blank" className="flex items-center gap-2 px-6 py-3 bg-white text-black rounded-lg font-medium hover:bg-gray-200 transition-colors">
+          <a 
+            href={project.github} 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 px-6 py-3 bg-white text-black rounded-lg font-medium hover:bg-gray-200 transition-colors"
+          >
             <Github className="w-4 h-4" /> View Source
           </a>
           {project.demo !== "#" && (
-            <a href={project.demo} target="_blank" className="flex items-center gap-2 px-6 py-3 border border-white/20 text-white rounded-lg font-medium hover:bg-white/5 transition-colors">
+            <a 
+              href={project.demo} 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 px-6 py-3 border border-white/20 text-white rounded-lg font-medium hover:bg-white/5 transition-colors"
+            >
               <ExternalLink className="w-4 h-4" /> Live Demo
             </a>
           )}
