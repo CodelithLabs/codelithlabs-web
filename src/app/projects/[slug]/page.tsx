@@ -1,5 +1,3 @@
-"use client";
-
 import { notFound } from "next/navigation";
 import { ArrowLeft, Github, ExternalLink } from "lucide-react";
 import Link from "next/link";
@@ -36,21 +34,21 @@ const projects = {
   }
 };
 
-// 2. Generate Static Params (Crucial for SSG)
-// This tells Next.js exactly which routes to build: /projects/vectordefense and /projects/citk-connect
+// 2. Generate Static Params (Server Side)
 export async function generateStaticParams() {
   return Object.keys(projects).map((slug) => ({
     slug: slug,
   }));
 }
 
-// 3. Page Component
-export default function ProjectPage({ params }: { params: { slug: string } }) {
-  // Access the project data
-  // Note: If you are using Next.js 15, you may need to await params in an async component
-  const project = projects[params.slug as keyof typeof projects];
+// 3. Page Component (Server Component)
+// Note: In Next.js 15+, params is a Promise, so we make the component async and await it.
+export default async function ProjectPage({ params }: { params: Promise<{ slug: string }> }) {
+  // Await the params object
+  const { slug } = await params;
+  
+  const project = projects[slug as keyof typeof projects];
 
-  // If the slug doesn't exist in our data, show 404
   if (!project) {
     return notFound();
   }
