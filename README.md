@@ -1,4 +1,4 @@
-# Code Lith Labs Web Platform
+# CodeLithLabs Web Platform
 
 ![Build Status](https://img.shields.io/github/actions/workflow/status/codelithlabs/web/main.yml?style=flat-square&logo=github)
 ![License](https://img.shields.io/badge/license-MIT-blue?style=flat-square)
@@ -7,7 +7,7 @@
 
 > **Architecting the Future of Digital Infrastructure.**
 
-This repository contains the source code for the official [Code Lith Labs](https://codelithlabs.com) web platform. It serves as the central hub for our research initiatives, open-source projects (including *VectorDefense*), and engineering documentation.
+This repository contains the source code for the official [Code Lith Labs](https://codelithlabs.in) web platform. It serves as the central hub for our research initiatives, open-source projects (including *VectorDefense*), and engineering documentation.
 
 ---
 
