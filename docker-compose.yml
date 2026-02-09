@@ -1,23 +1,17 @@
-version: '3.8'
+version: "3.8"
 
 services:
   website:
-    # Option A: If you have a Dockerfile, build it
-    build: .
-    # Option B: If you use a pre-built image, use 'image: yourname/repo:tag'
+    image: nginx:alpine
     container_name: codelith_main_site
     restart: always
     ports:
-      - "3000:3000"  # Adjust 3000 to whatever port your app listens on
-    environment:
-      # CONNECTING TO THE DB
-      # The hostname is 'codelith_db' because it's on the same Docker network
-      - DATABASE_URL=postgres://admin:YOUR_DB_PASSWORD@codelith_db:5432/codelith_core
-      - REDIS_URL=redis://codelith_cache:6379
+      - "3000:80"
+    volumes:
+      - ./site:/usr/share/nginx/html:ro
     networks:
       - internal_net
 
-# CRITICAL: This tells Docker to join the EXISTING network where the DB lives
 networks:
   internal_net:
     external: true
