@@ -2,17 +2,20 @@ version: "3.8"
 
 services:
   website:
-    image: nginx:alpine
+    # This tells Portainer: "Look for the Dockerfile in this folder and build it"
+    build: . 
     container_name: codelith_main_site
     restart: always
     ports:
-      - "3000:80"
-    volumes:
-      - ./site:/usr/share/nginx/html:ro
+      # Map container port 3000 (Next.js default) to host port 3000
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
     networks:
       - internal_net
 
 networks:
   internal_net:
     external: true
+    # This must match the network name of your Database stack in Portainer
     name: codelith-core-services_internal_net
