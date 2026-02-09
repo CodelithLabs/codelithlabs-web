@@ -10,5 +10,9 @@ RUN npm install
 # Copy source code
 COPY . .
 
+# --- THIS IS THE MISSING LINE ---
+RUN npm run build
+# -------------------------------
+
 # Start the app
 CMD ["npm", "start"]
