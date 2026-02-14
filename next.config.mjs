@@ -2,12 +2,9 @@
 const nextConfig = {
   output: 'standalone',
   
-  // Only use valid keys for Next.js 14+
+  // Enable strict TypeScript checking for production quality
   typescript: {
-    ignoreBuildErrors: true,
-  },
-  eslint: {
-    ignoreDuringBuilds: true,
+    ignoreBuildErrors: false,
   },
   images: {
     unoptimized: true,

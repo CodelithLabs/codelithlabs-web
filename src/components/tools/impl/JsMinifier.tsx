@@ -16,8 +16,9 @@ export default function JsMinifier() {
         .trim();
 
       setMinified(result);
-    } catch (e: any) {
-      setMinified(`Error: ${e.message}`);
+    } catch (e: unknown) {
+      const errorMessage = e instanceof Error ? e.message : 'Unknown error occurred';
+      setMinified(`Error: ${errorMessage}`);
     }
   };
 

@@ -8,10 +8,10 @@ export default function YamlToJson() {
   const convert = () => {
     try {
       // Simple YAML parser (supports basic key-value, nested objects, arrays)
-      const yamlToJson = (yamlStr: string): any => {
+      const yamlToJson = (yamlStr: string): Record<string, unknown> => {
         const lines = yamlStr.split('\n').filter(l => l.trim() && !l.trim().startsWith('#'));
-        const result: any = {};
-        const stack: any[] = [{ obj: result, indent: -1 }];
+        const result: Record<string, unknown> = {};
+        const stack: Array<{ obj: Record<string, unknown>; indent: number }> = [{ obj: result, indent: -1 }];
 
         for (const line of lines) {
           const indent = line.search(/\S/);
@@ -26,10 +26,11 @@ export default function YamlToJson() {
             // Array item
             const value = content.substring(2).trim();
             const parent = stack[stack.length - 1].obj;
-            if (!Array.isArray(parent[parent._lastKey])) {
-              parent[parent._lastKey] = [];
+            const lastKey = parent._lastKey as string;
+            if (!Array.isArray(parent[lastKey])) {
+              parent[lastKey] = [];
             }
-            parent[parent._lastKey].push(value);
+            (parent[lastKey] as unknown[]).push(value);
           } else if (content.includes(':')) {
             // Key-value pair
             const [key, ...valParts] = content.split(':');
@@ -40,7 +41,7 @@ export default function YamlToJson() {
               // Nested object
               parent[key.trim()] = {};
               parent._lastKey = key.trim();
-              stack.push({ obj: parent[key.trim()], indent });
+              stack.push({ obj: parent[key.trim()] as Record<string, unknown>, indent });
             } else {
               // Simple value
               parent[key.trim()] = value;
@@ -50,22 +51,24 @@ export default function YamlToJson() {
         }
 
         // Clean up helper properties
-        const clean = (obj: any): any => {
+        const clean = (obj: unknown): unknown => {
           if (typeof obj !== 'object' || obj === null) return obj;
-          delete obj._lastKey;
-          for (const key in obj) {
-            obj[key] = clean(obj[key]);
+          const record = obj as Record<string, unknown>;
+          delete record._lastKey;
+          for (const key in record) {
+            record[key] = clean(record[key]);
           }
-          return obj;
+          return record;
         };
 
-        return clean(result);
+        return clean(result) as Record<string, unknown>;
       };
 
       const result = yamlToJson(yaml);
       setJson(JSON.stringify(result, null, 2));
-    } catch (e: any) {
-      setJson(`Error: ${e.message}`);
+    } catch (e: unknown) {
+      const errorMessage = e instanceof Error ? e.message : 'Unknown error occurred';
+      setJson(`Error: ${errorMessage}`);
     }
   };
 
