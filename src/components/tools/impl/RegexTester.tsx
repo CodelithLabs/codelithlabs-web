@@ -14,8 +14,9 @@ export default function RegexTester() {
       const found = testString.match(regex);
       setMatches(found || []);
       setError('');
-    } catch (e: any) {
-      setError(e.message);
+    } catch (e: unknown) {
+      const errorMessage = e instanceof Error ? e.message : 'Unknown error occurred';
+      setError(errorMessage);
       setMatches([]);
     }
   };

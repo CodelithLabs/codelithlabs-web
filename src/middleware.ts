@@ -20,13 +20,13 @@ export function middleware(request: NextRequest) {
   // Prevent clickjacking attacks
   response.headers.set('X-Frame-Options', 'DENY');
 
-  // Prevent MIME-type sniffing
+  // Prevent MIME-type sniffing (reduces content-type confusion attacks)
   response.headers.set('X-Content-Type-Options', 'nosniff');
 
   // XSS Protection (legacy browsers)
   response.headers.set('X-XSS-Protection', '1; mode=block');
 
-  // Referrer Policy - Strict for privacy
+  // Referrer Policy - Strict for privacy and safer cross-site navigation
   response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
 
   // Permissions Policy - Disable unnecessary features
@@ -35,15 +35,14 @@ export function middleware(request: NextRequest) {
     'camera=(), microphone=(), geolocation=(), interest-cohort=()'
   );
 
-  // Content Security Policy (CSP) - Production-grade
-  // Note: Adjust for your AdSense and analytics domains
+  // Content Security Policy (CSP) - strict by default, permissive for ads/analytics
   const csp = [
     "default-src 'self'",
-    "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://pagead2.googlesyndication.com https://www.googletagmanager.com",
+    "script-src 'self' 'unsafe-inline' https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net https://tpc.googlesyndication.com https://www.googletagmanager.com",
     "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
-    "img-src 'self' data: blob: https: http:",
+    "img-src 'self' data: blob: https:",
     "font-src 'self' data: https://fonts.gstatic.com",
-    "connect-src 'self' https://www.google-analytics.com",
+    "connect-src 'self' https://www.google-analytics.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net",
     "frame-src 'self' https://googleads.g.doubleclick.net https://tpc.googlesyndication.com",
     "object-src 'none'",
     "base-uri 'self'",

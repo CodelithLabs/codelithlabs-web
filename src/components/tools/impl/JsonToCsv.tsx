@@ -22,8 +22,9 @@ export default function JsonToCsv() {
       });
 
       setCsv(csvLines.join('\n'));
-    } catch (e: any) {
-      setCsv(`Error: ${e.message}`);
+    } catch (e: unknown) {
+      const errorMessage = e instanceof Error ? e.message : 'Unknown error occurred';
+      setCsv(`Error: ${errorMessage}`);
     }
   };
 

@@ -16,7 +16,7 @@ export default function CsvToJson() {
       const headers = lines[0].split(',').map(h => h.trim());
       const result = lines.slice(1).map(line => {
         const values = line.split(',').map(v => v.trim());
-        const obj: any = {};
+        const obj: Record<string, string> = {};
         headers.forEach((header, i) => {
           obj[header] = values[i] || '';
         });
@@ -24,8 +24,9 @@ export default function CsvToJson() {
       });
 
       setJson(JSON.stringify(result, null, 2));
-    } catch (e: any) {
-      setJson(`Error: ${e.message}`);
+    } catch (e: unknown) {
+      const errorMessage = e instanceof Error ? e.message : 'Unknown error occurred';
+      setJson(`Error: ${errorMessage}`);
     }
   };
 

@@ -27,8 +27,9 @@ export default function HtmlFormatter() {
     try {
       const minified = html.replace(/>\s+</g, '><').trim();
       setFormatted(indent(minified));
-    } catch (e: any) {
-      setFormatted(`Error: ${e.message}`);
+    } catch (e: unknown) {
+      const errorMessage = e instanceof Error ? e.message : 'Unknown error occurred';
+      setFormatted(`Error: ${errorMessage}`);
     }
   };
 

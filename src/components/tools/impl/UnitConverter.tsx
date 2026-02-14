@@ -6,8 +6,8 @@ export default function UnitConverter() {
   const [from, setFrom] = useState('m');
   const [to, setTo] = useState('ft');
 
-  // Simplified ANY type to bypass strict TS checks during build
-  const factors: any = { 
+  // Conversion factors for length and weight units
+  const factors: Record<string, number> = { 
     m: 1, km: 1000, cm: 0.01, mm: 0.001,
     ft: 0.3048, mi: 1609.34, in: 0.0254, yd: 0.9144,
     kg: 1, g: 0.001, lb: 0.453592, oz: 0.0283495,

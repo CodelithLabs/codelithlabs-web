@@ -26,7 +26,6 @@ export default function CookieBanner() {
 
     // Initialize Google Analytics or AdSense if user accepted
     if (typeof window !== 'undefined') {
-      console.log('✅ Cookie consent accepted - Analytics enabled');
       // You can add Google Analytics initialization here
     }
   };
@@ -34,7 +33,6 @@ export default function CookieBanner() {
   const handleDecline = () => {
     localStorage.setItem('codelith_cookie_consent', 'declined');
     setShow(false);
-    console.log('❌ Cookie consent declined - Analytics disabled');
   };
 
   if (!show) return null;
