@@ -1,70 +1,103 @@
 'use client';
-import { useState, useRef, useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { z } from 'zod';
+
+const MAX_FILE_BYTES = 15 * 1024 * 1024;
+
+const fileSchema = z
+  .instanceof(File)
+  .refine((file) => file.type.startsWith('image/'), {
+    message: 'Please upload a valid image file.'
+  })
+  .refine((file) => file.size <= MAX_FILE_BYTES, {
+    message: 'File too large. Max size is 15MB.'
+  });
 
 export default function ImageCompressor() {
   const [originalImage, setOriginalImage] = useState<string | null>(null);
+  const [originalFile, setOriginalFile] = useState<File | null>(null);
   const [compressedImage, setCompressedImage] = useState<string | null>(null);
   const [quality, setQuality] = useState(80);
   const [originalSize, setOriginalSize] = useState(0);
   const [compressedSize, setCompressedSize] = useState(0);
   const [isProcessing, setIsProcessing] = useState(false);
-  
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  const workerRef = useRef<Worker | null>(null);
+
+  useEffect(() => {
+    workerRef.current = new Worker(
+      new URL('../../../workers/imageCompressor.worker.ts', import.meta.url)
+    );
+
+    workerRef.current.onmessage = (event: MessageEvent) => {
+      const { ok, blob, error: workerError } = event.data || {};
+      if (!ok) {
+        setError(workerError || 'Compression failed.');
+        setIsProcessing(false);
+        return;
+      }
+
+      const nextUrl = URL.createObjectURL(blob);
+      setCompressedSize(blob.size);
+      setCompressedImage((prev) => {
+        if (prev) URL.revokeObjectURL(prev);
+        return nextUrl;
+      });
+      setIsProcessing(false);
+    };
+
+    return () => {
+      workerRef.current?.terminate();
+      workerRef.current = null;
+    };
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      if (compressedImage) {
+        URL.revokeObjectURL(compressedImage);
+      }
+    };
+  }, [compressedImage]);
+
+  const requestCompression = (file: File, nextQuality: number) => {
+    if (!workerRef.current) {
+      setError('Compression worker unavailable in this browser.');
+      return;
+    }
+
+    setIsProcessing(true);
+    workerRef.current.postMessage({ file, quality: nextQuality / 100 });
+  };
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    if (!file.type.startsWith('image/')) {
-      alert('Please upload a valid image file');
+    setError(null);
+    const validation = fileSchema.safeParse(file);
+    if (!validation.success) {
+      setError(validation.error.issues[0]?.message || 'Invalid file.');
       return;
     }
 
+    setOriginalFile(file);
     setOriginalSize(file.size);
+
     const reader = new FileReader();
     reader.onload = (event) => {
       setOriginalImage(event.target?.result as string);
-      compressImage(event.target?.result as string, quality);
+      requestCompression(file, quality);
     };
     reader.readAsDataURL(file);
   };
 
-  const compressImage = (imgSrc: string, q: number) => {
-    setIsProcessing(true);
-    const img = new Image();
-    img.src = imgSrc;
-    img.onload = () => {
-      const canvas = canvasRef.current;
-      if (!canvas) return;
-
-      // Use original dimensions
-      canvas.width = img.width;
-      canvas.height = img.height;
-
-      const ctx = canvas.getContext('2d');
-      if (!ctx) return;
-      ctx.drawImage(img, 0, 0);
-
-      // Compress
-      canvas.toBlob(
-        (blob) => {
-          if (!blob) return;
-          setCompressedSize(blob.size);
-          const compressedUrl = URL.createObjectURL(blob);
-          setCompressedImage(compressedUrl);
-          setIsProcessing(false);
-        },
-        'image/jpeg',
-        q / 100
-      );
-    };
-  };
-
   useEffect(() => {
-    if (originalImage) {
-      compressImage(originalImage, quality);
+    if (originalFile) {
+      requestCompression(originalFile, quality);
     }
-  }, [quality]);
+  }, [quality, originalFile]);
 
   const formatSize = (bytes: number) => {
     if (bytes === 0) return '0 B';
@@ -72,6 +105,18 @@ export default function ImageCompressor() {
     const sizes = ['B', 'KB', 'MB', 'GB'];
     const i = Math.floor(Math.log(bytes) / Math.log(k));
     return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+  };
+
+  const resetState = () => {
+    setOriginalImage(null);
+    setOriginalFile(null);
+    setCompressedImage((prev) => {
+      if (prev) URL.revokeObjectURL(prev);
+      return null;
+    });
+    setCompressedSize(0);
+    setOriginalSize(0);
+    setError(null);
   };
 
   return (
@@ -92,9 +137,15 @@ export default function ImageCompressor() {
             </div>
             <div>
               <h3 className='text-xl font-bold text-white'>Click to Upload Image</h3>
-              <p className='text-zinc-400'>JPG, PNG, WebP supported. Max 10MB.</p>
+              <p className='text-zinc-400'>JPG, PNG, WebP supported. Max 15MB.</p>
             </div>
           </label>
+        </div>
+      )}
+
+      {error && (
+        <div className='bg-red-500/10 border border-red-500/30 rounded-lg p-3 text-sm text-red-300'>
+          {error}
         </div>
       )}
 
@@ -121,7 +172,7 @@ export default function ImageCompressor() {
                  />
                </div>
                <button 
-                 onClick={() => { setOriginalImage(null); setCompressedImage(null); }}
+                 onClick={resetState}
                  className='px-4 py-2 bg-zinc-700 hover:bg-zinc-600 text-white rounded-lg'
                >
                  Upload New
@@ -138,15 +189,18 @@ export default function ImageCompressor() {
            {/* Preview: Compressed */}
            <div className='space-y-2'>
              <h3 className='text-sm font-medium text-green-400'>
-               Compressed ({formatSize(compressedSize)}) 
+               Compressed ({formatSize(compressedSize)})
                <span className='ml-2 text-xs bg-green-500/20 px-2 py-0.5 rounded'>
-                 -{Math.round(((originalSize - compressedSize) / originalSize) * 100)}% Saved
+                 {originalSize > 0 ? `-${Math.round(((originalSize - compressedSize) / originalSize) * 100)}% Saved` : 'Optimizing'}
                </span>
              </h3>
              {compressedImage ? (
                 <img src={compressedImage} alt='Compressed' className='w-full rounded-lg border border-green-500/30' />
              ) : (
-                <div className='w-full h-64 bg-zinc-900 rounded-lg flex items-center justify-center text-zinc-600'>Processing...</div>
+                <div className='w-full h-64 bg-zinc-900 rounded-lg flex flex-col items-center justify-center text-zinc-600 gap-3'>
+                  <div className='w-8 h-8 border-2 border-blue-500/40 border-t-blue-500 rounded-full animate-spin' />
+                  <span>Processing...</span>
+                </div>
              )}
              
              {compressedImage && (
@@ -162,14 +216,11 @@ export default function ImageCompressor() {
         </div>
       )}
 
-      {/* Hidden Canvas for Processing */}
-      <canvas ref={canvasRef} className='hidden' />
-
       {/* Privacy Note */}
       <div className='bg-blue-500/10 border border-blue-500/20 rounded-lg p-4 text-sm text-blue-300 flex gap-3'>
         <span className='text-xl'>🔒</span>
         <p>
-          <strong>100% Client-Side Processing:</strong> Your photos are processed entirely within your browser using HTML5 Canvas technology. 
+          <strong>100% Client-Side Processing:</strong> Your photos are processed in a background worker to keep the UI smooth.
           They are <u>never</u> uploaded to our servers, ensuring total privacy.
         </p>
       </div>

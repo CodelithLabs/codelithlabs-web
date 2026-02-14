@@ -78,9 +78,33 @@ export default async function ToolPage({ params }: PageProps) {
     notFound();
   }
 
+  const category = TOOL_CATEGORIES[tool.category];
+  const softwareSchema = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    name: tool.name,
+    description: tool.description,
+    applicationCategory: category.name,
+    operatingSystem: "Any",
+    offers: {
+      "@type": "Offer",
+      price: "0",
+      priceCurrency: "USD"
+    },
+    isAccessibleForFree: true,
+    url: `https://codelithlabs.in/tools/${tool.slug}`
+  };
+
   return (
-    <ToolLayout tool={tool}>
-      <ToolMapper slug={slug} toolName={tool.name} />
-    </ToolLayout>
+    <>
+      {/* Tool-level schema improves rich results and CTR */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }}
+      />
+      <ToolLayout tool={tool}>
+        <ToolMapper slug={slug} toolName={tool.name} />
+      </ToolLayout>
+    </>
   );
 }
