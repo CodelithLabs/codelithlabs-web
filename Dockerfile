@@ -30,8 +30,8 @@ COPY . .
 # Set build-time env vars
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV NODE_ENV=production
-# Limit memory during build (important for 8GB server)
-ENV NODE_OPTIONS="--max-old-space-size=1024"
+# Increase memory for build (2GB for Next.js with 50+ tools)
+ENV NODE_OPTIONS="--max-old-space-size=2048"
 
 # Build the application
 RUN npm run build
@@ -57,9 +57,9 @@ ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
 
 # Copy only necessary files from builder
-COPY --from=builder /app/public ./public
-COPY --from=builder /app/.next/standalone ./
-COPY --from=builder /app/.next/static ./.next/static
+COPY --from=builder --chown=nextjs:nodejs /app/public ./public
+COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
 # Set correct permissions
 RUN chown -R nextjs:nodejs /app
