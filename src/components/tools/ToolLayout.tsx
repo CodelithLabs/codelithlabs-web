@@ -81,6 +81,52 @@ export function ToolLayout({ tool, children }: ToolLayoutProps) {
 
   return (
     <div className="min-h-screen bg-[#0a0a0a]">
+
+      {/* ═══════════════════════════════════════════════════════════════════
+          PREMIUM UPSELL BAR - Revenue Conversion Bridge
+      ═══════════════════════════════════════════════════════════════════ */}
+      <div className="sticky top-0 z-50 border-b border-zinc-800/50 backdrop-blur-xl bg-zinc-950/80">
+        <div className="max-w-7xl mx-auto px-4 py-3">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
+
+            {/* Brand Message */}
+            <div className="flex items-center gap-2 text-sm">
+              <span className="text-zinc-400">Built with</span>
+              <span className="text-red-500">❤️</span>
+              <span className="text-zinc-400">by the</span>
+              <a
+                href="/team"
+                className="font-semibold text-white hover:text-blue-400 transition-colors"
+              >
+                CodelithLabs Engineering Team
+              </a>
+            </div>
+
+            {/* Professional CTA */}
+            <a
+              href="/contact"
+              className="group flex items-center gap-2 px-4 py-2 rounded-lg
+                       bg-gradient-to-r from-blue-600 to-purple-600
+                       hover:from-blue-500 hover:to-purple-500
+                       text-white text-sm font-semibold
+                       shadow-lg shadow-blue-500/20 hover:shadow-blue-500/40
+                       transition-all duration-300 hover:scale-105"
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                      d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+              </svg>
+              Need Custom Infrastructure?
+              <span className="hidden sm:inline">Hire Us</span>
+              <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </a>
+
+          </div>
+        </div>
+      </div>
+
       {/* ═══════════════════════════════════════════════════════════════════
           TOP BANNER AD - Full width, above fold
       ═══════════════════════════════════════════════════════════════════ */}
