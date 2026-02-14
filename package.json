@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "generate-content": "node scripts/generate-tool-content.js",
+    "content:auto": "node scripts/generate-tool-content.js"
   },
   "dependencies": {
     "framer-motion": "^11.0.0",
