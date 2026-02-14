@@ -6,3 +6,4 @@
 *.log
 .env
 .env.local
+SETUP_INSTRUCTIONS.md
