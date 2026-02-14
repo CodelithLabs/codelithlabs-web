@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { Navbar } from "@/components/layout/Navbar"; // Import the new component
-import { Footer } from "@/components/layout/Footer"; // Import the new component
+import { Navbar } from "@/components/layout/Navbar";
+import { Footer } from "@/components/layout/Footer";
+import CookieBanner from "@/components/layout/CookieBanner";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -46,11 +47,54 @@ export default function RootLayout({
     return (
         <html lang="en" className="dark">
             <body className={`${inter.className} antialiased selection:bg-blue-500/30 bg-[#0a0a0a]`}>
+
+                {/* Organization Schema Markup for SEO */}
+                <script
+                    type="application/ld+json"
+                    dangerouslySetInnerHTML={{
+                        __html: JSON.stringify({
+                            "@context": "https://schema.org",
+                            "@type": "Organization",
+                            "name": "CodelithLabs",
+                            "url": "https://codelithlabs.in",
+                            "logo": "https://codelithlabs.in/icon.png",
+                            "description": "Free online tools platform with 50+ utilities for developers, designers, and content creators",
+                            "founders": [
+                                {
+                                    "@type": "Person",
+                                    "name": "Prasanta Ray",
+                                    "jobTitle": "Founder & CEO"
+                                },
+                                {
+                                    "@type": "Person",
+                                    "name": "Donbil Mwshary",
+                                    "jobTitle": "Co-Founder & CTO"
+                                }
+                            ],
+                            "address": {
+                                "@type": "PostalAddress",
+                                "addressLocality": "Kokrajhar",
+                                "addressRegion": "Assam",
+                                "addressCountry": "IN"
+                            },
+                            "contactPoint": {
+                                "@type": "ContactPoint",
+                                "email": "contact@codelithlabs.in",
+                                "contactType": "Customer Service"
+                            },
+                            "sameAs": [
+                                "https://github.com/codelithlabs"
+                            ]
+                        })
+                    }}
+                />
+
                 <Navbar />
                 <div className="pt-16"> {/* Add padding so content doesn't hide behind Navbar */}
                     {children}
                 </div>
                 <Footer />
+                <CookieBanner />
             </body>
         </html>
     );

@@ -207,7 +207,19 @@ export default function PrivacyPage() {
             </p>
             <div className="bg-zinc-800/50 rounded-lg p-4 space-y-2 text-sm">
               <p className="text-zinc-300">
+                <strong>Company:</strong> CodelithLabs
+              </p>
+              <p className="text-zinc-300">
+                <strong>Owner:</strong> Prasanta Ray
+              </p>
+              <p className="text-zinc-300">
                 <strong>Email:</strong>{' '}
+                <a href="mailto:contact@codelithlabs.in" className="text-blue-400 hover:text-blue-300">
+                  contact@codelithlabs.in
+                </a>
+              </p>
+              <p className="text-zinc-300">
+                <strong>Privacy Email:</strong>{' '}
                 <a href="mailto:privacy@codelithlabs.in" className="text-blue-400 hover:text-blue-300">
                   privacy@codelithlabs.in
                 </a>
@@ -219,7 +231,7 @@ export default function PrivacyPage() {
                 </a>
               </p>
               <p className="text-zinc-300">
-                <strong>Address:</strong> CodelithLabs, India
+                <strong>Address:</strong> Kokrajhar, Assam, India
               </p>
             </div>
           </section>

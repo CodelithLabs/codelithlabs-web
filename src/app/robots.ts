@@ -1,7 +1,7 @@
 // ═══════════════════════════════════════════════════════════════════════════
 // FILE: src/app/robots.ts
-// Robots.txt configuration for search engine crawlers
-// Allows all bots, points to dynamic sitemap
+// Robots.txt configuration - Optimized for maximum crawlability
+// Explicitly allows Googlebot access to static assets for proper indexing
 // ═══════════════════════════════════════════════════════════════════════════
 
 import { MetadataRoute } from 'next';
@@ -11,18 +11,14 @@ export default function robots(): MetadataRoute.Robots {
     rules: [
       {
         userAgent: '*',
-        allow: '/',
-        disallow: [
-          '/api/',          // Block API routes (if any)
-          '/_next/',        // Block Next.js internal files
-          '/admin/',        // Block admin areas (if any)
-        ],
+        allow: ['/'],
+        disallow: ['/private/', '/api/'], // Only block private backend routes
       },
-      // Allow Google AdSense bot
       {
-        userAgent: 'Mediapartners-Google',
-        allow: '/',
-      },
+        userAgent: 'Googlebot',
+        allow: ['/_next/', '/static/', '/public/'], // EXPLICITLY ALLOW ASSETS
+        disallow: [],
+      }
     ],
     sitemap: 'https://codelithlabs.in/sitemap.xml',
   };
