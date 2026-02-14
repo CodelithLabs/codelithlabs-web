@@ -1,67 +1,29 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Github, Linkedin, Mail, Shield, Code, Server, Cpu, Globe } from "lucide-react";
+import { Github, Linkedin, Mail, Shield, Server } from "lucide-react";
 
-// Team Data - Centralized for easy updates
+// Team Data - Core Leadership
 const team = [
   {
     name: "Mr. Prasanta Ray",
     role: "CEO & Founder",
     id: "ray",
-    specialty: "System Architecture",
+    specialty: "System Architecture & Strategic Planning",
     icon: Shield,
     color: "text-blue-500",
     status: "Strategic Planning"
   },
   {
-    name: "Mr. Donbil Mwshary",
-    role: "Co Founder & CTO",
+    name: "Mr. Donbil Mwshahary",
+    role: "Co-Founder & CTO",
     id: "donbil",
-    specialty: "Operations & Cloud",
+    specialty: "Operations & Cloud Infrastructure",
     icon: Server,
     color: "text-indigo-500",
     status: "Infrastructure Deployment"
-  },
-  {
-    name: "Mr. Binod Shaw",
-    role: "Social Media Manager (SMM)",
-    id: "binod",
-    specialty: "Brand Strategy",
-    icon: Globe,
-    color: "text-pink-500",
-    status: "Campaign Management"
-  },
-  {
-    name: "Mr. Harun Mollah",
-    role: "Lead Frontend Engineer",
-    id: "harun",
-    specialty: "UI/UX & React",
-    icon: Code,
-    color: "text-teal-400",
-    status: "Building Interfaces"
-  },
-  {
-    name: "Mr. Arif Jamal",
-    role: "API Specialist",
-    id: "arif",
-    specialty: "Backend Integration",
-    icon: Cpu,
-    color: "text-orange-400",
-    status: "API Optimization"
-  },
-  {
-    name: "Mr. Aditya Kumar Jha",
-    role: "Research Associate",
-    id: "aditya",
-    specialty: "New Technologies",
-    icon: Terminal, // We need to import Terminal below
-    color: "text-purple-400",
-    status: "Training"
   }
 ];
-
-import { Terminal } from "lucide-react"; // Late import to fix the icon above
 
 export default function TeamPage() {
   return (
@@ -71,16 +33,15 @@ export default function TeamPage() {
         {/* Header */}
         <div className="mb-16 text-center max-w-2xl mx-auto">
           <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">
-            The <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-teal-400">Core Mindset</span>
+            Meet the <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-teal-400">Leadership</span>
           </h1>
           <p className="text-gray-400 text-lg">
-            A collective of students, engineers, and researchers united by a single mission: 
-            building the digital infrastructure of tomorrow.
+            Driving innovation and excellence through strategic vision and technical expertise.
           </p>
         </div>
 
-        {/* Team Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* Team Grid - Centered 2-column layout for leadership */}
+        <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
           {team.map((member, index) => (
             <motion.div
               key={member.id}

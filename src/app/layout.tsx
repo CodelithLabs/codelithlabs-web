@@ -8,20 +8,33 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
     title: {
-        default: "Codelithlabs | Digital Infrastructure & R&D",
-        template: "%s | Codelithlabs"
+        default: "CodelithLabs - Free Online Tools Platform | 40+ Developer & Productivity Tools",
+        template: "%s | CodelithLabs"
     },
-    description: "A research and development collective focused on high-performance backend systems, game engine technologies, and scalable web infrastructure.",
-    keywords: ["Software Engineering", "C++", "Next.js", "Backend", "Game Development", "Kokrajhar", "India"],
-    authors: [{ name: "Codelithlabs Team" }],
-    creator: "Codelithlabs",
+    description: "CodelithLabs offers 40+ free online tools for developers, designers, and content creators. JSON formatter, image compressor, password generator, and more. 100% client-side processing for maximum privacy.",
+    keywords: [
+        "free online tools",
+        "developer tools",
+        "json formatter",
+        "image compressor",
+        "password generator",
+        "base64 encoder",
+        "text tools",
+        "productivity tools",
+        "codelithlabs",
+        "clients-side tools",
+        "privacy-first",
+        "web utilities"
+    ],
+    authors: [{ name: "CodelithLabs Team" }],
+    creator: "CodelithLabs",
     openGraph: {
         type: "website",
         locale: "en_US",
         url: "https://codelithlabs.in",
-        title: "Codelithlabs | Architecting the Future",
-        description: "Research. Development. Deployment.",
-        siteName: "Codelithlabs",
+        title: "CodelithLabs - Free Online Tools Platform",
+        description: "40+ free online tools with client-side processing. JSON formatter, image compressor, password generator, and more.",
+        siteName: "CodelithLabs",
     },
 };
 

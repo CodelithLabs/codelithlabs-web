@@ -34,7 +34,7 @@ services:
           cpus: '0.5'
     # Health check to auto-restart on failure
     healthcheck:
-      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000/"]
+      test: ["CMD", "curl", "-f", "http://localhost:3000/"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -50,34 +50,35 @@ services:
   # ═══════════════════════════════════════════════════════════════════════════
   # NGINX REVERSE PROXY (Optional but recommended)
   # Handles SSL, caching, and static file serving
+  # DISABLED: Uncomment after creating nginx/nginx.conf and nginx/ssl/ directory
   # ═══════════════════════════════════════════════════════════════════════════
-  nginx:
-    image: nginx:alpine
-    container_name: codelith_nginx
-    restart: unless-stopped
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-      - ./nginx/ssl:/etc/nginx/ssl:ro
-      - nginx_cache:/var/cache/nginx
-    deploy:
-      resources:
-        limits:
-          memory: 128M
-          cpus: '0.5'
-        reservations:
-          memory: 32M
-    depends_on:
-      - website
-    networks:
-      - internal_net
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "5m"
-        max-file: "2"
+  # nginx:
+  #   image: nginx:alpine
+  #   container_name: codelith_nginx
+  #   restart: unless-stopped
+  #   ports:
+  #     - "80:80"
+  #     - "443:443"
+  #   volumes:
+  #     - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+  #     - ./nginx/ssl:/etc/nginx/ssl:ro
+  #     - nginx_cache:/var/cache/nginx
+  #   deploy:
+  #     resources:
+  #       limits:
+  #         memory: 128M
+  #         cpus: '0.5'
+  #       reservations:
+  #         memory: 32M
+  #   depends_on:
+  #     - website
+  #   networks:
+  #     - internal_net
+  #   logging:
+  #     driver: "json-file"
+  #     options:
+  #       max-size: "5m"
+  #       max-file: "2"
 
   # ═══════════════════════════════════════════════════════════════════════════
   # REDIS CACHE (Optional - for session/rate limiting)
@@ -99,17 +100,16 @@ services:
 # ═══════════════════════════════════════════════════════════════════════════════
 # VOLUMES
 # ═══════════════════════════════════════════════════════════════════════════════
-volumes:
-  nginx_cache:
-    driver: local
+# volumes:
+#   nginx_cache:
+#     driver: local
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # NETWORKS
 # ═══════════════════════════════════════════════════════════════════════════════
 networks:
   internal_net:
-    external: true
-    name: codelith-core-services_internal_net
+    driver: bridge
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # RAM BUDGET (8GB Total)

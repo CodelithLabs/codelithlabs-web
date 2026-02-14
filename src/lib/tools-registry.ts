@@ -362,9 +362,98 @@ export const TOOLS_REGISTRY: ToolMeta[] = [
     keywords: ['jpg', 'png', 'convert', 'transparent'],
     processingType: 'client'
   },
+  {
+    slug: 'social-media-resizer',
+    name: 'Social Media Image Resizer',
+    description: 'Resize images to perfect dimensions for Instagram, Twitter, Facebook, YouTube, and more.',
+    category: 'image',
+    keywords: ['social media', 'resize', 'instagram', 'twitter', 'facebook', 'youtube'],
+    processingType: 'client'
+  },
+  {
+    slug: 'privacy-blur',
+    name: 'Privacy Blur Tool',
+    description: 'Blur sensitive content (faces, text) in images for privacy protection.',
+    category: 'image',
+    keywords: ['privacy', 'blur', 'redact', 'anonymize', 'face blur'],
+    processingType: 'client'
+  },
 
-  // Add 150+ more tools following this pattern...
-  // The registry enables dynamic routing - just add to this array
+  // ═══════════════════════════════════════════════════════════════
+  // UNIT CONVERTERS
+  // ═══════════════════════════════════════════════════════════════
+  {
+    slug: 'unit-converter',
+    name: 'Unit Converter',
+    description: 'Convert between length, weight, temperature, and other measurement units.',
+    category: 'converter',
+    keywords: ['unit', 'convert', 'length', 'weight', 'temperature', 'measurement'],
+    processingType: 'client'
+  },
+  {
+    slug: 'json-to-yaml',
+    name: 'JSON to YAML Converter',
+    description: 'Convert JSON data to YAML format for configuration files.',
+    category: 'converter',
+    keywords: ['json', 'yaml', 'convert', 'config'],
+    processingType: 'client'
+  },
+  {
+    slug: 'webp-converter',
+    name: 'WebP Converter',
+    description: 'Convert images to modern WebP format for better web performance.',
+    category: 'image',
+    keywords: ['webp', 'image', 'convert', 'optimize', 'compression'],
+    processingType: 'client'
+  },
+  {
+    slug: 'image-filters',
+    name: 'Image Filters',
+    description: 'Apply filters to images: grayscale, sepia, invert, brightness, contrast, blur.',
+    category: 'image',
+    keywords: ['image', 'filter', 'grayscale', 'sepia', 'effects'],
+    processingType: 'client'
+  },
+  {
+    slug: 'text-to-slug',
+    name: 'Text to Slug Converter',
+    description: 'Convert text to URL-friendly slugs for permalinks and SEO.',
+    category: 'text',
+    keywords: ['slug', 'url', 'permalink', 'seo', 'convert'],
+    processingType: 'client'
+  },
+  {
+    slug: 'duplicate-remover',
+    name: 'Duplicate Line Remover',
+    description: 'Remove duplicate lines from text while preserving unique entries.',
+    category: 'text',
+    keywords: ['duplicate', 'remove', 'unique', 'lines', 'text'],
+    processingType: 'client'
+  },
+  {
+    slug: 'random-number',
+    name: 'Random Number Generator',
+    description: 'Generate random numbers within a specified range.',
+    category: 'generator',
+    keywords: ['random', 'number', 'generate', 'dice', 'lottery'],
+    processingType: 'client'
+  },
+  {
+    slug: 'roman-numeral',
+    name: 'Roman Numeral Converter',
+    description: 'Convert between numbers and Roman numerals (I, V, X, L, C, D, M).',
+    category: 'converter',
+    keywords: ['roman', 'numeral', 'convert', 'number', 'ancient'],
+    processingType: 'client'
+  },
+  {
+    slug: 'binary-converter',
+    name: 'Binary Converter',
+    description: 'Convert text to binary and binary to text.',
+    category: 'converter',
+    keywords: ['binary', 'text', 'convert', '01', 'bits'],
+    processingType: 'client'
+  },
 ];
 
 // ═══════════════════════════════════════════════════════════════════════════

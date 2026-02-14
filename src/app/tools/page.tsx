@@ -1,212 +1,280 @@
 // ═══════════════════════════════════════════════════════════════════════════
 // FILE: src/app/tools/page.tsx
-// Tools directory/listing page with category filtering and search
+// Production-Grade Tools Directory with Advanced Search & Filtering
 // ═══════════════════════════════════════════════════════════════════════════
+'use client';
 
-import { Metadata } from 'next';
+import { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
-import { TOOLS_REGISTRY, getToolsByCategory, getCategoryStats } from '@/lib/tools-registry';
-import { TOOL_CATEGORIES, ToolCategory } from '@/types/tool';
+import { Search, X, Zap } from 'lucide-react';
+import { TOOLS_REGISTRY, getCategoryStats } from '@/lib/tools-registry';
 import { AdBanner } from '@/components/tools/ToolLayout';
 
-export const metadata: Metadata = {
-  title: 'Free Online Tools - 199+ Web Utilities | CodelithLabs',
-  description: 'Discover 199+ free online tools for developers, designers, and everyone. Text tools, image converters, calculators, encoders, and more.',
-  keywords: 'online tools, free tools, web utilities, converter, calculator, generator, encoder, developer tools',
-};
+export default function ToolsPage() {
+  const [query, setQuery] = useState('');
+  const [debouncedQuery, setDebouncedQuery] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('all');
 
-// ═══════════════════════════════════════════════════════════════════════════
-// CATEGORY CARD COMPONENT
-// ═══════════════════════════════════════════════════════════════════════════
+  // Debounce search query (300ms delay)
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedQuery(query);
+    }, 300);
 
-function CategoryCard({ category, count }: { category: ToolCategory; count: number }) {
-  const info = TOOL_CATEGORIES[category];
-  
-  return (
-    <Link
-      href={`/tools?category=${category}`}
-      className="group bg-zinc-900/50 border border-zinc-800 rounded-xl p-5 
-                 hover:border-zinc-700 hover:bg-zinc-900/80 transition-all
-                 flex flex-col"
-    >
-      <div 
-        className="w-12 h-12 rounded-lg flex items-center justify-center mb-3 
-                   transition-transform group-hover:scale-110"
-        style={{ backgroundColor: `${info.color}20` }}
-      >
-        <span className="text-2xl" style={{ color: info.color }}>
-          {/* Icon placeholder - use lucide-react in actual implementation */}
-          {category === 'text' && '📝'}
-          {category === 'image' && '🖼️'}
-          {category === 'developer' && '💻'}
-          {category === 'converter' && '🔄'}
-          {category === 'calculator' && '🔢'}
-          {category === 'generator' && '✨'}
-          {category === 'formatter' && '📐'}
-          {category === 'encoder' && '🔐'}
-          {category === 'security' && '🛡️'}
-          {category === 'seo' && '🔍'}
-        </span>
-      </div>
-      <h3 className="text-lg font-semibold text-white mb-1">{info.name}</h3>
-      <p className="text-zinc-500 text-sm mb-3 flex-1">{info.description}</p>
-      <div className="flex items-center justify-between">
-        <span className="text-xs text-zinc-600">{count} tools</span>
-        <span className="text-xs text-blue-400 group-hover:translate-x-1 transition-transform">
-          Browse →
-        </span>
-      </div>
-    </Link>
-  );
-}
+    return () => clearTimeout(timer);
+  }, [query]);
 
-// ═══════════════════════════════════════════════════════════════════════════
-// TOOL CARD COMPONENT
-// ═══════════════════════════════════════════════════════════════════════════
+  // Get category stats
+  const categoryStats = useMemo(() => getCategoryStats(), []);
 
-function ToolCard({ tool }: { tool: typeof TOOLS_REGISTRY[0] }) {
-  const category = TOOL_CATEGORIES[tool.category];
-  
-  return (
-    <Link
-      href={`/tools/${tool.slug}`}
-      className="group bg-zinc-900/30 border border-zinc-800/50 rounded-lg p-4
-                 hover:border-zinc-700 hover:bg-zinc-900/60 transition-all"
-    >
-      <div className="flex items-start justify-between mb-2">
-        <h3 className="font-medium text-white group-hover:text-blue-400 transition-colors">
-          {tool.name}
-        </h3>
-        <span 
-          className="text-[10px] px-2 py-0.5 rounded-full"
-          style={{ backgroundColor: `${category.color}20`, color: category.color }}
-        >
-          {category.name}
-        </span>
-      </div>
-      <p className="text-zinc-500 text-sm line-clamp-2">{tool.description}</p>
-    </Link>
-  );
-}
+  // Quick filters - top categories
+  const quickCategories = [
+    { id: 'all', name: 'All Tools', count: TOOLS_REGISTRY.length },
+    { id: 'text', name: 'Text', count: categoryStats['text'] || 0 },
+    { id: 'image', name: 'Image', count: categoryStats['image'] || 0 },
+    { id: 'developer', name: 'Developer', count: categoryStats['developer'] || 0 },
+    { id: 'generator', name: 'Generator', count: categoryStats['generator'] || 0 },
+    { id: 'converter', name: 'Converter', count: categoryStats['converter'] || 0 },
+  ];
 
-// ═══════════════════════════════════════════════════════════════════════════
-// SEARCH COMPONENT (Client-side)
-// ═══════════════════════════════════════════════════════════════════════════
+  // Filter logic with memoization
+  const filteredTools = useMemo(() => {
+    return TOOLS_REGISTRY.filter((tool) => {
+      // Category filter
+      const matchesCategory = selectedCategory === 'all' || tool.category === selectedCategory;
 
-function SearchBox() {
-  return (
-    <div className="relative max-w-xl mx-auto mb-8">
-      <input
-        type="text"
-        placeholder="Search 199+ tools... (e.g., JSON, Base64, Calculator)"
-        className="w-full bg-zinc-900 border border-zinc-700 rounded-xl px-5 py-4 
-                   text-white placeholder-zinc-500 focus:outline-none focus:border-blue-500
-                   focus:ring-2 focus:ring-blue-500/20 transition-all"
-      />
-      <kbd className="absolute right-4 top-1/2 -translate-y-1/2 text-xs text-zinc-600 
-                      bg-zinc-800 px-2 py-1 rounded border border-zinc-700">
-        ⌘K
-      </kbd>
-    </div>
-  );
-}
+      // Search filter (name, description, keywords)
+      const lowercaseQuery = debouncedQuery.toLowerCase();
+      const matchesSearch =
+        debouncedQuery === '' ||
+        tool.name.toLowerCase().includes(lowercaseQuery) ||
+        tool.description.toLowerCase().includes(lowercaseQuery) ||
+        tool.keywords.some(k => k.toLowerCase().includes(lowercaseQuery));
 
-// ═══════════════════════════════════════════════════════════════════════════
-// MAIN PAGE
-// ═══════════════════════════════════════════════════════════════════════════
+      return matchesCategory && matchesSearch;
+    });
+  }, [debouncedQuery, selectedCategory]);
 
-interface PageProps {
-  searchParams: Promise<{ category?: string; q?: string }>;
-}
-
-export default async function ToolsPage({ searchParams }: PageProps) {
-  const { category, q } = await searchParams;
-  const stats = getCategoryStats();
-  const categories = Object.keys(TOOL_CATEGORIES) as ToolCategory[];
-  
-  // Filter tools based on query params
-  let filteredTools = TOOLS_REGISTRY;
-  if (category && categories.includes(category as ToolCategory)) {
-    filteredTools = getToolsByCategory(category);
-  }
-  if (q) {
-    const query = q.toLowerCase();
-    filteredTools = filteredTools.filter(
-      tool => 
-        tool.name.toLowerCase().includes(query) ||
-        tool.description.toLowerCase().includes(query) ||
-        tool.keywords.some(k => k.toLowerCase().includes(query))
-    );
-  }
+  // Clear search
+  const clearSearch = () => {
+    setQuery('');
+    setDebouncedQuery('');
+  };
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] py-8">
-      <div className="max-w-7xl mx-auto px-4">
-        
-        {/* Page Header */}
-        <header className="text-center mb-10">
-          <h1 className="text-4xl sm:text-5xl font-bold text-white mb-4">
-            🛠️ Free Online Tools
+    <div className="min-h-screen bg-[#0a0a0a] py-12 px-4">
+      <div className="max-w-7xl mx-auto">
+
+        {/* ═══════════════════════════════════════════════════════════
+            HEADER
+        ═══════════════════════════════════════════════════════════ */}
+        <div className="text-center mb-12">
+          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
+            Free Online Tools Directory
           </h1>
           <p className="text-zinc-400 text-lg max-w-2xl mx-auto">
-            199+ powerful web utilities for developers, designers, and everyone. 
-            All tools run in your browser — fast, free, and private.
+            {TOOLS_REGISTRY.length}+ fast, secure tools running entirely in your browser.
+            No upload, no server processing.
           </p>
-          <div className="flex justify-center gap-4 mt-4 text-sm">
-            <span className="text-green-400">✓ No Registration</span>
-            <span className="text-green-400">✓ 100% Free</span>
-            <span className="text-green-400">✓ Privacy First</span>
-          </div>
-        </header>
-
-        {/* Search */}
-        <SearchBox />
-
-        {/* Top Ad Banner */}
-        <div className="mb-8">
-          <AdBanner slot="tools-listing-top" format="horizontal" />
         </div>
 
-        {/* Category Grid */}
-        {!category && (
-          <section className="mb-12">
-            <h2 className="text-2xl font-semibold text-white mb-6">Browse by Category</h2>
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
-              {categories.map(cat => (
-                <CategoryCard key={cat} category={cat} count={stats[cat] || 0} />
+        {/* ═══════════════════════════════════════════════════════════
+            SEARCH BAR
+        ═══════════════════════════════════════════════════════════ */}
+        <div className="max-w-2xl mx-auto mb-8">
+          <div className="relative">
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-500" />
+            <input
+              type="text"
+              placeholder="Search tools (e.g., JSON, Image, Password)..."
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              className="w-full bg-zinc-900 border border-zinc-700 rounded-xl pl-12 pr-12 py-4
+                       text-white placeholder-zinc-500
+                       focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20
+                       transition-all text-lg"
+            />
+            {query && (
+              <button
+                onClick={clearSearch}
+                className="absolute right-4 top-1/2 -translate-y-1/2 p-1 hover:bg-zinc-800
+                         rounded-full transition-colors"
+                aria-label="Clear search"
+              >
+                <X className="w-5 h-5 text-zinc-500 hover:text-white" />
+              </button>
+            )}
+          </div>
+
+          {/* Search Results Count */}
+          {debouncedQuery && (
+            <p className="text-sm text-zinc-500 mt-2 text-center">
+              Found {filteredTools.length} tool{filteredTools.length !== 1 ? 's' : ''} matching "{debouncedQuery}"
+            </p>
+          )}
+        </div>
+
+        {/* ═══════════════════════════════════════════════════════════
+            CATEGORY FILTER PILLS
+        ═══════════════════════════════════════════════════════════ */}
+        <div className="flex flex-wrap justify-center gap-2 mb-8">
+          {quickCategories.map(cat => (
+            <button
+              key={cat.id}
+              onClick={() => setSelectedCategory(cat.id)}
+              className={`px-4 py-2 rounded-full text-sm font-medium capitalize
+                       transition-all flex items-center gap-2 ${
+                selectedCategory === cat.id
+                  ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/30'
+                  : 'bg-zinc-800 text-zinc-400 hover:bg-zinc-700 hover:text-white'
+              }`}
+            >
+              {cat.name}
+              <span className={`text-xs px-1.5 py-0.5 rounded-full ${
+                selectedCategory === cat.id
+                  ? 'bg-blue-500'
+                  : 'bg-zinc-700'
+              }`}>
+                {cat.count}
+              </span>
+            </button>
+          ))}
+        </div>
+
+        {/* ═══════════════════════════════════════════════════════════
+            TOP AD BANNER
+        ═══════════════════════════════════════════════════════════ */}
+        <AdBanner slot="tools-directory-top" className="mb-12" />
+
+        {/* ═══════════════════════════════════════════════════════════
+            TOOLS GRID
+        ═══════════════════════════════════════════════════════════ */}
+        {filteredTools.length > 0 ? (
+          <>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+              {filteredTools.map((tool, index) => (
+                <div key={tool.slug}>
+                  <Link
+                    href={`/tools/${tool.slug}`}
+                    className="group block bg-zinc-900/50 border border-zinc-800 rounded-xl p-6
+                             hover:bg-zinc-900 hover:border-blue-500/50 transition-all h-full"
+                  >
+                    <div className="flex items-start justify-between mb-4">
+                      <span className="px-2.5 py-1 rounded-md bg-blue-500/10 text-blue-400
+                                     text-xs font-medium uppercase tracking-wider">
+                        {tool.category}
+                      </span>
+                      {tool.processingType === 'client' && (
+                        <span className="flex items-center gap-1 text-green-400 text-xs">
+                          <Zap className="w-3 h-3" />
+                          Client-Side
+                        </span>
+                      )}
+                    </div>
+                    <h3 className="text-xl font-bold text-white mb-2 group-hover:text-blue-400
+                                 transition-colors">
+                      {tool.name}
+                    </h3>
+                    <p className="text-zinc-400 text-sm line-clamp-2 leading-relaxed">
+                      {tool.description}
+                    </p>
+                  </Link>
+
+                  {/* Strategic Ad Placement - Every 6th tool */}
+                  {(index + 1) % 6 === 0 && index !== filteredTools.length - 1 && (
+                    <div className="mt-6">
+                      <AdBanner
+                        slot={`tools-grid-${Math.floor((index + 1) / 6)}`}
+                        format="rectangle"
+                      />
+                    </div>
+                  )}
+                </div>
               ))}
             </div>
-          </section>
-        )}
 
-        {/* Category Header (when filtered) */}
-        {category && (
-          <div className="mb-6 flex items-center justify-between">
-            <div>
-              <Link href="/tools" className="text-blue-400 text-sm hover:underline mb-2 inline-block">
-                ← All Categories
-              </Link>
-              <h2 className="text-2xl font-semibold text-white">
-                {TOOL_CATEGORIES[category as ToolCategory]?.name || 'Tools'}
+            {/* Bottom Ad Banner */}
+            <AdBanner slot="tools-directory-bottom" className="mt-12" />
+          </>
+        ) : (
+          // ═══════════════════════════════════════════════════════════
+          // NO RESULTS STATE
+          // ═══════════════════════════════════════════════════════════
+          <div className="text-center py-20">
+            <div className="max-w-md mx-auto">
+              {/* Empty State Icon */}
+              <div className="w-20 h-20 bg-zinc-800 rounded-full flex items-center justify-center
+                            mx-auto mb-6">
+                <Search className="w-10 h-10 text-zinc-600" />
+              </div>
+
+              <h2 className="text-2xl font-bold text-white mb-3">
+                No Tools Found
               </h2>
+
+              <p className="text-zinc-400 mb-6">
+                We couldn't find any tools matching{' '}
+                <span className="text-blue-400 font-medium">"{debouncedQuery}"</span>
+                {selectedCategory !== 'all' && (
+                  <>
+                    {' '}in the <span className="text-blue-400 font-medium capitalize">{selectedCategory}</span> category
+                  </>
+                )}
+                .
+              </p>
+
+              {/* Suggestions */}
+              <div className="space-y-3">
+                <p className="text-sm text-zinc-500">Try:</p>
+                <div className="flex flex-wrap justify-center gap-2">
+                  {selectedCategory !== 'all' && (
+                    <button
+                      onClick={() => setSelectedCategory('all')}
+                      className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm
+                               font-medium rounded-lg transition-colors"
+                    >
+                      Show All Categories
+                    </button>
+                  )}
+                  {query && (
+                    <button
+                      onClick={clearSearch}
+                      className="px-4 py-2 bg-zinc-800 hover:bg-zinc-700 text-white text-sm
+                               font-medium rounded-lg transition-colors"
+                    >
+                      Clear Search
+                    </button>
+                  )}
+                </div>
+              </div>
+
+              {/* Popular Searches */}
+              <div className="mt-8 pt-8 border-t border-zinc-800">
+                <p className="text-sm text-zinc-500 mb-3">Popular Searches:</p>
+                <div className="flex flex-wrap justify-center gap-2">
+                  {['JSON', 'Image', 'Password', 'Base64', 'Hash'].map(term => (
+                    <button
+                      key={term}
+                      onClick={() => setQuery(term)}
+                      className="px-3 py-1.5 bg-zinc-800 hover:bg-zinc-700 text-zinc-300
+                               text-xs rounded-full transition-colors"
+                    >
+                      {term}
+                    </button>
+                  ))}
+                </div>
+              </div>
             </div>
-            <span className="text-zinc-500">{filteredTools.length} tools</span>
           </div>
         )}
 
-        {/* Tools Grid */}
-        <section>
-          {!category && <h2 className="text-2xl font-semibold text-white mb-6">All Tools</h2>}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {filteredTools.map(tool => (
-              <ToolCard key={tool.slug} tool={tool} />
-            ))}
-          </div>
-        </section>
-
-        {/* Bottom Ad Banner */}
-        <div className="mt-8">
-          <AdBanner slot="tools-listing-bottom" format="horizontal" />
+        {/* ═══════════════════════════════════════════════════════════
+            FOOTER INFO
+        ═══════════════════════════════════════════════════════════ */}
+        <div className="mt-16 pt-8 border-t border-zinc-800 text-center">
+          <p className="text-zinc-500 text-sm">
+            All tools process data locally in your browser for maximum privacy and security.
+          </p>
         </div>
 
       </div>
