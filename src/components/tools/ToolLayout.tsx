@@ -4,7 +4,7 @@
 // ═══════════════════════════════════════════════════════════════════════════
 'use client';
 
-import { ReactNode } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import { ToolMeta, TOOL_CATEGORIES } from '@/types/tool';
 
 interface ToolLayoutProps {
@@ -31,10 +31,40 @@ function AdBanner({ slot, format = 'auto', className = '' }: AdBannerProps) {
     auto: 'min-h-[90px] w-full'
   };
 
+  const formatRatios: Record<NonNullable<AdBannerProps['format']>, string> = {
+    horizontal: '728 / 90',
+    vertical: '160 / 600',
+    rectangle: '300 / 250',
+    auto: '728 / 90'
+  };
+
+  const [isAdBlocked, setIsAdBlocked] = useState(false);
+
+  useEffect(() => {
+    const bait = document.createElement('div');
+    bait.className = 'adsbygoogle';
+    bait.style.position = 'absolute';
+    bait.style.height = '1px';
+    bait.style.width = '1px';
+    bait.style.top = '-1000px';
+    document.body.appendChild(bait);
+
+    const check = () => {
+      const computed = window.getComputedStyle(bait);
+      const blocked = computed.display === 'none' || bait.offsetHeight === 0;
+      setIsAdBlocked(blocked);
+      document.body.removeChild(bait);
+    };
+
+    const raf = requestAnimationFrame(check);
+    return () => cancelAnimationFrame(raf);
+  }, []);
+
   return (
     <div 
       className={`ad-container bg-zinc-900/30 border border-zinc-800/50 rounded-lg 
                   flex items-center justify-center overflow-hidden ${formatStyles[format]} ${className}`}
+      style={{ aspectRatio: formatRatios[format] }}
     >
       {/* 
         PRODUCTION: Replace this div with real AdSense code:
@@ -49,11 +79,40 @@ function AdBanner({ slot, format = 'auto', className = '' }: AdBannerProps) {
         />
         <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
       */}
-      <div className="text-zinc-700 text-xs text-center p-4">
-        <div className="border border-dashed border-zinc-700 rounded p-3">
-          Ad Space<br />
-          <span className="text-zinc-600">{slot}</span>
+      {isAdBlocked ? (
+        <div className="text-center p-4">
+          <div className="border border-dashed border-amber-500/40 rounded p-3">
+            <div className="text-amber-300 text-xs font-semibold">Support Us</div>
+            <div className="text-zinc-500 text-xs">
+              Ads help keep these tools free.
+            </div>
+          </div>
         </div>
+      ) : (
+        <div className="text-zinc-700 text-xs text-center p-4">
+          <div className="border border-dashed border-zinc-700 rounded p-3">
+            Ad Space<br />
+            <span className="text-zinc-600">{slot}</span>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function PremiumCTA() {
+  return (
+    <div className="bg-zinc-900/60 border border-blue-500/30 rounded-xl p-4 sm:p-5 mb-6">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+        <p className="text-sm text-zinc-300">
+          Process faster and ad-free? <span className="text-blue-400 font-medium">Support CodelithLabs.</span>
+        </p>
+        <a
+          href="/contact"
+          className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-sm font-semibold transition-colors"
+        >
+          Upgrade Support
+        </a>
       </div>
     </div>
   );
@@ -209,6 +268,9 @@ export function ToolLayout({ tool, children }: ToolLayoutProps) {
           >
             {children}
           </section>
+
+          {/* Revenue CTA placed after primary tool interaction */}
+          <PremiumCTA />
 
           {/* In-Content Ad 1 */}
           <div className="my-6">
