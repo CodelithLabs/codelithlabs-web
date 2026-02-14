@@ -9,10 +9,11 @@ export default function JsonToYaml() {
     try {
       const obj = JSON.parse(json);
       // Simple recursive YAML serializer (Production use usually requires a lib like js-yaml, this is a basic version)
-      const toYaml = (data: any, indent = 0): string => {
+      const toYaml = (data: unknown, indent = 0): string => {
         if (typeof data !== 'object' || data === null) return String(data);
         const space = ' '.repeat(indent);
-        return Object.keys(data).map(k => `${space}${k}: ${typeof data[k] === 'object' ? '\n' + toYaml(data[k], indent + 2) : data[k]}`).join('\n');
+        const dataObj = data as Record<string, unknown>;
+        return Object.keys(dataObj).map(k => `${space}${k}: ${typeof dataObj[k] === 'object' ? '\n' + toYaml(dataObj[k], indent + 2) : dataObj[k]}`).join('\n');
       };
       setYaml(toYaml(obj));
     } catch (e) { setYaml('Invalid JSON'); }
