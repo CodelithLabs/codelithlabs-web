@@ -16,8 +16,11 @@ export default function MarkdownPreviewer() {
   };
 
   const sanitizeHTML = (html: string) => {
-    // Sanitizing user input blocks XSS while keeping previews fast.
-    return DOMPurify.sanitize(html, { USE_PROFILES: { html: true } });
+    // Sanitizing user input blocks XSS - using explicit whitelist for markdown preview safety
+    return DOMPurify.sanitize(html, { 
+      ALLOWED_TAGS: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'b', 'i', 'strong', 'em', 'p', 'br', 'ul', 'ol', 'li', 'code', 'pre', 'blockquote', 'a'],
+      ALLOWED_ATTR: ['href', 'title', 'target']
+    });
   };
 
   return (

@@ -2,15 +2,15 @@
 import { useEffect, useRef, useState } from 'react';
 import { z } from 'zod';
 
-const MAX_FILE_BYTES = 15 * 1024 * 1024;
+const MAX_IMAGE_SIZE_BYTES = 15 * 1024 * 1024; // 15 MiB
 
 const fileSchema = z
   .instanceof(File)
   .refine((file) => file.type.startsWith('image/'), {
     message: 'Please upload a valid image file.'
   })
-  .refine((file) => file.size <= MAX_FILE_BYTES, {
-    message: 'File too large. Max size is 15MB.'
+  .refine((file) => file.size <= MAX_IMAGE_SIZE_BYTES, {
+    message: 'File too large. Max size is 15 MiB.'
   });
 
 export default function ImageCompressor() {
@@ -137,7 +137,7 @@ export default function ImageCompressor() {
             </div>
             <div>
               <h3 className='text-xl font-bold text-white'>Click to Upload Image</h3>
-              <p className='text-zinc-400'>JPG, PNG, WebP supported. Max 15MB.</p>
+              <p className='text-zinc-400'>JPG, PNG, WebP supported. Max 15 MiB.</p>
             </div>
           </label>
         </div>

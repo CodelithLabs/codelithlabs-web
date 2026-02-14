@@ -11,7 +11,7 @@ export default function YamlToJson() {
       const yamlToJson = (yamlStr: string): Record<string, unknown> => {
         const lines = yamlStr.split('\n').filter(l => l.trim() && !l.trim().startsWith('#'));
         const result: Record<string, unknown> = {};
-        const stack: Array<{ obj: Record<string, unknown>; indent: number }> = [{ obj: result, indent: -1 }];
+        const stack: Array<{ obj: Record<string, unknown>; indent: number; lastKey?: string }> = [{ obj: result, indent: -1 }];
 
         for (const line of lines) {
           const indent = line.search(/\S/);
@@ -25,43 +25,33 @@ export default function YamlToJson() {
           if (content.startsWith('- ')) {
             // Array item
             const value = content.substring(2).trim();
-            const parent = stack[stack.length - 1].obj;
-            const lastKey = parent._lastKey as string;
-            if (!Array.isArray(parent[lastKey])) {
-              parent[lastKey] = [];
+            const stackTop = stack[stack.length - 1];
+            const lastKey = stackTop.lastKey;
+            if (lastKey && !Array.isArray(stackTop.obj[lastKey])) {
+              stackTop.obj[lastKey] = [];
             }
-            (parent[lastKey] as unknown[]).push(value);
+            if (lastKey) {
+              (stackTop.obj[lastKey] as unknown[]).push(value);
+            }
           } else if (content.includes(':')) {
             // Key-value pair
             const [key, ...valParts] = content.split(':');
             const value = valParts.join(':').trim();
-            const parent = stack[stack.length - 1].obj;
+            const stackTop = stack[stack.length - 1];
 
             if (value === '' || value === '{}' || value === '[]') {
               // Nested object
-              parent[key.trim()] = {};
-              parent._lastKey = key.trim();
-              stack.push({ obj: parent[key.trim()] as Record<string, unknown>, indent });
+              stackTop.obj[key.trim()] = {};
+              stack.push({ obj: stackTop.obj[key.trim()] as Record<string, unknown>, indent, lastKey: key.trim() });
             } else {
               // Simple value
-              parent[key.trim()] = value;
-              parent._lastKey = key.trim();
+              stackTop.obj[key.trim()] = value;
+              stackTop.lastKey = key.trim();
             }
           }
         }
 
-        // Clean up helper properties
-        const clean = (obj: unknown): unknown => {
-          if (typeof obj !== 'object' || obj === null) return obj;
-          const record = obj as Record<string, unknown>;
-          delete record._lastKey;
-          for (const key in record) {
-            record[key] = clean(record[key]);
-          }
-          return record;
-        };
-
-        return clean(result) as Record<string, unknown>;
+        return result;
       };
 
       const result = yamlToJson(yaml);
