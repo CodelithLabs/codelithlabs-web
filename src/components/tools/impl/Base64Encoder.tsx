@@ -24,8 +24,9 @@ export default function Base64Encoder() {
         const decoded = decodeURIComponent(escape(atob(input)));
         setOutput(decoded);
       }
-    } catch (e) {
-      setError(mode === 'decode' ? 'Invalid Base64 string' : 'Encoding failed');
+    } catch (e: unknown) {
+      const errorMessage = e instanceof Error ? e.message : (mode === 'decode' ? 'Invalid Base64 string' : 'Encoding failed');
+      setError(errorMessage);
       setOutput('');
     }
   };

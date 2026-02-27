@@ -16,7 +16,10 @@ export default function JsonToYaml() {
         return Object.keys(dataObj).map(k => `${space}${k}: ${typeof dataObj[k] === 'object' ? '\n' + toYaml(dataObj[k], indent + 2) : dataObj[k]}`).join('\n');
       };
       setYaml(toYaml(obj));
-    } catch (e) { setYaml('Invalid JSON'); }
+    } catch (e: unknown) {
+      const errorMessage = e instanceof Error ? e.message : 'Invalid JSON';
+      setYaml(errorMessage);
+    }
   };
 
   return (

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background gradient -->
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a0a0a;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#1a1a2e;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0a0a0a;stop-opacity:1" />
+    </linearGradient>
+    
+    <radialGradient id="accentGlow" cx="50%" cy="50%">
+      <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:0.3" />
+      <stop offset="100%" style="stop-color:#3b82f6;stop-opacity:0" />
+    </radialGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bgGradient)"/>
+  
+  <!-- Accent glow -->
+  <circle cx="200" cy="150" r="250" fill="url(#accentGlow)"/>
+  <circle cx="1000" cy="480" r="200" fill="url(#accentGlow)"/>
+  
+  <!-- Grid pattern overlay -->
+  <g opacity="0.1">
+    <line x1="0" y1="0" x2="0" y2="630" stroke="#3b82f6" stroke-width="1"/>
+    <line x1="100" y1="0" x2="100" y2="630" stroke="#3b82f6" stroke-width="1"/>
+    <line x1="200" y1="0" x2="200" y2="630" stroke="#3b82f6" stroke-width="1"/>
+    <line x1="300" y1="0" x2="300" y2="630" stroke="#3b82f6" stroke-width="1"/>
+    <line x1="400" y1="0" x2="400" y2="630" stroke="#3b82f6" stroke-width="1"/>
+    <line x1="500" y1="0" x2="500" y2="630" stroke="#3b82f6" stroke-width="1"/>
+    <line x1="600" y1="0" x2="600" y2="630" stroke="#3b82f6" stroke-width="1"/>
+    <line x1="700" y1="0" x2="700" y2="630" stroke="#3b82f6" stroke-width="1"/>
+    <line x1="800" y1="0" x2="800" y2="630" stroke="#3b82f6" stroke-width="1"/>
+    <line x1="900" y1="0" x2="900" y2="630" stroke="#3b82f6" stroke-width="1"/>
+    <line x1="1000" y1="0" x2="1000" y2="630" stroke="#3b82f6" stroke-width="1"/>
+    <line x1="1100" y1="0" x2="1100" y2="630" stroke="#3b82f6" stroke-width="1"/>
+    <line x1="0" y1="0" x2="1200" y2="0" stroke="#3b82f6" stroke-width="1"/>
+    <line x1="0" y1="90" x2="1200" y2="90" stroke="#3b82f6" stroke-width="1"/>
+    <line x1="0" y1="180" x2="1200" y2="180" stroke="#3b82f6" stroke-width="1"/>
+    <line x1="0" y1="270" x2="1200" y2="270" stroke="#3b82f6" stroke-width="1"/>
+    <line x1="0" y1="360" x2="1200" y2="360" stroke="#3b82f6" stroke-width="1"/>
+    <line x1="0" y1="450" x2="1200" y2="450" stroke="#3b82f6" stroke-width="1"/>
+    <line x1="0" y1="540" x2="1200" y2="540" stroke="#3b82f6" stroke-width="1"/>
+  </g>
+  
+  <!-- Logo/Icon area -->
+  <circle cx="150" cy="315" r="80" fill="#3b82f6" opacity="0.2"/>
+  <text 
+    x="150" 
+    y="335" 
+    font-family="Arial, sans-serif" 
+    font-size="80" 
+    font-weight="bold" 
+    fill="#3b82f6" 
+    text-anchor="middle"
+  >&lt;/&gt;</text>
+  
+  <!-- Main title -->
+  <text 
+    x="280" 
+    y="280" 
+    font-family="Arial, sans-serif" 
+    font-size="72" 
+    font-weight="bold" 
+    fill="#ffffff" 
+    letter-spacing="2"
+  >CodelithLabs</text>
+  
+  <!-- Subtitle -->
+  <text 
+    x="280" 
+    y="350" 
+    font-family="Arial, sans-serif" 
+    font-size="36" 
+    fill="#94a3b8" 
+  >Free Online Tools Platform</text>
+  
+  <!-- URL watermark -->
+  <text 
+    x="280" 
+    y="420" 
+    font-family="Arial, sans-serif" 
+    font-size="28" 
+    fill="#64748b" 
+    opacity="0.8"
+  >codelithlabs.in</text>
+  
+  <!-- Badge -->
+  <rect x="280" y="450" width="280" height="50" rx="25" fill="#3b82f6" opacity="0.2"/>
+  <text 
+    x="420" 
+    y="485" 
+    font-family="Arial, sans-serif" 
+    font-size="24" 
+    font-weight="600" 
+    fill="#3b82f6" 
+    text-anchor="middle"
+  >100% Client-Side • Free</text>
+</svg>

@@ -238,8 +238,10 @@ const generateAllContent = () => {
     return;
   }
 
-  // Parse tools (simplified - assumes proper formatting)
-  const toolsData = eval(`[${toolsMatch[1]}]`);
+  // Parse tools safely using dynamic import instead of eval()
+  // SECURITY FIX: Replaced eval() with proper module require
+  const toolsRegistryModule = require(registryPath.replace(/\.ts$/, ''));
+  const toolsData = toolsRegistryModule.TOOLS_REGISTRY || [];
 
   // Create content directory
   const contentDir = path.join(__dirname, '..', 'content', 'tools');

@@ -57,7 +57,7 @@ const TOOL_COMPONENTS: Record<string, ComponentType<any>> = {
   'case-converter': dynamic(() => import('@/components/tools/impl/CaseConverter'), { loading: () => <ToolLoadingFallback /> }),
   'text-diff': dynamic(() => import('@/components/tools/impl/TextDiffChecker'), { loading: () => <ToolLoadingFallback /> }),
   'lorem-ipsum-generator': dynamic(() => import('@/components/tools/impl/LoremIpsumGen'), { loading: () => <ToolLoadingFallback /> }),
-  'markdown-to-html': dynamic(() => import('@/components/tools/impl/MarkdownPreviewer'), { loading: () => <ToolLoadingFallback /> }),
+  'markdown-to-html': dynamic(() => import('@/components/tools/impl/MarkdownPreviewer'), { loading: () => <ToolLoadingFallback />, ssr: false }),
   'text-to-slug': dynamic(() => import('@/components/tools/impl/TextToSlug'), { loading: () => <ToolLoadingFallback /> }),
   'duplicate-remover': dynamic(() => import('@/components/tools/impl/DuplicateRemover'), { loading: () => <ToolLoadingFallback /> }),
 
@@ -120,6 +120,72 @@ const TOOL_COMPONENTS: Record<string, ComponentType<any>> = {
   'open-graph-generator': dynamic(() => import('@/components/tools/impl/OpenGraphGenerator'), { loading: () => <ToolLoadingFallback /> }),
   'robots-txt-generator': dynamic(() => import('@/components/tools/impl/RobotsTxtGenerator'), { loading: () => <ToolLoadingFallback /> }),
   'sitemap-generator': dynamic(() => import('@/components/tools/impl/SitemapGenerator'), { loading: () => <ToolLoadingFallback /> }),
+
+  // ═══ AI-POWERED TOOLS (1+ tools) ═══
+  'sentiment-analyzer': dynamic(() => import('@/components/tools/impl/SentimentAnalyzer'), { loading: () => <ToolLoadingFallback /> }),
+
+  // ═══ FINANCE TOOLS (3+ tools) ═══
+  'crypto-converter': dynamic(() => import('@/components/tools/impl/CryptoConverter'), { loading: () => <ToolLoadingFallback /> }),
+  'currency-converter': dynamic(() => import('@/components/tools/impl/CurrencyConverter'), { loading: () => <ToolLoadingFallback /> }),
+  'mortgage-calculator': dynamic(() => import('@/components/tools/impl/MortgageCalculator'), { loading: () => <ToolLoadingFallback /> }),
+
+  // ═══ GEO TOOLS (1+ tools) ═══
+  'timezone-converter': dynamic(() => import('@/components/tools/impl/TimezoneConverter'), { loading: () => <ToolLoadingFallback /> }),
+
+  // ═══ AI-POWERED TOOLS (NEW BATCH) ═══
+  'text-summarizer': dynamic(() => import('@/components/tools/impl/TextSummarizer'), { loading: () => <ToolLoadingFallback /> }),
+  'paraphraser': dynamic(() => import('@/components/tools/impl/Paraphraser'), { loading: () => <ToolLoadingFallback /> }),
+  'grammar-checker': dynamic(() => import('@/components/tools/impl/GrammarChecker'), { loading: () => <ToolLoadingFallback /> }),
+  'ai-color-palette': dynamic(() => import('@/components/tools/impl/AiColorPalette'), { loading: () => <ToolLoadingFallback /> }),
+  'text-to-speech': dynamic(() => import('@/components/tools/impl/TextToSpeech'), { loading: () => <ToolLoadingFallback />, ssr: false }),
+  'word-frequency-counter': dynamic(() => import('@/components/tools/impl/WordFrequencyCounter'), { loading: () => <ToolLoadingFallback /> }),
+  'code-explainer': dynamic(() => import('@/components/tools/impl/CodeExplainer'), { loading: () => <ToolLoadingFallback /> }),
+  'ai-translator': dynamic(() => import('@/components/tools/impl/AiTranslator'), { loading: () => <ToolLoadingFallback /> }),
+  'email-generator': dynamic(() => import('@/components/tools/impl/EmailGenerator'), { loading: () => <ToolLoadingFallback /> }),
+
+  // ═══ FINANCE TOOLS (NEW BATCH) ═══
+  'compound-interest-calculator': dynamic(() => import('@/components/tools/impl/CompoundInterestCalculator'), { loading: () => <ToolLoadingFallback /> }),
+  'tax-calculator-india': dynamic(() => import('@/components/tools/impl/TaxCalculatorIndia'), { loading: () => <ToolLoadingFallback /> }),
+  'salary-calculator': dynamic(() => import('@/components/tools/impl/SalaryCalculator'), { loading: () => <ToolLoadingFallback /> }),
+  'investment-comparator': dynamic(() => import('@/components/tools/impl/InvestmentComparator'), { loading: () => <ToolLoadingFallback /> }),
+  'gold-silver-calculator': dynamic(() => import('@/components/tools/impl/GoldSilverCalculator'), { loading: () => <ToolLoadingFallback /> }),
+  'breakeven-calculator': dynamic(() => import('@/components/tools/impl/BreakevenCalculator'), { loading: () => <ToolLoadingFallback /> }),
+  'profit-margin-calculator': dynamic(() => import('@/components/tools/impl/ProfitMarginCalculator'), { loading: () => <ToolLoadingFallback /> }),
+  'invoice-generator': dynamic(() => import('@/components/tools/impl/InvoiceGenerator'), { loading: () => <ToolLoadingFallback /> }),
+  'expense-splitter': dynamic(() => import('@/components/tools/impl/ExpenseSplitter'), { loading: () => <ToolLoadingFallback /> }),
+  'retirement-calculator': dynamic(() => import('@/components/tools/impl/RetirementCalculator'), { loading: () => <ToolLoadingFallback /> }),
+  'stock-calculator': dynamic(() => import('@/components/tools/impl/StockCalculator'), { loading: () => <ToolLoadingFallback /> }),
+  'capital-gains-tax': dynamic(() => import('@/components/tools/impl/CapitalGainsTax'), { loading: () => <ToolLoadingFallback /> }),
+
+  // ═══ GEO TOOLS (NEW BATCH) ═══
+  'distance-calculator': dynamic(() => import('@/components/tools/impl/DistanceCalculator'), { loading: () => <ToolLoadingFallback /> }),
+  'coordinate-converter': dynamic(() => import('@/components/tools/impl/CoordinateConverter'), { loading: () => <ToolLoadingFallback /> }),
+  'ip-geolocation': dynamic(() => import('@/components/tools/impl/IpGeolocation'), { loading: () => <ToolLoadingFallback /> }),
+  'world-clock': dynamic(() => import('@/components/tools/impl/WorldClock'), { loading: () => <ToolLoadingFallback />, ssr: false }),
+  'sunrise-sunset': dynamic(() => import('@/components/tools/impl/SunriseSunsetCalc'), { loading: () => <ToolLoadingFallback /> }),
+  'country-info': dynamic(() => import('@/components/tools/impl/CountryInfo'), { loading: () => <ToolLoadingFallback /> }),
+  'lat-long-finder': dynamic(() => import('@/components/tools/impl/LatLongFinder'), { loading: () => <ToolLoadingFallback /> }),
+
+  // ═══ DEVELOPER TOOLS (NEW BATCH) ═══
+  'api-tester': dynamic(() => import('@/components/tools/impl/ApiTester'), { loading: () => <ToolLoadingFallback /> }),
+  'cron-expression-generator': dynamic(() => import('@/components/tools/impl/CronExpressionGen'), { loading: () => <ToolLoadingFallback /> }),
+  'html-to-jsx': dynamic(() => import('@/components/tools/impl/HtmlToJsx'), { loading: () => <ToolLoadingFallback /> }),
+  'diff-checker': dynamic(() => import('@/components/tools/impl/DiffChecker'), { loading: () => <ToolLoadingFallback /> }),
+  'json-path-finder': dynamic(() => import('@/components/tools/impl/JsonPathFinder'), { loading: () => <ToolLoadingFallback /> }),
+  'regex-generator': dynamic(() => import('@/components/tools/impl/RegexGenerator'), { loading: () => <ToolLoadingFallback /> }),
+
+  // ═══ IMAGE / MEDIA TOOLS (NEW BATCH) ═══
+  'image-watermark': dynamic(() => import('@/components/tools/impl/ImageWatermark'), { loading: () => <ToolLoadingFallback />, ssr: false }),
+  'background-remover': dynamic(() => import('@/components/tools/impl/BackgroundRemover'), { loading: () => <ToolLoadingFallback />, ssr: false }),
+  'color-picker': dynamic(() => import('@/components/tools/impl/ColorPicker'), { loading: () => <ToolLoadingFallback /> }),
+  'pdf-to-image': dynamic(() => import('@/components/tools/impl/PdfToImage'), { loading: () => <ToolLoadingFallback /> }),
+
+  // ═══ WEB / DESIGN TOOLS (NEW BATCH) ═══
+  'font-pair-suggester': dynamic(() => import('@/components/tools/impl/FontPairSuggester'), { loading: () => <ToolLoadingFallback /> }),
+  'responsive-checker': dynamic(() => import('@/components/tools/impl/ResponsiveChecker'), { loading: () => <ToolLoadingFallback /> }),
+  'readme-generator': dynamic(() => import('@/components/tools/impl/ReadmeGenerator'), { loading: () => <ToolLoadingFallback /> }),
+  'css-gradient-generator': dynamic(() => import('@/components/tools/impl/CssGradientGenerator'), { loading: () => <ToolLoadingFallback /> }),
+  'website-security-checker': dynamic(() => import('@/components/tools/impl/WebsiteSecurityChecker'), { loading: () => <ToolLoadingFallback /> }),
 };
 
 // ═══════════════════════════════════════════════════════════════════════════

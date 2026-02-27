@@ -11,7 +11,10 @@ export default function JwtDecoder() {
       if (parts.length !== 3) throw new Error('Invalid JWT format');
       const payload = JSON.parse(atob(parts[1]));
       setDecoded(JSON.stringify(payload, null, 2));
-    } catch (e) { setDecoded('Invalid Token'); }
+    } catch (e: unknown) {
+      const errorMessage = e instanceof Error ? e.message : 'Invalid Token';
+      setDecoded(errorMessage);
+    }
   };
 
   return (

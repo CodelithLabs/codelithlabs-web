@@ -100,11 +100,8 @@ export default function HomePage() {
               price: '0',
               priceCurrency: 'USD',
             },
-            aggregateRating: {
-              '@type': 'AggregateRating',
-              ratingValue: '4.8',
-              ratingCount: '1247',
-            },
+            // aggregateRating removed - was fake data causing Google penalty risk
+            // TODO: Replace with real user review system (Phase 3)
           }),
         }}
       />

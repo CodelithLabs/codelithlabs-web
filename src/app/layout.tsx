@@ -29,6 +29,14 @@ export const metadata: Metadata = {
     ],
     authors: [{ name: "CodelithLabs Team" }],
     creator: "CodelithLabs",
+    publisher: "CodelithLabs",
+    robots: {
+        index: true,
+        follow: true,
+        'max-image-preview': 'large',
+        'max-snippet': -1,
+        'max-video-preview': -1,
+    },
     openGraph: {
         type: "website",
         locale: "en_US",
@@ -36,6 +44,30 @@ export const metadata: Metadata = {
         title: "CodelithLabs - Free Online Tools Platform",
         description: "40+ free online tools with client-side processing. JSON formatter, image compressor, password generator, and more.",
         siteName: "CodelithLabs",
+        images: [
+            {
+                url: 'https://codelithlabs.in/og-image.png',
+                width: 1200,
+                height: 630,
+                alt: 'CodelithLabs Tools Platform',
+            },
+        ],
+    },
+    twitter: {
+        card: 'summary_large_image',
+        title: 'CodelithLabs - Free Online Tools Platform',
+        description: '40+ free developer and productivity tools with client-side processing',
+        images: ['https://codelithlabs.in/og-image.png'],
+    },
+    verification: {
+        google: 'GOOGLE_VERIFICATION_TOKEN_HERE',
+        yandex: 'YANDEX_VERIFICATION_TOKEN_HERE',
+        other: {
+            'msvalidate.01': 'BING_VERIFICATION_TOKEN_HERE',
+        },
+    },
+    alternates: {
+        canonical: 'https://codelithlabs.in',
     },
 };
 
@@ -81,6 +113,52 @@ export default function RootLayout({
                                 "@type": "ContactPoint",
                                 "email": "contact@codelithlabs.in",
                                 "contactType": "Customer Service"
+                            },
+                            "sameAs": [
+                                "https://github.com/codelithlabs"
+                            ]
+                        })
+                    }}
+                />
+
+                {/* LocalBusiness Schema for GEO Optimization */}
+                <script
+                    type="application/ld+json"
+                    dangerouslySetInnerHTML={{
+                        __html: JSON.stringify({
+                            "@context": "https://schema.org",
+                            "@type": "LocalBusiness",
+                            "name": "CodelithLabs",
+                            "image": "https://codelithlabs.in/icon.png",
+                            "url": "https://codelithlabs.in",
+                            "telephone": "+91-XXXXXXXXXX",
+                            "priceRange": "Free",
+                            "address": {
+                                "@type": "PostalAddress",
+                                "streetAddress": "Kokrajhar",
+                                "addressLocality": "Kokrajhar",
+                                "addressRegion": "Assam",
+                                "postalCode": "783370",
+                                "addressCountry": "IN"
+                            },
+                            "geo": {
+                                "@type": "GeoCoordinates",
+                                "latitude": 26.4008,
+                                "longitude": 90.2717
+                            },
+                            "openingHoursSpecification": {
+                                "@type": "OpeningHoursSpecification",
+                                "dayOfWeek": [
+                                    "Monday",
+                                    "Tuesday",
+                                    "Wednesday",
+                                    "Thursday",
+                                    "Friday",
+                                    "Saturday",
+                                    "Sunday"
+                                ],
+                                "opens": "00:00",
+                                "closes": "23:59"
                             },
                             "sameAs": [
                                 "https://github.com/codelithlabs"

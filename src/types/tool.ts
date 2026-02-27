@@ -23,7 +23,10 @@ export type ToolCategory =
   | 'formatter'
   | 'encoder'
   | 'security'
-  | 'seo';
+  | 'seo'
+  | 'ai'
+  | 'finance'
+  | 'geo';
 
 export interface ToolCategoryInfo {
   id: ToolCategory;
@@ -103,5 +106,26 @@ export const TOOL_CATEGORIES: Record<ToolCategory, ToolCategoryInfo> = {
     description: 'Meta tag generators, analyzers',
     icon: 'Search',
     color: '#6366F1'
+  },
+  ai: {
+    id: 'ai',
+    name: 'AI Tools',
+    description: 'AI-powered text analysis, sentiment, and generation',
+    icon: 'Brain',
+    color: '#A855F7'
+  },
+  finance: {
+    id: 'finance',
+    name: 'Finance Tools',
+    description: 'Currency converters, mortgage calculators, crypto tools',
+    icon: 'DollarSign',
+    color: '#22C55E'
+  },
+  geo: {
+    id: 'geo',
+    name: 'Geographic Tools',
+    description: 'Timezone converters, distance calculators, location tools',
+    icon: 'Globe',
+    color: '#3B82F6'
   }
 };

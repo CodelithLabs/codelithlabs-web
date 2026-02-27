@@ -1,0 +1,40 @@
+Contact: mailto:contact@codelithlabs.in
+Expires: 2027-12-31T23:59:59.000Z
+Preferred-Languages: en, hi
+Canonical: https://codelithlabs.in/.well-known/security.txt
+
+# Security Policy
+
+## Reporting a Vulnerability
+
+If you discover a security vulnerability within CodelithLabs, please send an email to contact@codelithlabs.in. All security vulnerabilities will be promptly addressed.
+
+## Scope
+
+This security policy applies to:
+- codelithlabs.in domain and all subdomains
+- All tools and utilities hosted on our platform
+- Client-side processing code and web workers
+- Any third-party integrations
+
+## Out of Scope
+
+- Theoretical vulnerabilities without proof of concept
+- Social engineering attacks against CodelithLabs users
+- Physical attacks against CodelithLabs infrastructure
+- Denial of Service attacks
+
+## Safe Harbor
+
+CodelithLabs supports safe harbor for security researchers who:
+- Make a good faith effort to avoid privacy violations and data destruction
+- Give us reasonable time to respond before public disclosure
+- Do not violate any other applicable laws or regulations
+
+We will not pursue legal action against researchers who follow these guidelines.
+
+## Acknowledgments
+
+We appreciate the work of security researchers and will acknowledge verified reports (with permission) on our website.
+
+# Thank you for helping keep CodelithLabs and our users safe!
