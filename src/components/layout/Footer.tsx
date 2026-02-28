@@ -42,6 +42,8 @@ export function Footer() {
               <ul className="space-y-2.5 text-sm text-zinc-400">
                 <li><Link href="/about" className="hover:text-white transition-colors">About Us</Link></li>
                 <li><Link href="/team" className="hover:text-white transition-colors">Our Team</Link></li>
+                <li><Link href="/hire-us" className="hover:text-white transition-colors">Hire Us</Link></li>
+                <li><Link href="/pricing" className="hover:text-white transition-colors">Pricing</Link></li>
                 <li><Link href="/tech-stack" className="hover:text-white transition-colors">Tech Stack</Link></li>
                 <li><Link href="/transparency" className="hover:text-white transition-colors">Transparency</Link></li>
                 <li><Link href="/blog" className="hover:text-white transition-colors">Blog</Link></li>
@@ -76,7 +78,7 @@ export function Footer() {
                 </li>
               </ul>
               <p className="text-xs text-zinc-600 mt-4 leading-relaxed">
-                CodelithLabs is not affiliated with codelithlab.com or any similarly named entities.
+                CodelithLabs.in is an independent platform and is not affiliated with codelithlab.com (a Pune-based IT company).
               </p>
             </div>
           </div>

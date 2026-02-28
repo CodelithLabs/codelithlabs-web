@@ -144,6 +144,27 @@ export default function ResearchPage() {
 
   return (
     <main className="min-h-screen bg-[#0a0a0a] pt-28 pb-20 px-6">
+      {/* JSON-LD Schema */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "CollectionPage",
+            name: "CodelithLabs Research & Engineering",
+            description:
+              "Technical papers, architectural decisions, and engineering post-mortems from the CodelithLabs team.",
+            url: "https://codelithlabs.in/research",
+            numberOfItems: papers.length,
+            provider: {
+              "@type": "Organization",
+              name: "CodelithLabs",
+              url: "https://codelithlabs.in",
+            },
+          }),
+        }}
+      />
+
       <div className="max-w-5xl mx-auto">
         {/* ── Header ────────────────────────────────────────────────── */}
         <motion.div

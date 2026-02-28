@@ -6,12 +6,13 @@
 
 import { MetadataRoute } from 'next';
 import { TOOLS_REGISTRY } from '@/lib/tools-registry';
+import { getAllBlogPosts } from '@/lib/blog-loader';
 
 export const dynamic = "force-static";
 
 const BASE_URL = 'https://codelithlabs.in';
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const currentDate = new Date();
 
   // ═══════════════════════════════════════════════════════════════
@@ -61,6 +62,36 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.7,
     },
     {
+      url: `${BASE_URL}/hire-us`,
+      lastModified: currentDate,
+      changeFrequency: 'monthly',
+      priority: 0.7,
+    },
+    {
+      url: `${BASE_URL}/pricing`,
+      lastModified: currentDate,
+      changeFrequency: 'monthly',
+      priority: 0.6,
+    },
+    {
+      url: `${BASE_URL}/research`,
+      lastModified: currentDate,
+      changeFrequency: 'monthly',
+      priority: 0.5,
+    },
+    {
+      url: `${BASE_URL}/team`,
+      lastModified: currentDate,
+      changeFrequency: 'monthly',
+      priority: 0.5,
+    },
+    {
+      url: `${BASE_URL}/projects`,
+      lastModified: currentDate,
+      changeFrequency: 'monthly',
+      priority: 0.5,
+    },
+    {
       url: `${BASE_URL}/tech-stack`,
       lastModified: currentDate,
       changeFrequency: 'monthly',
@@ -107,11 +138,23 @@ export default function sitemap(): MetadataRoute.Sitemap {
   });
 
   // ═══════════════════════════════════════════════════════════════
+  // BLOG POST PAGES
+  // ═══════════════════════════════════════════════════════════════
+  const blogPosts = await getAllBlogPosts();
+  const blogPages: MetadataRoute.Sitemap = blogPosts.map(post => ({
+    url: `${BASE_URL}/blog/${post.frontmatter.slug}`,
+    lastModified: new Date(post.frontmatter.dateModified || post.frontmatter.datePublished),
+    changeFrequency: 'monthly',
+    priority: 0.6,
+  }));
+
+  // ═══════════════════════════════════════════════════════════════
   // COMBINE ALL PAGES
   // ═══════════════════════════════════════════════════════════════
   return [
     ...staticPages,
     ...categoryPages,
     ...toolPages,
+    ...blogPages,
   ];
 }

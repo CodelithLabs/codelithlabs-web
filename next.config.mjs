@@ -1,8 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export',
+  // Full Next.js deployment on Vercel (SSR, API routes, ISR enabled)
+  // output: 'export' removed to unlock API routes, middleware, and server actions
 
-  // Trailing slashes for clean static file URLs on Vercel/CDN
+  // Trailing slashes for clean URLs on Vercel
   trailingSlash: true,
 
   // Strict TypeScript — never ship broken types
@@ -10,12 +11,21 @@ const nextConfig = {
     ignoreBuildErrors: false,
   },
 
-  // Static export requires unoptimized images (no server-side loader)
+  // Vercel Image Optimization enabled (no longer unoptimized)
   images: {
-    unoptimized: true,
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'lh3.googleusercontent.com', // Google profile images
+      },
+      {
+        protocol: 'https',
+        hostname: 'codelithlabs.in',
+      },
+    ],
   },
 
-  // Opt out of anonymous telemetry
+  // Build performance caps
   experimental: {
     workerThreads: false,
     cpus: 2,

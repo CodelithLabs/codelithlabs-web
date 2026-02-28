@@ -83,6 +83,22 @@ export default function AboutPage() {
         </div>
       </section>
 
+      {/* Affiliation Disclaimer */}
+      <section className="px-6 -mt-10 mb-8 relative z-20">
+        <div className="max-w-5xl mx-auto">
+          <div className="bg-amber-500/5 border border-amber-500/20 rounded-xl px-6 py-4 flex items-start gap-3">
+            <svg className="w-5 h-5 text-amber-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <p className="text-sm text-amber-200/80 leading-relaxed">
+              <strong className="text-amber-300">Disclaimer:</strong>{' '}
+              CodelithLabs.in is an independent platform and is not affiliated with codelithlab.com
+              (a Pune-based IT company). We are a separate engineering team based in Kokrajhar, Assam, India.
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* Mission & Vision */}
       <section className="py-20 px-6">
         <div className="max-w-5xl mx-auto">

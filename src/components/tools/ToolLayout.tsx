@@ -6,10 +6,18 @@
 
 import { ReactNode, useEffect, useState } from 'react';
 import { ToolMeta, TOOL_CATEGORIES } from '@/types/tool';
+import { useUser } from '@/lib/user-context';
+import { ToolContent } from '@/types/tool-content';
+import { SocialProof } from './SocialProof';
+import DOMPurify from 'dompurify';
 
 interface ToolLayoutProps {
   tool: ToolMeta;
   children: ReactNode;
+  /** Parsed markdown SEO content (optional — falls back to hardcoded defaults) */
+  content?: ToolContent | null;
+  /** Tool slug used for SocialProof seeding */
+  slug?: string;
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -135,8 +143,15 @@ function SidebarAds({ position }: { position: 'left' | 'right' }) {
 // MAIN TOOL LAYOUT
 // ═══════════════════════════════════════════════════════════════════════════
 
-export function ToolLayout({ tool, children }: ToolLayoutProps) {
+export function ToolLayout({ tool, children, content, slug }: ToolLayoutProps) {
   const category = TOOL_CATEGORIES[tool.category];
+  const { isPremium } = useUser();
+
+  /** Safely render HTML from markdown through DOMPurify */
+  const safeHtml = (html: string) => {
+    if (typeof window === 'undefined') return { __html: '' };
+    return { __html: DOMPurify.sanitize(html) };
+  };
 
   return (
     <div className="min-h-screen bg-[#0a0a0a]">
@@ -189,9 +204,11 @@ export function ToolLayout({ tool, children }: ToolLayoutProps) {
       {/* ═══════════════════════════════════════════════════════════════════
           TOP BANNER AD - Full width, above fold
       ═══════════════════════════════════════════════════════════════════ */}
+      {!isPremium && (
       <div className="w-full max-w-7xl mx-auto px-4 pt-4">
         <AdBanner slot="leaderboard-top" format="horizontal" />
       </div>
+      )}
 
       {/* ═══════════════════════════════════════════════════════════════════
           MAIN GRID: LEFT SIDEBAR | CONTENT | RIGHT SIDEBAR
@@ -199,7 +216,7 @@ export function ToolLayout({ tool, children }: ToolLayoutProps) {
       <div className="max-w-7xl mx-auto px-4 py-6 flex gap-6">
         
         {/* LEFT SIDEBAR - Desktop only */}
-        <SidebarAds position="left" />
+        {!isPremium && <SidebarAds position="left" />}
 
         {/* ═══════════════════════════════════════════════════════════════
             MAIN CONTENT AREA
@@ -256,7 +273,23 @@ export function ToolLayout({ tool, children }: ToolLayoutProps) {
             </div>
             <h1 className="text-2xl sm:text-3xl font-bold text-white mb-2">{tool.name}</h1>
             <p className="text-zinc-400 text-base sm:text-lg">{tool.description}</p>
+            {isPremium && (
+              <div className="mt-3 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20">
+                <svg className="w-3.5 h-3.5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+                <span className="text-xs font-medium text-blue-400">Premium — Ad-Free</span>
+              </div>
+            )}
           </header>
+
+          {/* Social Proof Trust Signals */}
+          {slug && (
+            <SocialProof
+              slug={slug}
+              dateModified={content?.frontmatter.dateModified ?? null}
+            />
+          )}
 
           {/* ═══════════════════════════════════════════════════════════
               THE TOOL INTERFACE - Primary Focus Area
@@ -270,12 +303,14 @@ export function ToolLayout({ tool, children }: ToolLayoutProps) {
           </section>
 
           {/* Revenue CTA placed after primary tool interaction */}
-          <PremiumCTA />
+          {!isPremium && <PremiumCTA />}
 
           {/* In-Content Ad 1 */}
+          {!isPremium && (
           <div className="my-6">
             <AdBanner slot="in-content-1" format="rectangle" />
           </div>
+          )}
 
           {/* How to Use Section (SEO Content) */}
           <section className="bg-zinc-900/30 border border-zinc-800/50 rounded-xl p-5 mb-6">
@@ -285,12 +320,21 @@ export function ToolLayout({ tool, children }: ToolLayoutProps) {
               </svg>
               How to Use {tool.name}
             </h2>
-            <ol className="list-decimal list-inside space-y-2 text-zinc-400 text-sm">
-              <li>Enter or paste your data in the input field above</li>
-              <li>Configure any options according to your needs</li>
-              <li>Click the action button to process your data</li>
-              <li>Copy or download your result instantly</li>
-            </ol>
+            {content?.howToUse ? (
+              <div
+                className="prose prose-invert prose-sm max-w-none text-zinc-400
+                           prose-ol:list-decimal prose-ol:pl-5 prose-ul:list-disc prose-ul:pl-5
+                           prose-li:my-1 prose-p:my-2"
+                dangerouslySetInnerHTML={safeHtml(content.howToUse)}
+              />
+            ) : (
+              <ol className="list-decimal list-inside space-y-2 text-zinc-400 text-sm">
+                <li>Enter or paste your data in the input field above</li>
+                <li>Configure any options according to your needs</li>
+                <li>Click the action button to process your data</li>
+                <li>Copy or download your result instantly</li>
+              </ol>
+            )}
           </section>
 
           {/* Features Section (More SEO Content) */}
@@ -301,23 +345,134 @@ export function ToolLayout({ tool, children }: ToolLayoutProps) {
               </svg>
               Features
             </h2>
-            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-zinc-400 text-sm">
-              <li className="flex items-center gap-2">
-                <span className="text-green-500">✓</span> 100% Free to Use
-              </li>
-              <li className="flex items-center gap-2">
-                <span className="text-green-500">✓</span> No Registration Required
-              </li>
-              <li className="flex items-center gap-2">
-                <span className="text-green-500">✓</span> 
-                {tool.processingType === 'client' ? 'Works Offline' : 'Fast Server Processing'}
-              </li>
-              <li className="flex items-center gap-2">
-                <span className="text-green-500">✓</span> 
-                {tool.processingType === 'client' ? 'Data Never Leaves Browser' : 'Secure & Encrypted'}
-              </li>
-            </ul>
+            {content?.features ? (
+              <div
+                className="prose prose-invert prose-sm max-w-none text-zinc-400
+                           prose-ul:list-disc prose-ul:pl-5 prose-li:my-1 prose-p:my-2"
+                dangerouslySetInnerHTML={safeHtml(content.features)}
+              />
+            ) : (
+              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-zinc-400 text-sm">
+                <li className="flex items-center gap-2">
+                  <span className="text-green-500">✓</span> 100% Free to Use
+                </li>
+                <li className="flex items-center gap-2">
+                  <span className="text-green-500">✓</span> No Registration Required
+                </li>
+                <li className="flex items-center gap-2">
+                  <span className="text-green-500">✓</span> 
+                  {tool.processingType === 'client' ? 'Works Offline' : 'Fast Server Processing'}
+                </li>
+                <li className="flex items-center gap-2">
+                  <span className="text-green-500">✓</span> 
+                  {tool.processingType === 'client' ? 'Data Never Leaves Browser' : 'Secure & Encrypted'}
+                </li>
+              </ul>
+            )}
           </section>
+
+          {/* Why Choose — from markdown "## Why Choose" */}
+          {content?.whyChoose && (
+            <section className="bg-zinc-900/30 border border-zinc-800/50 rounded-xl p-5 mb-6">
+              <h2 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
+                <svg className="w-5 h-5 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                </svg>
+                Why Choose {tool.name}?
+              </h2>
+              <div
+                className="prose prose-invert prose-sm max-w-none text-zinc-400
+                           prose-ul:list-disc prose-ul:pl-5 prose-li:my-1 prose-p:my-2"
+                dangerouslySetInnerHTML={safeHtml(content.whyChoose)}
+              />
+            </section>
+          )}
+
+          {/* Common Use Cases — from markdown */}
+          {content?.commonUseCases && (
+            <section className="bg-zinc-900/30 border border-zinc-800/50 rounded-xl p-5 mb-6">
+              <h2 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
+                <svg className="w-5 h-5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                </svg>
+                Common Use Cases
+              </h2>
+              <div
+                className="prose prose-invert prose-sm max-w-none text-zinc-400
+                           prose-ul:list-disc prose-ul:pl-5 prose-li:my-1 prose-p:my-2"
+                dangerouslySetInnerHTML={safeHtml(content.commonUseCases)}
+              />
+            </section>
+          )}
+
+          {/* Technical Details — from markdown */}
+          {content?.technicalDetails && (
+            <section className="bg-zinc-900/30 border border-zinc-800/50 rounded-xl p-5 mb-6">
+              <h2 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
+                <svg className="w-5 h-5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                </svg>
+                Technical Details
+              </h2>
+              <div
+                className="prose prose-invert prose-sm max-w-none text-zinc-400
+                           prose-ul:list-disc prose-ul:pl-5 prose-li:my-1 prose-p:my-2
+                           prose-code:bg-zinc-800 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded"
+                dangerouslySetInnerHTML={safeHtml(content.technicalDetails)}
+              />
+            </section>
+          )}
+
+          {/* Best Practices — from markdown */}
+          {content?.bestPractices && (
+            <section className="bg-zinc-900/30 border border-zinc-800/50 rounded-xl p-5 mb-6">
+              <h2 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
+                <svg className="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                </svg>
+                Best Practices
+              </h2>
+              <div
+                className="prose prose-invert prose-sm max-w-none text-zinc-400
+                           prose-ul:list-disc prose-ul:pl-5 prose-li:my-1 prose-p:my-2"
+                dangerouslySetInnerHTML={safeHtml(content.bestPractices)}
+              />
+            </section>
+          )}
+
+          {/* FAQ Accordion — from markdown */}
+          {content?.faq && content.faq.length > 0 && (
+            <section className="bg-zinc-900/30 border border-zinc-800/50 rounded-xl p-5 mb-6">
+              <h2 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
+                <svg className="w-5 h-5 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                Frequently Asked Questions
+              </h2>
+              <div className="space-y-3">
+                {content.faq.map((entry, i) => (
+                  <details
+                    key={i}
+                    className="group bg-zinc-800/40 border border-zinc-700/50 rounded-lg"
+                  >
+                    <summary className="flex items-center justify-between cursor-pointer px-4 py-3 text-sm font-medium text-zinc-200 hover:text-white transition-colors">
+                      {entry.question}
+                      <svg
+                        className="w-4 h-4 text-zinc-500 group-open:rotate-180 transition-transform"
+                        fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </summary>
+                    <div
+                      className="px-4 pb-3 text-sm text-zinc-400 prose prose-invert prose-sm max-w-none"
+                      dangerouslySetInnerHTML={safeHtml(entry.answer)}
+                    />
+                  </details>
+                ))}
+              </div>
+            </section>
+          )}
 
           {/* Related Keywords/Tags (SEO) */}
           <section className="mb-6">
@@ -337,22 +492,26 @@ export function ToolLayout({ tool, children }: ToolLayoutProps) {
           </section>
 
           {/* In-Content Ad 2 */}
+          {!isPremium && (
           <div className="my-6">
             <AdBanner slot="in-content-2" format="rectangle" />
           </div>
+          )}
 
         </main>
 
         {/* RIGHT SIDEBAR - Desktop only */}
-        <SidebarAds position="right" />
+        {!isPremium && <SidebarAds position="right" />}
       </div>
 
       {/* ═══════════════════════════════════════════════════════════════════
           BOTTOM BANNER AD - Sticky on mobile
       ═══════════════════════════════════════════════════════════════════ */}
+      {!isPremium && (
       <div className="w-full max-w-7xl mx-auto px-4 pb-4">
         <AdBanner slot="leaderboard-bottom" format="horizontal" />
       </div>
+      )}
     </div>
   );
 }

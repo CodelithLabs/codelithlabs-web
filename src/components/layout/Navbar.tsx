@@ -5,11 +5,13 @@ import {
   Terminal, ChevronDown, Menu, X, ArrowRight,
   Shield, Globe, Server, Code2, Image, Type, Lock,
   Calculator, Sparkles, BarChart3, Search, Brain,
-  Activity, FileText, FlaskConical, Briefcase, Eye
+  Activity, FileText, FlaskConical, Briefcase, Eye,
+  LogIn, LogOut, User
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
+import { useSession, signIn, signOut } from "next-auth/react";
 
 // ═══════════════════════════════════════════════════════════════════════════
 // MEGA-MENU DATA
@@ -66,6 +68,7 @@ export function Navbar() {
   const pathname = usePathname();
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const navRef = useRef<HTMLElement>(null);
+  const { data: session, status } = useSession();
 
   // Close mobile drawer on route change
   useEffect(() => {
@@ -197,6 +200,41 @@ export function Navbar() {
               Hire Us
             </Link>
 
+            {/* Auth Button */}
+            {status === "loading" ? (
+              <div className="w-8 h-8 rounded-full bg-zinc-800 animate-pulse" />
+            ) : session?.user ? (
+              <div className="hidden sm:flex items-center gap-2">
+                {session.user.image ? (
+                  <img
+                    src={session.user.image}
+                    alt={session.user.name ?? "User"}
+                    className="w-8 h-8 rounded-full border border-zinc-700"
+                    referrerPolicy="no-referrer"
+                  />
+                ) : (
+                  <div className="w-8 h-8 rounded-full bg-blue-500/20 border border-blue-500/30 flex items-center justify-center">
+                    <User className="w-4 h-4 text-blue-400" />
+                  </div>
+                )}
+                <button
+                  onClick={() => signOut()}
+                  className="p-2 rounded-lg hover:bg-white/[0.06] transition-colors text-zinc-400 hover:text-white"
+                  title="Sign out"
+                >
+                  <LogOut className="w-4 h-4" />
+                </button>
+              </div>
+            ) : (
+              <button
+                onClick={() => signIn("google")}
+                className="hidden sm:flex items-center gap-1.5 px-3 py-2 rounded-lg border border-zinc-700 hover:border-zinc-600 text-sm text-zinc-300 hover:text-white transition-colors"
+              >
+                <LogIn className="w-4 h-4" />
+                Sign In
+              </button>
+            )}
+
             {/* Mobile Toggle */}
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
@@ -288,6 +326,36 @@ export function Navbar() {
 
               {/* Bottom CTAs */}
               <div className="p-6 border-t border-white/[0.06] space-y-3">
+                {/* Auth in Mobile */}
+                {session?.user ? (
+                  <div className="flex items-center justify-between p-3 rounded-lg border border-zinc-800 bg-zinc-900/50 mb-3">
+                    <div className="flex items-center gap-3">
+                      {session.user.image ? (
+                        <img src={session.user.image} alt="" className="w-8 h-8 rounded-full border border-zinc-700" referrerPolicy="no-referrer" />
+                      ) : (
+                        <div className="w-8 h-8 rounded-full bg-blue-500/20 flex items-center justify-center">
+                          <User className="w-4 h-4 text-blue-400" />
+                        </div>
+                      )}
+                      <span className="text-sm text-white truncate max-w-[140px]">{session.user.name}</span>
+                    </div>
+                    <button
+                      onClick={() => { signOut(); setMobileOpen(false); }}
+                      className="text-xs text-zinc-400 hover:text-white px-2 py-1"
+                    >
+                      Sign Out
+                    </button>
+                  </div>
+                ) : (
+                  <button
+                    onClick={() => { signIn("google"); setMobileOpen(false); }}
+                    className="flex items-center justify-center gap-2 w-full py-3 rounded-lg border border-zinc-700 text-zinc-300 text-sm font-medium hover:bg-white/[0.04] transition-colors mb-3"
+                  >
+                    <LogIn className="w-4 h-4" />
+                    Sign In with Google
+                  </button>
+                )}
+
                 <Link
                   href="/tools"
                   className="flex items-center justify-center gap-2 w-full py-3 rounded-lg border border-glow-blue/30 text-glow-blue text-sm font-medium hover:bg-glow-blue/10 transition-colors"

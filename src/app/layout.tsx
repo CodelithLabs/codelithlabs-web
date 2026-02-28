@@ -4,6 +4,8 @@ import "./globals.css";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import CookieBanner from "@/components/layout/CookieBanner";
+import { AuthProvider } from "@/components/providers/AuthProvider";
+import { UserProvider } from "@/lib/user-context";
 
 const inter = Inter({ subsets: ["latin"] });
 const jetbrainsMono = JetBrains_Mono({
@@ -83,6 +85,8 @@ export default function RootLayout({
     return (
         <html lang="en" className="dark">
             <body className={`${inter.className} ${jetbrainsMono.variable} antialiased selection:bg-blue-500/30 bg-[#0a0a0a]`}>
+                <AuthProvider>
+                <UserProvider>
 
                 {/* Organization Schema Markup for SEO */}
                 <script
@@ -176,6 +180,8 @@ export default function RootLayout({
                 </div>
                 <Footer />
                 <CookieBanner />
+                </UserProvider>
+                </AuthProvider>
             </body>
         </html>
     );
