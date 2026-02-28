@@ -1,0 +1,78 @@
+# ═══════════════════════════════════════════════════════════════════════════
+# CodelithLabs CI/CD — Production Gatekeeper
+# Ensures no broken code reaches main or Vercel.
+#
+# Trigger: Every push to main + every PR targeting main.
+# Gates  : Lint → Type-check → Production Build (static export)
+# Cache  : npm + Next.js build cache for fast re-runs.
+# ═══════════════════════════════════════════════════════════════════════════
+
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+# Cancel superseded runs on the same branch / PR
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  NODE_VERSION: "22"
+  NEXT_TELEMETRY_DISABLED: 1
+
+jobs:
+  # ─────────────────────────────────────────────────────────────────────────
+  # Quality Gate — must pass before Vercel deploys
+  # ─────────────────────────────────────────────────────────────────────────
+  quality-gate:
+    name: "Quality Gate"
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+
+      # ── Restore Next.js build cache ──────────────────────────────────────
+      - name: Restore Next.js build cache
+        uses: actions/cache@v4
+        with:
+          path: .next/cache
+          key: nextjs-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**/*.ts', '**/*.tsx') }}
+          restore-keys: |
+            nextjs-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}-
+            nextjs-${{ runner.os }}-
+
+      - name: Install dependencies
+        run: npm ci
+
+      # ── Gate 1: Lint ─────────────────────────────────────────────────────
+      - name: Lint
+        run: npm run lint
+
+      # ── Gate 2: Type-check ───────────────────────────────────────────────
+      - name: Type-check
+        run: npx --no-install tsc --noEmit
+
+      # ── Gate 3: Production build (static export) ─────────────────────────
+      - name: Build
+        run: npm run build
+
+      # ── Upload static export as artifact (for audit / deploy) ────────────
+      - name: Upload build artifact
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        uses: actions/upload-artifact@v4
+        with:
+          name: static-export
+          path: out/
+          retention-days: 7

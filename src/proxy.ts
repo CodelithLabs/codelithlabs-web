@@ -1,12 +1,13 @@
 // ═══════════════════════════════════════════════════════════════════════════
-// FILE: src/middleware.ts
+// FILE: src/proxy.ts
 // Security & Traffic Control - A+ Security Score Configuration
+// Next.js 16+ "proxy" convention (replaces deprecated "middleware")
 // ═══════════════════════════════════════════════════════════════════════════
 
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   // Clone the response to add headers
   const response = NextResponse.next();
 

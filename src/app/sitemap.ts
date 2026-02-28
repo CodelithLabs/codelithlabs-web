@@ -7,6 +7,8 @@
 import { MetadataRoute } from 'next';
 import { TOOLS_REGISTRY } from '@/lib/tools-registry';
 
+export const dynamic = "force-static";
+
 const BASE_URL = 'https://codelithlabs.in';
 
 export default function sitemap(): MetadataRoute.Sitemap {

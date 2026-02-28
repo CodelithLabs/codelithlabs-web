@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'standalone',
-  
+  output: 'export',
+
   // Enable strict TypeScript checking for production quality
   typescript: {
     ignoreBuildErrors: false,
