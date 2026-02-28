@@ -4,8 +4,8 @@ description: "Resize images to perfect dimensions for Instagram, Twitter, Facebo
 keywords: ["social media","resize","instagram","twitter","facebook","youtube"]
 category: "image"
 slug: "social-media-resizer"
-datePublished: "2026-02-14T10:41:24.556Z"
-dateModified: "2026-02-14T10:41:24.556Z"
+datePublished: "2026-02-28T22:33:40.307Z"
+dateModified: "2026-02-28T22:33:40.307Z"
 author: "CodelithLabs Team"
 ---
 
@@ -149,7 +149,7 @@ Help others discover Social Media Image Resizer:
 
 ---
 
-**Last Updated**: February 14, 2026
+**Last Updated**: March 1, 2026
 
 **Author**: CodelithLabs Engineering Team
 

@@ -4,8 +4,8 @@ description: "Create Open Graph meta tags for social media sharing."
 keywords: ["open graph","og tags","social media","facebook"]
 category: "seo"
 slug: "open-graph-generator"
-datePublished: "2026-02-14T10:41:24.551Z"
-dateModified: "2026-02-14T10:41:24.551Z"
+datePublished: "2026-02-28T22:33:40.302Z"
+dateModified: "2026-02-28T22:33:40.302Z"
 author: "CodelithLabs Team"
 ---
 
@@ -148,7 +148,7 @@ Help others discover Open Graph Generator:
 
 ---
 
-**Last Updated**: February 14, 2026
+**Last Updated**: March 1, 2026
 
 **Author**: CodelithLabs Engineering Team
 

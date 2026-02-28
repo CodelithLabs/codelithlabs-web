@@ -4,8 +4,8 @@ description: "Beautify and indent HTML code for better readability."
 keywords: ["html","format","beautify","indent"]
 category: "formatter"
 slug: "html-formatter"
-datePublished: "2026-02-14T10:41:24.549Z"
-dateModified: "2026-02-14T10:41:24.549Z"
+datePublished: "2026-02-28T22:33:40.300Z"
+dateModified: "2026-02-28T22:33:40.300Z"
 author: "CodelithLabs Team"
 ---
 
@@ -148,7 +148,7 @@ Help others discover HTML Formatter:
 
 ---
 
-**Last Updated**: February 14, 2026
+**Last Updated**: March 1, 2026
 
 **Author**: CodelithLabs Engineering Team
 

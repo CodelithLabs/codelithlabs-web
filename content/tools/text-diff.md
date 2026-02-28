@@ -4,8 +4,8 @@ description: "Compare two texts and highlight the differences between them."
 keywords: ["diff","compare text","text comparison"]
 category: "text"
 slug: "text-diff"
-datePublished: "2026-02-14T10:41:24.534Z"
-dateModified: "2026-02-14T10:41:24.534Z"
+datePublished: "2026-02-28T22:33:40.286Z"
+dateModified: "2026-02-28T22:33:40.286Z"
 author: "CodelithLabs Team"
 ---
 
@@ -148,7 +148,7 @@ Help others discover Text Diff Checker:
 
 ---
 
-**Last Updated**: February 14, 2026
+**Last Updated**: March 1, 2026
 
 **Author**: CodelithLabs Engineering Team
 

@@ -4,8 +4,8 @@ description: "Convert text to binary and binary to text."
 keywords: ["binary","text","convert","01","bits"]
 category: "converter"
 slug: "binary-converter"
-datePublished: "2026-02-14T10:41:24.561Z"
-dateModified: "2026-02-14T10:41:24.561Z"
+datePublished: "2026-02-28T22:33:40.313Z"
+dateModified: "2026-02-28T22:33:40.313Z"
 author: "CodelithLabs Team"
 ---
 
@@ -149,7 +149,7 @@ Help others discover Binary Converter:
 
 ---
 
-**Last Updated**: February 14, 2026
+**Last Updated**: March 1, 2026
 
 **Author**: CodelithLabs Engineering Team
 

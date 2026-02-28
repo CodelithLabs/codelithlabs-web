@@ -4,8 +4,8 @@ description: "Encode text to Base64 or decode Base64 to plain text."
 keywords: ["base64","encode","decode"]
 category: "encoder"
 slug: "base64-encoder"
-datePublished: "2026-02-14T10:41:24.537Z"
-dateModified: "2026-02-14T10:41:24.537Z"
+datePublished: "2026-02-28T22:33:40.288Z"
+dateModified: "2026-02-28T22:33:40.288Z"
 author: "CodelithLabs Team"
 ---
 
@@ -147,7 +147,7 @@ Help others discover Base64 Encoder/Decoder:
 
 ---
 
-**Last Updated**: February 14, 2026
+**Last Updated**: March 1, 2026
 
 **Author**: CodelithLabs Engineering Team
 

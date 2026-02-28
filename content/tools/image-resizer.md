@@ -4,8 +4,8 @@ description: "Resize images to specific dimensions in your browser."
 keywords: ["image","resize","dimensions","scale"]
 category: "image"
 slug: "image-resizer"
-datePublished: "2026-02-14T10:41:24.553Z"
-dateModified: "2026-02-14T10:41:24.553Z"
+datePublished: "2026-02-28T22:33:40.304Z"
+dateModified: "2026-02-28T22:33:40.304Z"
 author: "CodelithLabs Team"
 ---
 
@@ -149,7 +149,7 @@ Help others discover Image Resizer:
 
 ---
 
-**Last Updated**: February 14, 2026
+**Last Updated**: March 1, 2026
 
 **Author**: CodelithLabs Engineering Team
 

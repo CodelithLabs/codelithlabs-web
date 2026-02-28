@@ -4,8 +4,8 @@ description: "Create XML sitemaps for better search engine indexing."
 keywords: ["sitemap","xml","seo","google"]
 category: "seo"
 slug: "sitemap-generator"
-datePublished: "2026-02-14T10:41:24.552Z"
-dateModified: "2026-02-14T10:41:24.552Z"
+datePublished: "2026-02-28T22:33:40.303Z"
+dateModified: "2026-02-28T22:33:40.303Z"
 author: "CodelithLabs Team"
 ---
 
@@ -148,7 +148,7 @@ Help others discover Sitemap XML Generator:
 
 ---
 
-**Last Updated**: February 14, 2026
+**Last Updated**: March 1, 2026
 
 **Author**: CodelithLabs Engineering Team
 

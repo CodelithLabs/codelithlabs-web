@@ -4,8 +4,8 @@ description: "Calculate your Body Mass Index based on height and weight."
 keywords: ["bmi","body mass index","health","weight"]
 category: "calculator"
 slug: "bmi-calculator"
-datePublished: "2026-02-14T10:41:24.545Z"
-dateModified: "2026-02-14T10:41:24.545Z"
+datePublished: "2026-02-28T22:33:40.297Z"
+dateModified: "2026-02-28T22:33:40.297Z"
 author: "CodelithLabs Team"
 ---
 
@@ -147,7 +147,7 @@ Help others discover BMI Calculator:
 
 ---
 
-**Last Updated**: February 14, 2026
+**Last Updated**: March 1, 2026
 
 **Author**: CodelithLabs Engineering Team
 

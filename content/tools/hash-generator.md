@@ -4,8 +4,8 @@ description: "Generate MD5, SHA-1, SHA-256, and SHA-512 hashes."
 keywords: ["hash","md5","sha","checksum","crypto"]
 category: "security"
 slug: "hash-generator"
-datePublished: "2026-02-14T10:41:24.548Z"
-dateModified: "2026-02-14T10:41:24.548Z"
+datePublished: "2026-02-28T22:33:40.298Z"
+dateModified: "2026-02-28T22:33:40.298Z"
 author: "CodelithLabs Team"
 ---
 
@@ -148,7 +148,7 @@ Help others discover Hash Generator:
 
 ---
 
-**Last Updated**: February 14, 2026
+**Last Updated**: March 1, 2026
 
 **Author**: CodelithLabs Engineering Team
 

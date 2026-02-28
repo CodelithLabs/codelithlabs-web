@@ -4,8 +4,8 @@ description: "Convert PNG images to JPG format in your browser."
 keywords: ["png","jpg","jpeg","convert","image"]
 category: "image"
 slug: "png-to-jpg"
-datePublished: "2026-02-14T10:41:24.555Z"
-dateModified: "2026-02-14T10:41:24.555Z"
+datePublished: "2026-02-28T22:33:40.306Z"
+dateModified: "2026-02-28T22:33:40.306Z"
 author: "CodelithLabs Team"
 ---
 
@@ -149,7 +149,7 @@ Help others discover PNG to JPG Converter:
 
 ---
 
-**Last Updated**: February 14, 2026
+**Last Updated**: March 1, 2026
 
 **Author**: CodelithLabs Engineering Team
 

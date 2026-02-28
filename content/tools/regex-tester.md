@@ -4,8 +4,8 @@ description: "Test and debug regular expressions with real-time matching."
 keywords: ["regex","regular expression","pattern matching"]
 category: "developer"
 slug: "regex-tester"
-datePublished: "2026-02-14T10:41:24.538Z"
-dateModified: "2026-02-14T10:41:24.538Z"
+datePublished: "2026-02-28T22:33:40.289Z"
+dateModified: "2026-02-28T22:33:40.289Z"
 author: "CodelithLabs Team"
 ---
 
@@ -148,7 +148,7 @@ Help others discover Regex Tester:
 
 ---
 
-**Last Updated**: February 14, 2026
+**Last Updated**: March 1, 2026
 
 **Author**: CodelithLabs Engineering Team
 

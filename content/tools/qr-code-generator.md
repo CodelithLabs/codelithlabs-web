@@ -4,8 +4,8 @@ description: "Create QR codes for URLs, text, or contact information."
 keywords: ["qr code","barcode","generate"]
 category: "generator"
 slug: "qr-code-generator"
-datePublished: "2026-02-14T10:41:24.544Z"
-dateModified: "2026-02-14T10:41:24.544Z"
+datePublished: "2026-02-28T22:33:40.295Z"
+dateModified: "2026-02-28T22:33:40.295Z"
 author: "CodelithLabs Team"
 ---
 
@@ -147,7 +147,7 @@ Help others discover QR Code Generator:
 
 ---
 
-**Last Updated**: February 14, 2026
+**Last Updated**: March 1, 2026
 
 **Author**: CodelithLabs Engineering Team
 

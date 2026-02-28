@@ -4,8 +4,8 @@ description: "Calculate exact age in years, months, and days from birthdate."
 keywords: ["age","birthday","date","calculate"]
 category: "calculator"
 slug: "age-calculator"
-datePublished: "2026-02-14T10:41:24.546Z"
-dateModified: "2026-02-14T10:41:24.546Z"
+datePublished: "2026-02-28T22:33:40.297Z"
+dateModified: "2026-02-28T22:33:40.297Z"
 author: "CodelithLabs Team"
 ---
 
@@ -147,7 +147,7 @@ Help others discover Age Calculator:
 
 ---
 
-**Last Updated**: February 14, 2026
+**Last Updated**: March 1, 2026
 
 **Author**: CodelithLabs Engineering Team
 

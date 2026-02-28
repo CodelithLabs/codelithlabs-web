@@ -238,10 +238,25 @@ const generateAllContent = () => {
     return;
   }
 
-  // Parse tools safely using dynamic import instead of eval()
-  // SECURITY FIX: Replaced eval() with proper module require
-  const toolsRegistryModule = require(registryPath.replace(/\.ts$/, ''));
-  const toolsData = toolsRegistryModule.TOOLS_REGISTRY || [];
+  // Parse tool entries directly from the TypeScript source text
+  // (Node.js cannot require .ts files without a loader, so we regex-parse them)
+  const rawArrayContent = toolsMatch[1];
+  const toolsData = [];
+  const toolRegex = /\{\s*slug:\s*'([^']+)',\s*name:\s*'([^']+)',\s*description:\s*'([^']+)',\s*category:\s*'([^']+)',\s*keywords:\s*\[([^\]]*)\],\s*processingType:\s*'([^']+)'\s*\}/g;
+
+  let m;
+  while ((m = toolRegex.exec(rawArrayContent)) !== null) {
+    toolsData.push({
+      slug: m[1],
+      name: m[2],
+      description: m[3],
+      category: m[4],
+      keywords: m[5].split(',').map(k => k.trim().replace(/'/g, '')).filter(Boolean),
+      processingType: m[6],
+    });
+  }
+
+  console.log(`📦 Parsed ${toolsData.length} tools from registry\n`);
 
   // Create content directory
   const contentDir = path.join(__dirname, '..', 'content', 'tools');

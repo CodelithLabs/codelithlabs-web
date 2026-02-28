@@ -4,8 +4,8 @@ description: "Calculate monthly EMI payments for loans with interest."
 keywords: ["loan","emi","interest","mortgage"]
 category: "calculator"
 slug: "loan-calculator"
-datePublished: "2026-02-14T10:41:24.547Z"
-dateModified: "2026-02-14T10:41:24.547Z"
+datePublished: "2026-02-28T22:33:40.298Z"
+dateModified: "2026-02-28T22:33:40.298Z"
 author: "CodelithLabs Team"
 ---
 
@@ -147,7 +147,7 @@ Help others discover Loan EMI Calculator:
 
 ---
 
-**Last Updated**: February 14, 2026
+**Last Updated**: March 1, 2026
 
 **Author**: CodelithLabs Engineering Team
 

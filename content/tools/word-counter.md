@@ -4,8 +4,8 @@ description: "Count words, characters, sentences, and paragraphs in your text in
 keywords: ["word count","character count","text analysis"]
 category: "text"
 slug: "word-counter"
-datePublished: "2026-02-14T10:41:24.518Z"
-dateModified: "2026-02-14T10:41:24.519Z"
+datePublished: "2026-02-28T22:33:40.269Z"
+dateModified: "2026-02-28T22:33:40.270Z"
 author: "CodelithLabs Team"
 ---
 
@@ -148,7 +148,7 @@ Help others discover Word Counter:
 
 ---
 
-**Last Updated**: February 14, 2026
+**Last Updated**: March 1, 2026
 
 **Author**: CodelithLabs Engineering Team
 

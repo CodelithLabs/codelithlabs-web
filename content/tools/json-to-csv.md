@@ -4,8 +4,8 @@ description: "Convert JSON arrays to CSV format for spreadsheets."
 keywords: ["json","csv","convert","export"]
 category: "converter"
 slug: "json-to-csv"
-datePublished: "2026-02-14T10:41:24.542Z"
-dateModified: "2026-02-14T10:41:24.542Z"
+datePublished: "2026-02-28T22:33:40.292Z"
+dateModified: "2026-02-28T22:33:40.292Z"
 author: "CodelithLabs Team"
 ---
 
@@ -149,7 +149,7 @@ Help others discover JSON to CSV Converter:
 
 ---
 
-**Last Updated**: February 14, 2026
+**Last Updated**: March 1, 2026
 
 **Author**: CodelithLabs Engineering Team
 

@@ -4,8 +4,8 @@ description: "Transform CSV data into JSON format instantly."
 keywords: ["csv","json","convert","data"]
 category: "converter"
 slug: "csv-to-json"
-datePublished: "2026-02-14T10:41:24.541Z"
-dateModified: "2026-02-14T10:41:24.541Z"
+datePublished: "2026-02-28T22:33:40.292Z"
+dateModified: "2026-02-28T22:33:40.292Z"
 author: "CodelithLabs Team"
 ---
 
@@ -148,7 +148,7 @@ Help others discover CSV to JSON Converter:
 
 ---
 
-**Last Updated**: February 14, 2026
+**Last Updated**: March 1, 2026
 
 **Author**: CodelithLabs Engineering Team
 

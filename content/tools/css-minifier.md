@@ -4,8 +4,8 @@ description: "Minify CSS code to reduce file size for production."
 keywords: ["css","minify","compress","optimize"]
 category: "formatter"
 slug: "css-minifier"
-datePublished: "2026-02-14T10:41:24.550Z"
-dateModified: "2026-02-14T10:41:24.550Z"
+datePublished: "2026-02-28T22:33:40.300Z"
+dateModified: "2026-02-28T22:33:40.300Z"
 author: "CodelithLabs Team"
 ---
 
@@ -148,7 +148,7 @@ Help others discover CSS Minifier:
 
 ---
 
-**Last Updated**: February 14, 2026
+**Last Updated**: March 1, 2026
 
 **Author**: CodelithLabs Engineering Team
 

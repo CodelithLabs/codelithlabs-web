@@ -4,8 +4,8 @@ description: "Convert text to uppercase, lowercase, title case, sentence case, a
 keywords: ["uppercase","lowercase","title case","text transform"]
 category: "text"
 slug: "case-converter"
-datePublished: "2026-02-14T10:41:24.533Z"
-dateModified: "2026-02-14T10:41:24.533Z"
+datePublished: "2026-02-28T22:33:40.285Z"
+dateModified: "2026-02-28T22:33:40.285Z"
 author: "CodelithLabs Team"
 ---
 
@@ -148,7 +148,7 @@ Help others discover Case Converter:
 
 ---
 
-**Last Updated**: February 14, 2026
+**Last Updated**: March 1, 2026
 
 **Author**: CodelithLabs Engineering Team
 

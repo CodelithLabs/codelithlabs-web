@@ -4,8 +4,8 @@ description: "Generate random numbers within a specified range."
 keywords: ["random","number","generate","dice","lottery"]
 category: "generator"
 slug: "random-number"
-datePublished: "2026-02-14T10:41:24.560Z"
-dateModified: "2026-02-14T10:41:24.560Z"
+datePublished: "2026-02-28T22:33:40.312Z"
+dateModified: "2026-02-28T22:33:40.312Z"
 author: "CodelithLabs Team"
 ---
 
@@ -148,7 +148,7 @@ Help others discover Random Number Generator:
 
 ---
 
-**Last Updated**: February 14, 2026
+**Last Updated**: March 1, 2026
 
 **Author**: CodelithLabs Engineering Team
 

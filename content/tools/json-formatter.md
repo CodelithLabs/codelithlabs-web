@@ -4,8 +4,8 @@ description: "Format, beautify, and validate JSON data with syntax highlighting.
 keywords: ["json","format","validate","beautify"]
 category: "developer"
 slug: "json-formatter"
-datePublished: "2026-02-14T10:41:24.537Z"
-dateModified: "2026-02-14T10:41:24.537Z"
+datePublished: "2026-02-28T22:33:40.287Z"
+dateModified: "2026-02-28T22:33:40.287Z"
 author: "CodelithLabs Team"
 ---
 
@@ -148,7 +148,7 @@ Help others discover JSON Formatter & Validator:
 
 ---
 
-**Last Updated**: February 14, 2026
+**Last Updated**: March 1, 2026
 
 **Author**: CodelithLabs Engineering Team
 

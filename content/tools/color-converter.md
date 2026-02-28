@@ -4,8 +4,8 @@ description: "Convert colors between HEX, RGB, HSL, and other formats."
 keywords: ["color","hex","rgb","hsl","convert"]
 category: "developer"
 slug: "color-converter"
-datePublished: "2026-02-14T10:41:24.540Z"
-dateModified: "2026-02-14T10:41:24.540Z"
+datePublished: "2026-02-28T22:33:40.291Z"
+dateModified: "2026-02-28T22:33:40.291Z"
 author: "CodelithLabs Team"
 ---
 
@@ -148,7 +148,7 @@ Help others discover Color Converter:
 
 ---
 
-**Last Updated**: February 14, 2026
+**Last Updated**: March 1, 2026
 
 **Author**: CodelithLabs Engineering Team
 

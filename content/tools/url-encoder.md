@@ -4,8 +4,8 @@ description: "Encode or decode URLs for safe transmission."
 keywords: ["url","encode","decode","percent encoding"]
 category: "encoder"
 slug: "url-encoder"
-datePublished: "2026-02-14T10:41:24.538Z"
-dateModified: "2026-02-14T10:41:24.538Z"
+datePublished: "2026-02-28T22:33:40.288Z"
+dateModified: "2026-02-28T22:33:40.288Z"
 author: "CodelithLabs Team"
 ---
 
@@ -148,7 +148,7 @@ Help others discover URL Encoder/Decoder:
 
 ---
 
-**Last Updated**: February 14, 2026
+**Last Updated**: March 1, 2026
 
 **Author**: CodelithLabs Engineering Team
 

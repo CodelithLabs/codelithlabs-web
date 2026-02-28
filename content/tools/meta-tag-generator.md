@@ -4,8 +4,8 @@ description: "Generate SEO-optimized meta tags for your web pages."
 keywords: ["meta tags","seo","html","optimization"]
 category: "seo"
 slug: "meta-tag-generator"
-datePublished: "2026-02-14T10:41:24.550Z"
-dateModified: "2026-02-14T10:41:24.550Z"
+datePublished: "2026-02-28T22:33:40.301Z"
+dateModified: "2026-02-28T22:33:40.301Z"
 author: "CodelithLabs Team"
 ---
 
@@ -148,7 +148,7 @@ Help others discover Meta Tag Generator:
 
 ---
 
-**Last Updated**: February 14, 2026
+**Last Updated**: March 1, 2026
 
 **Author**: CodelithLabs Engineering Team
 
