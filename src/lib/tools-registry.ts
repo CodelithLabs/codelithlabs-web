@@ -42,14 +42,6 @@ export const TOOLS_REGISTRY: ToolMeta[] = [
     keywords: ['lorem ipsum', 'placeholder text', 'dummy text'],
     processingType: 'client'
   },
-  {
-    slug: 'text-to-slug',
-    name: 'Text to Slug Converter',
-    description: 'Convert any text into a URL-friendly slug format.',
-    category: 'text',
-    keywords: ['slug', 'url', 'permalink'],
-    processingType: 'client'
-  },
 
   // ═══════════════════════════════════════════════════════════════
   // DEVELOPER TOOLS

@@ -28,3 +28,76 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   V2.0 Command Center Utilities
+   ═══════════════════════════════════════════════════════════════ */
+
+@layer utilities {
+  /* Subtle text-shadow glow for headings */
+  .text-glow {
+    text-shadow: 0 0 20px rgba(41, 121, 255, 0.3), 0 0 40px rgba(41, 121, 255, 0.1);
+  }
+
+  .text-glow-cyan {
+    text-shadow: 0 0 20px rgba(0, 229, 255, 0.3), 0 0 40px rgba(0, 229, 255, 0.1);
+  }
+
+  .text-glow-green {
+    text-shadow: 0 0 20px rgba(0, 230, 118, 0.3), 0 0 40px rgba(0, 230, 118, 0.1);
+  }
+
+  /* Animated dot-grid background */
+  .bg-grid-pattern {
+    background-image: radial-gradient(circle, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+
+  /* Animated line-grid background */
+  .bg-line-grid {
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    background-size: 48px 48px;
+  }
+
+  /* Glass morphism card base */
+  .glass-card {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(12px);
+  }
+
+  .glass-card-hover:hover {
+    background: rgba(255, 255, 255, 0.04);
+    border-color: rgba(41, 121, 255, 0.3);
+  }
+
+  /* Glow border effect */
+  .border-glow {
+    box-shadow: 0 0 0 1px rgba(41, 121, 255, 0.2), 0 0 20px rgba(41, 121, 255, 0.1);
+  }
+
+  /* Status dot pulse */
+  .status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #00E676;
+    box-shadow: 0 0 8px #00E676;
+    animation: pulse-glow 2s ease-in-out infinite;
+  }
+
+  /* Accent bar for section headers */
+  .accent-bar {
+    width: 48px;
+    height: 3px;
+    background: linear-gradient(90deg, #2979FF, #00E5FF);
+    border-radius: 2px;
+  }
+
+  /* Progress bar fill animation */
+  .progress-fill {
+    transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+}

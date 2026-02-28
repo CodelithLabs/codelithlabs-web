@@ -1,18 +1,23 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import CookieBanner from "@/components/layout/CookieBanner";
 
 const inter = Inter({ subsets: ["latin"] });
+const jetbrainsMono = JetBrains_Mono({
+    subsets: ["latin"],
+    variable: "--font-jetbrains",
+    display: "swap",
+});
 
 export const metadata: Metadata = {
     title: {
-        default: "CodelithLabs - Free Online Tools Platform | 40+ Developer & Productivity Tools",
+        default: "CodelithLabs - Free Online Tools Platform | 90+ Developer & Productivity Tools",
         template: "%s | CodelithLabs"
     },
-    description: "CodelithLabs offers 40+ free online tools for developers, designers, and content creators. JSON formatter, image compressor, password generator, and more. 100% client-side processing for maximum privacy.",
+    description: "CodelithLabs offers 90+ free online tools for developers, designers, and content creators. JSON formatter, image compressor, password generator, SEO tools, financial calculators & more. 100% client-side processing for maximum privacy.",
     keywords: [
         "free online tools",
         "developer tools",
@@ -77,7 +82,7 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en" className="dark">
-            <body className={`${inter.className} antialiased selection:bg-blue-500/30 bg-[#0a0a0a]`}>
+            <body className={`${inter.className} ${jetbrainsMono.variable} antialiased selection:bg-blue-500/30 bg-[#0a0a0a]`}>
 
                 {/* Organization Schema Markup for SEO */}
                 <script
@@ -89,7 +94,7 @@ export default function RootLayout({
                             "name": "CodelithLabs",
                             "url": "https://codelithlabs.in",
                             "logo": "https://codelithlabs.in/icon.png",
-                            "description": "Free online tools platform with 50+ utilities for developers, designers, and content creators",
+                            "description": "Free online tools platform with 90+ utilities for developers, designers, and content creators",
                             "founders": [
                                 {
                                     "@type": "Person",

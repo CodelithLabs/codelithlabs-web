@@ -1,282 +1,291 @@
 // ═══════════════════════════════════════════════════════════════════════════
 // FILE: src/app/tools/page.tsx
-// Production-Grade Tools Directory with Advanced Search & Filtering
+// V2.0 — Searchable, Categorized R&D Utility Hub
 // ═══════════════════════════════════════════════════════════════════════════
 'use client';
 
 import { useState, useEffect, useMemo } from 'react';
-import Link from 'next/link';
-import { Search, X, Zap } from 'lucide-react';
-import { TOOLS_REGISTRY, getCategoryStats } from '@/lib/tools-registry';
-import { AdBanner } from '@/components/tools/ToolLayout';
+import { Search, X, ChevronDown, ChevronUp } from 'lucide-react';
+import { TOOLS_REGISTRY, getToolsByCategory } from '@/lib/tools-registry';
+import { TOOL_CATEGORIES, ToolCategory } from '@/types/tool';
+import { ToolCard } from '@/components/tools/ToolCard';
+import { motion, AnimatePresence } from 'framer-motion';
+
+// ═══════════════════════════════════════════════════════════════════════════
+// CATEGORY GROUPINGS — Display-level mapping for the mega-hub
+// ═══════════════════════════════════════════════════════════════════════════
+
+interface CategoryGroup {
+  id: string;
+  name: string;
+  description: string;
+  categories: ToolCategory[];
+  color: string;
+}
+
+const CATEGORY_GROUPS: CategoryGroup[] = [
+  {
+    id: "developer",
+    name: "Developer Utilities",
+    description: "JSON, Regex, JWT, code formatting & developer essentials",
+    categories: ["developer", "formatter"],
+    color: "#8B5CF6",
+  },
+  {
+    id: "security",
+    name: "Cryptography & Security",
+    description: "Hash generators, password tools, encoders & decoders",
+    categories: ["security", "encoder"],
+    color: "#F97316",
+  },
+  {
+    id: "image",
+    name: "Image Processing",
+    description: "Compress, convert, resize, crop & edit images",
+    categories: ["image"],
+    color: "#10B981",
+  },
+  {
+    id: "text",
+    name: "Text & Content",
+    description: "Text manipulation, AI writing tools & content utilities",
+    categories: ["text", "ai"],
+    color: "#3B82F6",
+  },
+  {
+    id: "finance",
+    name: "Financial Calculators",
+    description: "Mortgage, investment, tax & financial planning tools",
+    categories: ["finance", "calculator"],
+    color: "#EF4444",
+  },
+  {
+    id: "generator",
+    name: "Generators",
+    description: "Password, QR code, UUID, Lorem Ipsum & more",
+    categories: ["generator"],
+    color: "#EC4899",
+  },
+  {
+    id: "converter",
+    name: "Converters",
+    description: "File format, unit & data structure conversions",
+    categories: ["converter"],
+    color: "#F59E0B",
+  },
+  {
+    id: "seo-web",
+    name: "SEO & Web",
+    description: "Meta tag generators, analyzers & geographic tools",
+    categories: ["seo", "geo"],
+    color: "#6366F1",
+  },
+];
+
+// ═══════════════════════════════════════════════════════════════════════════
+// COMPONENT
+// ═══════════════════════════════════════════════════════════════════════════
 
 export default function ToolsPage() {
   const [query, setQuery] = useState('');
   const [debouncedQuery, setDebouncedQuery] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [collapsedGroups, setCollapsedGroups] = useState<Set<string>>(new Set());
 
-  // Debounce search query (300ms delay)
+  // Debounce search query (300ms)
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setDebouncedQuery(query);
-    }, 300);
-
+    const timer = setTimeout(() => setDebouncedQuery(query), 300);
     return () => clearTimeout(timer);
   }, [query]);
 
-  // Get category stats
-  const categoryStats = useMemo(() => getCategoryStats(), []);
+  // Grouped tools for categorized view (deduplicated by slug)
+  const groupedTools = useMemo(() => {
+    return CATEGORY_GROUPS.map((group) => {
+      const seen = new Set<string>();
+      const tools = group.categories
+        .flatMap((cat) => getToolsByCategory(cat))
+        .filter((t) => { if (seen.has(t.slug)) return false; seen.add(t.slug); return true; });
+      return { ...group, tools };
+    }).filter((g) => g.tools.length > 0);
+  }, []);
 
-  // Quick filters - top categories
-  const quickCategories = [
-    { id: 'all', name: 'All Tools', count: TOOLS_REGISTRY.length },
-    { id: 'text', name: 'Text', count: categoryStats['text'] || 0 },
-    { id: 'image', name: 'Image', count: categoryStats['image'] || 0 },
-    { id: 'developer', name: 'Developer', count: categoryStats['developer'] || 0 },
-    { id: 'generator', name: 'Generator', count: categoryStats['generator'] || 0 },
-    { id: 'converter', name: 'Converter', count: categoryStats['converter'] || 0 },
-  ];
+  // Flat filtered results for search mode (deduplicated by slug)
+  const searchResults = useMemo(() => {
+    if (!debouncedQuery) return [];
+    const q = debouncedQuery.toLowerCase();
+    const seen = new Set<string>();
+    return TOOLS_REGISTRY.filter(
+      (tool) =>
+        tool.name.toLowerCase().includes(q) ||
+        tool.description.toLowerCase().includes(q) ||
+        tool.keywords.some((k) => k.toLowerCase().includes(q))
+    ).filter((t) => { if (seen.has(t.slug)) return false; seen.add(t.slug); return true; });
+  }, [debouncedQuery]);
 
-  // Filter logic with memoization
-  const filteredTools = useMemo(() => {
-    return TOOLS_REGISTRY.filter((tool) => {
-      // Category filter
-      const matchesCategory = selectedCategory === 'all' || tool.category === selectedCategory;
+  const isSearching = debouncedQuery.length > 0;
 
-      // Search filter (name, description, keywords)
-      const lowercaseQuery = debouncedQuery.toLowerCase();
-      const matchesSearch =
-        debouncedQuery === '' ||
-        tool.name.toLowerCase().includes(lowercaseQuery) ||
-        tool.description.toLowerCase().includes(lowercaseQuery) ||
-        tool.keywords.some(k => k.toLowerCase().includes(lowercaseQuery));
-
-      return matchesCategory && matchesSearch;
+  const toggleGroup = (id: string) => {
+    setCollapsedGroups((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
     });
-  }, [debouncedQuery, selectedCategory]);
-
-  // Clear search
-  const clearSearch = () => {
-    setQuery('');
-    setDebouncedQuery('');
   };
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] py-12 px-4">
-      <div className="max-w-7xl mx-auto">
+    <div className="min-h-screen bg-[#0a0a0a]">
 
-        {/* ═══════════════════════════════════════════════════════════
-            HEADER
-        ═══════════════════════════════════════════════════════════ */}
-        <div className="text-center mb-12">
+      {/* ── HEADER ── */}
+      <section className="relative pt-28 pb-6 px-6 overflow-hidden">
+        <div className="absolute inset-0 bg-grid-pattern opacity-20" />
+        <div className="absolute inset-0 bg-glow-radial opacity-30" />
+        <div className="relative z-10 max-w-5xl mx-auto text-center">
           <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
-            Free Online Tools Directory
+            Developer Tools Hub
           </h1>
           <p className="text-zinc-400 text-lg max-w-2xl mx-auto">
             {TOOLS_REGISTRY.length}+ fast, secure tools running entirely in your browser.
-            No upload, no server processing.
+            No uploads, no server processing, no tracking.
           </p>
         </div>
+      </section>
 
-        {/* ═══════════════════════════════════════════════════════════
-            SEARCH BAR
-        ═══════════════════════════════════════════════════════════ */}
-        <div className="max-w-2xl mx-auto mb-8">
+      {/* ── STICKY SEARCH BAR ── */}
+      <div className="sticky top-16 z-30 bg-[#0a0a0a]/90 backdrop-blur-xl border-b border-white/[0.04]">
+        <div className="max-w-5xl mx-auto px-6 py-4">
           <div className="relative">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-500" />
             <input
               type="text"
-              placeholder="Search tools (e.g., JSON, Image, Password)..."
+              placeholder="Search tools (e.g., JSON, Image, Password, Hash)..."
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              className="w-full bg-zinc-900 border border-zinc-700 rounded-xl pl-12 pr-12 py-4
-                       text-white placeholder-zinc-500
-                       focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20
-                       transition-all text-lg"
+              className="w-full bg-surface border border-white/[0.08] rounded-xl pl-12 pr-12 py-3.5
+                       text-white placeholder-zinc-500 text-base
+                       focus:outline-none focus:border-glow-blue/50 focus:ring-2 focus:ring-glow-blue/20
+                       transition-all"
             />
             {query && (
               <button
-                onClick={clearSearch}
-                className="absolute right-4 top-1/2 -translate-y-1/2 p-1 hover:bg-zinc-800
-                         rounded-full transition-colors"
+                onClick={() => { setQuery(''); setDebouncedQuery(''); }}
+                className="absolute right-4 top-1/2 -translate-y-1/2 p-1 hover:bg-white/[0.06] rounded-full transition-colors"
                 aria-label="Clear search"
               >
-                <X className="w-5 h-5 text-zinc-500 hover:text-white" />
+                <X className="w-4 h-4 text-zinc-500" />
               </button>
             )}
           </div>
-
-          {/* Search Results Count */}
-          {debouncedQuery && (
-            <p className="text-sm text-zinc-500 mt-2 text-center">
-              Found {filteredTools.length} tool{filteredTools.length !== 1 ? 's' : ''} matching "{debouncedQuery}"
+          {isSearching && (
+            <p className="text-xs text-zinc-500 mt-2 font-mono">
+              {searchResults.length} result{searchResults.length !== 1 ? 's' : ''} for &quot;{debouncedQuery}&quot;
             </p>
           )}
         </div>
+      </div>
 
-        {/* ═══════════════════════════════════════════════════════════
-            CATEGORY FILTER PILLS
-        ═══════════════════════════════════════════════════════════ */}
-        <div className="flex flex-wrap justify-center gap-2 mb-8">
-          {quickCategories.map(cat => (
-            <button
-              key={cat.id}
-              onClick={() => setSelectedCategory(cat.id)}
-              className={`px-4 py-2 rounded-full text-sm font-medium capitalize
-                       transition-all flex items-center gap-2 ${
-                selectedCategory === cat.id
-                  ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/30'
-                  : 'bg-zinc-800 text-zinc-400 hover:bg-zinc-700 hover:text-white'
-              }`}
-            >
-              {cat.name}
-              <span className={`text-xs px-1.5 py-0.5 rounded-full ${
-                selectedCategory === cat.id
-                  ? 'bg-blue-500'
-                  : 'bg-zinc-700'
-              }`}>
-                {cat.count}
-              </span>
-            </button>
-          ))}
-        </div>
+      {/* ── CONTENT ── */}
+      <div className="max-w-6xl mx-auto px-6 py-10">
 
-        {/* ═══════════════════════════════════════════════════════════
-            TOP AD BANNER
-        ═══════════════════════════════════════════════════════════ */}
-        <AdBanner slot="tools-directory-top" className="mb-12" />
-
-        {/* ═══════════════════════════════════════════════════════════
-            TOOLS GRID
-        ═══════════════════════════════════════════════════════════ */}
-        {filteredTools.length > 0 ? (
-          <>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-              {filteredTools.map((tool, index) => (
-                <div key={tool.slug}>
-                  <Link
-                    href={`/tools/${tool.slug}`}
-                    className="group block bg-zinc-900/50 border border-zinc-800 rounded-xl p-6
-                             hover:bg-zinc-900 hover:border-blue-500/50 transition-all h-full"
-                  >
-                    <div className="flex items-start justify-between mb-4">
-                      <span className="px-2.5 py-1 rounded-md bg-blue-500/10 text-blue-400
-                                     text-xs font-medium uppercase tracking-wider">
-                        {tool.category}
-                      </span>
-                      {tool.processingType === 'client' && (
-                        <span className="flex items-center gap-1 text-green-400 text-xs">
-                          <Zap className="w-3 h-3" />
-                          Client-Side
-                        </span>
-                      )}
-                    </div>
-                    <h3 className="text-xl font-bold text-white mb-2 group-hover:text-blue-400
-                                 transition-colors">
-                      {tool.name}
-                    </h3>
-                    <p className="text-zinc-400 text-sm line-clamp-2 leading-relaxed">
-                      {tool.description}
-                    </p>
-                  </Link>
-
-                  {/* Strategic Ad Placement - Every 6th tool */}
-                  {(index + 1) % 6 === 0 && index !== filteredTools.length - 1 && (
-                    <div className="mt-6">
-                      <AdBanner
-                        slot={`tools-grid-${Math.floor((index + 1) / 6)}`}
-                        format="rectangle"
-                      />
-                    </div>
-                  )}
-                </div>
+        {isSearching ? (
+          /* ═══════════════════════════════════════
+             SEARCH RESULTS MODE
+          ═══════════════════════════════════════ */
+          searchResults.length > 0 ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {searchResults.map((tool, i) => (
+                <ToolCard key={tool.slug} tool={tool} index={i} />
               ))}
             </div>
-
-            {/* Bottom Ad Banner */}
-            <AdBanner slot="tools-directory-bottom" className="mt-12" />
-          </>
-        ) : (
-          // ═══════════════════════════════════════════════════════════
-          // NO RESULTS STATE
-          // ═══════════════════════════════════════════════════════════
-          <div className="text-center py-20">
-            <div className="max-w-md mx-auto">
-              {/* Empty State Icon */}
-              <div className="w-20 h-20 bg-zinc-800 rounded-full flex items-center justify-center
-                            mx-auto mb-6">
-                <Search className="w-10 h-10 text-zinc-600" />
+          ) : (
+            <div className="text-center py-20">
+              <div className="w-16 h-16 rounded-2xl bg-white/[0.04] border border-white/[0.06] flex items-center justify-center mx-auto mb-6">
+                <Search className="w-8 h-8 text-zinc-600" />
               </div>
-
-              <h2 className="text-2xl font-bold text-white mb-3">
-                No Tools Found
-              </h2>
-
-              <p className="text-zinc-400 mb-6">
-                We couldn't find any tools matching{' '}
-                <span className="text-blue-400 font-medium">"{debouncedQuery}"</span>
-                {selectedCategory !== 'all' && (
-                  <>
-                    {' '}in the <span className="text-blue-400 font-medium capitalize">{selectedCategory}</span> category
-                  </>
-                )}
-                .
+              <h2 className="text-xl font-bold text-white mb-3">No Tools Found</h2>
+              <p className="text-zinc-400 text-sm mb-6">
+                No tools match &quot;{debouncedQuery}&quot;. Try a different keyword.
               </p>
-
-              {/* Suggestions */}
-              <div className="space-y-3">
-                <p className="text-sm text-zinc-500">Try:</p>
-                <div className="flex flex-wrap justify-center gap-2">
-                  {selectedCategory !== 'all' && (
-                    <button
-                      onClick={() => setSelectedCategory('all')}
-                      className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm
-                               font-medium rounded-lg transition-colors"
-                    >
-                      Show All Categories
-                    </button>
-                  )}
-                  {query && (
-                    <button
-                      onClick={clearSearch}
-                      className="px-4 py-2 bg-zinc-800 hover:bg-zinc-700 text-white text-sm
-                               font-medium rounded-lg transition-colors"
-                    >
-                      Clear Search
-                    </button>
-                  )}
-                </div>
-              </div>
-
-              {/* Popular Searches */}
-              <div className="mt-8 pt-8 border-t border-zinc-800">
-                <p className="text-sm text-zinc-500 mb-3">Popular Searches:</p>
-                <div className="flex flex-wrap justify-center gap-2">
-                  {['JSON', 'Image', 'Password', 'Base64', 'Hash'].map(term => (
-                    <button
-                      key={term}
-                      onClick={() => setQuery(term)}
-                      className="px-3 py-1.5 bg-zinc-800 hover:bg-zinc-700 text-zinc-300
-                               text-xs rounded-full transition-colors"
-                    >
-                      {term}
-                    </button>
-                  ))}
-                </div>
+              <div className="flex flex-wrap justify-center gap-2">
+                {['JSON', 'Image', 'Password', 'Base64', 'Hash', 'CSV'].map((term) => (
+                  <button
+                    key={term}
+                    onClick={() => setQuery(term)}
+                    className="px-3 py-1.5 bg-white/[0.04] border border-white/[0.08] hover:bg-white/[0.08] text-zinc-300 text-xs rounded-lg font-mono transition-colors"
+                  >
+                    {term}
+                  </button>
+                ))}
               </div>
             </div>
+          )
+        ) : (
+          /* ═══════════════════════════════════════
+             CATEGORIZED VIEW
+          ═══════════════════════════════════════ */
+          <div className="space-y-12">
+            {groupedTools.map((group) => {
+              const isCollapsed = collapsedGroups.has(group.id);
+              return (
+                <section key={group.id}>
+                  {/* Category Header */}
+                  <button
+                    onClick={() => toggleGroup(group.id)}
+                    className="w-full flex items-center justify-between mb-5 group/header"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div
+                        className="w-1 h-8 rounded-full"
+                        style={{ backgroundColor: group.color }}
+                      />
+                      <div className="text-left">
+                        <h2 className="text-xl font-bold text-white group-hover/header:text-glow-blue transition-colors">
+                          {group.name}
+                          <span className="ml-2 text-sm font-normal text-zinc-500">
+                            ({group.tools.length})
+                          </span>
+                        </h2>
+                        <p className="text-xs text-zinc-500 mt-0.5">{group.description}</p>
+                      </div>
+                    </div>
+                    <div className="p-2 rounded-lg hover:bg-white/[0.06] transition-colors text-zinc-500">
+                      {isCollapsed ? (
+                        <ChevronDown className="w-4 h-4" />
+                      ) : (
+                        <ChevronUp className="w-4 h-4" />
+                      )}
+                    </div>
+                  </button>
+
+                  {/* Tool Cards Grid */}
+                  <AnimatePresence initial={false}>
+                    {!isCollapsed && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.25, ease: "easeInOut" }}
+                        className="overflow-hidden"
+                      >
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                          {group.tools.map((tool, i) => (
+                            <ToolCard key={tool.slug} tool={tool} index={i} animate={false} />
+                          ))}
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </section>
+              );
+            })}
           </div>
         )}
 
-        {/* ═══════════════════════════════════════════════════════════
-            FOOTER INFO
-        ═══════════════════════════════════════════════════════════ */}
-        <div className="mt-16 pt-8 border-t border-zinc-800 text-center">
-          <p className="text-zinc-500 text-sm">
-            All tools process data locally in your browser for maximum privacy and security.
+        {/* ── FOOTER NOTE ── */}
+        <div className="mt-16 pt-8 border-t border-white/[0.06] text-center">
+          <p className="text-zinc-500 text-sm font-mono">
+            All tools process data locally in your browser — zero server storage.
           </p>
         </div>
-
       </div>
     </div>
   );
