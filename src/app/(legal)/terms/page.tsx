@@ -31,7 +31,11 @@ export default function TermsPage() {
           <h1 className="text-4xl font-bold mb-4 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
             Terms of Service
           </h1>
-          <p className="text-zinc-400">Last updated: February 14, 2025</p>
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-zinc-400">
+            <span><strong className="text-zinc-300">Last Updated:</strong> March 1, 2026</span>
+            <span className="text-zinc-700">|</span>
+            <span><strong className="text-zinc-300">Jurisdiction:</strong> Kokrajhar, Assam, India</span>
+          </div>
         </header>
 
         {/* Content */}
@@ -209,11 +213,39 @@ export default function TermsPage() {
 
           {/* Section 13 */}
           <section className="bg-zinc-900/50 border border-zinc-800 rounded-xl p-6">
-            <h2 className="text-2xl font-semibold mb-4 text-white">13. Governing Law</h2>
-            <p className="text-zinc-400 leading-relaxed">
+            <h2 className="text-2xl font-semibold mb-4 text-white">13. Governing Law & Jurisdiction</h2>
+            <p className="text-zinc-400 leading-relaxed mb-4">
               These Terms are governed by and construed in accordance with the laws of India, without
               regard to conflict of law principles. Any disputes arising from these Terms or the Service
-              shall be resolved in the courts of India.
+              shall be subject to the exclusive jurisdiction of the courts in Kokrajhar, Assam, India.
+            </p>
+            <p className="text-zinc-400 leading-relaxed">
+              CodelithLabs operates under the Information Technology Act, 2000 and the Digital Personal
+              Data Protection Act, 2023 (DPDPA) of India. For users in the EU, we comply with applicable
+              GDPR requirements to the extent they apply to our services.
+            </p>
+          </section>
+
+          {/* AI Content Disclaimer */}
+          <section className="bg-zinc-900/50 border border-zinc-800 rounded-xl p-6">
+            <h2 className="text-2xl font-semibold mb-4 text-white">15. AI Content Disclaimer</h2>
+            <p className="text-zinc-400 leading-relaxed">
+              Certain tools on this platform use artificial intelligence algorithms for text analysis,
+              generation, and processing. All AI processing runs client-side in your browser. CodelithLabs
+              makes no warranties regarding the accuracy, reliability, or suitability of AI-generated
+              outputs. Users are solely responsible for verifying and validating any results before use.
+            </p>
+          </section>
+
+          {/* DMCA */}
+          <section className="bg-zinc-900/50 border border-zinc-800 rounded-xl p-6">
+            <h2 className="text-2xl font-semibold mb-4 text-white">16. DMCA & Copyright Claims</h2>
+            <p className="text-zinc-400 leading-relaxed">
+              If you believe content on CodelithLabs infringes your intellectual property, please contact
+              our DMCA agent at{' '}
+              <a href="mailto:dmca@codelithlabs.in" className="text-blue-400 hover:text-blue-300">dmca@codelithlabs.in</a>
+              {' '}with a complete DMCA notice including identification of the copyrighted work and the
+              infringing material.
             </p>
           </section>
 

@@ -31,7 +31,11 @@ export default function PrivacyPage() {
           <h1 className="text-4xl font-bold mb-4 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
             Privacy Policy
           </h1>
-          <p className="text-zinc-400">Last updated: February 14, 2025</p>
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-zinc-400">
+            <span><strong className="text-zinc-300">Last Updated:</strong> March 1, 2026</span>
+            <span className="text-zinc-700">|</span>
+            <span><strong className="text-zinc-300">Jurisdiction:</strong> Kokrajhar, Assam, India</span>
+          </div>
         </header>
 
         {/* Notice Box */}
@@ -234,6 +238,62 @@ export default function PrivacyPage() {
                 <strong>Address:</strong> Kokrajhar, Assam, India
               </p>
             </div>
+          </section>
+
+          {/* Data Processing Statement */}
+          <section className="bg-zinc-900/50 border border-zinc-800 rounded-xl p-6">
+            <h2 className="text-2xl font-semibold mb-4 text-white">11. Data Processing Statement</h2>
+            <p className="text-zinc-400 leading-relaxed mb-4">
+              CodelithLabs is committed to processing data in accordance with applicable Indian
+              data protection laws, including the Information Technology Act, 2000 and the Digital
+              Personal Data Protection Act, 2023 (DPDPA). Our core architecture ensures:
+            </p>
+            <ul className="list-disc list-inside space-y-2 text-zinc-400 ml-4">
+              <li>All tool processing occurs client-side — no personal data is transmitted to our servers</li>
+              <li>No personal data is stored, sold, or shared with third parties for purposes beyond those stated</li>
+              <li>Analytics data is anonymized and aggregated before processing</li>
+              <li>Users in India and the EU have full rights to access, correct, and delete their data</li>
+            </ul>
+          </section>
+
+          {/* AI Content Disclaimer */}
+          <section className="bg-zinc-900/50 border border-zinc-800 rounded-xl p-6">
+            <h2 className="text-2xl font-semibold mb-4 text-white">12. AI Content Disclaimer</h2>
+            <p className="text-zinc-400 leading-relaxed">
+              Some content and tool outputs on this platform may be generated or assisted by
+              artificial intelligence algorithms. All AI processing happens client-side in your
+              browser. We make no guarantees about the accuracy, completeness, or reliability
+              of AI-assisted results. Users should verify all outputs independently before relying
+              on them for critical decisions.
+            </p>
+          </section>
+
+          {/* DMCA */}
+          <section className="bg-zinc-900/50 border border-zinc-800 rounded-xl p-6">
+            <h2 className="text-2xl font-semibold mb-4 text-white">13. DMCA & Copyright Claims</h2>
+            <p className="text-zinc-400 leading-relaxed mb-4">
+              If you believe any content on CodelithLabs infringes your copyright, you may submit
+              a DMCA takedown notice to our designated agent:
+            </p>
+            <div className="bg-zinc-800/50 rounded-lg p-4 space-y-2 text-sm">
+              <p className="text-zinc-300">
+                <strong>DMCA Agent:</strong> Prasanta Ray
+              </p>
+              <p className="text-zinc-300">
+                <strong>Email:</strong>{' '}
+                <a href="mailto:dmca@codelithlabs.in" className="text-blue-400 hover:text-blue-300">
+                  dmca@codelithlabs.in
+                </a>
+              </p>
+              <p className="text-zinc-300">
+                <strong>Address:</strong> Kokrajhar, Assam, India 783370
+              </p>
+            </div>
+            <p className="text-zinc-400 leading-relaxed mt-4">
+              Your notice must include: identification of the copyrighted work, the infringing
+              material&apos;s URL, your contact information, a statement of good faith belief, and
+              your physical or electronic signature.
+            </p>
           </section>
 
         </div>

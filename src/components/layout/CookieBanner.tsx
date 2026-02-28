@@ -50,20 +50,22 @@ export default function CookieBanner() {
             <div className="flex-1">
               <h3 className="text-white font-semibold mb-1">We Value Your Privacy</h3>
               <p className="text-zinc-400 text-sm leading-relaxed">
-                We use cookies to enhance your experience, serve personalized ads, and analyze traffic.
-                By clicking "Accept", you consent to our use of cookies.{' '}
+                We use <strong className="text-zinc-300">essential cookies</strong> to keep the site functional,{' '}
+                <strong className="text-zinc-300">analytics cookies</strong> (Google Analytics) to understand usage, and{' '}
+                <strong className="text-zinc-300">advertising cookies</strong> (Google AdSense) to serve relevant ads.
+                Your tool data is <em>never</em> stored — all processing happens in your browser.{' '}
                 <a
                   href="/privacy"
                   className="text-blue-400 hover:text-blue-300 underline transition-colors"
                 >
-                  Read Privacy Policy
+                  Privacy Policy
                 </a>
-                {' '}or{' '}
+                {' '}·{' '}
                 <a
                   href="/terms"
                   className="text-blue-400 hover:text-blue-300 underline transition-colors"
                 >
-                  Terms of Service
+                  Terms
                 </a>.
               </p>
             </div>

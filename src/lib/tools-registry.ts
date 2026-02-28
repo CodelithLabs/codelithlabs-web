@@ -911,3 +911,30 @@ export function getCategoryStats(): Record<string, number> {
     return acc;
   }, {} as Record<string, number>);
 }
+
+/**
+ * Get related tools by category + keyword overlap.
+ * Returns up to `limit` tools excluding the given slug.
+ */
+export function getRelatedTools(slug: string, limit = 4): ToolMeta[] {
+  const tool = TOOLS_REGISTRY.find(t => t.slug === slug);
+  if (!tool) return [];
+
+  return TOOLS_REGISTRY
+    .filter(t => t.slug !== slug)
+    .map(t => ({
+      tool: t,
+      score: (t.category === tool.category ? 3 : 0) +
+             t.keywords.filter(k => tool.keywords.includes(k)).length,
+    }))
+    .sort((a, b) => b.score - a.score)
+    .slice(0, limit)
+    .map(entry => entry.tool);
+}
+
+/**
+ * Get all unique categories from the registry.
+ */
+export function getAllCategories(): string[] {
+  return Array.from(new Set(TOOLS_REGISTRY.map(t => t.category)));
+}

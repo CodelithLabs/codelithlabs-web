@@ -52,17 +52,29 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'yearly',
       priority: 0.3,
     },
+    {
+      url: `${BASE_URL}/blog`,
+      lastModified: currentDate,
+      changeFrequency: 'weekly',
+      priority: 0.7,
+    },
+    {
+      url: `${BASE_URL}/tech-stack`,
+      lastModified: currentDate,
+      changeFrequency: 'monthly',
+      priority: 0.5,
+    },
   ];
 
   // ═══════════════════════════════════════════════════════════════
-  // CATEGORY PAGES - Medium priority
+  // CATEGORY PAGES - Dedicated landing pages for SEO
   // ═══════════════════════════════════════════════════════════════
   const categories = Array.from(new Set(TOOLS_REGISTRY.map(tool => tool.category)));
   const categoryPages: MetadataRoute.Sitemap = categories.map(category => ({
-    url: `${BASE_URL}/tools?category=${category}`,
+    url: `${BASE_URL}/tools/category/${category}`,
     lastModified: currentDate,
     changeFrequency: 'weekly',
-    priority: 0.7,
+    priority: 0.8,
   }));
 
   // ═══════════════════════════════════════════════════════════════
