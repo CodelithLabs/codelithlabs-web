@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState, useMemo } from 'react';
 import { Gem, RefreshCw } from 'lucide-react';
 
 export default function GoldSilverCalculator() {
@@ -12,9 +12,7 @@ export default function GoldSilverCalculator() {
   const [making, setMaking] = useState('8');
   const [gst, setGst] = useState(true);
 
-  const [result, setResult] = useState<{ metalCost: number; makingCharge: number; gstAmount: number; totalCost: number } | null>(null);
-
-  const calculate = () => {
+  const result = useMemo(() => {
     const price = metal === 'gold' ? parseFloat(goldPrice) : parseFloat(silverPrice);
     let weightInGrams = parseFloat(weight) || 0;
     if (unit === 'tola') weightInGrams *= 11.664;
@@ -27,10 +25,8 @@ export default function GoldSilverCalculator() {
     const gstAmount = gst ? subtotal * 0.03 : 0;
     const totalCost = subtotal + gstAmount;
 
-    setResult({ metalCost, makingCharge, gstAmount, totalCost });
-  };
-
-  useEffect(() => { calculate(); }, [metal, weight, unit, purity, making, gst, goldPrice, silverPrice]);
+    return { metalCost, makingCharge, gstAmount, totalCost };
+  }, [metal, weight, unit, purity, making, gst, goldPrice, silverPrice]);
 
   const fmt = (n: number) => '₹' + n.toLocaleString('en-IN', { maximumFractionDigits: 0 });
 

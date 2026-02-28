@@ -58,7 +58,7 @@ jobs:
 
       # ── Gate 1: Lint ─────────────────────────────────────────────────────
       - name: Lint
-        run: npm run lint
+        run: npx --no-install eslint . --max-warnings 50
 
       # ── Gate 2: Type-check ───────────────────────────────────────────────
       - name: Type-check

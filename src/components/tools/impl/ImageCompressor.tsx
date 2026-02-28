@@ -95,7 +95,8 @@ export default function ImageCompressor() {
 
   useEffect(() => {
     if (originalFile) {
-      requestCompression(originalFile, quality);
+      const handle = setTimeout(() => requestCompression(originalFile, quality), 0);
+      return () => clearTimeout(handle);
     }
   }, [quality, originalFile]);
 

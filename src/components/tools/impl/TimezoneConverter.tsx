@@ -5,7 +5,7 @@
 // ═══════════════════════════════════════════════════════════════════════════
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Clock, Globe, Calendar, ArrowRight } from 'lucide-react';
 
 export default function TimezoneConverter() {
@@ -38,13 +38,7 @@ export default function TimezoneConverter() {
     setSourceTime(now.toTimeString().split(' ')[0].substring(0, 5));
   }, []);
 
-  useEffect(() => {
-    if (sourceDate && sourceTime) {
-      convert();
-    }
-  }, [sourceDate, sourceTime, sourceTimezone, targetTimezones]);
-
-  const convert = () => {
+  const convert = useCallback(() => {
     try {
       // Create date in source timezone
       const sourceDateTime = new Date(`${sourceDate}T${sourceTime}:00`);
@@ -81,7 +75,13 @@ export default function TimezoneConverter() {
     } catch (error: unknown) {
       console.error('Timezone conversion error:', error);
     }
-  };
+  }, [sourceDate, sourceTime, sourceTimezone, targetTimezones]);
+
+  useEffect(() => {
+    if (sourceDate && sourceTime) {
+      convert();
+    }
+  }, [convert, sourceDate, sourceTime]);
 
   const addTimezone = (tz: string) => {
     if (!targetTimezones.includes(tz)) {

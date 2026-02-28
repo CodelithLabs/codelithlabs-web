@@ -419,7 +419,10 @@ export default function TeamPage() {
   const heroOpacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
 
   const [mounted, setMounted] = useState(false);
-  useEffect(() => { setMounted(true); }, []);
+  useEffect(() => {
+    const id = requestAnimationFrame(() => setMounted(true));
+    return () => cancelAnimationFrame(id);
+  }, []);
   if (!mounted) return null;
 
   return (

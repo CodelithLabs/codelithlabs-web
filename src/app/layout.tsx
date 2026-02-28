@@ -23,7 +23,7 @@ export const metadata: Metadata = {
         "text tools",
         "productivity tools",
         "codelithlabs",
-        "clients-side tools",
+        "client-side tools",
         "privacy-first",
         "web utilities"
     ],
@@ -59,13 +59,12 @@ export const metadata: Metadata = {
         description: '40+ free developer and productivity tools with client-side processing',
         images: ['https://codelithlabs.in/og-image.png'],
     },
-    verification: {
-        google: 'GOOGLE_VERIFICATION_TOKEN_HERE',
-        yandex: 'YANDEX_VERIFICATION_TOKEN_HERE',
-        other: {
-            'msvalidate.01': 'BING_VERIFICATION_TOKEN_HERE',
-        },
-    },
+    // Uncomment and add real tokens when ready:
+    // verification: {
+    //     google: 'your-google-token',
+    //     yandex: 'your-yandex-token',
+    //     other: { 'msvalidate.01': 'your-bing-token' },
+    // },
     alternates: {
         canonical: 'https://codelithlabs.in',
     },
@@ -131,7 +130,6 @@ export default function RootLayout({
                             "name": "CodelithLabs",
                             "image": "https://codelithlabs.in/icon.png",
                             "url": "https://codelithlabs.in",
-                            "telephone": "+91-XXXXXXXXXX",
                             "priceRange": "Free",
                             "address": {
                                 "@type": "PostalAddress",
