@@ -64,7 +64,11 @@ jobs:
       - name: Type-check
         run: npx --no-install tsc --noEmit
 
-      # ── Gate 3: Production build (static export) ─────────────────────────
+      # ── Gate 3: Unit tests ──────────────────────────────────────────────
+      - name: Unit tests
+        run: npx vitest --run
+
+      # ── Gate 4: Production build (static export) ─────────────────────────
       - name: Build
         run: npm run build
 

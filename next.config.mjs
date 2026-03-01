@@ -1,3 +1,18 @@
+import withPWAInit from '@ducanh2912/next-pwa';
+
+const withPWA = withPWAInit({
+  dest: 'public',
+  disable: process.env.NODE_ENV === 'development',
+  register: true,
+  skipWaiting: true,
+  cacheOnFrontEndNav: true,
+  aggressiveFrontEndNavCaching: true,
+  reloadOnOnline: true,
+  fallbacks: {
+    document: '/offline',
+  },
+});
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // Full Next.js deployment on Vercel (SSR, API routes, ISR enabled)
@@ -31,10 +46,13 @@ const nextConfig = {
     cpus: 2,
   },
 
+  // Allow webpack-based PWA plugin alongside Turbopack
+  turbopack: {},
+
   // Compile-time environment variables (safe to expose — no secrets)
   env: {
     NEXT_PUBLIC_SITE_URL: 'https://codelithlabs.in',
   },
 };
 
-export default nextConfig;
+export default withPWA(nextConfig);

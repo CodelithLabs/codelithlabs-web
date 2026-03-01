@@ -1,4 +1,5 @@
-Contact: mailto:contact@codelithlabs.in
+Contact: mailto:team.codelithlabs@gmail.com
+
 Expires: 2027-12-31T23:59:59.000Z
 Preferred-Languages: en, hi
 Canonical: https://codelithlabs.in/.well-known/security.txt
@@ -7,7 +8,8 @@ Canonical: https://codelithlabs.in/.well-known/security.txt
 
 ## Reporting a Vulnerability
 
-If you discover a security vulnerability within CodelithLabs, please send an email to contact@codelithlabs.in. All security vulnerabilities will be promptly addressed.
+If you discover a security vulnerability within CodelithLabs, please send an email to team.codelithlabs@gmail.com
+. All security vulnerabilities will be promptly addressed.
 
 ## Scope
 

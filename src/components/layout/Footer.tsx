@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { NewsletterSignup } from "@/components/newsletter/NewsletterSignup";
 
 export function Footer() {
   return (
@@ -82,6 +83,13 @@ export function Footer() {
               </p>
             </div>
           </div>
+        </div>
+      </div>
+
+      {/* Newsletter Signup */}
+      <div className="border-b border-white/[0.06]">
+        <div className="max-w-7xl mx-auto px-6 py-8">
+          <NewsletterSignup />
         </div>
       </div>
 

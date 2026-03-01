@@ -6,6 +6,7 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import crypto from "crypto";
+import { checkRateLimit } from "@/lib/rate-limiter";
 
 // ─── Types ───────────────────────────────────────────────────────────────
 
@@ -29,8 +30,19 @@ const RAZORPAY_API = "https://api.razorpay.com/v1";
 
 // ─── POST handler ────────────────────────────────────────────────────────
 
-export async function POST() {
+export async function POST(request: Request) {
   try {
+    // 0. Rate limiting (10 requests per 15 min per IP)
+    const forwarded = request.headers.get("x-forwarded-for");
+    const ip = forwarded?.split(",")[0]?.trim() ?? "unknown";
+    const rateResult = await checkRateLimit(ip, 10, 'razorpay');
+    if (rateResult.limited) {
+      return NextResponse.json(
+        { error: "Too many requests. Please try again later." },
+        { status: 429 }
+      );
+    }
+
     // 1. Verify the user is authenticated
     const session = await auth();
     if (!session?.user?.email) {

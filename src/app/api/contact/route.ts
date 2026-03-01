@@ -15,36 +15,7 @@ import sgMail from "@sendgrid/mail";
 import { contactSubmissionSchema } from "@/lib/schemas/contact";
 import { buildNotificationEmail } from "@/lib/email-templates/contact-notification";
 import { buildAutoReplyEmail } from "@/lib/email-templates/contact-auto-reply";
-
-// ─── In-memory rate limiter ──────────────────────────────────────────────
-// Lightweight IP-based limiter: max 5 requests per 15 minutes per IP.
-// Sufficient for a contact form; upgrade to Redis/Vercel KV for scale.
-
-const RATE_WINDOW_MS = 15 * 60 * 1000; // 15 minutes
-const RATE_LIMIT = 5;
-
-const ipRequestMap = new Map<string, { count: number; resetAt: number }>();
-
-function isRateLimited(ip: string): boolean {
-  const now = Date.now();
-  const entry = ipRequestMap.get(ip);
-
-  if (!entry || now > entry.resetAt) {
-    ipRequestMap.set(ip, { count: 1, resetAt: now + RATE_WINDOW_MS });
-    return false;
-  }
-
-  entry.count += 1;
-  return entry.count > RATE_LIMIT;
-}
-
-// Periodically purge stale entries (prevent memory leak in long-running envs)
-setInterval(() => {
-  const now = Date.now();
-  for (const [ip, entry] of ipRequestMap) {
-    if (now > entry.resetAt) ipRequestMap.delete(ip);
-  }
-}, RATE_WINDOW_MS);
+import { checkRateLimit } from "@/lib/rate-limiter";
 
 // ─── Turnstile verification ─────────────────────────────────────────────
 
@@ -77,11 +48,12 @@ async function verifyTurnstile(token: string, ip: string): Promise<boolean> {
 
 export async function POST(request: Request) {
   try {
-    // 1. Rate limiting
+    // 1. Rate limiting (Redis-backed with in-memory fallback)
     const forwarded = request.headers.get("x-forwarded-for");
     const ip = forwarded?.split(",")[0]?.trim() ?? "unknown";
 
-    if (isRateLimited(ip)) {
+    const rateResult = await checkRateLimit(ip, 5, 'contact');
+    if (rateResult.limited) {
       return NextResponse.json(
         { error: "Too many requests. Please try again later." },
         { status: 429 }

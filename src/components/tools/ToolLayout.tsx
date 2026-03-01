@@ -4,11 +4,14 @@
 // ═══════════════════════════════════════════════════════════════════════════
 'use client';
 
-import { ReactNode, useEffect, useState } from 'react';
+import { ReactNode } from 'react';
 import { ToolMeta, TOOL_CATEGORIES } from '@/types/tool';
 import { useUser } from '@/lib/user-context';
 import { ToolContent } from '@/types/tool-content';
 import { SocialProof } from './SocialProof';
+import { ShareButtons } from './ShareButtons';
+import { FeedbackWidget } from './FeedbackWidget';
+import { AdBanner } from '@/components/ads/AdBanner';
 import DOMPurify from 'dompurify';
 
 interface ToolLayoutProps {
@@ -22,91 +25,8 @@ interface ToolLayoutProps {
 
 // ═══════════════════════════════════════════════════════════════════════════
 // ADSENSE COMPONENTS
-// Replace data-ad-client and data-ad-slot with your real AdSense values
+// AdBanner is now imported from @/components/ads/AdBanner
 // ═══════════════════════════════════════════════════════════════════════════
-
-interface AdBannerProps {
-  slot: string;
-  format?: 'horizontal' | 'vertical' | 'rectangle' | 'auto';
-  className?: string;
-}
-
-function AdBanner({ slot, format = 'auto', className = '' }: AdBannerProps) {
-  const formatStyles = {
-    horizontal: 'min-h-[90px] w-full',
-    vertical: 'min-h-[600px] w-[160px]',
-    rectangle: 'min-h-[250px] w-full max-w-[300px] mx-auto',
-    auto: 'min-h-[90px] w-full'
-  };
-
-  const formatRatios: Record<NonNullable<AdBannerProps['format']>, string> = {
-    horizontal: '728 / 90',
-    vertical: '160 / 600',
-    rectangle: '300 / 250',
-    auto: '728 / 90'
-  };
-
-  const [isAdBlocked, setIsAdBlocked] = useState(false);
-
-  useEffect(() => {
-    const bait = document.createElement('div');
-    bait.className = 'adsbygoogle';
-    bait.style.position = 'absolute';
-    bait.style.height = '1px';
-    bait.style.width = '1px';
-    bait.style.top = '-1000px';
-    document.body.appendChild(bait);
-
-    const check = () => {
-      const computed = window.getComputedStyle(bait);
-      const blocked = computed.display === 'none' || bait.offsetHeight === 0;
-      setIsAdBlocked(blocked);
-      document.body.removeChild(bait);
-    };
-
-    const raf = requestAnimationFrame(check);
-    return () => cancelAnimationFrame(raf);
-  }, []);
-
-  return (
-    <div 
-      className={`ad-container bg-zinc-900/30 border border-zinc-800/50 rounded-lg 
-                  flex items-center justify-center overflow-hidden ${formatStyles[format]} ${className}`}
-      style={{ aspectRatio: formatRatios[format] }}
-    >
-      {/* 
-        PRODUCTION: Replace this div with real AdSense code:
-        
-        <ins
-          className="adsbygoogle"
-          style={{ display: 'block' }}
-          data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
-          data-ad-slot={slot}
-          data-ad-format={format === 'auto' ? 'auto' : undefined}
-          data-full-width-responsive="true"
-        />
-        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-      */}
-      {isAdBlocked ? (
-        <div className="text-center p-4">
-          <div className="border border-dashed border-amber-500/40 rounded p-3">
-            <div className="text-amber-300 text-xs font-semibold">Support Us</div>
-            <div className="text-zinc-500 text-xs">
-              Ads help keep these tools free.
-            </div>
-          </div>
-        </div>
-      ) : (
-        <div className="text-zinc-700 text-xs text-center p-4">
-          <div className="border border-dashed border-zinc-700 rounded p-3">
-            Ad Space<br />
-            <span className="text-zinc-600">{slot}</span>
-          </div>
-        </div>
-      )}
-    </div>
-  );
-}
 
 function PremiumCTA() {
   return (
@@ -285,10 +205,17 @@ export function ToolLayout({ tool, children, content, slug }: ToolLayoutProps) {
 
           {/* Social Proof Trust Signals */}
           {slug && (
-            <SocialProof
-              slug={slug}
-              dateModified={content?.frontmatter.dateModified ?? null}
-            />
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
+              <SocialProof
+                slug={slug}
+                dateModified={content?.frontmatter.dateModified ?? null}
+              />
+              <ShareButtons
+                url={`https://codelithlabs.in/tools/${slug}`}
+                title={tool.name}
+                description={tool.description}
+              />
+            </div>
           )}
 
           {/* ═══════════════════════════════════════════════════════════
@@ -298,9 +225,14 @@ export function ToolLayout({ tool, children, content, slug }: ToolLayoutProps) {
             className="bg-gradient-to-b from-zinc-900/80 to-zinc-900/40 
                        border border-zinc-800 rounded-xl p-4 sm:p-6 mb-6
                        shadow-xl shadow-black/20"
+            aria-label={`${tool.name} interface`}
+            role="region"
           >
             {children}
           </section>
+
+          {/* Feedback Widget — "Was this tool helpful?" */}
+          {slug && <FeedbackWidget toolSlug={slug} toolName={tool.name} />}
 
           {/* Revenue CTA placed after primary tool interaction */}
           {!isPremium && <PremiumCTA />}

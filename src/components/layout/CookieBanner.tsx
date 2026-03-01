@@ -24,9 +24,9 @@ export default function CookieBanner() {
     localStorage.setItem('codelith_cookie_consent', 'accepted');
     setShow(false);
 
-    // Initialize Google Analytics or AdSense if user accepted
+    // Notify analytics + adsense components that consent was granted
     if (typeof window !== 'undefined') {
-      // You can add Google Analytics initialization here
+      window.dispatchEvent(new Event('cookie-consent-updated'));
     }
   };
 

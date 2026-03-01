@@ -7,14 +7,22 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
+    "test": "vitest",
+    "test:run": "vitest --run",
+    "test:coverage": "vitest --coverage",
+    "test:e2e": "playwright test",
+    "typecheck": "tsc --noEmit",
     "generate-content": "node scripts/generate-tool-content.js",
     "content:auto": "node scripts/generate-tool-content.js"
   },
   "dependencies": {
+    "@ducanh2912/next-pwa": "^10.2.9",
+    "@next/third-parties": "^16.1.6",
     "@sendgrid/mail": "^8.1.6",
     "dompurify": "^3.3.1",
     "framer-motion": "^11.0.0",
     "gray-matter": "^4.0.3",
+    "ioredis": "^5.10.0",
     "lucide-react": "^0.330.0",
     "next": "^16.1.5",
     "next-auth": "^5.0.0-beta.30",
@@ -26,15 +34,23 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@playwright/test": "^1.58.2",
+    "@testing-library/dom": "^10.4.1",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
+    "@testing-library/user-event": "^14.6.1",
     "@types/dompurify": "^3.0.5",
     "@types/node": "^20.11.0",
     "@types/react": "^18.2.0",
     "@types/react-dom": "^18.2.0",
+    "@vitejs/plugin-react": "^5.1.4",
     "autoprefixer": "^10.4.17",
     "eslint": "^9.17.0",
     "eslint-config-next": "^16.1.6",
+    "jsdom": "^28.1.0",
     "postcss": "^8.4.35",
     "tailwindcss": "^3.4.1",
-    "typescript": "^5.3.3"
+    "typescript": "^5.3.3",
+    "vitest": "^4.0.18"
   }
 }

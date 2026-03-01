@@ -7,6 +7,9 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { getBlogPost, getAllBlogSlugs } from "@/lib/blog-loader";
+import { GiscusComments } from "@/components/blog/GiscusComments";
+import { NewsletterSignup } from "@/components/newsletter/NewsletterSignup";
+import { BlogAdTop, BlogAdMid, BlogAdBottom } from "@/components/ads/BlogAds";
 
 // ─── Static Params ───────────────────────────────────────────────────────
 
@@ -109,6 +112,9 @@ export default async function BlogPostPage({ params }: PageProps) {
             <span className="text-zinc-300 truncate">{fm.title}</span>
           </nav>
 
+          {/* Ad — leaderboard above article */}
+          <BlogAdTop />
+
           {/* Header */}
           <header className="mb-10">
             {fm.category && (
@@ -144,6 +150,9 @@ export default async function BlogPostPage({ params }: PageProps) {
             dangerouslySetInnerHTML={{ __html: post.contentHtml }}
           />
 
+          {/* Ad — rectangle between body and tags */}
+          <BlogAdMid />
+
           {/* Tags */}
           {fm.tags && fm.tags.length > 0 && (
             <div className="mt-10 pt-8 border-t border-zinc-800">
@@ -173,6 +182,17 @@ export default async function BlogPostPage({ params }: PageProps) {
               Back to Blog
             </Link>
           </div>
+
+          {/* Newsletter Signup */}
+          <div className="mt-12">
+            <NewsletterSignup />
+          </div>
+
+          {/* Comments (Giscus — GitHub Discussions) */}
+          <GiscusComments term={fm.slug} />
+
+          {/* Ad — leaderboard below comments */}
+          <BlogAdBottom />
         </article>
       </div>
     </>
