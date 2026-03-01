@@ -5,8 +5,8 @@
 // ═══════════════════════════════════════════════════════════════════════════
 'use client';
 
-import { useState, useEffect } from 'react';
-import { Bitcoin, RefreshCw, TrendingUp, TrendingDown, DollarSign } from 'lucide-react';
+import { useState, useEffect, useRef, useCallback } from 'react';
+import { Bitcoin, RefreshCw, TrendingUp, TrendingDown, DollarSign, AlertCircle } from 'lucide-react';
 
 interface CryptoPrice {
   id: string;
@@ -16,6 +16,10 @@ interface CryptoPrice {
   price_change_percentage_24h: number;
 }
 
+// In-memory cache for crypto prices (5-minute TTL)
+const cryptoCache = new Map<string, { data: CryptoPrice[]; timestamp: number }>();
+const CACHE_TTL = 5 * 60 * 1000; // 5 minutes
+
 export default function CryptoConverter() {
   const [amount, setAmount] = useState('1');
   const [fromCrypto, setFromCrypto] = useState('bitcoin');
@@ -23,7 +27,9 @@ export default function CryptoConverter() {
   const [result, setResult] = useState<number | null>(null);
   const [cryptoPrices, setCryptoPrices] = useState<CryptoPrice[]>([]);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
+  const abortControllerRef = useRef<AbortController | null>(null);
 
   const currencies = [
     { code: 'usd', name: 'US Dollar', symbol: '$' },
@@ -33,13 +39,30 @@ export default function CryptoConverter() {
     { code: 'jpy', name: 'Japanese Yen', symbol: '¥' },
   ];
 
-  const fetchCryptoPrices = async () => {
+  const fetchCryptoPrices = useCallback(async (signal?: AbortSignal) => {
+    // Check cache first
+    const cached = cryptoCache.get(toCurrency);
+    if (cached && Date.now() - cached.timestamp < CACHE_TTL) {
+      setCryptoPrices(cached.data);
+      setLastUpdated(new Date(cached.timestamp));
+      const selectedCrypto = cached.data.find((c: CryptoPrice) => c.id === fromCrypto);
+      if (selectedCrypto && amount) {
+        setResult(parseFloat(amount) * selectedCrypto.current_price);
+      }
+      return;
+    }
+
     setLoading(true);
+    setError(null);
     try {
       const response = await fetch(
-        `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${toCurrency}&order=market_cap_desc&per_page=10&page=1&sparkline=false`
+        `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${toCurrency}&order=market_cap_desc&per_page=10&page=1&sparkline=false`,
+        { signal }
       );
+      if (!response.ok) throw new Error(`API returned ${response.status}`);
       const data = await response.json();
+      // Update cache
+      cryptoCache.set(toCurrency, { data, timestamp: Date.now() });
       setCryptoPrices(data);
       setLastUpdated(new Date());
       
@@ -48,16 +71,22 @@ export default function CryptoConverter() {
       if (selectedCrypto && amount) {
         setResult(parseFloat(amount) * selectedCrypto.current_price);
       }
-    } catch (error: unknown) {
-      console.error('Error fetching crypto prices:', error);
+    } catch (err: unknown) {
+      if (err instanceof DOMException && err.name === 'AbortError') return;
+      const msg = err instanceof Error ? err.message : 'Failed to fetch crypto prices';
+      setError(msg);
     } finally {
       setLoading(false);
     }
-  };
+  }, [toCurrency, fromCrypto, amount]);
 
   useEffect(() => {
-    fetchCryptoPrices();
-  }, [toCurrency]);
+    abortControllerRef.current?.abort();
+    const controller = new AbortController();
+    abortControllerRef.current = controller;
+    fetchCryptoPrices(controller.signal);
+    return () => { controller.abort(); };
+  }, [fetchCryptoPrices]);
 
   const convert = () => {
     const selectedCrypto = cryptoPrices.find(c => c.id === fromCrypto);
@@ -80,6 +109,15 @@ export default function CryptoConverter() {
           </div>
         </div>
       </div>
+
+      {error && (
+        <div className="bg-red-900/20 border border-red-500/30 rounded-lg p-4 flex items-start gap-3">
+          <AlertCircle className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
+          <div className="text-sm text-red-200">
+            <strong>Error:</strong> {error}. Please try again or check your connection.
+          </div>
+        </div>
+      )}
 
       {/* Amount Input */}
       <div>
@@ -138,7 +176,10 @@ export default function CryptoConverter() {
           Convert
         </button>
         <button
-          onClick={fetchCryptoPrices}
+          onClick={() => {
+            cryptoCache.delete(toCurrency);
+            fetchCryptoPrices();
+          }}
           disabled={loading}
           className="px-4 py-3 bg-zinc-700 hover:bg-zinc-600 disabled:bg-zinc-800 text-white rounded-lg transition-colors"
         >

@@ -24,6 +24,7 @@ function StatCard({ icon: Icon, value, numericValue, label, color, delay }: Stat
     const end = numericValue;
     const duration = 1500;
     const startTime = performance.now();
+    let rafId: number;
 
     const tick = (now: number) => {
       const elapsed = now - startTime;
@@ -31,9 +32,10 @@ function StatCard({ icon: Icon, value, numericValue, label, color, delay }: Stat
       const eased = 1 - Math.pow(1 - progress, 3);
       start = Math.floor(eased * end);
       setDisplayValue(`${start}+`);
-      if (progress < 1) requestAnimationFrame(tick);
+      if (progress < 1) rafId = requestAnimationFrame(tick);
     };
-    requestAnimationFrame(tick);
+    rafId = requestAnimationFrame(tick);
+    return () => { cancelAnimationFrame(rafId); };
   }, [isInView, numericValue]);
 
   return (

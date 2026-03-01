@@ -20,7 +20,10 @@ export default function TextToSpeech() {
     };
     loadVoices();
     window.speechSynthesis.onvoiceschanged = loadVoices;
-    return () => { window.speechSynthesis.cancel(); };
+    return () => {
+      window.speechSynthesis.onvoiceschanged = null;
+      window.speechSynthesis.cancel();
+    };
   }, []);
 
   const speak = () => {

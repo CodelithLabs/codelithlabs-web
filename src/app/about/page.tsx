@@ -278,7 +278,7 @@ export default function AboutPage() {
           
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {[
-              { name: 'Next.js 14', desc: 'React Framework' },
+              { name: 'Next.js 16', desc: 'React Framework' },
               { name: 'TypeScript', desc: 'Type Safety' },
               { name: 'Tailwind CSS', desc: 'Modern Styling' },
               { name: 'Web Workers', desc: 'Performance' },

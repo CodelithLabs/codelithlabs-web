@@ -209,6 +209,8 @@ export function Navbar() {
                   <img
                     src={session.user.image}
                     alt={session.user.name ?? "User"}
+                    width={32}
+                    height={32}
                     className="w-8 h-8 rounded-full border border-zinc-700"
                     referrerPolicy="no-referrer"
                   />

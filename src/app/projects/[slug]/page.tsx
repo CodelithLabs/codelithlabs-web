@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ArrowLeft, Github, ExternalLink } from "lucide-react";
 import Link from "next/link";
@@ -34,7 +35,27 @@ const projects = {
   }
 };
 
-// 2. Generate Static Params (Server Side)
+// 2. Generate Metadata (Dynamic per project)
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
+  const project = projects[slug as keyof typeof projects];
+
+  if (!project) {
+    return { title: 'Project Not Found' };
+  }
+
+  return {
+    title: `${project.title} — ${project.subtitle}`,
+    description: project.description,
+    openGraph: {
+      title: `${project.title} — ${project.subtitle}`,
+      description: project.description,
+      url: `https://codelithlabs.in/projects/${slug}`,
+    },
+  };
+}
+
+// 3. Generate Static Params (Server Side)
 export async function generateStaticParams() {
   return Object.keys(projects).map((slug) => ({
     slug: slug,

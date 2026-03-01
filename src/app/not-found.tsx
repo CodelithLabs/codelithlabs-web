@@ -1,18 +1,12 @@
-"use client";
-
 import Link from "next/link";
 import { AlertTriangle, ArrowLeft } from "lucide-react";
-import { useEffect } from "react";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+    robots: { index: false, follow: false },
+};
 
 export default function NotFound() {
-    useEffect(() => {
-        // Prevent search engines from indexing 404 pages
-        const meta = document.createElement('meta');
-        meta.name = 'robots';
-        meta.content = 'noindex, nofollow';
-        document.head.appendChild(meta);
-        return () => { document.head.removeChild(meta); };
-    }, []);
 
     return (
         <div className="h-screen w-full bg-[#0a0a0a] flex flex-col items-center justify-center text-center px-4">

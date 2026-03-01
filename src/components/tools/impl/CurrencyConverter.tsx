@@ -5,12 +5,16 @@
 // ═══════════════════════════════════════════════════════════════════════════
 'use client';
 
-import { useState, useEffect } from 'react';
-import { DollarSign, RefreshCw, TrendingUp, ArrowRightLeft } from 'lucide-react';
+import { useState, useEffect, useRef, useCallback } from 'react';
+import { DollarSign, RefreshCw, TrendingUp, ArrowRightLeft, AlertCircle } from 'lucide-react';
 
 interface ExchangeRates {
   [key: string]: number;
 }
+
+// In-memory cache for exchange rates (5-minute TTL)
+const ratesCache = new Map<string, { rates: ExchangeRates; timestamp: number }>();
+const CACHE_TTL = 5 * 60 * 1000; // 5 minutes
 
 export default function CurrencyConverter() {
   const [amount, setAmount] = useState('100');
@@ -19,7 +23,9 @@ export default function CurrencyConverter() {
   const [result, setResult] = useState<number | null>(null);
   const [rates, setRates] = useState<ExchangeRates>({});
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
+  const abortControllerRef = useRef<AbortController | null>(null);
 
   const popularCurrencies = [
     { code: 'USD', name: 'US Dollar', symbol: '$', flag: '🇺🇸' },
@@ -36,12 +42,30 @@ export default function CurrencyConverter() {
     { code: 'BRL', name: 'Brazilian Real', symbol: 'R$', flag: '🇧🇷' },
   ];
 
-  const fetchRates = async () => {
+  const fetchRates = useCallback(async (signal?: AbortSignal) => {
+    // Check cache first
+    const cached = ratesCache.get(fromCurrency);
+    if (cached && Date.now() - cached.timestamp < CACHE_TTL) {
+      setRates(cached.rates);
+      setLastUpdated(new Date(cached.timestamp));
+      if (amount) {
+        const convertedAmount = parseFloat(amount) * cached.rates[toCurrency];
+        setResult(convertedAmount);
+      }
+      return;
+    }
+
     setLoading(true);
+    setError(null);
     try {
-      // Using exchangerate-api.com free tier
-      const response = await fetch(`https://api.exchangerate-api.com/v4/latest/${fromCurrency}`);
+      const response = await fetch(
+        `https://api.exchangerate-api.com/v4/latest/${fromCurrency}`,
+        { signal }
+      );
+      if (!response.ok) throw new Error(`API returned ${response.status}`);
       const data = await response.json();
+      // Update cache
+      ratesCache.set(fromCurrency, { rates: data.rates, timestamp: Date.now() });
       setRates(data.rates);
       setLastUpdated(new Date());
       
@@ -50,16 +74,22 @@ export default function CurrencyConverter() {
         const convertedAmount = parseFloat(amount) * data.rates[toCurrency];
         setResult(convertedAmount);
       }
-    } catch (error: unknown) {
-      console.error('Error fetching exchange rates:', error);
+    } catch (err: unknown) {
+      if (err instanceof DOMException && err.name === 'AbortError') return;
+      const msg = err instanceof Error ? err.message : 'Failed to fetch exchange rates';
+      setError(msg);
     } finally {
       setLoading(false);
     }
-  };
+  }, [fromCurrency, toCurrency, amount]);
 
   useEffect(() => {
-    fetchRates();
-  }, [fromCurrency]);
+    abortControllerRef.current?.abort();
+    const controller = new AbortController();
+    abortControllerRef.current = controller;
+    fetchRates(controller.signal);
+    return () => { controller.abort(); };
+  }, [fetchRates]);
 
   const convert = () => {
     if (rates[toCurrency] && amount) {
@@ -93,6 +123,15 @@ export default function CurrencyConverter() {
           </div>
         </div>
       </div>
+
+      {error && (
+        <div className="bg-red-900/20 border border-red-500/30 rounded-lg p-4 flex items-start gap-3">
+          <AlertCircle className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
+          <div className="text-sm text-red-200">
+            <strong>Error:</strong> {error}. Please try again or check your connection.
+          </div>
+        </div>
+      )}
 
       <div className="grid md:grid-cols-[1fr,auto,1fr] gap-4 items-end">
         {/* From Currency */}
@@ -168,7 +207,10 @@ export default function CurrencyConverter() {
           Convert
         </button>
         <button
-          onClick={fetchRates}
+          onClick={() => {
+            ratesCache.delete(fromCurrency);
+            fetchRates();
+          }}
           disabled={loading}
           className="px-4 py-3 bg-zinc-700 hover:bg-zinc-600 disabled:bg-zinc-800 text-white rounded-lg transition-colors"
           title="Refresh rates"

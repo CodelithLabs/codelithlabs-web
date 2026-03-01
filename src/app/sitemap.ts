@@ -97,6 +97,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'monthly',
       priority: 0.5,
     },
+    {
+      url: `${BASE_URL}/transparency`,
+      lastModified: currentDate,
+      changeFrequency: 'monthly',
+      priority: 0.4,
+    },
   ];
 
   // ═══════════════════════════════════════════════════════════════
@@ -149,6 +155,17 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }));
 
   // ═══════════════════════════════════════════════════════════════
+  // PROJECT PAGES
+  // ═══════════════════════════════════════════════════════════════
+  const projectSlugs = ['vectordefense', 'citk-connect'];
+  const projectPages: MetadataRoute.Sitemap = projectSlugs.map(slug => ({
+    url: `${BASE_URL}/projects/${slug}`,
+    lastModified: currentDate,
+    changeFrequency: 'monthly',
+    priority: 0.5,
+  }));
+
+  // ═══════════════════════════════════════════════════════════════
   // COMBINE ALL PAGES
   // ═══════════════════════════════════════════════════════════════
   return [
@@ -156,5 +173,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...categoryPages,
     ...toolPages,
     ...blogPages,
+    ...projectPages,
   ];
 }

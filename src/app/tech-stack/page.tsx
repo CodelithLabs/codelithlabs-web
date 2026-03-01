@@ -31,11 +31,11 @@ interface StackItem {
 
 const TECH_STACK: StackItem[] = [
   {
-    name: 'Next.js 14',
+    name: 'Next.js 16',
     role: 'Framework',
     description: 'App Router with Static Site Generation (SSG) for all tool pages. Every route is pre-rendered at build time for instant loading and zero server costs.',
     color: '#FFFFFF',
-    version: '14.x',
+    version: '16.x',
   },
   {
     name: 'TypeScript',

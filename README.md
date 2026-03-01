@@ -40,7 +40,7 @@ We utilize a modern, type-safe stack to ensure reliability and maintainability.
 
 | Category | Technology | Rationale |
 | :--- | :--- | :--- |
-| **Framework** | [Next.js 14](https://nextjs.org/) | Hybrid static & server rendering for optimal SEO and speed. |
+| **Framework** | [Next.js 16](https://nextjs.org/) | Hybrid static & server rendering for optimal SEO and speed. |
 | **Language** | [TypeScript](https://www.typescriptlang.org/) | Strict type safety for enterprise-grade reliability. |
 | **Styling** | [Tailwind CSS](https://tailwindcss.com/) | Utility-first CSS for rapid, consistent UI development. |
 | **Animation** | [Framer Motion](https://www.framer.com/motion/) | Physics-based animations for a premium user feel. |

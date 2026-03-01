@@ -5,6 +5,7 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import CookieBanner from "@/components/layout/CookieBanner";
 import GoogleAnalytics from "@/components/analytics/GoogleAnalytics";
+import MicrosoftClarity from "@/components/analytics/MicrosoftClarity";
 import Script from 'next/script';
 import { AuthProvider } from "@/components/providers/AuthProvider";
 import { UserProvider } from "@/lib/user-context";
@@ -64,6 +65,8 @@ export const metadata: Metadata = {
     },
     twitter: {
         card: 'summary_large_image',
+        site: '@codelithlabs',
+        creator: '@codelithlabs',
         title: 'CodelithLabs - Free Online Tools Platform',
         description: '100+ free developer and productivity tools with client-side processing',
         images: ['https://codelithlabs.in/og-image.png'],
@@ -71,12 +74,13 @@ export const metadata: Metadata = {
     other: {
         'google-adsense-account': 'ca-pub-6839552407587904',
     },
-    // Uncomment and add real tokens when ready:
-    // verification: {
-    //     google: 'your-google-token',
-    //     yandex: 'your-yandex-token',
-    //     other: { 'msvalidate.01': 'your-bing-token' },
-    // },
+    verification: {
+        google: process.env.GOOGLE_SITE_VERIFICATION || '',
+        yandex: process.env.YANDEX_VERIFICATION || '',
+        other: {
+            'msvalidate.01': process.env.BING_VERIFICATION || '',
+        },
+    },
     alternates: {
         canonical: 'https://codelithlabs.in',
         types: {
@@ -140,7 +144,9 @@ export default function RootLayout({
                                 "contactType": "Customer Service"
                             },
                             "sameAs": [
-                                "https://github.com/codelithlabs"
+                                "https://github.com/codelithlabs",
+                                "https://x.com/codelithlabs",
+                                "https://linkedin.com/company/codelithlabs"
                             ]
                         })
                     }}
@@ -180,6 +186,7 @@ export default function RootLayout({
                 <Footer />
                 <CookieBanner />
                 <GoogleAnalytics />
+                <MicrosoftClarity />
                 {/* AdSense: beforeInteractive renders in SSR <head> for crawler visibility */}
                 <Script
                     src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6839552407587904"
