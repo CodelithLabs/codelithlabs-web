@@ -1,28 +1,30 @@
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Research & Engineering — Technical Papers | CodelithLabs",
+  title: "Projects & Portfolio — Open-Source Engineering",
   description:
-    "Technical papers, architectural decisions, and engineering post-mortems from the CodelithLabs team. Systems engineering, web architecture, DevOps, and more.",
+    "Explore CodelithLabs open-source projects including VectorDefense (C++ game engine) and CITK-Connect (campus web platform). Built with modern architectures and best practices.",
   keywords: [
-    "engineering research",
-    "technical papers",
-    "web architecture",
-    "systems engineering",
-    "CodelithLabs research",
+    "CodelithLabs projects",
+    "open source",
+    "VectorDefense",
+    "CITK-Connect",
+    "C++ game engine",
+    "campus platform",
+    "software portfolio",
   ],
   openGraph: {
-    title: "Research & Engineering — CodelithLabs",
+    title: "Projects — CodelithLabs",
     description:
-      "Technical papers and engineering insights from the CodelithLabs team.",
-    url: "https://codelithlabs.in/research",
+      "Open-source engineering projects by CodelithLabs — game engines, campus platforms, and developer tools.",
+    url: "https://codelithlabs.in/projects",
     type: "website",
     siteName: "CodelithLabs",
   },
-  alternates: { canonical: "https://codelithlabs.in/research" },
+  alternates: { canonical: "https://codelithlabs.in/projects" },
 };
 
-export default function ResearchLayout({
+export default function ProjectsLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -35,10 +37,10 @@ export default function ResearchLayout({
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "CollectionPage",
-            name: "CodelithLabs Research & Engineering",
+            name: "CodelithLabs Projects",
             description:
-              "Technical papers and engineering insights from the CodelithLabs team.",
-            url: "https://codelithlabs.in/research",
+              "Open-source engineering projects by CodelithLabs.",
+            url: "https://codelithlabs.in/projects",
             provider: {
               "@type": "Organization",
               name: "CodelithLabs",
@@ -63,8 +65,8 @@ export default function ResearchLayout({
               {
                 "@type": "ListItem",
                 position: 2,
-                name: "Research",
-                item: "https://codelithlabs.in/research",
+                name: "Projects",
+                item: "https://codelithlabs.in/projects",
               },
             ],
           }),

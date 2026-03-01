@@ -84,15 +84,6 @@ export default async function ToolPage({ params }: PageProps) {
   const relatedTools = getRelatedTools(slug, 4);
   const content = await getToolContent(slug);
 
-  // ---------- Deterministic rating/count for AggregateRating ----------
-  const ratingHash = (() => {
-    let h = 0;
-    for (let i = 0; i < slug.length; i++) { h = (h << 5) - h + slug.charCodeAt(i); h |= 0; }
-    return Math.abs(h);
-  })();
-  const ratingValue = +(4.5 + (ratingHash % 5) * 0.1).toFixed(1);
-  const ratingCount = (ratingHash % 860) + 120;
-
   const softwareSchema = {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
@@ -109,13 +100,6 @@ export default async function ToolPage({ params }: PageProps) {
     url: `https://codelithlabs.in/tools/${tool.slug}`,
     ...(content?.frontmatter.datePublished && { datePublished: content.frontmatter.datePublished }),
     ...(content?.frontmatter.dateModified && { dateModified: content.frontmatter.dateModified }),
-    aggregateRating: {
-      "@type": "AggregateRating",
-      ratingValue,
-      ratingCount,
-      bestRating: 5,
-      worstRating: 1
-    }
   };
 
   const faqSchema = {

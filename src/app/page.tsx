@@ -15,6 +15,7 @@ import { HeroSection } from '@/components/landing/HeroSection';
 import { StatsBar } from '@/components/landing/StatsBar';
 import { FeaturedProjects } from '@/components/landing/FeaturedProjects';
 import { ToolHighlights } from '@/components/landing/ToolHighlights';
+import { HomeAdBelowHero, HomeAdMid, HomeAdBottom } from '@/components/ads/HomeAds';
 
 // ═══════════════════════════════════════════════════════════════════════════
 // SEO METADATA
@@ -22,7 +23,7 @@ import { ToolHighlights } from '@/components/landing/ToolHighlights';
 
 export const metadata: Metadata = {
   title: 'CodelithLabs — Open Source Innovation, System Architecture & Developer Tools',
-  description: 'CodelithLabs is an engineering research lab building 90+ free developer tools, fintech solutions, and open-source infrastructure. 100% client-side processing for maximum privacy.',
+  description: 'CodelithLabs is an engineering research lab building 100+ free developer tools, fintech solutions, and open-source infrastructure. 100% client-side processing for maximum privacy.',
   keywords: [
     'free online tools',
     'developer tools',
@@ -57,7 +58,7 @@ export const metadata: Metadata = {
     url: 'https://codelithlabs.in',
     siteName: 'CodelithLabs',
     title: 'CodelithLabs — Open Source Innovation & Developer Tools',
-    description: '90+ free developer and productivity tools. Privacy-first with client-side processing. Built by engineers, for engineers.',
+    description: '100+ free developer and productivity tools. Privacy-first with client-side processing. Built by engineers, for engineers.',
     images: [
       {
         url: 'https://codelithlabs.in/og-image.png',
@@ -70,7 +71,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'CodelithLabs — Open Source Innovation & Developer Tools',
-    description: '90+ free developer and productivity tools with client-side processing',
+    description: '100+ free developer and productivity tools with client-side processing',
     images: ['https://codelithlabs.in/og-image.png'],
   },
   alternates: {
@@ -97,7 +98,7 @@ export default function HomePage() {
             '@context': 'https://schema.org',
             '@type': 'WebApplication',
             name: 'CodelithLabs Tools',
-            description: 'Free online tools platform with 90+ utilities for developers and creators',
+            description: 'Free online tools platform with 100+ utilities for developers and creators',
             url: 'https://codelithlabs.in',
             applicationCategory: 'UtilitiesApplication',
             operatingSystem: 'Any (Web-based)',
@@ -115,6 +116,9 @@ export default function HomePage() {
 
       {/* ── STATS BAR ── */}
       <StatsBar toolCount={toolCount} />
+
+      {/* ── AD: Below Hero ── */}
+      <HomeAdBelowHero />
 
       {/* ── TOOL HIGHLIGHTS (Bento) ── */}
       <ToolHighlights />
@@ -162,6 +166,9 @@ export default function HomePage() {
       {/* ── FEATURED PROJECTS ── */}
       <FeaturedProjects />
 
+      {/* ── AD: Mid-page ── */}
+      <HomeAdMid />
+
       {/* ── TOOL CATEGORIES ── */}
       <section className="py-24 px-6 bg-zinc-950/30">
         <div className="max-w-6xl mx-auto">
@@ -189,6 +196,9 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* ── AD: Above CTA ── */}
+      <HomeAdBottom />
 
       {/* ── CTA SECTION ── */}
       <section className="py-24 px-6">

@@ -8,10 +8,21 @@ import { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Privacy Policy - CodelithLabs Tools',
-  description: 'Privacy Policy for CodelithLabs Tools platform. Learn how we protect your data with client-side processing.',
+  description: 'Privacy Policy for CodelithLabs Tools platform. Learn how we protect your data with client-side processing. All tools run client-side — your data never leaves your device.',
+  keywords: ['privacy policy', 'data protection', 'client-side processing', 'codelithlabs privacy', 'DPDPA compliance'],
   robots: {
     index: true,
     follow: true,
+  },
+  openGraph: {
+    title: 'Privacy Policy — CodelithLabs',
+    description: 'Learn how CodelithLabs protects your data. 100% client-side processing — your data never leaves your browser.',
+    url: 'https://codelithlabs.in/privacy',
+    siteName: 'CodelithLabs',
+    type: 'website',
+  },
+  alternates: {
+    canonical: 'https://codelithlabs.in/privacy',
   },
 };
 

@@ -8,6 +8,7 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { TOOLS_REGISTRY, getAllCategories } from '@/lib/tools-registry';
 import { TOOL_CATEGORIES, ToolCategory } from '@/types/tool';
+import { ToolsLeaderboard } from '@/components/ads/ToolsIndexAd';
 
 interface PageProps {
   params: Promise<{ category: string }>;
@@ -287,6 +288,9 @@ export default async function CategoryPage({ params }: PageProps) {
               for maximum privacy. No sign-up, no limits, no data collection.
             </p>
           </header>
+
+          {/* Ad — leaderboard below header */}
+          <ToolsLeaderboard />
 
           {/* SEO Content Block */}
           {content && (

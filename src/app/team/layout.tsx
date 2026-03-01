@@ -28,5 +28,75 @@ export default function TeamLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return children;
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "AboutPage",
+            name: "CodelithLabs Team",
+            description:
+              "Meet the engineering team behind CodelithLabs.",
+            url: "https://codelithlabs.in/team",
+            mainEntity: [
+              {
+                "@type": "Person",
+                name: "Prasanta Ray",
+                jobTitle: "CEO & Founder",
+                worksFor: {
+                  "@type": "Organization",
+                  name: "CodelithLabs",
+                },
+                url: "https://prasanta.codelithlabs.in",
+              },
+              {
+                "@type": "Person",
+                name: "Donbil Mwshahary",
+                jobTitle: "Co-Founder & CTO",
+                worksFor: {
+                  "@type": "Organization",
+                  name: "CodelithLabs",
+                },
+              },
+              {
+                "@type": "Person",
+                name: "Harun Al Roshid",
+                jobTitle: "Co-Founder & COO",
+                worksFor: {
+                  "@type": "Organization",
+                  name: "CodelithLabs",
+                },
+              },
+            ],
+          }),
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              {
+                "@type": "ListItem",
+                position: 1,
+                name: "Home",
+                item: "https://codelithlabs.in",
+              },
+              {
+                "@type": "ListItem",
+                position: 2,
+                name: "Team",
+                item: "https://codelithlabs.in/team",
+              },
+            ],
+          }),
+        }}
+      />
+      {children}
+    </>
+  );
 }

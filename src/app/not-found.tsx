@@ -2,8 +2,18 @@
 
 import Link from "next/link";
 import { AlertTriangle, ArrowLeft } from "lucide-react";
+import { useEffect } from "react";
 
 export default function NotFound() {
+    useEffect(() => {
+        // Prevent search engines from indexing 404 pages
+        const meta = document.createElement('meta');
+        meta.name = 'robots';
+        meta.content = 'noindex, nofollow';
+        document.head.appendChild(meta);
+        return () => { document.head.removeChild(meta); };
+    }, []);
+
     return (
         <div className="h-screen w-full bg-[#0a0a0a] flex flex-col items-center justify-center text-center px-4">
             <div className="mb-8 p-6 bg-red-500/10 rounded-full border border-red-500/20 animate-pulse">

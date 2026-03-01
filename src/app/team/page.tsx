@@ -3,7 +3,6 @@
 import { motion, useScroll, useTransform, useSpring, useMotionValue, useInView } from "framer-motion";
 import { Github, Linkedin, Mail, Shield, Server, Code2, Globe, ArrowUpRight, Sparkles, Terminal, Cpu, Zap } from "lucide-react";
 import { useRef, useState, useEffect, useCallback } from "react";
-import Head from "next/head";
 
 // ─── SEO Metadata (add to layout.tsx or use generateMetadata in server component) ───
 // export const metadata = {
@@ -427,30 +426,6 @@ export default function TeamPage() {
 
   return (
     <>
-      {/* ── Inline SEO meta (supplement with layout metadata) ── */}
-      <Head>
-        <title>Team | CodeLithLabs – Engineering Leadership</title>
-        <meta name="description" content="Meet the expert team behind CodeLithLabs — founders and engineers driving innovation in cloud infrastructure, system architecture, and full-stack development." />
-        <meta name="keywords" content="CodeLithLabs, Prasanta Ray, Donbil Mwshahary, Harun Al Roshid, software engineers, cloud infrastructure, tech startup India" />
-        <meta property="og:title" content="CodeLithLabs Team" />
-        <meta property="og:description" content="Visionary engineers building next-gen software at CodeLithLabs." />
-        <meta property="og:type" content="website" />
-        <link rel="canonical" href="https://codelithlabs.in/team" />
-        <script type="application/ld+json">{JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "Organization",
-          "name": "CodeLithLabs",
-          "url": "https://codelithlabs.in",
-          "member": team.map(m => ({
-            "@type": "Person",
-            "name": `${m.prefix} ${m.name}`.trim(),
-            "jobTitle": m.role,
-            "url": m.portfolio,
-            "worksFor": { "@type": "Organization", "name": "CodeLithLabs" }
-          }))
-        })}</script>
-      </Head>
-
       <main
         className="min-h-screen overflow-x-hidden"
         style={{ background: "#050507", color: "#fff", fontFamily: "'DM Sans', 'Inter', sans-serif" }}

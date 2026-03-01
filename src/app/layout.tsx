@@ -5,7 +5,7 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import CookieBanner from "@/components/layout/CookieBanner";
 import GoogleAnalytics from "@/components/analytics/GoogleAnalytics";
-import GoogleAdSense from "@/components/analytics/GoogleAdSense";
+import Script from 'next/script';
 import { AuthProvider } from "@/components/providers/AuthProvider";
 import { UserProvider } from "@/lib/user-context";
 
@@ -68,6 +68,9 @@ export const metadata: Metadata = {
         description: '100+ free developer and productivity tools with client-side processing',
         images: ['https://codelithlabs.in/og-image.png'],
     },
+    other: {
+        'google-adsense-account': 'ca-pub-6839552407587904',
+    },
     // Uncomment and add real tokens when ready:
     // verification: {
     //     google: 'your-google-token',
@@ -76,6 +79,9 @@ export const metadata: Metadata = {
     // },
     alternates: {
         canonical: 'https://codelithlabs.in',
+        types: {
+            'application/rss+xml': 'https://codelithlabs.in/feed.xml/',
+        },
     },
 };
 
@@ -140,47 +146,29 @@ export default function RootLayout({
                     }}
                 />
 
-                {/* LocalBusiness Schema for GEO Optimization */}
+                {/* WebSite Schema with SearchAction for Google Sitelinks Search Box */}
                 <script
                     type="application/ld+json"
                     dangerouslySetInnerHTML={{
                         __html: JSON.stringify({
                             "@context": "https://schema.org",
-                            "@type": "LocalBusiness",
+                            "@type": "WebSite",
                             "name": "CodelithLabs",
-                            "image": "https://codelithlabs.in/icon.png",
                             "url": "https://codelithlabs.in",
-                            "priceRange": "Free",
-                            "address": {
-                                "@type": "PostalAddress",
-                                "streetAddress": "Kokrajhar",
-                                "addressLocality": "Kokrajhar",
-                                "addressRegion": "Assam",
-                                "postalCode": "783370",
-                                "addressCountry": "IN"
+                            "description": "Free online tools platform with 100+ utilities for developers, designers, and content creators",
+                            "potentialAction": {
+                                "@type": "SearchAction",
+                                "target": {
+                                    "@type": "EntryPoint",
+                                    "urlTemplate": "https://codelithlabs.in/tools/?q={search_term_string}"
+                                },
+                                "query-input": "required name=search_term_string"
                             },
-                            "geo": {
-                                "@type": "GeoCoordinates",
-                                "latitude": 26.4008,
-                                "longitude": 90.2717
-                            },
-                            "openingHoursSpecification": {
-                                "@type": "OpeningHoursSpecification",
-                                "dayOfWeek": [
-                                    "Monday",
-                                    "Tuesday",
-                                    "Wednesday",
-                                    "Thursday",
-                                    "Friday",
-                                    "Saturday",
-                                    "Sunday"
-                                ],
-                                "opens": "00:00",
-                                "closes": "23:59"
-                            },
-                            "sameAs": [
-                                "https://github.com/codelithlabs"
-                            ]
+                            "publisher": {
+                                "@type": "Organization",
+                                "name": "CodelithLabs",
+                                "url": "https://codelithlabs.in"
+                            }
                         })
                     }}
                 />
@@ -192,7 +180,12 @@ export default function RootLayout({
                 <Footer />
                 <CookieBanner />
                 <GoogleAnalytics />
-                <GoogleAdSense />
+                {/* AdSense: beforeInteractive renders in SSR <head> for crawler visibility */}
+                <Script
+                    src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6839552407587904"
+                    strategy="beforeInteractive"
+                    crossOrigin="anonymous"
+                />
                 </UserProvider>
                 </AuthProvider>
             </body>

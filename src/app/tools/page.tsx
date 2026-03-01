@@ -10,6 +10,7 @@ import { TOOLS_REGISTRY, getToolsByCategory } from '@/lib/tools-registry';
 import { TOOL_CATEGORIES, ToolCategory } from '@/types/tool';
 import { ToolCard } from '@/components/tools/ToolCard';
 import { motion, AnimatePresence } from 'framer-motion';
+import { ToolsLeaderboard } from '@/components/ads/ToolsIndexAd';
 
 // ═══════════════════════════════════════════════════════════════════════════
 // CATEGORY GROUPINGS — Display-level mapping for the mega-hub
@@ -149,6 +150,9 @@ export default function ToolsPage() {
           </p>
         </div>
       </section>
+
+      {/* ── AD: Leaderboard ── */}
+      <ToolsLeaderboard />
 
       {/* ── STICKY SEARCH BAR ── */}
       <div className="sticky top-16 z-30 bg-[#0a0a0a]/90 backdrop-blur-xl border-b border-white/[0.04]">

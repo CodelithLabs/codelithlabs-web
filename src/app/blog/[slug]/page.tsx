@@ -10,6 +10,8 @@ import { getBlogPost, getAllBlogSlugs } from "@/lib/blog-loader";
 import { GiscusComments } from "@/components/blog/GiscusComments";
 import { NewsletterSignup } from "@/components/newsletter/NewsletterSignup";
 import { BlogAdTop, BlogAdMid, BlogAdBottom } from "@/components/ads/BlogAds";
+import { BlogShareButtons } from "@/components/blog/BlogShareButtons";
+import { PopularTools } from "@/components/blog/PopularTools";
 
 // ─── Static Params ───────────────────────────────────────────────────────
 
@@ -132,6 +134,15 @@ export default async function BlogPostPage({ params }: PageProps) {
               <span>·</span>
               <span>{fm.readingTime ?? 5} min read</span>
             </div>
+
+            {/* Social share buttons */}
+            <div className="mt-6">
+              <BlogShareButtons
+                url={`https://codelithlabs.in/blog/${fm.slug}`}
+                title={fm.title}
+                description={fm.description}
+              />
+            </div>
           </header>
 
           {/* Body */}
@@ -169,6 +180,9 @@ export default async function BlogPostPage({ params }: PageProps) {
               </div>
             </div>
           )}
+
+          {/* Popular Tools — internal linking for SEO */}
+          <PopularTools />
 
           {/* Back link */}
           <div className="mt-10">

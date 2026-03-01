@@ -97,18 +97,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'monthly',
       priority: 0.5,
     },
-    {
-      url: `${BASE_URL}/dashboard`,
-      lastModified: currentDate,
-      changeFrequency: 'monthly',
-      priority: 0.4,
-    },
-    {
-      url: `${BASE_URL}/offline`,
-      lastModified: currentDate,
-      changeFrequency: 'yearly',
-      priority: 0.1,
-    },
   ];
 
   // ═══════════════════════════════════════════════════════════════
