@@ -194,7 +194,7 @@ export function Navbar() {
 
             {/* Hire Us CTA */}
             <Link
-              href="/contact"
+              href="/hire-us"
               className="hidden sm:flex px-4 py-2 bg-white text-black rounded-lg font-bold text-sm hover:bg-zinc-200 transition-colors"
             >
               Hire Us
@@ -365,7 +365,7 @@ export function Navbar() {
                   <ArrowRight className="w-4 h-4" />
                 </Link>
                 <Link
-                  href="/contact"
+                  href="/hire-us"
                   className="flex items-center justify-center w-full py-3 rounded-lg bg-white text-black text-sm font-bold hover:bg-zinc-200 transition-colors"
                   onClick={() => setMobileOpen(false)}
                 >
