@@ -9,16 +9,23 @@ import { useSession } from "next-auth/react";
 
 // ─── Razorpay type shim ──────────────────────────────────────────────────
 
+interface RazorpayResponse {
+  razorpay_payment_id: string;
+  razorpay_order_id: string;
+  razorpay_signature: string;
+}
+
 interface RazorpayOptions {
   key: string;
   amount: number;
   currency: string;
   name: string;
   description: string;
+  order_id?: string;
   image?: string;
   prefill?: { name?: string; email?: string };
   theme?: { color: string };
-  handler: (response: { razorpay_payment_id: string }) => void;
+  handler: (response: RazorpayResponse) => void;
 }
 
 declare global {
@@ -69,29 +76,60 @@ async function handleRazorpayCheckout(user?: { name?: string | null; email?: str
     return;
   }
 
-  const keyId = process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID;
-  if (!keyId) {
-    alert("Payment is not configured yet. Please contact support.");
+  // 1. Create order via server-side API
+  let orderId: string;
+  let keyId: string;
+  try {
+    const res = await fetch("/api/razorpay/create-order", { method: "POST" });
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({ error: "Unknown error" }));
+      alert(err.error ?? "Failed to create payment order. Please try again.");
+      return;
+    }
+    const data = await res.json();
+    orderId = data.orderId;
+    keyId = data.keyId;
+  } catch {
+    alert("Network error. Please check your connection and try again.");
     return;
   }
 
+  // 2. Open Razorpay checkout with the server-created order
   const options: RazorpayOptions = {
     key: keyId,
     amount: 29900, // ₹299 in paise — monthly
     currency: "INR",
     name: "CodelithLabs Premium",
     description: "Ad-Free Membership — Monthly",
+    order_id: orderId,
     image: "https://codelithlabs.in/icon.png",
     prefill: {
       name: user?.name ?? "",
       email: user?.email ?? "",
     },
     theme: { color: "#2979FF" },
-    handler: (response) => {
-      // TODO: Send response.razorpay_payment_id to your API
-      // to verify payment and activate premium status
-      console.log("Payment successful:", response.razorpay_payment_id);
-      alert("Payment successful! Your premium access will be activated shortly.");
+    handler: async (response) => {
+      // 3. Verify payment signature server-side
+      try {
+        const verifyRes = await fetch("/api/razorpay/verify-payment", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            razorpay_order_id: response.razorpay_order_id,
+            razorpay_payment_id: response.razorpay_payment_id,
+            razorpay_signature: response.razorpay_signature,
+          }),
+        });
+        const result = await verifyRes.json();
+        if (result.success) {
+          alert("Payment successful! Your premium access is now active. Please refresh the page.");
+          window.location.reload();
+        } else {
+          alert("Payment verification failed. Please contact support with your payment ID.");
+        }
+      } catch {
+        alert("Payment received but verification failed. Please contact support.");
+      }
     },
   };
 
