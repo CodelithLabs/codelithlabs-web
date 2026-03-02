@@ -150,7 +150,7 @@ export function NewsletterSignup({ compact = false }: NewsletterSignupProps) {
         </p>
       )}
 
-      <p className="mt-3 text-xs text-zinc-600">
+      <p className="mt-3 text-xs text-zinc-400">
         Unsubscribe anytime. We respect your privacy.
       </p>
     </div>

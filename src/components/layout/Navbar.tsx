@@ -63,6 +63,7 @@ const navSections = [
 // ═══════════════════════════════════════════════════════════════════════════
 
 export function Navbar() {
+  const authEnabled = process.env.NEXT_PUBLIC_AUTH_ENABLED === "true";
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
   const pathname = usePathname();
@@ -98,14 +99,14 @@ export function Navbar() {
     <>
       <motion.nav
         ref={navRef}
-        initial={{ y: -100 }}
+        initial={false}
         animate={{ y: 0 }}
-        transition={{ type: "spring", stiffness: 200, damping: 30 }}
+        transition={{ duration: 0 }}
         className="fixed top-0 w-full z-50 border-b border-white/[0.06] bg-[#0a0a0a]/80 backdrop-blur-xl"
       >
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
           {/* ── Logo ── */}
-          <Link href="/" className="text-xl font-bold tracking-tighter text-white flex items-center gap-2.5 group shrink-0">
+          <Link href="/" aria-label="CodelithLabs home" className="text-xl font-bold tracking-tighter text-white flex items-center gap-2.5 group shrink-0">
             <div className="w-8 h-8 rounded-lg bg-glow-blue/10 border border-glow-blue/20 flex items-center justify-center group-hover:border-glow-blue/40 transition-colors">
               <Terminal className="w-4 h-4 text-glow-blue" />
             </div>
@@ -204,9 +205,9 @@ export function Navbar() {
             </Link>
 
             {/* Auth Button */}
-            {status === "loading" ? (
+            {authEnabled && status === "loading" ? (
               <div className="w-8 h-8 rounded-full bg-zinc-800 animate-pulse" />
-            ) : session?.user ? (
+            ) : authEnabled && session?.user ? (
               <div className="hidden sm:flex items-center gap-2">
                 {session.user.image ? (
                   <img
@@ -230,7 +231,7 @@ export function Navbar() {
                   <LogOut className="w-4 h-4" />
                 </button>
               </div>
-            ) : (
+            ) : authEnabled ? (
               <button
                 onClick={() => signIn("google")}
                 className="hidden sm:flex items-center gap-1.5 px-3 py-2 rounded-lg border border-zinc-700 hover:border-zinc-600 text-sm text-zinc-300 hover:text-white transition-colors"
@@ -238,7 +239,7 @@ export function Navbar() {
                 <LogIn className="w-4 h-4" />
                 Sign In
               </button>
-            )}
+            ) : null}
 
             {/* Mobile Toggle */}
             <button
@@ -277,7 +278,7 @@ export function Navbar() {
             >
               {/* Drawer Header */}
               <div className="flex items-center justify-between p-6 border-b border-white/[0.06]">
-                <Link href="/" className="flex items-center gap-2 text-white font-bold" onClick={() => setMobileOpen(false)}>
+                <Link href="/" aria-label="CodelithLabs home" className="flex items-center gap-2 text-white font-bold" onClick={() => setMobileOpen(false)}>
                   <Terminal className="w-4 h-4 text-glow-blue" />
                   CodelithLabs
                 </Link>
@@ -332,7 +333,7 @@ export function Navbar() {
               {/* Bottom CTAs */}
               <div className="p-6 border-t border-white/[0.06] space-y-3">
                 {/* Auth in Mobile */}
-                {session?.user ? (
+                {authEnabled && session?.user ? (
                   <div className="flex items-center justify-between p-3 rounded-lg border border-zinc-800 bg-zinc-900/50 mb-3">
                     <div className="flex items-center gap-3">
                       {session.user.image ? (
@@ -351,7 +352,7 @@ export function Navbar() {
                       Sign Out
                     </button>
                   </div>
-                ) : (
+                ) : authEnabled ? (
                   <button
                     onClick={() => { signIn("google"); setMobileOpen(false); }}
                     className="flex items-center justify-center gap-2 w-full py-3 rounded-lg border border-zinc-700 text-zinc-300 text-sm font-medium hover:bg-white/[0.04] transition-colors mb-3"
@@ -359,7 +360,7 @@ export function Navbar() {
                     <LogIn className="w-4 h-4" />
                     Sign In with Google
                   </button>
-                )}
+                ) : null}
 
                 <Link
                   href="/tools"

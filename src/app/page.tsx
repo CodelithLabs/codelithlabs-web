@@ -215,7 +215,7 @@ export default function HomePage() {
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                 <Link
                   href="/tools"
-                  className="group flex items-center gap-2 px-7 py-3.5 bg-glow-blue text-white font-semibold rounded-xl hover:bg-blue-600 transition-all shadow-lg shadow-glow-blue/20"
+                  className="group flex items-center gap-2 px-7 py-3.5 bg-blue-700 text-white font-semibold rounded-xl hover:bg-blue-600 transition-all shadow-lg shadow-blue-700/20"
                 >
                   Browse All Tools
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />

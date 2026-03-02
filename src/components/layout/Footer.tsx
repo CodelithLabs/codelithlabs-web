@@ -27,7 +27,7 @@ export function Footer() {
           <div className="grid grid-cols-2 md:grid-cols-5 gap-8">
             {/* Tools */}
             <div>
-              <h4 className="text-sm font-semibold text-white mb-4">Tools</h4>
+              <h3 className="text-sm font-semibold text-white mb-4">Tools</h3>
               <ul className="space-y-2.5 text-sm text-zinc-400">
                 <li><Link href="/tools" className="hover:text-white transition-colors">All Tools</Link></li>
                 <li><Link href="/tools/category/developer" className="hover:text-white transition-colors">Developer Tools</Link></li>
@@ -39,7 +39,7 @@ export function Footer() {
             </div>
             {/* Company */}
             <div>
-              <h4 className="text-sm font-semibold text-white mb-4">Company</h4>
+              <h3 className="text-sm font-semibold text-white mb-4">Company</h3>
               <ul className="space-y-2.5 text-sm text-zinc-400">
                 <li><Link href="/about" className="hover:text-white transition-colors">About Us</Link></li>
                 <li><Link href="/team" className="hover:text-white transition-colors">Our Team</Link></li>
@@ -53,7 +53,7 @@ export function Footer() {
             </div>
             {/* Research */}
             <div>
-              <h4 className="text-sm font-semibold text-white mb-4">Research</h4>
+              <h3 className="text-sm font-semibold text-white mb-4">Research</h3>
               <ul className="space-y-2.5 text-sm text-zinc-400">
                 <li><Link href="/research" className="hover:text-white transition-colors">R&D Logs</Link></li>
                 <li><Link href="/projects" className="hover:text-white transition-colors">Projects</Link></li>
@@ -61,7 +61,7 @@ export function Footer() {
             </div>
             {/* Legal */}
             <div>
-              <h4 className="text-sm font-semibold text-white mb-4">Legal</h4>
+              <h3 className="text-sm font-semibold text-white mb-4">Legal</h3>
               <ul className="space-y-2.5 text-sm text-zinc-400">
                 <li><Link href="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link></li>
                 <li><Link href="/terms" className="hover:text-white transition-colors">Terms of Service</Link></li>
@@ -69,7 +69,7 @@ export function Footer() {
             </div>
             {/* Open Source */}
             <div>
-              <h4 className="text-sm font-semibold text-white mb-4">Open Source</h4>
+              <h3 className="text-sm font-semibold text-white mb-4">Open Source</h3>
               <ul className="space-y-2.5 text-sm text-zinc-400">
                 <li>
                   <a href="https://github.com/codelithlabs" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors flex items-center gap-1.5">
@@ -78,7 +78,7 @@ export function Footer() {
                   </a>
                 </li>
               </ul>
-              <p className="text-xs text-zinc-600 mt-4 leading-relaxed">
+              <p className="text-xs text-zinc-400 mt-4 leading-relaxed">
                 CodelithLabs.in is an independent platform and is not affiliated with codelithlab.com (a Pune-based IT company).
               </p>
             </div>
@@ -103,7 +103,7 @@ export function Footer() {
             </div>
             <div className="flex items-center gap-4 text-zinc-500">
               <span>Last Deploy: March 2026</span>
-              <span className="hidden sm:inline text-zinc-700">|</span>
+              <span className="hidden sm:inline text-zinc-500">|</span>
               <span className="hidden sm:inline">100% Client-Side Processing</span>
             </div>
           </div>
@@ -121,8 +121,8 @@ export function Footer() {
             <Link href="/contact" className="hover:text-zinc-300 transition-colors">
               Contact
             </Link>
-            <span className="text-zinc-700">|</span>
-            <span className="text-xs text-zinc-600">Built with Next.js + TypeScript</span>
+            <span className="text-zinc-500">|</span>
+            <span className="text-xs text-zinc-400">Built with Next.js + TypeScript</span>
           </div>
         </div>
       </div>

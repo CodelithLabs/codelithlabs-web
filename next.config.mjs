@@ -52,6 +52,7 @@ const nextConfig = {
   // Compile-time environment variables (safe to expose — no secrets)
   env: {
     NEXT_PUBLIC_SITE_URL: 'https://codelithlabs.in',
+    NEXT_PUBLIC_AUTH_ENABLED: String(Boolean(process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET)),
   },
 };
 

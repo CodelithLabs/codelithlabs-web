@@ -6,13 +6,18 @@
 import NextAuth from "next-auth";
 import Google from "next-auth/providers/google";
 
+const googleClientId = process.env.GOOGLE_CLIENT_ID;
+const googleClientSecret = process.env.GOOGLE_CLIENT_SECRET;
+
 export const { handlers, signIn, signOut, auth } = NextAuth({
-  providers: [
-    Google({
-      clientId: process.env.GOOGLE_CLIENT_ID ?? "",
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? "",
-    }),
-  ],
+  providers: googleClientId && googleClientSecret
+    ? [
+        Google({
+          clientId: googleClientId,
+          clientSecret: googleClientSecret,
+        }),
+      ]
+    : [],
 
   // Pages — customise sign-in UI later
   pages: {
@@ -47,5 +52,5 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   },
 
   // Secret for JWT encryption
-  secret: process.env.NEXTAUTH_SECRET,
+  secret: process.env.NEXTAUTH_SECRET || process.env.AUTH_SECRET || "codelithlabs-fallback-secret-change-in-production",
 });

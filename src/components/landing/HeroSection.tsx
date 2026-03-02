@@ -1,18 +1,5 @@
-"use client";
-
-import { motion } from "framer-motion";
 import { ArrowRight, FlaskConical, Shield, Zap } from "lucide-react";
 import Link from "next/link";
-
-const stagger = {
-  hidden: {},
-  show: { transition: { staggerChildren: 0.12 } },
-};
-
-const fadeUp = {
-  hidden: { opacity: 0, y: 24, filter: "blur(6px)" },
-  show: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 0.6, ease: [0.25, 0.4, 0.25, 1] } },
-};
 
 const badges = [
   { label: "90+ Free Tools", icon: Zap, color: "text-glow-blue" },
@@ -28,48 +15,37 @@ export function HeroSection() {
       <div className="absolute inset-0 bg-glow-radial opacity-60" />
       <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-[#0a0a0a] to-transparent" />
 
-      <motion.div
-        variants={stagger}
-        initial="hidden"
-        animate="show"
-        className="relative z-10 max-w-5xl mx-auto px-6 text-center"
-      >
+      <div className="relative z-10 max-w-5xl mx-auto px-6 text-center">
         {/* Lab Badge */}
-        <motion.div variants={fadeUp} className="inline-flex items-center gap-2 mb-8">
+        <div className="inline-flex items-center gap-2 mb-8">
           <div className="flex items-center gap-2 px-4 py-2 rounded-full border border-white/[0.08] bg-white/[0.03] backdrop-blur-sm">
             <span className="status-dot" />
             <span className="text-xs font-mono text-zinc-400 uppercase tracking-wider">
               Research Lab Active
             </span>
           </div>
-        </motion.div>
+        </div>
 
         {/* Headline */}
-        <motion.h1
-          variants={fadeUp}
-          className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight text-white leading-[1.05] mb-6"
-        >
+        <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight text-white leading-[1.05] mb-6">
           Open Source Innovation.
           <br />
-          <span className="bg-gradient-to-r from-glow-blue via-glow-cyan to-glow-blue bg-[length:200%_auto] animate-shimmer bg-clip-text text-transparent">
+          <span className="bg-gradient-to-r from-glow-blue via-glow-cyan to-glow-blue bg-clip-text text-transparent">
             System Architecture.
           </span>
-        </motion.h1>
+        </h1>
 
         {/* Subheadline */}
-        <motion.p
-          variants={fadeUp}
-          className="text-lg md:text-xl text-zinc-400 max-w-2xl mx-auto mb-10 leading-relaxed"
-        >
+        <p className="text-lg md:text-xl text-zinc-300 max-w-2xl mx-auto mb-10 leading-relaxed">
           We build high-performance developer tools, fintech solutions, and research
           infrastructure — all engineered from Kokrajhar, shipped to the world.
-        </motion.p>
+        </p>
 
         {/* CTAs */}
-        <motion.div variants={fadeUp} className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-14">
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-14">
           <Link
             href="/tools"
-            className="group flex items-center gap-2 px-7 py-3.5 bg-glow-blue text-white font-semibold rounded-xl hover:bg-blue-600 transition-all shadow-lg shadow-glow-blue/20 hover:shadow-glow-blue/40"
+            className="group flex items-center gap-2 px-7 py-3.5 bg-blue-700 text-white font-semibold rounded-xl hover:bg-blue-600 transition-all shadow-lg shadow-blue-700/20 hover:shadow-blue-600/40"
           >
             Explore Tools
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -80,13 +56,10 @@ export function HeroSection() {
           >
             View Research
           </Link>
-        </motion.div>
+        </div>
 
         {/* Trust Badges */}
-        <motion.div
-          variants={fadeUp}
-          className="flex flex-wrap items-center justify-center gap-4"
-        >
+        <div className="flex flex-wrap items-center justify-center gap-4">
           {badges.map((badge) => {
             const Icon = badge.icon;
             return (
@@ -99,8 +72,8 @@ export function HeroSection() {
               </div>
             );
           })}
-        </motion.div>
-      </motion.div>
+        </div>
+      </div>
     </section>
   );
 }

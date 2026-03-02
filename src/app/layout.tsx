@@ -187,10 +187,10 @@ export default function RootLayout({
                 <CookieBanner />
                 <GoogleAnalytics />
                 <MicrosoftClarity />
-                {/* AdSense: beforeInteractive renders in SSR <head> for crawler visibility */}
+                {/* AdSense: lazyOnload reduces initial render blocking on mobile */}
                 <Script
                     src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6839552407587904"
-                    strategy="beforeInteractive"
+                    strategy="lazyOnload"
                     crossOrigin="anonymous"
                 />
                 </UserProvider>
