@@ -23,7 +23,7 @@ import { HomeAdBelowHero, HomeAdMid, HomeAdBottom } from '@/components/ads/HomeA
 
 export const metadata: Metadata = {
   title: 'CodelithLabs — Open Source Innovation, System Architecture & Developer Tools',
-  description: 'CodelithLabs is an engineering research lab building 100+ free developer tools, fintech solutions, and open-source infrastructure. 100% client-side processing for maximum privacy.',
+  description: 'CodelithLabs offers 100+ free developer and fintech tools with 100% client-side processing for privacy, speed, and zero sign-up.',
   keywords: [
     'free online tools',
     'developer tools',
