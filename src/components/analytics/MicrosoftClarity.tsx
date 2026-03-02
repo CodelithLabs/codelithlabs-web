@@ -8,10 +8,12 @@
 
 import { useEffect, useState } from 'react';
 import Script from 'next/script';
+import { useNonce } from '@/app/nonce-context';
 
 const CLARITY_PROJECT_ID = 'vp62e5yyap';
 
 export default function MicrosoftClarity() {
+  const nonce = useNonce();
   const [hasConsent, setHasConsent] = useState(() => {
     if (typeof window !== 'undefined') {
       return localStorage.getItem('codelith_cookie_consent') === 'accepted';
@@ -36,6 +38,7 @@ export default function MicrosoftClarity() {
     <Script
       id="microsoft-clarity"
       strategy="afterInteractive"
+      nonce={nonce}
       dangerouslySetInnerHTML={{
         __html: `
           (function(c,l,a,r,i,t,y){

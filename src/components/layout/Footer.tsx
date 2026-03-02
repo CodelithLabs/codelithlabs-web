@@ -101,9 +101,9 @@ export function Footer() {
               <span className="status-dot shrink-0" />
               <span className="text-green-400/80">All Systems Operational</span>
             </div>
-            <div className="flex items-center gap-4 text-zinc-500">
+            <div className="flex items-center gap-4 text-zinc-300">
               <span>Last Deploy: March 2026</span>
-              <span className="hidden sm:inline text-zinc-500">|</span>
+              <span className="hidden sm:inline text-zinc-300">|</span>
               <span className="hidden sm:inline">100% Client-Side Processing</span>
             </div>
           </div>
@@ -112,7 +112,7 @@ export function Footer() {
 
       {/* Copyright & Bottom Bar */}
       <div className="py-6">
-        <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-zinc-500">
+        <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-zinc-300">
           <p>&copy; 2026 CodelithLabs. All rights reserved. Kokrajhar, Assam, India.</p>
           <div className="flex gap-4 items-center">
             <a href="https://github.com/codelithlabs" target="_blank" rel="noopener noreferrer" className="hover:text-zinc-300 transition-colors">
@@ -121,7 +121,7 @@ export function Footer() {
             <Link href="/contact" className="hover:text-zinc-300 transition-colors">
               Contact
             </Link>
-            <span className="text-zinc-500">|</span>
+            <span className="text-zinc-300">|</span>
             <span className="text-xs text-zinc-400">Built with Next.js + TypeScript</span>
           </div>
         </div>

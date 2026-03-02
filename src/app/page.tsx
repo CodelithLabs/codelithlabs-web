@@ -5,6 +5,7 @@
 
 import { Metadata } from 'next';
 import Link from 'next/link';
+import { lazy, Suspense } from 'react';
 import {
   ArrowRight, Lock, Zap, Users, TrendingUp, Globe, Star,
   Shield, Server, Code2
@@ -13,9 +14,11 @@ import { TOOLS_REGISTRY, getToolCount, getCategoryStats } from '@/lib/tools-regi
 
 import { HeroSection } from '@/components/landing/HeroSection';
 import { StatsBar } from '@/components/landing/StatsBar';
-import { FeaturedProjects } from '@/components/landing/FeaturedProjects';
-import { ToolHighlights } from '@/components/landing/ToolHighlights';
 import { HomeAdBelowHero, HomeAdMid, HomeAdBottom } from '@/components/ads/HomeAds';
+
+// Lazy-load below-fold components to reduce initial JS bundle
+const ToolHighlights = lazy(() => import('@/components/landing/ToolHighlights').then(m => ({ default: m.ToolHighlights })));
+const FeaturedProjects = lazy(() => import('@/components/landing/FeaturedProjects').then(m => ({ default: m.FeaturedProjects })));
 
 // ═══════════════════════════════════════════════════════════════════════════
 // SEO METADATA
@@ -120,8 +123,10 @@ export default function HomePage() {
       {/* ── AD: Below Hero ── */}
       <HomeAdBelowHero />
 
-      {/* ── TOOL HIGHLIGHTS (Bento) ── */}
-      <ToolHighlights />
+      {/* ── TOOL HIGHLIGHTS (Bento) — Lazy-loaded ── */}
+      <Suspense fallback={<div className="py-24 px-6 bg-zinc-950/50 animate-pulse" />}>
+        <ToolHighlights />
+      </Suspense>
 
       {/* ── KEY FEATURES ── */}
       <section className="py-24 px-6 border-y border-white/[0.06]">
@@ -163,8 +168,10 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── FEATURED PROJECTS ── */}
-      <FeaturedProjects />
+      {/* ── FEATURED PROJECTS — Lazy-loaded ── */}
+      <Suspense fallback={<div className="py-24 px-6 bg-zinc-950/30 animate-pulse" />}>
+        <FeaturedProjects />
+      </Suspense>
 
       {/* ── AD: Mid-page ── */}
       <HomeAdMid />

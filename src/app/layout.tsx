@@ -9,6 +9,8 @@ import MicrosoftClarity from "@/components/analytics/MicrosoftClarity";
 import Script from 'next/script';
 import { AuthProvider } from "@/components/providers/AuthProvider";
 import { UserProvider } from "@/lib/user-context";
+import crypto from 'crypto';
+import { NonceProvider } from "@/app/nonce-context";
 
 const inter = Inter({ subsets: ["latin"] });
 const jetbrainsMono = JetBrains_Mono({
@@ -94,6 +96,9 @@ export default function RootLayout({
 }: Readonly<{
     children: React.ReactNode;
 }>) {
+    // Generate a cryptographically secure nonce for CSP inline scripts
+    const nonce = crypto.randomBytes(16).toString('base64');
+
     return (
         <html lang="en" className="dark">
             <body className={`${inter.className} ${jetbrainsMono.variable} antialiased selection:bg-blue-500/30 bg-[#0a0a0a]`}>
@@ -106,6 +111,7 @@ export default function RootLayout({
                 >
                     Skip to main content
                 </a>
+                <NonceProvider nonce={nonce}>
                 <AuthProvider>
                 <UserProvider>
 
@@ -195,6 +201,7 @@ export default function RootLayout({
                 />
                 </UserProvider>
                 </AuthProvider>
+                </NonceProvider>
             </body>
         </html>
     );
