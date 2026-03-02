@@ -16,11 +16,11 @@ export const metadata: Metadata = {
     title: "Hire the CodelithLabs Engineering Team",
     description:
       "Production-grade web apps, custom tools, and infrastructure from the team behind 100+ free online tools.",
-    url: "https://codelithlabs.in/hire-us",
+    url: "https://codelithlabs.in/hire-us/",
     type: "website",
     siteName: "CodelithLabs",
   },
-  alternates: { canonical: "https://codelithlabs.in/hire-us" },
+  alternates: { canonical: "https://codelithlabs.in/hire-us/" },
 };
 
 const SERVICES = [
@@ -96,7 +96,7 @@ export default function HireUsPage() {
     "@context": "https://schema.org",
     "@type": "ProfessionalService",
     name: "CodelithLabs Engineering Services",
-    url: "https://codelithlabs.in/hire-us",
+    url: "https://codelithlabs.in/hire-us/",
     description:
       "Custom software development, web applications, and infrastructure services by the CodelithLabs engineering team.",
     areaServed: { "@type": "Country", name: "India" },

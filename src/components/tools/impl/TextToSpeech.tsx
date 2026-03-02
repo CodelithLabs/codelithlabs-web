@@ -24,7 +24,7 @@ export default function TextToSpeech() {
       window.speechSynthesis.onvoiceschanged = null;
       window.speechSynthesis.cancel();
     };
-  }, []);
+  }, [selectedVoice]);
 
   const speak = () => {
     if (!text.trim()) return;

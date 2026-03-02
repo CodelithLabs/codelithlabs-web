@@ -50,7 +50,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     openGraph: {
       title: `${project.title} — ${project.subtitle}`,
       description: project.description,
-      url: `https://codelithlabs.in/projects/${slug}`,
+      url: `https://codelithlabs.in/projects/${slug}/`,
     },
   };
 }

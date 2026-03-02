@@ -7,8 +7,8 @@ interface InvoiceItem { description: string; qty: number; rate: number; }
 export default function InvoiceGenerator() {
   const [from, setFrom] = useState({ name: '', email: '', address: '' });
   const [to, setTo] = useState({ name: '', email: '', address: '' });
-  const [invoiceNo, setInvoiceNo] = useState(`INV-${Date.now().toString(36).toUpperCase()}`);
-  const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
+  const [invoiceNo, setInvoiceNo] = useState(() => `INV-${Date.now().toString(36).toUpperCase()}`);
+  const [date, setDate] = useState(() => new Date().toISOString().split('T')[0]);
   const [dueDate, setDueDate] = useState('');
   const [items, setItems] = useState<InvoiceItem[]>([{ description: '', qty: 1, rate: 0 }]);
   const [taxRate, setTaxRate] = useState('18');

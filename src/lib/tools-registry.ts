@@ -866,6 +866,426 @@ export const TOOLS_REGISTRY: ToolMeta[] = [
     keywords: ['security', 'https', 'ssl', 'phishing', 'website', 'check', 'safe'],
     processingType: 'client'
   },
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // AI REPURPOSING TOOLS
+  // ═══════════════════════════════════════════════════════════════════════════
+  {
+    slug: 'blog-to-twitter-thread',
+    name: 'Blog to Twitter Thread',
+    description: 'Convert any blog post into a numbered Twitter/X thread with optimized character counts and hashtags.',
+    category: 'ai-repurpose',
+    keywords: ['blog', 'twitter', 'thread', 'x', 'social media', 'convert', 'repurpose'],
+    processingType: 'client'
+  },
+  {
+    slug: 'blog-to-linkedin-post',
+    name: 'Blog to LinkedIn Post',
+    description: 'Transform blog articles into engaging LinkedIn posts with hooks, bullets, and hashtags.',
+    category: 'ai-repurpose',
+    keywords: ['blog', 'linkedin', 'post', 'social media', 'convert', 'professional'],
+    processingType: 'client'
+  },
+  {
+    slug: 'article-to-bullet-points',
+    name: 'Article to Bullet Points',
+    description: 'Summarize any article into clean bullet points using extractive key-sentence analysis.',
+    category: 'ai-repurpose',
+    keywords: ['article', 'summary', 'bullet points', 'summarize', 'key points', 'extract'],
+    processingType: 'client'
+  },
+  {
+    slug: 'youtube-script-to-blog',
+    name: 'YouTube Script to Blog',
+    description: 'Convert YouTube video scripts and transcripts into structured, SEO-ready blog posts.',
+    category: 'ai-repurpose',
+    keywords: ['youtube', 'script', 'blog', 'transcript', 'convert', 'video to text'],
+    processingType: 'client'
+  },
+  {
+    slug: 'podcast-notes-generator',
+    name: 'Podcast Notes Generator',
+    description: 'Generate professional podcast show notes with topics, timestamps, and resources from transcripts.',
+    category: 'ai-repurpose',
+    keywords: ['podcast', 'show notes', 'transcript', 'timestamps', 'generate'],
+    processingType: 'client'
+  },
+  {
+    slug: 'email-to-tweet',
+    name: 'Email Newsletter to Tweet',
+    description: 'Convert email newsletter content into multiple tweet variations with hooks and CTAs.',
+    category: 'ai-repurpose',
+    keywords: ['email', 'newsletter', 'tweet', 'twitter', 'convert', 'repurpose'],
+    processingType: 'client'
+  },
+  {
+    slug: 'long-form-to-short',
+    name: 'Long Form to Short Form',
+    description: 'Condense long-form content into platform-specific short formats for Twitter, LinkedIn, Instagram, and TikTok.',
+    category: 'ai-repurpose',
+    keywords: ['long form', 'short form', 'condense', 'social media', 'convert', 'platform'],
+    processingType: 'client'
+  },
+  {
+    slug: 'text-to-faq',
+    name: 'Text to FAQ Generator',
+    description: 'Generate FAQ question-answer pairs from any article with JSON-LD FAQPage schema output.',
+    category: 'ai-repurpose',
+    keywords: ['text', 'faq', 'generate', 'schema', 'json-ld', 'questions', 'seo'],
+    processingType: 'client'
+  },
+  {
+    slug: 'content-to-carousel',
+    name: 'Content to Carousel Slides',
+    description: 'Transform blog content into slide-by-slide carousel format for LinkedIn and Instagram.',
+    category: 'ai-repurpose',
+    keywords: ['carousel', 'slides', 'linkedin', 'instagram', 'content', 'convert'],
+    processingType: 'client'
+  },
+  {
+    slug: 'meeting-to-actions',
+    name: 'Meeting Notes to Action Items',
+    description: 'Extract action items, assignees, and deadlines from meeting notes automatically.',
+    category: 'ai-repurpose',
+    keywords: ['meeting', 'action items', 'notes', 'extract', 'tasks', 'agenda'],
+    processingType: 'client'
+  },
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // DEVELOPER UTILITIES
+  // ═══════════════════════════════════════════════════════════════════════════
+  {
+    slug: 'typescript-to-js',
+    name: 'TypeScript to JavaScript',
+    description: 'Strip TypeScript type annotations, interfaces, and generics to get clean JavaScript code.',
+    category: 'developer',
+    keywords: ['typescript', 'javascript', 'convert', 'strip types', 'ts to js', 'compiler'],
+    processingType: 'client'
+  },
+  {
+    slug: 'json-schema-generator',
+    name: 'JSON Schema Generator',
+    description: 'Auto-generate JSON Schema (Draft-07 / 2020-12) from any JSON object with nested definitions.',
+    category: 'developer',
+    keywords: ['json', 'schema', 'generate', 'validation', 'api', 'draft-07'],
+    processingType: 'client'
+  },
+  {
+    slug: 'sql-to-mongodb',
+    name: 'SQL to MongoDB Query',
+    description: 'Convert SQL SELECT statements to MongoDB find/aggregate queries with projections and sorting.',
+    category: 'developer',
+    keywords: ['sql', 'mongodb', 'convert', 'query', 'nosql', 'database', 'migrate'],
+    processingType: 'client'
+  },
+  {
+    slug: 'graphql-query-builder',
+    name: 'GraphQL Query Builder',
+    description: 'Build GraphQL queries, mutations, and fragments visually without writing raw syntax.',
+    category: 'developer',
+    keywords: ['graphql', 'query', 'builder', 'mutation', 'fragment', 'api', 'visual'],
+    processingType: 'client'
+  },
+  {
+    slug: 'docker-compose-generator',
+    name: 'Docker Compose Generator',
+    description: 'Generate docker-compose.yml files visually with service presets for Nginx, Postgres, Redis, and more.',
+    category: 'developer',
+    keywords: ['docker', 'compose', 'yaml', 'container', 'nginx', 'postgres', 'redis'],
+    processingType: 'client'
+  },
+  {
+    slug: 'dotenv-editor',
+    name: '.env File Editor',
+    description: 'Parse, edit, and export .env files visually. 100% client-side — your secrets never leave your browser.',
+    category: 'developer',
+    keywords: ['env', 'dotenv', 'environment', 'variables', 'editor', 'secrets', 'config'],
+    processingType: 'client'
+  },
+  {
+    slug: 'gitignore-generator',
+    name: 'Git Ignore Generator',
+    description: 'Generate .gitignore files by selecting languages and frameworks. Combine templates and download instantly.',
+    category: 'developer',
+    keywords: ['gitignore', 'git', 'ignore', 'template', 'language', 'framework'],
+    processingType: 'client'
+  },
+  {
+    slug: 'chmod-calculator',
+    name: 'Chmod Calculator',
+    description: 'Calculate Linux file permissions visually. Toggle read/write/execute and get octal + symbolic notation.',
+    category: 'developer',
+    keywords: ['chmod', 'permissions', 'linux', 'unix', 'file', 'octal', 'symbolic'],
+    processingType: 'client'
+  },
+  {
+    slug: 'http-status-codes',
+    name: 'HTTP Status Code Reference',
+    description: 'Searchable reference for all HTTP status codes (1xx–5xx) with descriptions, causes, and examples.',
+    category: 'developer',
+    keywords: ['http', 'status', 'code', 'reference', '404', '500', '200', 'api'],
+    processingType: 'client'
+  },
+  {
+    slug: 'regex-library',
+    name: 'Regex Patterns Library',
+    description: '100+ ready-to-use regex patterns for email, phone, URL, dates, IP, and more. Copy and test instantly.',
+    category: 'developer',
+    keywords: ['regex', 'patterns', 'library', 'email', 'phone', 'url', 'validation'],
+    processingType: 'client'
+  },
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // FINTECH & COMPLIANCE TOOLS
+  // ═══════════════════════════════════════════════════════════════════════════
+  {
+    slug: 'gst-calculator-india',
+    name: 'GST Calculator (India)',
+    description: 'Calculate GST with CGST/SGST/IGST breakdown for all slabs (5%, 12%, 18%, 28%). Add or remove GST from any amount.',
+    category: 'fintech',
+    keywords: ['gst', 'calculator', 'india', 'cgst', 'sgst', 'igst', 'tax', 'goods and services'],
+    processingType: 'client'
+  },
+  {
+    slug: 'ppf-calculator',
+    name: 'PPF Calculator (India)',
+    description: 'Calculate Public Provident Fund maturity with year-by-year breakdown. Latest PPF interest rate with 15-25 year projections.',
+    category: 'fintech',
+    keywords: ['ppf', 'calculator', 'india', 'public provident fund', 'interest', 'tax saving'],
+    processingType: 'client'
+  },
+  {
+    slug: 'sip-stepup-calculator',
+    name: 'SIP Step-Up Calculator',
+    description: 'Calculate SIP returns with annual step-up increases. Compare regular vs step-up SIP corpus growth over time.',
+    category: 'fintech',
+    keywords: ['sip', 'step up', 'calculator', 'mutual fund', 'india', 'investment', 'annual increase'],
+    processingType: 'client'
+  },
+  {
+    slug: 'fd-calculator-india',
+    name: 'FD Interest Calculator (India)',
+    description: 'Calculate Fixed Deposit maturity with quarterly/monthly compounding and TDS deduction. Senior citizen rates supported.',
+    category: 'fintech',
+    keywords: ['fd', 'fixed deposit', 'calculator', 'india', 'interest', 'tds', 'maturity'],
+    processingType: 'client'
+  },
+  {
+    slug: 'gratuity-calculator-india',
+    name: 'Gratuity Calculator (India)',
+    description: 'Calculate gratuity as per Indian law. Enter salary and service years for exact amount with eligibility check.',
+    category: 'fintech',
+    keywords: ['gratuity', 'calculator', 'india', 'salary', 'service years', 'employment', 'law'],
+    processingType: 'client'
+  },
+  {
+    slug: 'nps-calculator-india',
+    name: 'NPS Calculator (India)',
+    description: 'Calculate NPS corpus and monthly pension at retirement. Estimate annuity and lump sum withdrawal amounts.',
+    category: 'fintech',
+    keywords: ['nps', 'pension', 'calculator', 'india', 'retirement', 'annuity', 'national pension'],
+    processingType: 'client'
+  },
+  {
+    slug: 'vat-calculator',
+    name: 'VAT Calculator',
+    description: 'Calculate VAT for any country. Add or remove VAT with pre-loaded rates for EU, UK, and 50+ countries.',
+    category: 'fintech',
+    keywords: ['vat', 'calculator', 'tax', 'eu', 'uk', 'value added tax', 'global'],
+    processingType: 'client'
+  },
+  {
+    slug: 'freelance-rate-calculator',
+    name: 'Freelance Rate Calculator',
+    description: 'Calculate your freelance hourly, daily, and project rates based on income goals, expenses, and taxes.',
+    category: 'fintech',
+    keywords: ['freelance', 'rate', 'calculator', 'hourly', 'pricing', 'income', 'expenses'],
+    processingType: 'client'
+  },
+  {
+    slug: 'roi-calculator',
+    name: 'ROI Calculator',
+    description: 'Calculate Return on Investment as percentage and absolute gain. Supports annualized ROI for multi-year periods.',
+    category: 'fintech',
+    keywords: ['roi', 'return', 'investment', 'calculator', 'marketing', 'business', 'profit'],
+    processingType: 'client'
+  },
+  {
+    slug: 'markup-vs-margin',
+    name: 'Markup vs Margin Calculator',
+    description: 'Understand and calculate the difference between markup and margin. Enter cost price and get both instantly.',
+    category: 'fintech',
+    keywords: ['markup', 'margin', 'calculator', 'pricing', 'profit', 'cost', 'difference'],
+    processingType: 'client'
+  },
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // LOCAL SEO TOOLS
+  // ═══════════════════════════════════════════════════════════════════════════
+  {
+    slug: 'local-business-schema',
+    name: 'Local Business Schema Generator',
+    description: 'Generate LocalBusiness JSON-LD schema for Google rich results. Fill out the form, copy valid structured data.',
+    category: 'local-seo',
+    keywords: ['local business', 'schema', 'json-ld', 'structured data', 'google', 'rich results'],
+    processingType: 'client'
+  },
+  {
+    slug: 'nap-checker',
+    name: 'NAP Consistency Checker',
+    description: 'Check Name, Address, Phone consistency across business listings. Find and fix mismatches for local SEO.',
+    category: 'local-seo',
+    keywords: ['nap', 'consistency', 'local seo', 'name', 'address', 'phone', 'citations'],
+    processingType: 'client'
+  },
+  {
+    slug: 'review-response-generator',
+    name: 'Review Response Generator',
+    description: 'Generate professional responses to Google reviews. Templates for positive, negative, and neutral reviews.',
+    category: 'local-seo',
+    keywords: ['review', 'response', 'google', 'template', 'positive', 'negative', 'business'],
+    processingType: 'client'
+  },
+  {
+    slug: 'gmb-post-generator',
+    name: 'GMB Post Generator',
+    description: 'Create engaging Google Business Profile posts for updates, events, and offers with CTA buttons.',
+    category: 'local-seo',
+    keywords: ['gmb', 'google my business', 'post', 'business profile', 'update', 'event', 'offer'],
+    processingType: 'client'
+  },
+  {
+    slug: 'service-area-schema',
+    name: 'Service Area Schema Generator',
+    description: 'Generate ServiceAreaBusiness JSON-LD schema for businesses without a storefront. Define service areas by city or radius.',
+    category: 'local-seo',
+    keywords: ['service area', 'schema', 'json-ld', 'business', 'local seo', 'geo'],
+    processingType: 'client'
+  },
+  {
+    slug: 'citation-formatter',
+    name: 'Local Citation Formatter',
+    description: 'Format business info for local citations across Yelp, BBB, YellowPages, and 10+ directories consistently.',
+    category: 'local-seo',
+    keywords: ['citation', 'local seo', 'format', 'yelp', 'directory', 'nap', 'listing'],
+    processingType: 'client'
+  },
+  {
+    slug: 'local-keywords-generator',
+    name: 'Local Keywords Generator',
+    description: 'Generate 50+ local SEO keyword variations from a seed keyword and location. "Near me" combos included.',
+    category: 'local-seo',
+    keywords: ['local', 'keywords', 'generator', 'seo', 'near me', 'city', 'location'],
+    processingType: 'client'
+  },
+  {
+    slug: 'hours-schema-generator',
+    name: 'Hours of Operation Schema',
+    description: 'Generate OpeningHoursSpecification JSON-LD for Google. Set hours per day with lunch breaks and special hours.',
+    category: 'local-seo',
+    keywords: ['opening hours', 'schema', 'json-ld', 'business hours', 'google', 'local'],
+    processingType: 'client'
+  },
+  {
+    slug: 'faq-schema-generator',
+    name: 'FAQ Schema Generator',
+    description: 'Generate FAQPage JSON-LD schema for Google rich results. Add Q&A pairs and copy valid structured data.',
+    category: 'local-seo',
+    keywords: ['faq', 'schema', 'json-ld', 'structured data', 'google', 'rich results', 'questions'],
+    processingType: 'client'
+  },
+  {
+    slug: 'product-schema-generator',
+    name: 'Product Schema Generator',
+    description: 'Generate Product JSON-LD schema for Google Shopping rich results with price, reviews, and availability.',
+    category: 'local-seo',
+    keywords: ['product', 'schema', 'json-ld', 'shopping', 'ecommerce', 'rich results', 'google'],
+    processingType: 'client'
+  },
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // NICHE CALCULATORS
+  // ═══════════════════════════════════════════════════════════════════════════
+  {
+    slug: 'wedding-budget-calculator',
+    name: 'Indian Wedding Budget Calculator',
+    description: 'Plan your Indian wedding budget across venue, catering, decor, photography, and more. Track allocation and spending.',
+    category: 'niche-calculator',
+    keywords: ['wedding', 'budget', 'calculator', 'india', 'planning', 'venue', 'catering'],
+    processingType: 'client'
+  },
+  {
+    slug: 'electricity-bill-calculator',
+    name: 'Electricity Bill Calculator (India)',
+    description: 'Calculate electricity bill with state-wise tariff slabs. Domestic and commercial rates with fuel surcharge.',
+    category: 'niche-calculator',
+    keywords: ['electricity', 'bill', 'calculator', 'india', 'tariff', 'slab', 'units'],
+    processingType: 'client'
+  },
+  {
+    slug: 'paint-calculator',
+    name: 'Paint Calculator',
+    description: 'Calculate paint needed for walls. Enter room dimensions, number of coats, subtract doors/windows. Get liters and cost.',
+    category: 'niche-calculator',
+    keywords: ['paint', 'calculator', 'wall', 'square feet', 'liters', 'room', 'coat'],
+    processingType: 'client'
+  },
+  {
+    slug: 'fuel-cost-calculator',
+    name: 'Fuel Cost Calculator',
+    description: 'Calculate fuel cost for road trips. Enter distance, vehicle mileage, and fuel price. Round-trip support.',
+    category: 'niche-calculator',
+    keywords: ['fuel', 'cost', 'calculator', 'trip', 'mileage', 'petrol', 'diesel', 'road trip'],
+    processingType: 'client'
+  },
+  {
+    slug: 'tile-calculator',
+    name: 'Tile Calculator',
+    description: 'Calculate tiles needed for floors and walls. Enter dimensions, tile size, and wastage percentage for accurate counts.',
+    category: 'niche-calculator',
+    keywords: ['tile', 'calculator', 'floor', 'wall', 'square feet', 'wastage', 'count'],
+    processingType: 'client'
+  },
+  {
+    slug: 'home-loan-affordability',
+    name: 'Home Loan Affordability Calculator',
+    description: 'Calculate how much home loan you can afford based on income, EMIs, and FOIR rules. India-specific eligibility.',
+    category: 'niche-calculator',
+    keywords: ['home loan', 'affordability', 'calculator', 'india', 'emi', 'eligibility', 'income'],
+    processingType: 'client'
+  },
+  {
+    slug: 'emi-principal-calculator',
+    name: 'EMI to Principal Interest Breakdown',
+    description: 'See how your EMI splits between principal and interest. Full amortization schedule with month-wise breakdown.',
+    category: 'niche-calculator',
+    keywords: ['emi', 'principal', 'interest', 'breakdown', 'amortization', 'loan', 'schedule'],
+    processingType: 'client'
+  },
+  {
+    slug: 'water-intake-calculator',
+    name: 'Daily Water Intake Calculator',
+    description: 'Calculate daily water intake based on weight, activity level, and climate. Hourly hydration schedule included.',
+    category: 'niche-calculator',
+    keywords: ['water', 'intake', 'calculator', 'daily', 'weight', 'hydration', 'health'],
+    processingType: 'client'
+  },
+  {
+    slug: 'sleep-cycle-calculator',
+    name: 'Sleep Cycle Calculator',
+    description: 'Find optimal bedtime or wake time based on 90-minute sleep cycles. Wake up refreshed every morning.',
+    category: 'niche-calculator',
+    keywords: ['sleep', 'cycle', 'calculator', 'bedtime', 'wake up', 'rem', '90 minutes'],
+    processingType: 'client'
+  },
+  {
+    slug: 'carbon-footprint-calculator',
+    name: 'Carbon Footprint Calculator',
+    description: 'Calculate your carbon footprint from travel, energy, diet, and shopping. India-specific emission factors included.',
+    category: 'niche-calculator',
+    keywords: ['carbon', 'footprint', 'calculator', 'emissions', 'india', 'environment', 'co2'],
+    processingType: 'client'
+  },
 ];
 
 // ═══════════════════════════════════════════════════════════════════════════

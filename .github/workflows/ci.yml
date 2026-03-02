@@ -3,7 +3,7 @@
 # Ensures no broken code reaches main or Vercel.
 #
 # Trigger: Every push to main + every PR targeting main.
-# Gates  : Lint → Type-check → Production Build (static export)
+# Gates  : Lint → Type-check → Unit tests → Production build
 # Cache  : npm + Next.js build cache for fast re-runs.
 # ═══════════════════════════════════════════════════════════════════════════
 
@@ -54,29 +54,29 @@ jobs:
             nextjs-${{ runner.os }}-
 
       - name: Install dependencies
-        run: npm ci
+        run: npm ci --legacy-peer-deps
 
       # ── Gate 1: Lint ─────────────────────────────────────────────────────
       - name: Lint
-        run: npx --no-install eslint . --max-warnings 50
+        run: npm run lint -- --max-warnings 50
 
       # ── Gate 2: Type-check ───────────────────────────────────────────────
       - name: Type-check
-        run: npx --no-install tsc --noEmit
+        run: npm run typecheck
 
       # ── Gate 3: Unit tests ──────────────────────────────────────────────
       - name: Unit tests
-        run: npx vitest --run
+        run: npm run test:run
 
       # ── Gate 4: Production build (static export) ─────────────────────────
       - name: Build
         run: npm run build
 
-      # ── Upload static export as artifact (for audit / deploy) ────────────
+      # ── Upload Next build output as artifact (optional audit) ────────────
       - name: Upload build artifact
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         uses: actions/upload-artifact@v4
         with:
-          name: static-export
-          path: out/
+          name: next-build
+          path: .next/
           retention-days: 7

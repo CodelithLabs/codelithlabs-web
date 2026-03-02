@@ -1,11 +1,11 @@
 ---
-title: "Image Resizer - Free Online Image Resize Tool"
-description: "Resize images to exact dimensions, percentages, or social media presets. Supports JPEG, PNG, WebP with aspect ratio lock and batch processing — all in your browser."
+title: "Image Resizer (Free Online) - Resize to Pixels, Percentage, or Social Presets"
+description: "Resize images for web, social media, and e-commerce in seconds. Set exact dimensions, lock aspect ratio, batch process files, and export as JPG, PNG, or WebP."
 keywords: ["image resizer", "resize image online", "image resize tool", "change image size", "photo resizer", "resize for social media", "batch image resize"]
 category: "image"
 slug: "image-resizer"
 datePublished: "2025-01-15T00:00:00.000Z"
-dateModified: "2026-02-28T00:00:00.000Z"
+dateModified: "2026-03-02T00:00:00.000Z"
 author: "CodelithLabs Team"
 ---
 
@@ -110,6 +110,11 @@ Resize first to reduce dimensions, then use our [Image Compressor](/tools/image-
 
 ### Can I resize animated GIFs?
 Basic resizing is supported, but the animation may be lost depending on the browser's Canvas implementation. For animated GIF resizing, specialized tools are recommended.
+
+## 📚 Related Blog Content
+
+**Learn the complete image optimization workflow:**
+- [Free Image Compressor Online (2026 Guide): Smaller Files, Better Speed](/blog/free-image-compressor-guide-2026)
 
 ## 🌟 Related Tools
 

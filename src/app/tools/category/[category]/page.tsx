@@ -46,7 +46,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     openGraph: {
       title: `Free ${categoryInfo.name} — ${tools.length}+ Online Tools`,
       description: `${categoryInfo.description}. ${tools.length}+ free tools with client-side processing.`,
-      url: `https://codelithlabs.in/tools/category/${category}`,
+      url: `https://codelithlabs.in/tools/category/${category}/`,
       type: 'website',
       siteName: 'CodelithLabs',
     },
@@ -56,7 +56,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       description: `${tools.length}+ free ${categoryInfo.name.toLowerCase()} with privacy-first client-side processing.`,
     },
     alternates: {
-      canonical: `https://codelithlabs.in/tools/category/${category}`,
+      canonical: `https://codelithlabs.in/tools/category/${category}/`,
     },
     robots: { index: true, follow: true },
   };
@@ -204,8 +204,8 @@ export default async function CategoryPage({ params }: PageProps) {
     "@type": "BreadcrumbList",
     itemListElement: [
       { "@type": "ListItem", position: 1, name: "Home", item: "https://codelithlabs.in" },
-      { "@type": "ListItem", position: 2, name: "Tools", item: "https://codelithlabs.in/tools" },
-      { "@type": "ListItem", position: 3, name: categoryInfo.name, item: `https://codelithlabs.in/tools/category/${category}` },
+      { "@type": "ListItem", position: 2, name: "Tools", item: "https://codelithlabs.in/tools/" },
+      { "@type": "ListItem", position: 3, name: categoryInfo.name, item: `https://codelithlabs.in/tools/category/${category}/` },
     ]
   };
 
@@ -215,7 +215,7 @@ export default async function CategoryPage({ params }: PageProps) {
     "@type": "CollectionPage",
     name: `Free ${categoryInfo.name}`,
     description: categoryInfo.description,
-    url: `https://codelithlabs.in/tools/category/${category}`,
+    url: `https://codelithlabs.in/tools/category/${category}/`,
     numberOfItems: tools.length,
     provider: {
       "@type": "Organization",
@@ -234,7 +234,7 @@ export default async function CategoryPage({ params }: PageProps) {
       "@type": "ListItem",
       position: i + 1,
       name: t.name,
-      url: `https://codelithlabs.in/tools/${t.slug}`,
+      url: `https://codelithlabs.in/tools/${t.slug}/`,
       description: t.description
     }))
   };

@@ -16,11 +16,11 @@ export const metadata: Metadata = {
     title: "Meet the CodelithLabs Team",
     description:
       "Meet the engineers building 100+ free online tools at CodelithLabs.",
-    url: "https://codelithlabs.in/team",
+    url: "https://codelithlabs.in/team/",
     type: "website",
     siteName: "CodelithLabs",
   },
-  alternates: { canonical: "https://codelithlabs.in/team" },
+  alternates: { canonical: "https://codelithlabs.in/team/" },
 };
 
 export default function TeamLayout({
@@ -39,7 +39,7 @@ export default function TeamLayout({
             name: "CodelithLabs Team",
             description:
               "Meet the engineering team behind CodelithLabs.",
-            url: "https://codelithlabs.in/team",
+            url: "https://codelithlabs.in/team/",
             mainEntity: [
               {
                 "@type": "Person",
@@ -90,7 +90,7 @@ export default function TeamLayout({
                 "@type": "ListItem",
                 position: 2,
                 name: "Team",
-                item: "https://codelithlabs.in/team",
+                item: "https://codelithlabs.in/team/",
               },
             ],
           }),

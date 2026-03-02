@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useState, useCallback, useMemo } from 'react';
 import { Palette, Copy, Check, RefreshCw } from 'lucide-react';
 
 export default function AiColorPalette() {
@@ -7,7 +7,7 @@ export default function AiColorPalette() {
   const [palette, setPalette] = useState<string[]>([]);
   const [copied, setCopied] = useState<number | null>(null);
 
-  const colorMappings: Record<string, string[][]> = {
+  const colorMappings = useMemo(() => ({
     ocean: [['#006994','#0077B6','#00B4D8','#90E0EF','#CAF0F8'],['#023E8A','#0096C7','#48CAE4','#ADE8F4','#E0F7FF']],
     sunset: [['#FF6B35','#F7C59F','#EFEFD0','#004E89','#1A659E'],['#FF4500','#FF6347','#FFA07A','#FFD700','#4B0082']],
     forest: [['#1B4332','#2D6A4F','#40916C','#52B788','#95D5B2'],['#344E41','#3A5A40','#588157','#A3B18A','#DAD7CD']],
@@ -20,15 +20,23 @@ export default function AiColorPalette() {
     nature: [['#606C38','#283618','#FEFAE0','#DDA15E','#BC6C25'],['#386641','#6A994E','#A7C957','#F2E8CF','#BC4749']],
     luxury: [['#1A1A1D','#4E4E50','#6F2232','#950740','#C3073F'],['#0D0D0D','#1A1A2E','#B8860B','#DAA520','#FFD700']],
     tech: [['#0A192F','#112240','#233554','#64FFDA','#8892B0'],['#121212','#1E1E1E','#00D4FF','#7C4DFF','#FF4081']],
+  }), []);
+
+  const hslToHex = (h: number, s: number, l: number): string => {
+    s /= 100; l /= 100;
+    const a = s * Math.min(l, 1 - l);
+    const f = (n: number) => { const k = (n + h / 30) % 12; const color = l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1); return Math.round(255 * color).toString(16).padStart(2, '0'); };
+    return `#${f(0)}${f(8)}${f(4)}`;
   };
 
-  const generate = () => {
+  const generate = useCallback(() => {
     const key = keyword.toLowerCase().trim();
     let colors: string[];
     const matchedKey = Object.keys(colorMappings).find(k => key.includes(k));
-    if (matchedKey) {
-      const options = colorMappings[matchedKey];
-      colors = options[Math.floor(Math.random() * options.length)];
+    if (matchedKey && matchedKey in colorMappings) {
+      const options = colorMappings[matchedKey as keyof typeof colorMappings];
+      const randomIndex = Math.floor(Math.random() * options.length);
+      colors = options[randomIndex];
     } else {
       // Generate random harmonious palette using golden ratio
       const baseHue = Math.random() * 360;
@@ -40,14 +48,7 @@ export default function AiColorPalette() {
       });
     }
     setPalette(colors);
-  };
-
-  const hslToHex = (h: number, s: number, l: number): string => {
-    s /= 100; l /= 100;
-    const a = s * Math.min(l, 1 - l);
-    const f = (n: number) => { const k = (n + h / 30) % 12; const color = l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1); return Math.round(255 * color).toString(16).padStart(2, '0'); };
-    return `#${f(0)}${f(8)}${f(4)}`;
-  };
+  }, [keyword, colorMappings]);
 
   const copyColor = (color: string, idx: number) => { navigator.clipboard.writeText(color); setCopied(idx); setTimeout(() => setCopied(null), 1500); };
 

@@ -48,7 +48,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     openGraph: {
       title: `${tool.name} | CodelithLabs Tools`,
       description: tool.description,
-      url: `https://codelithlabs.in/tools/${tool.slug}`,
+      url: `https://codelithlabs.in/tools/${tool.slug}/`,
       type: 'website',
       siteName: 'CodelithLabs',
     },
@@ -58,7 +58,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       description: tool.description,
     },
     alternates: {
-      canonical: `https://codelithlabs.in/tools/${tool.slug}`,
+      canonical: `https://codelithlabs.in/tools/${tool.slug}/`,
     },
     robots: {
       index: true,
@@ -97,7 +97,7 @@ export default async function ToolPage({ params }: PageProps) {
       priceCurrency: "USD"
     },
     isAccessibleForFree: true,
-    url: `https://codelithlabs.in/tools/${tool.slug}`,
+    url: `https://codelithlabs.in/tools/${tool.slug}/`,
     ...(content?.frontmatter.datePublished && { datePublished: content.frontmatter.datePublished }),
     ...(content?.frontmatter.dateModified && { dateModified: content.frontmatter.dateModified }),
   };
@@ -156,9 +156,9 @@ export default async function ToolPage({ params }: PageProps) {
     "@type": "BreadcrumbList",
     itemListElement: [
       { "@type": "ListItem", position: 1, name: "Home", item: "https://codelithlabs.in" },
-      { "@type": "ListItem", position: 2, name: "Tools", item: "https://codelithlabs.in/tools" },
-      { "@type": "ListItem", position: 3, name: category.name, item: `https://codelithlabs.in/tools/category/${tool.category}` },
-      { "@type": "ListItem", position: 4, name: tool.name, item: `https://codelithlabs.in/tools/${tool.slug}` }
+      { "@type": "ListItem", position: 2, name: "Tools", item: "https://codelithlabs.in/tools/" },
+      { "@type": "ListItem", position: 3, name: category.name, item: `https://codelithlabs.in/tools/category/${tool.category}/` },
+      { "@type": "ListItem", position: 4, name: tool.name, item: `https://codelithlabs.in/tools/${tool.slug}/` }
     ]
   };
 

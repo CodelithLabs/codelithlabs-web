@@ -1,5 +1,5 @@
 'use client';
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 
 // ═══════════════════════════════════════════════════════════════════════════
 // REAL QR CODE ENCODER - Full ISO/IEC 18004 Implementation
@@ -223,7 +223,7 @@ export default function QrCodeGenerator() {
   const [bgColor, setBgColor] = useState('#ffffff');
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  const generateQR = () => {
+  const generateQR = useCallback(() => {
     if (!text || !canvasRef.current) return;
 
     const encoder = new QRCodeEncoder(text, eccLevel);
@@ -251,11 +251,11 @@ export default function QrCodeGenerator() {
         }
       }
     }
-  };
+  }, [text, eccLevel, size, color, bgColor]);
 
   useEffect(() => {
     if (text) generateQR();
-  }, [text, eccLevel, size, color, bgColor]);
+  }, [text, eccLevel, size, color, bgColor, generateQR]);
 
   const downloadQR = () => {
     if (!canvasRef.current) return;

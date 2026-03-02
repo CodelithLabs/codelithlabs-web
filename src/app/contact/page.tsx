@@ -25,11 +25,11 @@ export const metadata: Metadata = {
     title: "Contact Us — CodelithLabs",
     description:
       "Reach out to the CodelithLabs engineering team for inquiries, partnerships, or support.",
-    url: "https://codelithlabs.in/contact",
+    url: "https://codelithlabs.in/contact/",
     type: "website",
     siteName: "CodelithLabs",
   },
-  alternates: { canonical: "https://codelithlabs.in/contact" },
+  alternates: { canonical: "https://codelithlabs.in/contact/" },
 };
 
 // ─── FAQ Data ────────────────────────────────────────────────────────────
@@ -66,7 +66,7 @@ export default function ContactPage() {
     name: "Contact CodelithLabs",
     description:
       "Get in touch with the CodelithLabs engineering team for inquiries, partnerships, or support.",
-    url: "https://codelithlabs.in/contact",
+    url: "https://codelithlabs.in/contact/",
     mainEntity: {
       "@type": "Organization",
       name: "CodelithLabs",

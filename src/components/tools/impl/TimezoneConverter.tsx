@@ -9,8 +9,9 @@ import { useState, useEffect, useCallback } from 'react';
 import { Clock, Globe, Calendar, ArrowRight } from 'lucide-react';
 
 export default function TimezoneConverter() {
-  const [sourceDate, setSourceDate] = useState('');
-  const [sourceTime, setSourceTime] = useState('');
+  const now = new Date();
+  const [sourceDate, setSourceDate] = useState(() => now.toISOString().split('T')[0]);
+  const [sourceTime, setSourceTime] = useState(() => now.toTimeString().split(' ')[0].substring(0, 5));
   const [sourceTimezone, setSourceTimezone] = useState('America/New_York');
   const [targetTimezones, setTargetTimezones] = useState(['Europe/London', 'Asia/Tokyo', 'Asia/Kolkata']);
   const [convertedTimes, setConvertedTimes] = useState<{ timezone: string; time: string; date: string }[]>([]);
@@ -32,13 +33,8 @@ export default function TimezoneConverter() {
   ];
 
   useEffect(() => {
-    // Set current date and time
-    const now = new Date();
-    setSourceDate(now.toISOString().split('T')[0]);
-    setSourceTime(now.toTimeString().split(' ')[0].substring(0, 5));
-  }, []);
-
-  const convert = useCallback(() => {
+    if (!sourceDate || !sourceTime) return;
+    
     try {
       // Create date in source timezone
       const sourceDateTime = new Date(`${sourceDate}T${sourceTime}:00`);
@@ -71,17 +67,12 @@ export default function TimezoneConverter() {
         };
       });
 
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setConvertedTimes(results);
     } catch (error: unknown) {
       console.error('Timezone conversion error:', error);
     }
-  }, [sourceDate, sourceTime, sourceTimezone, targetTimezones]);
-
-  useEffect(() => {
-    if (sourceDate && sourceTime) {
-      convert();
-    }
-  }, [convert, sourceDate, sourceTime]);
+  }, [sourceDate, sourceTime, targetTimezones]);
 
   const addTimezone = (tz: string) => {
     if (!targetTimezones.includes(tz)) {

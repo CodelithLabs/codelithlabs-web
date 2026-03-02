@@ -12,14 +12,14 @@ import Script from 'next/script';
 const CLARITY_PROJECT_ID = 'vp62e5yyap';
 
 export default function MicrosoftClarity() {
-  const [hasConsent, setHasConsent] = useState(false);
+  const [hasConsent, setHasConsent] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('codelith_cookie_consent') === 'accepted';
+    }
+    return false;
+  });
 
   useEffect(() => {
-    const consent = localStorage.getItem('codelith_cookie_consent');
-    if (consent === 'accepted') {
-      setHasConsent(true);
-    }
-
     // Listen for consent changes from CookieBanner
     const handler = () => {
       const updated = localStorage.getItem('codelith_cookie_consent');

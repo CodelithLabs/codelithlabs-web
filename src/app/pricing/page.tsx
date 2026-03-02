@@ -10,11 +10,11 @@ export const metadata: Metadata = {
   title: "Pricing — Free & Premium Plans",
   description:
     "CodelithLabs offers all 90+ tools for free. Upgrade to Premium for an ad-free experience, priority processing, and early access to new tools. Starting at ₹299/month.",
-  alternates: { canonical: "https://codelithlabs.in/pricing" },
+  alternates: { canonical: "https://codelithlabs.in/pricing/" },
   openGraph: {
     title: "Pricing — CodelithLabs",
     description: "Free tools for everyone. Premium for power users.",
-    url: "https://codelithlabs.in/pricing",
+    url: "https://codelithlabs.in/pricing/",
   },
 };
 
@@ -43,7 +43,7 @@ export default function PricingPage() {
     "@type": "WebPage",
     name: "CodelithLabs Pricing",
     description: "Free and Premium plans for CodelithLabs developer tools",
-    url: "https://codelithlabs.in/pricing",
+    url: "https://codelithlabs.in/pricing/",
     mainEntity: {
       "@type": "Product",
       name: "CodelithLabs Premium",

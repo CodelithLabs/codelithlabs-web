@@ -30,10 +30,10 @@ export const metadata: Metadata = {
     description:
       "Bootstrapped & Open. View our real finances, infrastructure costs, and live GitHub metrics.",
     type: "website",
-    url: "https://codelithlabs.in/transparency",
+    url: "https://codelithlabs.in/transparency/",
   },
   alternates: {
-    canonical: "https://codelithlabs.in/transparency",
+    canonical: "https://codelithlabs.in/transparency/",
   },
 };
 

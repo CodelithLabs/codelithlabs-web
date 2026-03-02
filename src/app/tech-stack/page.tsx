@@ -10,11 +10,11 @@ export const metadata: Metadata = {
   title: 'Our Tech Stack — Transparency | CodelithLabs',
   description: 'Full transparency into the technologies powering CodelithLabs: Next.js, TypeScript, Tailwind CSS, Docker, Web Workers, and client-side processing architecture.',
   keywords: ['tech stack', 'next.js', 'typescript', 'tailwind', 'docker', 'open source', 'web architecture'],
-  alternates: { canonical: 'https://codelithlabs.in/tech-stack' },
+  alternates: { canonical: 'https://codelithlabs.in/tech-stack/' },
   openGraph: {
     title: 'Our Tech Stack — CodelithLabs',
     description: 'Full transparency into how CodelithLabs is built.',
-    url: 'https://codelithlabs.in/tech-stack',
+    url: 'https://codelithlabs.in/tech-stack/',
     type: 'website',
     siteName: 'CodelithLabs',
   },

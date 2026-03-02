@@ -19,12 +19,12 @@ export const metadata: Metadata = {
     "regex tutorial",
     "web performance",
   ],
-  alternates: { canonical: "https://codelithlabs.in/blog" },
+  alternates: { canonical: "https://codelithlabs.in/blog/" },
   openGraph: {
     title: "Blog — CodelithLabs Developer Insights",
     description:
       "Technical tutorials, tool guides, and developer tips from the CodelithLabs engineering team.",
-    url: "https://codelithlabs.in/blog",
+    url: "https://codelithlabs.in/blog/",
     type: "website",
     siteName: "CodelithLabs",
   },
@@ -58,7 +58,7 @@ export default async function BlogPage() {
     name: "CodelithLabs Developer Blog",
     description:
       "Technical tutorials and developer insights from CodelithLabs.",
-    url: "https://codelithlabs.in/blog",
+    url: "https://codelithlabs.in/blog/",
     publisher: {
       "@type": "Organization",
       name: "CodelithLabs",
@@ -71,7 +71,7 @@ export default async function BlogPage() {
       datePublished: p.frontmatter.datePublished,
       dateModified: p.frontmatter.dateModified,
       author: { "@type": "Person", name: p.frontmatter.author },
-      url: `https://codelithlabs.in/blog/${p.frontmatter.slug}`,
+      url: `https://codelithlabs.in/blog/${p.frontmatter.slug}/`,
     })),
   };
 

@@ -46,11 +46,12 @@ export function GiscusComments({ term }: GiscusCommentsProps) {
     script.crossOrigin = 'anonymous';
     script.async = true;
 
-    ref.current.appendChild(script);
+    const container = ref.current;
+    container.appendChild(script);
 
     return () => {
-      // Cleanup on unmount
-      const giscusFrame = ref.current?.querySelector('.giscus');
+      // Cleanup on unmount - use captured container ref
+      const giscusFrame = container?.querySelector('.giscus');
       if (giscusFrame) giscusFrame.remove();
     };
   }, [term]);

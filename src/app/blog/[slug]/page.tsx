@@ -39,7 +39,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     openGraph: {
       title: fm.title,
       description: fm.description,
-      url: `https://codelithlabs.in/blog/${fm.slug}`,
+      url: `https://codelithlabs.in/blog/${fm.slug}/`,
       type: "article",
       siteName: "CodelithLabs",
       publishedTime: fm.datePublished,
@@ -51,7 +51,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       title: fm.title,
       description: fm.description,
     },
-    alternates: { canonical: `https://codelithlabs.in/blog/${fm.slug}` },
+    alternates: { canonical: `https://codelithlabs.in/blog/${fm.slug}/` },
     robots: { index: true, follow: true },
   };
 }
@@ -78,8 +78,8 @@ export default async function BlogPostPage({ params }: PageProps) {
       name: "CodelithLabs",
       url: "https://codelithlabs.in",
     },
-    mainEntityOfPage: `https://codelithlabs.in/blog/${fm.slug}`,
-    url: `https://codelithlabs.in/blog/${fm.slug}`,
+    mainEntityOfPage: `https://codelithlabs.in/blog/${fm.slug}/`,
+    url: `https://codelithlabs.in/blog/${fm.slug}/`,
   };
 
   const breadcrumbSchema = {
@@ -87,8 +87,8 @@ export default async function BlogPostPage({ params }: PageProps) {
     "@type": "BreadcrumbList",
     itemListElement: [
       { "@type": "ListItem", position: 1, name: "Home", item: "https://codelithlabs.in" },
-      { "@type": "ListItem", position: 2, name: "Blog", item: "https://codelithlabs.in/blog" },
-      { "@type": "ListItem", position: 3, name: fm.title, item: `https://codelithlabs.in/blog/${fm.slug}` },
+      { "@type": "ListItem", position: 2, name: "Blog", item: "https://codelithlabs.in/blog/" },
+      { "@type": "ListItem", position: 3, name: fm.title, item: `https://codelithlabs.in/blog/${fm.slug}/` },
     ],
   };
 
@@ -138,7 +138,7 @@ export default async function BlogPostPage({ params }: PageProps) {
             {/* Social share buttons */}
             <div className="mt-6">
               <BlogShareButtons
-                url={`https://codelithlabs.in/blog/${fm.slug}`}
+                url={`https://codelithlabs.in/blog/${fm.slug}/`}
                 title={fm.title}
                 description={fm.description}
               />

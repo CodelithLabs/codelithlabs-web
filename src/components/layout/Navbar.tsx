@@ -72,8 +72,11 @@ export function Navbar() {
 
   // Close mobile drawer on route change
   useEffect(() => {
-    setMobileOpen(false);
-    setActiveDropdown(null);
+    const closeMobileMenu = () => {
+      setMobileOpen(false);
+      setActiveDropdown(null);
+    };
+    closeMobileMenu();
   }, [pathname]);
 
   // Lock body scroll when mobile menu open

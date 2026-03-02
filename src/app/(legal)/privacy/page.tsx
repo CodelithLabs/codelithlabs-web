@@ -5,6 +5,7 @@
 // ═══════════════════════════════════════════════════════════════════════════
 
 import { Metadata } from 'next';
+import Link from 'next/link';
 
 export const metadata: Metadata = {
   title: 'Privacy Policy - CodelithLabs Tools',
@@ -17,12 +18,12 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Privacy Policy — CodelithLabs',
     description: 'Learn how CodelithLabs protects your data. 100% client-side processing — your data never leaves your browser.',
-    url: 'https://codelithlabs.in/privacy',
+    url: 'https://codelithlabs.in/privacy/',
     siteName: 'CodelithLabs',
     type: 'website',
   },
   alternates: {
-    canonical: 'https://codelithlabs.in/privacy',
+    canonical: 'https://codelithlabs.in/privacy/',
   },
 };
 
@@ -34,7 +35,7 @@ export default function PrivacyPage() {
         {/* Header */}
         <header className="mb-10">
           <nav className="flex items-center gap-2 text-sm text-zinc-500 mb-6">
-            <a href="/" className="hover:text-zinc-300 transition">Home</a>
+            <Link href="/" className="hover:text-zinc-300 transition">Home</Link>
             <span className="text-zinc-700">/</span>
             <span className="text-zinc-300">Privacy Policy</span>
           </nav>
@@ -312,15 +313,15 @@ export default function PrivacyPage() {
         {/* Footer Links */}
         <div className="mt-12 pt-8 border-t border-zinc-800">
           <div className="flex flex-wrap gap-6 text-sm">
-            <a href="/terms" className="text-zinc-400 hover:text-white transition">
+            <Link href="/terms" className="text-zinc-400 hover:text-white transition">
               Terms of Service
-            </a>
-            <a href="/tools" className="text-zinc-400 hover:text-white transition">
+            </Link>
+            <Link href="/tools" className="text-zinc-400 hover:text-white transition">
               Browse Tools
-            </a>
-            <a href="/" className="text-zinc-400 hover:text-white transition">
+            </Link>
+            <Link href="/" className="text-zinc-400 hover:text-white transition">
               Back to Home
-            </a>
+            </Link>
           </div>
         </div>
 

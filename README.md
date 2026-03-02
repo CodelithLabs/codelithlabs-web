@@ -1,67 +1,63 @@
-# CodeLithLabs Web Platform
+# CodelithLabs Web
 
-![Build Status](https://img.shields.io/github/actions/workflow/status/codelithlabs/web/main.yml?style=flat-square&logo=github)
-![License](https://img.shields.io/badge/license-MIT-blue?style=flat-square)
-![TypeScript](https://img.shields.io/badge/TypeScript-5.0-3178C6?style=flat-square&logo=typescript&logoColor=white)
-![Next.js](https://img.shields.io/badge/Next.js-14-black?style=flat-square&logo=next.js&logoColor=white)
+Next.js 16 + TypeScript codebase for [codelithlabs.in](https://codelithlabs.in):
+free online tools, blog content, legal pages, and SEO-first route generation.
 
-> **Architecting the Future of Digital Infrastructure.**
+## Stack
 
-This repository contains the source code for the official [Code Lith Labs](https://codelithlabs.in) web platform. It serves as the central hub for our research initiatives, open-source projects (including *VectorDefense*), and engineering documentation.
+- Next.js 16 (App Router)
+- React 18 + TypeScript
+- Tailwind CSS
+- Vitest + Testing Library
+- Playwright (E2E)
 
----
-
-## 📋 Table of Contents
-
-- [About the Project](#-about-the-project)
-- [Technical Architecture](#-technical-architecture)
-- [Directory Structure](#-directory-structure)
-- [Getting Started](#-getting-started)
-- [Development Protocols](#-development-protocols)
-- [Deployment](#-deployment)
-- [License](#-license)
-
----
-
-## 🔭 About the Project
-
-**Code Lith Labs** is a research and development collective focused on pushing the boundaries of backend engineering, game engine technology, and high-performance computing.
-
-The `codelithlabs-web` repository is built to be:
-* **Performant:** Leveraging Server-Side Rendering (SSR) and Edge Caching for sub-100ms load times.
-* **Scalable:** Modular component architecture designed to grow with our research portfolio.
-* **Accessible:** Strictly adhering to WCAG 2.1 AA standards.
-
----
-
-## 🛠 Technical Architecture
-
-We utilize a modern, type-safe stack to ensure reliability and maintainability.
-
-| Category | Technology | Rationale |
-| :--- | :--- | :--- |
-| **Framework** | [Next.js 16](https://nextjs.org/) | Hybrid static & server rendering for optimal SEO and speed. |
-| **Language** | [TypeScript](https://www.typescriptlang.org/) | Strict type safety for enterprise-grade reliability. |
-| **Styling** | [Tailwind CSS](https://tailwindcss.com/) | Utility-first CSS for rapid, consistent UI development. |
-| **Animation** | [Framer Motion](https://www.framer.com/motion/) | Physics-based animations for a premium user feel. |
-| **CI/CD** | GitHub Actions | Automated testing and deployment pipelines. |
-
----
-
-## 📂 Directory Structure
+## Project Structure
 
 ```text
 codelithlabs-web/
-├── .github/              # CI/CD Workflows
-├── public/               # Static Assets (Images, Fonts)
+├── content/              # Markdown content for tools/blog
+├── public/               # Static assets
+├── scripts/              # Content and OG generation scripts
 ├── src/
-│   ├── app/              # Next.js App Router (Pages & Layouts)
-│   ├── components/       # Atomic UI Components
-│   │   ├── ui/           # Primitives (Buttons, Cards)
-│   │   └── features/     # Complex Modules (ProjectGrid, Hero)
-│   ├── lib/              # Utility functions and API wrappers
-│   ├── styles/           # Global styles and Tailwind config
-│   └── types/            # Global TypeScript definitions
-├── tests/                # E2E and Unit Tests
-├── .eslintrc.json        # Linting Configuration
-└── README.md             # Documentation
+│   ├── app/              # Routes, metadata, sitemap/robots/feed
+│   ├── components/       # UI + tool implementations
+│   ├── lib/              # Registries, loaders, utilities
+│   ├── types/            # Shared TS types
+│   └── __tests__/        # Unit tests
+├── .github/workflows/    # CI workflows
+└── package.json
+```
+
+## Local Development
+
+Install dependencies:
+
+- `npm install --legacy-peer-deps`
+
+Run locally:
+
+- `npm run dev`
+
+## Quality Commands
+
+- Lint: `npm run lint`
+- Type-check: `npm run typecheck`
+- Unit tests: `npm run test:run`
+- E2E tests: `npm run test:e2e`
+- Production build: `npm run build`
+
+## Content Automation
+
+- Generate/update tool content: `npm run generate-content`
+- Generate OG assets: `npm run og:generate`
+
+## Contributing
+
+1. Create a feature branch.
+2. Make focused, reviewable changes.
+3. Run `npm run lint`, `npm run typecheck`, and `npm run test:run`.
+4. Open a pull request.
+
+## License
+
+MIT

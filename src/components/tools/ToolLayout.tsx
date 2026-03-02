@@ -5,6 +5,7 @@
 'use client';
 
 import { ReactNode } from 'react';
+import Link from 'next/link';
 import { ToolMeta, TOOL_CATEGORIES } from '@/types/tool';
 import { useUser } from '@/lib/user-context';
 import { ToolContent } from '@/types/tool-content';
@@ -145,17 +146,17 @@ export function ToolLayout({ tool, children, content, slug }: ToolLayoutProps) {
           
           {/* Breadcrumb Navigation */}
           <nav className="flex items-center gap-2 text-sm text-zinc-500 mb-4 overflow-x-auto">
-            <a href="/" className="hover:text-zinc-300 transition whitespace-nowrap">Home</a>
+            <Link href="/" className="hover:text-zinc-300 transition whitespace-nowrap">Home</Link>
             <span className="text-zinc-700">/</span>
-            <a href="/tools" className="hover:text-zinc-300 transition whitespace-nowrap">Tools</a>
+            <Link href="/tools" className="hover:text-zinc-300 transition whitespace-nowrap">Tools</Link>
             <span className="text-zinc-700">/</span>
-            <a 
-              href={`/tools?category=${tool.category}`} 
+            <Link
+              href={`/tools?category=${tool.category}`}
               className="hover:text-zinc-300 transition whitespace-nowrap"
               style={{ color: category.color }}
             >
               {category.name}
-            </a>
+            </Link>
             <span className="text-zinc-700">/</span>
             <span className="text-zinc-300 truncate">{tool.name}</span>
           </nav>

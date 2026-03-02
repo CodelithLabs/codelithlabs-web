@@ -15,11 +15,11 @@ export const metadata: Metadata = {
     title: "Research & Engineering — CodelithLabs",
     description:
       "Technical papers and engineering insights from the CodelithLabs team.",
-    url: "https://codelithlabs.in/research",
+    url: "https://codelithlabs.in/research/",
     type: "website",
     siteName: "CodelithLabs",
   },
-  alternates: { canonical: "https://codelithlabs.in/research" },
+  alternates: { canonical: "https://codelithlabs.in/research/" },
 };
 
 export default function ResearchLayout({
@@ -38,7 +38,7 @@ export default function ResearchLayout({
             name: "CodelithLabs Research & Engineering",
             description:
               "Technical papers and engineering insights from the CodelithLabs team.",
-            url: "https://codelithlabs.in/research",
+            url: "https://codelithlabs.in/research/",
             provider: {
               "@type": "Organization",
               name: "CodelithLabs",
@@ -64,7 +64,7 @@ export default function ResearchLayout({
                 "@type": "ListItem",
                 position: 2,
                 name: "Research",
-                item: "https://codelithlabs.in/research",
+                item: "https://codelithlabs.in/research/",
               },
             ],
           }),

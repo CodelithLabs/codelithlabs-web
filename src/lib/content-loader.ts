@@ -72,7 +72,6 @@ function splitByH2(body: string): Map<string, string> {
   let lastKey: string | null = null;
   let lastIndex = 0;
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   for (const match of body.matchAll(regex)) {
     if (lastKey !== null) {
       sections.set(lastKey, body.slice(lastIndex, match.index).trim());

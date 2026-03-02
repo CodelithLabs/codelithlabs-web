@@ -17,11 +17,11 @@ export const metadata: Metadata = {
     title: "Projects — CodelithLabs",
     description:
       "Open-source engineering projects by CodelithLabs — game engines, campus platforms, and developer tools.",
-    url: "https://codelithlabs.in/projects",
+    url: "https://codelithlabs.in/projects/",
     type: "website",
     siteName: "CodelithLabs",
   },
-  alternates: { canonical: "https://codelithlabs.in/projects" },
+  alternates: { canonical: "https://codelithlabs.in/projects/" },
 };
 
 export default function ProjectsLayout({
@@ -40,7 +40,7 @@ export default function ProjectsLayout({
             name: "CodelithLabs Projects",
             description:
               "Open-source engineering projects by CodelithLabs.",
-            url: "https://codelithlabs.in/projects",
+            url: "https://codelithlabs.in/projects/",
             provider: {
               "@type": "Organization",
               name: "CodelithLabs",
@@ -66,7 +66,7 @@ export default function ProjectsLayout({
                 "@type": "ListItem",
                 position: 2,
                 name: "Projects",
-                item: "https://codelithlabs.in/projects",
+                item: "https://codelithlabs.in/projects/",
               },
             ],
           }),

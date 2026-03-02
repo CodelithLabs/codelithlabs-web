@@ -10,14 +10,14 @@ import { useEffect, useState } from 'react';
 import { GoogleAnalytics as GA4 } from '@next/third-parties/google';
 
 export default function GoogleAnalytics() {
-  const [hasConsent, setHasConsent] = useState(false);
+  const [hasConsent, setHasConsent] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('codelith_cookie_consent') === 'accepted';
+    }
+    return false;
+  });
 
   useEffect(() => {
-    const consent = localStorage.getItem('codelith_cookie_consent');
-    if (consent === 'accepted') {
-      setHasConsent(true);
-    }
-
     // Listen for consent changes from CookieBanner
     const handler = () => {
       const updated = localStorage.getItem('codelith_cookie_consent');

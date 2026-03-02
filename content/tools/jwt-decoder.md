@@ -1,11 +1,11 @@
 ---
-title: "JWT Decoder - Free Online JSON Web Token Inspector"
-description: "Decode and inspect JWTs instantly. View header, payload claims, expiration time, and signature verification status — no libraries or sign-up needed."
+title: "JWT Decoder (Free Online) - Inspect Claims, Expiry, and Signature Status"
+description: "Decode JWT tokens safely in your browser. Inspect header and payload claims, check expiration, and verify HMAC signatures for faster auth debugging."
 keywords: ["jwt decoder", "jwt debugger", "json web token", "decode jwt", "jwt inspector", "jwt claims", "jwt verify", "jwt.io alternative"]
 category: "developer"
 slug: "jwt-decoder"
 datePublished: "2025-01-15T00:00:00.000Z"
-dateModified: "2026-02-28T00:00:00.000Z"
+dateModified: "2026-03-02T00:00:00.000Z"
 author: "CodelithLabs Team"
 ---
 
@@ -113,6 +113,11 @@ Common causes: (1) Token expired — check the `exp` claim. (2) Wrong audience �
 
 ### Can I create JWTs with this tool?
 This tool is a decoder/inspector only. Creating production JWTs should be done server-side with proper libraries (jsonwebtoken for Node.js, PyJWT for Python, java-jwt for Java) that handle signing securely.
+
+## 📚 Related Blog Content
+
+**Deep dive into JWT security and debugging:**
+- [JWT Decoder Security Checklist: Debug Tokens Safely in 2026](/blog/jwt-decoder-security-checklist)
 
 ## 🌟 Related Tools
 

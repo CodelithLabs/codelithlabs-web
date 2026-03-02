@@ -38,7 +38,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: `Free Online Developer Tools — ${toolCount}+ Utilities`,
     description: `${toolCount}+ free browser-based tools for developers, designers & creators. JSON, image, text, SEO, finance & more — zero server processing.`,
-    url: "https://codelithlabs.in/tools",
+    url: "https://codelithlabs.in/tools/",
     type: "website",
     siteName: "CodelithLabs",
     locale: "en_US",
@@ -58,7 +58,7 @@ export const metadata: Metadata = {
     images: ["https://codelithlabs.in/og-image.png"],
   },
   alternates: {
-    canonical: "https://codelithlabs.in/tools",
+    canonical: "https://codelithlabs.in/tools/",
   },
   robots: {
     index: true,
@@ -77,7 +77,7 @@ function buildJsonLd() {
     "@type": "ListItem",
     position: i + 1,
     name: tool.name,
-    url: `https://codelithlabs.in/tools/${tool.slug}`,
+    url: `https://codelithlabs.in/tools/${tool.slug}/`,
   }));
 
   return {
@@ -85,7 +85,7 @@ function buildJsonLd() {
     "@type": "CollectionPage",
     name: `Free Online Developer Tools — ${toolCount}+ Utilities`,
     description: `Browse ${toolCount}+ free online tools for developers, designers, and content creators. 100% client-side processing.`,
-    url: "https://codelithlabs.in/tools",
+    url: "https://codelithlabs.in/tools/",
     inLanguage: "en-US",
     isPartOf: {
       "@type": "WebSite",

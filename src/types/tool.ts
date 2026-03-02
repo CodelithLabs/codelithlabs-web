@@ -13,7 +13,7 @@ export interface ToolMeta {
   processingType: 'client' | 'server'; // Client-side saves RAM
 }
 
-export type ToolCategory = 
+export type ToolCategory =
   | 'text'
   | 'image'
   | 'developer'
@@ -26,7 +26,11 @@ export type ToolCategory =
   | 'seo'
   | 'ai'
   | 'finance'
-  | 'geo';
+  | 'geo'
+  | 'ai-repurpose'
+  | 'fintech'
+  | 'local-seo'
+  | 'niche-calculator';
 
 export interface ToolCategoryInfo {
   id: ToolCategory;
@@ -127,5 +131,33 @@ export const TOOL_CATEGORIES: Record<ToolCategory, ToolCategoryInfo> = {
     description: 'Timezone converters, distance calculators, location tools',
     icon: 'Globe',
     color: '#3B82F6'
+  },
+  'ai-repurpose': {
+    id: 'ai-repurpose',
+    name: 'AI Content Repurposing',
+    description: 'Transform content between formats using client-side NLP and rule-based AI',
+    icon: 'Repeat2',
+    color: '#F472B6'
+  },
+  'fintech': {
+    id: 'fintech',
+    name: 'Fintech & Compliance',
+    description: 'Tax calculators, GST tools, and financial compliance utilities',
+    icon: 'Landmark',
+    color: '#34D399'
+  },
+  'local-seo': {
+    id: 'local-seo',
+    name: 'Local SEO Tools',
+    description: 'Schema generators, citation formatters, and local search optimization',
+    icon: 'MapPin',
+    color: '#FB923C'
+  },
+  'niche-calculator': {
+    id: 'niche-calculator',
+    name: 'Niche Calculators',
+    description: 'Specialized calculators for home, lifestyle, and planning needs',
+    icon: 'Ruler',
+    color: '#A78BFA'
   }
 };

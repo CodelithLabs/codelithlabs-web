@@ -154,7 +154,7 @@ export default function ResearchPage() {
             name: "CodelithLabs Research & Engineering",
             description:
               "Technical papers, architectural decisions, and engineering post-mortems from the CodelithLabs team.",
-            url: "https://codelithlabs.in/research",
+            url: "https://codelithlabs.in/research/",
             numberOfItems: papers.length,
             provider: {
               "@type": "Organization",

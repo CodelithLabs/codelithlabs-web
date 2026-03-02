@@ -1,10 +1,11 @@
 // ═══════════════════════════════════════════════════════════════════════════
 // FILE: src/app/tools/[slug]/tool-mapper.tsx
-// Clean component mapper with lazy loading and proper error handling - 53 Tools
+// Clean component mapper with lazy loading and proper error handling
 // ═══════════════════════════════════════════════════════════════════════════
 'use client';
 
 import dynamic from 'next/dynamic';
+import Link from 'next/link';
 import { ComponentType } from 'react';
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -34,13 +35,13 @@ function ToolPlaceholder({ toolName }: { toolName: string }) {
         Check back soon!
       </p>
       <div className="pt-4">
-        <a
+        <Link
           href="/tools"
           className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700
                    text-white font-medium rounded-lg transition-colors"
         >
           Browse All Tools
-        </a>
+        </Link>
       </div>
     </div>
   );
@@ -186,6 +187,7 @@ const TOOL_COMPONENTS: Record<string, ComponentType<any>> = {
   'readme-generator': dynamic(() => import('@/components/tools/impl/ReadmeGenerator'), { loading: () => <ToolLoadingFallback /> }),
   'css-gradient-generator': dynamic(() => import('@/components/tools/impl/CssGradientGenerator'), { loading: () => <ToolLoadingFallback /> }),
   'website-security-checker': dynamic(() => import('@/components/tools/impl/WebsiteSecurityChecker'), { loading: () => <ToolLoadingFallback /> }),
+
 };
 
 // ═══════════════════════════════════════════════════════════════════════════

@@ -1,0 +1,44 @@
+# SEO automation URLs for batch submission
+
+# Blog posts
+https://codelithlabs.in/blog/best-json-formatter-online-2026
+https://codelithlabs.in/blog/free-image-compressor-guide-2026
+https://codelithlabs.in/blog/jwt-decoder-security-checklist
+https://codelithlabs.in/blog/compound-interest-calculator-india-guide-2026
+https://codelithlabs.in/blog/loan-emi-calculator-india-guide-2026
+https://codelithlabs.in/blog/regex-for-beginners-10-minute-guide-2026
+https://codelithlabs.in/blog/why-client-side-processing
+https://codelithlabs.in/blog/optimize-images-for-web
+https://codelithlabs.in/blog/developer-tools-2025
+
+# Priority tool pages
+https://codelithlabs.in/tools/json-formatter
+https://codelithlabs.in/tools/json-to-csv
+https://codelithlabs.in/tools/image-compressor
+https://codelithlabs.in/tools/image-resizer
+https://codelithlabs.in/tools/jwt-decoder
+https://codelithlabs.in/tools/api-tester
+https://codelithlabs.in/tools/compound-interest-calculator
+https://codelithlabs.in/tools/loan-calculator
+https://codelithlabs.in/tools/regex-tester
+
+# New fintech calculators
+https://codelithlabs.in/tools/gst-calculator-india
+https://codelithlabs.in/tools/nps-calculator-india
+https://codelithlabs.in/tools/ppf-calculator
+https://codelithlabs.in/tools/roi-calculator
+https://codelithlabs.in/tools/vat-calculator
+https://codelithlabs.in/tools/sleep-cycle-calculator
+https://codelithlabs.in/tools/gratuity-calculator-india
+https://codelithlabs.in/tools/sip-calculator-india
+https://codelithlabs.in/tools/income-tax-calculator-india
+https://codelithlabs.in/tools/car-loan-emi-calculator-india
+https://codelithlabs.in/tools/home-loan-calculator-india
+
+# Core pages
+https://codelithlabs.in/
+https://codelithlabs.in/tools
+https://codelithlabs.in/blog
+https://codelithlabs.in/about
+https://codelithlabs.in/pricing
+https://codelithlabs.in/contact

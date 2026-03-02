@@ -21,10 +21,10 @@ export const metadata: Metadata = {
     title: 'About CodelithLabs',
     description: 'Meet the team building free, privacy-first online tools for developers and creators worldwide.',
     type: 'website',
-    url: 'https://codelithlabs.in/about',
+    url: 'https://codelithlabs.in/about/',
   },
   alternates: {
-    canonical: 'https://codelithlabs.in/about',
+    canonical: 'https://codelithlabs.in/about/',
   },
 };
 

@@ -59,7 +59,6 @@ export function AdBanner({ slot, format = 'auto', className = '' }: AdBannerProp
   useEffect(() => {
     if (adSenseId && !isAdBlocked) {
       try {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         ((window as any).adsbygoogle = (window as any).adsbygoogle || []).push({});
       } catch {
         // AdSense script not loaded yet — silently ignored

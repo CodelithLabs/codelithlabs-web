@@ -7,7 +7,7 @@
 import { useState, useEffect } from 'react';
 
 export default function UnixTimestampConverter() {
-  const [currentTimestamp, setCurrentTimestamp] = useState(Math.floor(Date.now() / 1000));
+  const [currentTimestamp, setCurrentTimestamp] = useState(() => Math.floor(Date.now() / 1000));
   const [inputTimestamp, setInputTimestamp] = useState('');
   const [inputDate, setInputDate] = useState('');
   const [copiedTimestamp, setCopiedTimestamp] = useState(false);
