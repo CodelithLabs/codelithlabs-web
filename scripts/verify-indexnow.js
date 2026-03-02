@@ -18,6 +18,30 @@ const API_KEY = process.env.INDEXNOW_API_KEY || '4b7800bbc0ca4c9682d90291a3cbd35
 const DOMAIN = 'codelithlabs.in';
 const KEY_FILE_PATH = path.join(__dirname, '../public', `${API_KEY}.txt`);
 const KEY_FILE_URL = `https://${DOMAIN}/${API_KEY}.txt`;
+const SITEMAP_URL = `https://${DOMAIN}/sitemap.xml`;
+
+function fetchWithRedirects(url, maxRedirects = 3) {
+  return new Promise((resolve, reject) => {
+    const request = (currentUrl, redirectsLeft) => {
+      https.get(currentUrl, (res) => {
+        const isRedirect = [301, 302, 307, 308].includes(res.statusCode);
+        const location = res.headers.location;
+
+        if (isRedirect && location && redirectsLeft > 0) {
+          const nextUrl = new URL(location, currentUrl).toString();
+          request(nextUrl, redirectsLeft - 1);
+          return;
+        }
+
+        let data = '';
+        res.on('data', (chunk) => data += chunk);
+        res.on('end', () => resolve({ statusCode: res.statusCode, data: data.trim(), finalUrl: currentUrl }));
+      }).on('error', reject);
+    };
+
+    request(url, maxRedirects);
+  });
+}
 
 console.log('\n📋 IndexNow Setup Verification\n');
 console.log('═'.repeat(60));
@@ -43,30 +67,54 @@ if (fs.existsSync(KEY_FILE_PATH)) {
 console.log('\n✓ Step 2: Verify key file is accessible online');
 console.log(`   🔗 Testing: ${KEY_FILE_URL}`);
 
-https.get(KEY_FILE_URL, (res) => {
-  let data = '';
-  res.on('data', (chunk) => data += chunk);
-  res.on('end', () => {
-    if (res.statusCode === 200) {
-      data = data.trim();
+fetchWithRedirects(KEY_FILE_URL)
+  .then(({ statusCode, data, finalUrl }) => {
+    if (statusCode === 200) {
       if (data === API_KEY) {
-        console.log(`   ✅ Key file accessible (HTTP ${res.statusCode})`);
-        console.log(`   ✅ Content matches API key`);
-        Step3_SubmitTestURL();
+        console.log(`   ✅ Key file accessible (HTTP ${statusCode})`);
+        if (finalUrl !== KEY_FILE_URL) {
+          console.log(`   ℹ️  Followed redirect to: ${finalUrl}`);
+        }
+        console.log('   ✅ Content matches API key');
+        Step2b_CheckSitemap();
       } else {
-        console.log(`   ⚠️  Key file found but content mismatch (HTTP ${res.statusCode})`);
+        console.log(`   ⚠️  Key file found but content mismatch (HTTP ${statusCode})`);
         console.log(`      Expected: ${API_KEY}`);
         console.log(`      Got: ${data.substring(0, 50)}...`);
       }
     } else {
-      console.log(`   ❌ HTTP ${res.statusCode} - File may not be accessible`);
-      console.log(`   💡 Ensure the file is deployed and publicly accessible`);
+      console.log(`   ❌ HTTP ${statusCode} - File may not be accessible`);
+      console.log('   💡 Ensure the file is deployed and publicly accessible');
     }
+  })
+  .catch((err) => {
+    console.log(`   ❌ Network error: ${err.message}`);
+    console.log('   💡 Ensure your domain is accessible and DNS is configured');
   });
-}).on('error', (err) => {
-  console.log(`   ❌ Network error: ${err.message}`);
-  console.log(`   💡 Ensure your domain is accessible and DNS is configured`);
-});
+
+function Step2b_CheckSitemap() {
+  console.log('\n✓ Step 2b: Verify sitemap is accessible');
+  console.log(`   🔗 Testing: ${SITEMAP_URL}`);
+
+  fetchWithRedirects(SITEMAP_URL)
+    .then(({ statusCode, finalUrl }) => {
+      if (statusCode === 200) {
+        console.log(`   ✅ Sitemap accessible (HTTP ${statusCode})`);
+        if (finalUrl !== SITEMAP_URL) {
+          console.log(`   ℹ️  Followed redirect to: ${finalUrl}`);
+        }
+        Step3_SubmitTestURL();
+      } else {
+        console.log(`   ⚠️  Sitemap returned HTTP ${statusCode}`);
+        console.log('   💡 Continue, but add/fix sitemap in Bing Webmaster Tools');
+        Step3_SubmitTestURL();
+      }
+    })
+    .catch((err) => {
+      console.log(`   ⚠️  Could not verify sitemap: ${err.message}`);
+      Step3_SubmitTestURL();
+    });
+}
 
 function Step3_SubmitTestURL() {
   // Step 3: Submit a test URL
@@ -151,17 +199,26 @@ function Step4_Instructions() {
   console.log('═'.repeat(60));
   console.log(`
   1. ✅ Verify your domain ownership in Bing Webmaster Tools
-     https://www.bing.com/webmasters/home
+    https://www.bing.com/webmasters/home
 
-  2. 📊 Monitor indexing progress
+  2. 🗺️ Add your sitemap in Bing Webmaster Tools
+    Bing Webmaster Tools → Configure My Site → Sitemaps → Submit Sitemap
+    Sitemap URL: ${SITEMAP_URL}
+
+  3. 🔐 Add IndexNow key details in Bing (if prompted)
+    Host: ${DOMAIN}
+    Key: ${API_KEY}
+    Key URL: ${KEY_FILE_URL}
+
+  4. 📊 Monitor indexing progress
      https://www.bing.com/webmasters/
 
-  3. 🚀 Submit bulk URLs using:
+  5. 🚀 Submit bulk URLs using:
      npm run seo:submit -- --urls scripts/seo-urls.txt
 
-  4. 📈 Track metrics using SEO_TRACKING_TEMPLATE.md
+  6. 📈 Track metrics using SEO_TRACKING_TEMPLATE.md
 
-  5. 🔄 Set up weekly submissions for new content
+  7. 🔄 Set up weekly submissions for new content
      npm run seo:generate -- --content <path> --platform twitter
   `);
 

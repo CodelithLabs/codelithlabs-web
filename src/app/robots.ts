@@ -22,6 +22,7 @@ export default function robots(): MetadataRoute.Robots {
         disallow: [],
       }
     ],
+    host: 'https://codelithlabs.in',
     sitemap: 'https://codelithlabs.in/sitemap.xml',
   };
 }
