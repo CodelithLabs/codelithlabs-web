@@ -51,6 +51,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     },
   },
 
-  // Secret for JWT encryption
-  secret: process.env.NEXTAUTH_SECRET || process.env.AUTH_SECRET || "codelithlabs-fallback-secret-change-in-production",
+  // Secret for JWT encryption — MUST be set in environment
+  secret: process.env.NEXTAUTH_SECRET || process.env.AUTH_SECRET || (() => {
+    throw new Error(
+      "NEXTAUTH_SECRET or AUTH_SECRET environment variable must be set. "
+      + "Never use hardcoded secrets in production. "
+      + "Generate one: `openssl rand -base64 33`"
+    );
+  })(),
 });

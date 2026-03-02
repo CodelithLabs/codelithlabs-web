@@ -2,6 +2,11 @@
 // FILE: src/components/analytics/MicrosoftClarity.tsx
 // Consent-aware Microsoft Clarity integration
 // Only loads when user has accepted cookies
+// Security audit (2026-03-03): ✅ SAFE
+//   - Uses HTTPS endpoint (https://www.clarity.ms/tag/...)
+//   - Respects user consent (localStorage check)
+//   - Uses CSP nonce for inline script protection
+//   - Loads async to avoid blocking page rendering
 // ═══════════════════════════════════════════════════════════════════════════
 
 'use client';

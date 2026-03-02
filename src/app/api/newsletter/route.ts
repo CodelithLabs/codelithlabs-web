@@ -36,12 +36,11 @@ export async function POST(request: Request) {
     }
 
     const res = await fetch(
-      `https://api.convertkit.com/v3/forms/${formId}/subscribe`,
+      `https://api.convertkit.com/v3/forms/${formId}/subscribe?api_key=${encodeURIComponent(apiKey)}`,
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          api_key: apiKey,
           email: parsed.data.email,
           first_name: parsed.data.firstName ?? '',
         }),
