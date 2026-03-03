@@ -211,6 +211,30 @@ export const TOOLS_REGISTRY: ToolMeta[] = [
     keywords: ['loan', 'emi', 'interest', 'mortgage'],
     processingType: 'client'
   },
+  {
+    slug: 'calorie-calculator',
+    name: 'Calorie Calculator',
+    description: 'Calculate daily calorie needs based on age, weight, height, and activity level.',
+    category: 'calculator',
+    keywords: ['calorie', 'calories', 'diet', 'nutrition', 'bmr', 'tdee'],
+    processingType: 'client'
+  },
+  {
+    slug: 'discount-calculator',
+    name: 'Discount Calculator',
+    description: 'Calculate discounted prices, savings, and percentage off instantly.',
+    category: 'calculator',
+    keywords: ['discount', 'sale', 'price', 'savings', 'percentage off'],
+    processingType: 'client'
+  },
+  {
+    slug: 'tip-calculator',
+    name: 'Tip Calculator',
+    description: 'Calculate tip amounts and split bills among multiple people easily.',
+    category: 'calculator',
+    keywords: ['tip', 'gratuity', 'bill split', 'restaurant', 'service'],
+    processingType: 'client'
+  },
 
   // ═══════════════════════════════════════════════════════════════
   // SECURITY TOOLS
@@ -1119,6 +1143,38 @@ export const TOOLS_REGISTRY: ToolMeta[] = [
     keywords: ['markup', 'margin', 'calculator', 'pricing', 'profit', 'cost', 'difference'],
     processingType: 'client'
   },
+  {
+    slug: 'car-loan-emi-calculator-india',
+    name: 'Car Loan EMI Calculator (India)',
+    description: 'Calculate car loan EMI, total interest, and payment schedule for Indian banks. Compare rates across HDFC, SBI, ICICI.',
+    category: 'fintech',
+    keywords: ['car loan', 'emi', 'calculator', 'india', 'auto loan', 'vehicle finance', 'interest rate'],
+    processingType: 'client'
+  },
+  {
+    slug: 'home-loan-calculator-india',
+    name: 'Home Loan Calculator (India)',
+    description: 'Calculate home loan EMI and eligibility for Indian banks. Get amortization schedule and tax benefit estimates.',
+    category: 'fintech',
+    keywords: ['home loan', 'housing loan', 'emi', 'calculator', 'india', 'mortgage', 'property'],
+    processingType: 'client'
+  },
+  {
+    slug: 'income-tax-calculator-india',
+    name: 'Income Tax Calculator (India)',
+    description: 'Calculate income tax under old and new regime for FY 2024-25. Compare tax liability with HRA, 80C, and other deductions.',
+    category: 'fintech',
+    keywords: ['income tax', 'calculator', 'india', 'fy 2024-25', 'old regime', 'new regime', 'deductions'],
+    processingType: 'client'
+  },
+  {
+    slug: 'sip-calculator-india',
+    name: 'SIP Calculator (India)',
+    description: 'Calculate SIP returns and maturity value for mutual funds. See how monthly investments grow with compound interest.',
+    category: 'fintech',
+    keywords: ['sip', 'calculator', 'india', 'mutual fund', 'investment', 'returns', 'wealth creation'],
+    processingType: 'client'
+  },
 
   // ═══════════════════════════════════════════════════════════════════════════
   // LOCAL SEO TOOLS
@@ -1285,6 +1341,418 @@ export const TOOLS_REGISTRY: ToolMeta[] = [
     description: 'Calculate your carbon footprint from travel, energy, diet, and shopping. India-specific emission factors included.',
     category: 'niche-calculator',
     keywords: ['carbon', 'footprint', 'calculator', 'emissions', 'india', 'environment', 'co2'],
+    processingType: 'client'
+  },
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // BUSINESS & PRODUCTIVITY TOOLS (BATCH 2)
+  // ═══════════════════════════════════════════════════════════════════════════
+  {
+    slug: 'meeting-cost-calculator',
+    name: 'Meeting Cost Calculator',
+    description: 'Calculate the true cost of meetings based on attendee salaries and duration. Optimize team productivity.',
+    category: 'business',
+    keywords: ['meeting', 'cost', 'calculator', 'salary', 'productivity', 'time', 'team'],
+    processingType: 'client'
+  },
+  {
+    slug: 'pricing-calculator',
+    name: 'Product Pricing Calculator',
+    description: 'Calculate optimal product pricing with cost, markup, and profit margin analysis.',
+    category: 'business',
+    keywords: ['pricing', 'calculator', 'product', 'markup', 'profit', 'margin', 'cost'],
+    processingType: 'client'
+  },
+  {
+    slug: 'invoice-number-generator',
+    name: 'Invoice Number Generator',
+    description: 'Generate sequential invoice numbers with customizable prefixes and formats.',
+    category: 'business',
+    keywords: ['invoice', 'number', 'generator', 'sequential', 'prefix', 'business', 'billing'],
+    processingType: 'client'
+  },
+  {
+    slug: 'business-name-generator',
+    name: 'Business Name Generator',
+    description: 'Generate creative business name ideas based on keywords, industry, and style preferences.',
+    category: 'business',
+    keywords: ['business name', 'generator', 'startup', 'brand', 'company', 'creative'],
+    processingType: 'client'
+  },
+  {
+    slug: 'swot-analysis-generator',
+    name: 'SWOT Analysis Generator',
+    description: 'Create structured SWOT analysis for business planning. Export as PDF or share link.',
+    category: 'business',
+    keywords: ['swot', 'analysis', 'strengths', 'weaknesses', 'opportunities', 'threats', 'business'],
+    processingType: 'client'
+  },
+  {
+    slug: 'payroll-calculator',
+    name: 'Payroll Calculator',
+    description: 'Calculate employee payroll with deductions, taxes, and net salary. India-specific PF and ESI support.',
+    category: 'business',
+    keywords: ['payroll', 'calculator', 'salary', 'deductions', 'pf', 'esi', 'employee'],
+    processingType: 'client'
+  },
+  {
+    slug: 'working-days-calculator',
+    name: 'Working Days Calculator',
+    description: 'Calculate working days between dates excluding weekends and Indian holidays.',
+    category: 'business',
+    keywords: ['working days', 'calculator', 'business days', 'holidays', 'india', 'date'],
+    processingType: 'client'
+  },
+  {
+    slug: 'contract-generator',
+    name: 'Contract Generator',
+    description: 'Generate basic freelance and service contracts with customizable terms and conditions.',
+    category: 'business',
+    keywords: ['contract', 'generator', 'freelance', 'agreement', 'terms', 'legal', 'template'],
+    processingType: 'client'
+  },
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // DESIGN & CREATIVE TOOLS (BATCH 2)
+  // ═══════════════════════════════════════════════════════════════════════════
+  {
+    slug: 'aspect-ratio-calculator',
+    name: 'Aspect Ratio Calculator',
+    description: 'Calculate aspect ratios and resize dimensions while maintaining proportions.',
+    category: 'design',
+    keywords: ['aspect ratio', 'calculator', 'dimensions', 'resize', 'proportion', 'video', 'image'],
+    processingType: 'client'
+  },
+  {
+    slug: 'svg-to-png',
+    name: 'SVG to PNG Converter',
+    description: 'Convert SVG vector graphics to PNG images with custom resolution and background.',
+    category: 'image',
+    keywords: ['svg', 'png', 'converter', 'vector', 'image', 'resolution', 'export'],
+    processingType: 'client'
+  },
+  {
+    slug: 'favicon-generator',
+    name: 'Favicon Generator',
+    description: 'Generate favicons in all sizes from a single image. Includes ICO, PNG, and Apple Touch icons.',
+    category: 'design',
+    keywords: ['favicon', 'generator', 'icon', 'ico', 'apple touch', 'website', 'browser'],
+    processingType: 'client'
+  },
+  {
+    slug: 'pixel-to-rem',
+    name: 'Pixel to REM Converter',
+    description: 'Convert pixels to REM units for responsive web design. Customizable base font size.',
+    category: 'design',
+    keywords: ['pixel', 'rem', 'converter', 'css', 'responsive', 'font size', 'web design'],
+    processingType: 'client'
+  },
+  {
+    slug: 'box-shadow-generator',
+    name: 'CSS Box Shadow Generator',
+    description: 'Create and preview CSS box shadows with visual controls. Copy ready-to-use code.',
+    category: 'design',
+    keywords: ['box shadow', 'css', 'generator', 'shadow', 'blur', 'spread', 'web design'],
+    processingType: 'client'
+  },
+  {
+    slug: 'border-radius-generator',
+    name: 'Border Radius Generator',
+    description: 'Create custom border radius shapes with visual preview. Generate CSS code instantly.',
+    category: 'design',
+    keywords: ['border radius', 'css', 'generator', 'rounded', 'corners', 'shape', 'web design'],
+    processingType: 'client'
+  },
+  {
+    slug: 'color-shades-generator',
+    name: 'Color Shades Generator',
+    description: 'Generate lighter and darker shades of any color. Perfect for creating color palettes.',
+    category: 'design',
+    keywords: ['color', 'shades', 'generator', 'tint', 'palette', 'lighter', 'darker'],
+    processingType: 'client'
+  },
+  {
+    slug: 'glassmorphism-generator',
+    name: 'Glassmorphism Generator',
+    description: 'Create glassmorphism effects with visual preview. Generate CSS for frosted glass UI.',
+    category: 'design',
+    keywords: ['glassmorphism', 'css', 'generator', 'frosted', 'glass', 'blur', 'ui design'],
+    processingType: 'client'
+  },
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // DEVELOPER TOOLS (BATCH 3)
+  // ═══════════════════════════════════════════════════════════════════════════
+  {
+    slug: 'html-to-markdown',
+    name: 'HTML to Markdown Converter',
+    description: 'Convert HTML to clean Markdown format. Preserves links, images, and formatting.',
+    category: 'developer',
+    keywords: ['html', 'markdown', 'converter', 'md', 'format', 'text', 'documentation'],
+    processingType: 'client'
+  },
+  {
+    slug: 'json-to-typescript',
+    name: 'JSON to TypeScript Types',
+    description: 'Generate TypeScript interfaces from JSON data. Supports nested objects and arrays.',
+    category: 'developer',
+    keywords: ['json', 'typescript', 'types', 'interface', 'converter', 'code', 'generation'],
+    processingType: 'client'
+  },
+  {
+    slug: 'sql-to-prisma',
+    name: 'SQL to Prisma Schema',
+    description: 'Convert SQL DDL statements to Prisma schema format for modern database workflows.',
+    category: 'developer',
+    keywords: ['sql', 'prisma', 'schema', 'converter', 'database', 'orm', 'ddl'],
+    processingType: 'client'
+  },
+  {
+    slug: 'css-to-tailwind',
+    name: 'CSS to Tailwind Converter',
+    description: 'Convert vanilla CSS to Tailwind CSS classes. Map common CSS properties to utility classes.',
+    category: 'developer',
+    keywords: ['css', 'tailwind', 'converter', 'utility', 'classes', 'postcss', 'design'],
+    processingType: 'client'
+  },
+  {
+    slug: 'npm-package-checker',
+    name: 'NPM Package Checker',
+    description: 'Check NPM package stats, downloads, dependencies, and security vulnerabilities.',
+    category: 'developer',
+    keywords: ['npm', 'package', 'checker', 'downloads', 'dependencies', 'security', 'node'],
+    processingType: 'client'
+  },
+  {
+    slug: 'curl-to-fetch',
+    name: 'cURL to Fetch Converter',
+    description: 'Convert cURL commands to JavaScript fetch code. Supports headers, body, and auth.',
+    category: 'developer',
+    keywords: ['curl', 'fetch', 'converter', 'javascript', 'http', 'request', 'api'],
+    processingType: 'client'
+  },
+  {
+    slug: 'json-to-go',
+    name: 'JSON to Go Struct',
+    description: 'Generate Go struct definitions from JSON data with proper field tags.',
+    category: 'developer',
+    keywords: ['json', 'go', 'golang', 'struct', 'converter', 'types', 'code'],
+    processingType: 'client'
+  },
+  {
+    slug: 'base64-image-encoder',
+    name: 'Base64 Image Encoder',
+    description: 'Convert images to Base64 encoded data URIs for embedding in HTML/CSS.',
+    category: 'developer',
+    keywords: ['base64', 'image', 'encoder', 'data uri', 'embed', 'html', 'css'],
+    processingType: 'client'
+  },
+  {
+    slug: 'git-command-generator',
+    name: 'Git Command Generator',
+    description: 'Generate complex Git commands with visual interface. Supports branching, rebasing, cherry-pick.',
+    category: 'developer',
+    keywords: ['git', 'command', 'generator', 'branch', 'rebase', 'cherry-pick', 'merge'],
+    processingType: 'client'
+  },
+  {
+    slug: 'env-to-json',
+    name: 'ENV to JSON Converter',
+    description: 'Convert .env environment files to JSON format and vice versa.',
+    category: 'developer',
+    keywords: ['env', 'json', 'converter', 'environment', 'config', 'dotenv', 'settings'],
+    processingType: 'client'
+  },
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // MATH & SCIENCE TOOLS
+  // ═══════════════════════════════════════════════════════════════════════════
+  {
+    slug: 'scientific-calculator',
+    name: 'Scientific Calculator',
+    description: 'Full-featured scientific calculator with trigonometry, logarithms, and memory functions.',
+    category: 'math',
+    keywords: ['scientific', 'calculator', 'math', 'trigonometry', 'logarithm', 'sine', 'cosine'],
+    processingType: 'client'
+  },
+  {
+    slug: 'fraction-calculator',
+    name: 'Fraction Calculator',
+    description: 'Add, subtract, multiply, and divide fractions. Simplify and convert to decimals.',
+    category: 'math',
+    keywords: ['fraction', 'calculator', 'add', 'subtract', 'simplify', 'decimal', 'math'],
+    processingType: 'client'
+  },
+  {
+    slug: 'quadratic-equation-solver',
+    name: 'Quadratic Equation Solver',
+    description: 'Solve quadratic equations and find roots. Shows step-by-step solution.',
+    category: 'math',
+    keywords: ['quadratic', 'equation', 'solver', 'roots', 'formula', 'algebra', 'math'],
+    processingType: 'client'
+  },
+  {
+    slug: 'matrix-calculator',
+    name: 'Matrix Calculator',
+    description: 'Perform matrix operations: addition, multiplication, determinant, inverse.',
+    category: 'math',
+    keywords: ['matrix', 'calculator', 'determinant', 'inverse', 'multiplication', 'linear algebra'],
+    processingType: 'client'
+  },
+  {
+    slug: 'probability-calculator',
+    name: 'Probability Calculator',
+    description: 'Calculate probabilities for various events and distributions.',
+    category: 'math',
+    keywords: ['probability', 'calculator', 'statistics', 'chance', 'odds', 'distribution'],
+    processingType: 'client'
+  },
+  {
+    slug: 'area-calculator',
+    name: 'Area Calculator',
+    description: 'Calculate area of various shapes: circle, triangle, rectangle, trapezoid, and more.',
+    category: 'math',
+    keywords: ['area', 'calculator', 'circle', 'triangle', 'rectangle', 'geometry', 'shape'],
+    processingType: 'client'
+  },
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // HEALTH & FITNESS TOOLS
+  // ═══════════════════════════════════════════════════════════════════════════
+  {
+    slug: 'body-fat-calculator',
+    name: 'Body Fat Calculator',
+    description: 'Estimate body fat percentage using Navy method. Enter measurements for accurate results.',
+    category: 'health',
+    keywords: ['body fat', 'calculator', 'percentage', 'navy method', 'fitness', 'health'],
+    processingType: 'client'
+  },
+  {
+    slug: 'ideal-weight-calculator',
+    name: 'Ideal Weight Calculator',
+    description: 'Calculate your ideal weight based on height, age, and gender using multiple formulas.',
+    category: 'health',
+    keywords: ['ideal weight', 'calculator', 'bmi', 'height', 'health', 'fitness', 'goal'],
+    processingType: 'client'
+  },
+  {
+    slug: 'macro-calculator',
+    name: 'Macro Calculator',
+    description: 'Calculate daily macronutrient needs (protein, carbs, fat) based on your fitness goals.',
+    category: 'health',
+    keywords: ['macro', 'calculator', 'protein', 'carbs', 'fat', 'diet', 'fitness'],
+    processingType: 'client'
+  },
+  {
+    slug: 'heart-rate-zone-calculator',
+    name: 'Heart Rate Zone Calculator',
+    description: 'Calculate target heart rate zones for optimal cardio training.',
+    category: 'health',
+    keywords: ['heart rate', 'zone', 'calculator', 'cardio', 'training', 'fitness', 'max hr'],
+    processingType: 'client'
+  },
+  {
+    slug: 'pregnancy-due-date-calculator',
+    name: 'Pregnancy Due Date Calculator',
+    description: 'Calculate estimated due date and pregnancy milestones from last period or conception date.',
+    category: 'health',
+    keywords: ['pregnancy', 'due date', 'calculator', 'conception', 'trimester', 'baby', 'weeks'],
+    processingType: 'client'
+  },
+  {
+    slug: 'pace-calculator',
+    name: 'Running Pace Calculator',
+    description: 'Calculate running pace, time, or distance for marathons and training.',
+    category: 'health',
+    keywords: ['pace', 'calculator', 'running', 'marathon', 'training', 'speed', 'distance'],
+    processingType: 'client'
+  },
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // WRITING & CONTENT TOOLS
+  // ═══════════════════════════════════════════════════════════════════════════
+  {
+    slug: 'headline-analyzer',
+    name: 'Headline Analyzer',
+    description: 'Analyze headlines for emotional appeal, power words, and click-worthiness.',
+    category: 'writing',
+    keywords: ['headline', 'analyzer', 'title', 'ctr', 'emotional', 'power words', 'seo'],
+    processingType: 'client'
+  },
+  {
+    slug: 'reading-time-calculator',
+    name: 'Reading Time Calculator',
+    description: 'Calculate estimated reading time for articles and blog posts.',
+    category: 'writing',
+    keywords: ['reading time', 'calculator', 'minutes', 'article', 'blog', 'content', 'medium'],
+    processingType: 'client'
+  },
+  {
+    slug: 'cta-generator',
+    name: 'Call to Action Generator',
+    description: 'Generate compelling CTAs for landing pages, emails, and ads.',
+    category: 'writing',
+    keywords: ['cta', 'generator', 'call to action', 'button', 'conversion', 'marketing', 'copy'],
+    processingType: 'client'
+  },
+  {
+    slug: 'bio-generator',
+    name: 'Professional Bio Generator',
+    description: 'Generate professional bios for LinkedIn, Twitter, and websites.',
+    category: 'writing',
+    keywords: ['bio', 'generator', 'professional', 'linkedin', 'twitter', 'about me', 'profile'],
+    processingType: 'client'
+  },
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // UTILITY CONVERTERS (BATCH 2)
+  // ═══════════════════════════════════════════════════════════════════════════
+  {
+    slug: 'temperature-converter',
+    name: 'Temperature Converter',
+    description: 'Convert between Celsius, Fahrenheit, and Kelvin temperatures.',
+    category: 'converter',
+    keywords: ['temperature', 'converter', 'celsius', 'fahrenheit', 'kelvin', 'degrees'],
+    processingType: 'client'
+  },
+  {
+    slug: 'speed-converter',
+    name: 'Speed Converter',
+    description: 'Convert speed between km/h, mph, m/s, knots, and more.',
+    category: 'converter',
+    keywords: ['speed', 'converter', 'kmph', 'mph', 'velocity', 'knots', 'meters'],
+    processingType: 'client'
+  },
+  {
+    slug: 'weight-converter',
+    name: 'Weight Converter',
+    description: 'Convert weight between kg, lbs, ounces, grams, and stones.',
+    category: 'converter',
+    keywords: ['weight', 'converter', 'kg', 'lbs', 'pounds', 'grams', 'ounces'],
+    processingType: 'client'
+  },
+  {
+    slug: 'length-converter',
+    name: 'Length Converter',
+    description: 'Convert length between meters, feet, inches, miles, and kilometers.',
+    category: 'converter',
+    keywords: ['length', 'converter', 'meters', 'feet', 'inches', 'miles', 'cm'],
+    processingType: 'client'
+  },
+  {
+    slug: 'data-size-converter',
+    name: 'Data Size Converter',
+    description: 'Convert between bytes, KB, MB, GB, TB with binary and decimal units.',
+    category: 'converter',
+    keywords: ['data size', 'converter', 'bytes', 'megabytes', 'gigabytes', 'storage'],
+    processingType: 'client'
+  },
+  {
+    slug: 'number-to-words',
+    name: 'Number to Words Converter',
+    description: 'Convert numbers to written words in English and Hindi for cheques and documents.',
+    category: 'converter',
+    keywords: ['number', 'words', 'converter', 'cheque', 'english', 'hindi', 'amount'],
     processingType: 'client'
   },
 ];

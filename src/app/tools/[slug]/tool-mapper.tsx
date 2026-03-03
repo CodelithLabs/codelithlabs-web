@@ -250,6 +250,74 @@ const TOOL_COMPONENTS: Record<string, ComponentType<any>> = {
   'citation-formatter': dynamic(() => import('@/components/tools/impl/CitationFormatter'), { loading: () => <ToolLoadingFallback /> }),
   'regex-library': dynamic(() => import('@/components/tools/impl/RegexLibrary'), { loading: () => <ToolLoadingFallback /> }),
 
+  // ═══ INDIA FINANCE TOOLS (NEW 4 tools) ═══
+  'car-loan-emi-calculator-india': dynamic(() => import('@/components/tools/impl/CarLoanEmiCalculatorIndia'), { loading: () => <ToolLoadingFallback /> }),
+  'home-loan-calculator-india': dynamic(() => import('@/components/tools/impl/HomeLoanCalculatorIndia'), { loading: () => <ToolLoadingFallback /> }),
+  'income-tax-calculator-india': dynamic(() => import('@/components/tools/impl/IncomeTaxCalculatorIndia'), { loading: () => <ToolLoadingFallback /> }),
+  'sip-calculator-india': dynamic(() => import('@/components/tools/impl/SipCalculatorIndia'), { loading: () => <ToolLoadingFallback /> }),
+
+  // ═══ BUSINESS & PRODUCTIVITY TOOLS (8 tools) ═══
+  'meeting-cost-calculator': dynamic(() => import('@/components/tools/impl/MeetingCostCalculator'), { loading: () => <ToolLoadingFallback /> }),
+  'pricing-calculator': dynamic(() => import('@/components/tools/impl/PricingCalculator'), { loading: () => <ToolLoadingFallback /> }),
+  'invoice-number-generator': dynamic(() => import('@/components/tools/impl/InvoiceNumberGenerator'), { loading: () => <ToolLoadingFallback /> }),
+  'business-name-generator': dynamic(() => import('@/components/tools/impl/BusinessNameGenerator'), { loading: () => <ToolLoadingFallback /> }),
+  'swot-analysis-generator': dynamic(() => import('@/components/tools/impl/SwotAnalysisGenerator'), { loading: () => <ToolLoadingFallback /> }),
+  'payroll-calculator': dynamic(() => import('@/components/tools/impl/PayrollCalculator'), { loading: () => <ToolLoadingFallback /> }),
+  'working-days-calculator': dynamic(() => import('@/components/tools/impl/WorkingDaysCalculator'), { loading: () => <ToolLoadingFallback /> }),
+  'contract-generator': dynamic(() => import('@/components/tools/impl/ContractGenerator'), { loading: () => <ToolLoadingFallback /> }),
+
+  // ═══ DESIGN & CREATIVE TOOLS (8 tools) ═══
+  'aspect-ratio-calculator': dynamic(() => import('@/components/tools/impl/AspectRatioCalculator'), { loading: () => <ToolLoadingFallback /> }),
+  'svg-to-png': dynamic(() => import('@/components/tools/impl/SvgToPng'), { loading: () => <ToolLoadingFallback />, ssr: false }),
+  'favicon-generator': dynamic(() => import('@/components/tools/impl/FaviconGenerator'), { loading: () => <ToolLoadingFallback />, ssr: false }),
+  'pixel-to-rem': dynamic(() => import('@/components/tools/impl/PixelToRem'), { loading: () => <ToolLoadingFallback /> }),
+  'box-shadow-generator': dynamic(() => import('@/components/tools/impl/BoxShadowGenerator'), { loading: () => <ToolLoadingFallback /> }),
+  'border-radius-generator': dynamic(() => import('@/components/tools/impl/BorderRadiusGenerator'), { loading: () => <ToolLoadingFallback /> }),
+  'color-shades-generator': dynamic(() => import('@/components/tools/impl/ColorShadesGenerator'), { loading: () => <ToolLoadingFallback /> }),
+  'glassmorphism-generator': dynamic(() => import('@/components/tools/impl/GlassmorphismGenerator'), { loading: () => <ToolLoadingFallback /> }),
+
+  // ═══ DEVELOPER TOOLS BATCH 3 (10 tools) ═══
+  'html-to-markdown': dynamic(() => import('@/components/tools/impl/HtmlToMarkdown'), { loading: () => <ToolLoadingFallback /> }),
+  'json-to-typescript': dynamic(() => import('@/components/tools/impl/JsonToTypescript'), { loading: () => <ToolLoadingFallback /> }),
+  'sql-to-prisma': dynamic(() => import('@/components/tools/impl/SqlToPrisma'), { loading: () => <ToolLoadingFallback /> }),
+  'css-to-tailwind': dynamic(() => import('@/components/tools/impl/CssToTailwind'), { loading: () => <ToolLoadingFallback /> }),
+  'npm-package-checker': dynamic(() => import('@/components/tools/impl/NpmPackageChecker'), { loading: () => <ToolLoadingFallback /> }),
+  'curl-to-fetch': dynamic(() => import('@/components/tools/impl/CurlToFetch'), { loading: () => <ToolLoadingFallback /> }),
+  'json-to-go': dynamic(() => import('@/components/tools/impl/JsonToGo'), { loading: () => <ToolLoadingFallback /> }),
+  'base64-image-encoder': dynamic(() => import('@/components/tools/impl/Base64ImageEncoder'), { loading: () => <ToolLoadingFallback />, ssr: false }),
+  'git-command-generator': dynamic(() => import('@/components/tools/impl/GitCommandGenerator'), { loading: () => <ToolLoadingFallback /> }),
+  'env-to-json': dynamic(() => import('@/components/tools/impl/EnvToJson'), { loading: () => <ToolLoadingFallback /> }),
+
+  // ═══ MATH & SCIENCE TOOLS (6 tools) ═══
+  'scientific-calculator': dynamic(() => import('@/components/tools/impl/ScientificCalculator'), { loading: () => <ToolLoadingFallback /> }),
+  'fraction-calculator': dynamic(() => import('@/components/tools/impl/FractionCalculator'), { loading: () => <ToolLoadingFallback /> }),
+  'quadratic-equation-solver': dynamic(() => import('@/components/tools/impl/QuadraticEquationSolver'), { loading: () => <ToolLoadingFallback /> }),
+  'matrix-calculator': dynamic(() => import('@/components/tools/impl/MatrixCalculator'), { loading: () => <ToolLoadingFallback /> }),
+  'probability-calculator': dynamic(() => import('@/components/tools/impl/ProbabilityCalculator'), { loading: () => <ToolLoadingFallback /> }),
+  'area-calculator': dynamic(() => import('@/components/tools/impl/AreaCalculator'), { loading: () => <ToolLoadingFallback /> }),
+
+  // ═══ HEALTH & FITNESS TOOLS (6 tools) ═══
+  'body-fat-calculator': dynamic(() => import('@/components/tools/impl/BodyFatCalculator'), { loading: () => <ToolLoadingFallback /> }),
+  'ideal-weight-calculator': dynamic(() => import('@/components/tools/impl/IdealWeightCalculator'), { loading: () => <ToolLoadingFallback /> }),
+  'macro-calculator': dynamic(() => import('@/components/tools/impl/MacroCalculator'), { loading: () => <ToolLoadingFallback /> }),
+  'heart-rate-zone-calculator': dynamic(() => import('@/components/tools/impl/HeartRateZoneCalculator'), { loading: () => <ToolLoadingFallback /> }),
+  'pregnancy-due-date-calculator': dynamic(() => import('@/components/tools/impl/PregnancyDueDateCalculator'), { loading: () => <ToolLoadingFallback /> }),
+  'pace-calculator': dynamic(() => import('@/components/tools/impl/PaceCalculator'), { loading: () => <ToolLoadingFallback /> }),
+
+  // ═══ WRITING & CONTENT TOOLS (4 tools) ═══
+  'headline-analyzer': dynamic(() => import('@/components/tools/impl/HeadlineAnalyzer'), { loading: () => <ToolLoadingFallback /> }),
+  'reading-time-calculator': dynamic(() => import('@/components/tools/impl/ReadingTimeCalculator'), { loading: () => <ToolLoadingFallback /> }),
+  'cta-generator': dynamic(() => import('@/components/tools/impl/CtaGenerator'), { loading: () => <ToolLoadingFallback /> }),
+  'bio-generator': dynamic(() => import('@/components/tools/impl/BioGenerator'), { loading: () => <ToolLoadingFallback /> }),
+
+  // ═══ UTILITY CONVERTERS (6 tools) ═══
+  'temperature-converter': dynamic(() => import('@/components/tools/impl/TemperatureConverter'), { loading: () => <ToolLoadingFallback /> }),
+  'speed-converter': dynamic(() => import('@/components/tools/impl/SpeedConverter'), { loading: () => <ToolLoadingFallback /> }),
+  'weight-converter': dynamic(() => import('@/components/tools/impl/WeightConverter'), { loading: () => <ToolLoadingFallback /> }),
+  'length-converter': dynamic(() => import('@/components/tools/impl/LengthConverter'), { loading: () => <ToolLoadingFallback /> }),
+  'data-size-converter': dynamic(() => import('@/components/tools/impl/DataSizeConverter'), { loading: () => <ToolLoadingFallback /> }),
+  'number-to-words': dynamic(() => import('@/components/tools/impl/NumberToWords'), { loading: () => <ToolLoadingFallback /> }),
+
 };
 
 // ═══════════════════════════════════════════════════════════════════════════

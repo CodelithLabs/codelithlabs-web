@@ -32,7 +32,12 @@ export type ToolCategory =
   | 'ai-repurpose'
   | 'fintech'
   | 'local-seo'
-  | 'niche-calculator';
+  | 'niche-calculator'
+  | 'business'
+  | 'design'
+  | 'math'
+  | 'health'
+  | 'writing';
 
 export interface ToolCategoryInfo {
   id: ToolCategory;
@@ -161,5 +166,40 @@ export const TOOL_CATEGORIES: Record<ToolCategory, ToolCategoryInfo> = {
     description: 'Specialized calculators for home, lifestyle, and planning needs',
     icon: 'Ruler',
     color: '#A78BFA'
+  },
+  'business': {
+    id: 'business',
+    name: 'Business Tools',
+    description: 'Productivity, pricing, and business planning tools',
+    icon: 'Briefcase',
+    color: '#0EA5E9'
+  },
+  'design': {
+    id: 'design',
+    name: 'Design Tools',
+    description: 'CSS generators, color tools, and design utilities',
+    icon: 'Palette',
+    color: '#F43F5E'
+  },
+  'math': {
+    id: 'math',
+    name: 'Math & Science',
+    description: 'Scientific calculators, equations, and math tools',
+    icon: 'Pi',
+    color: '#7C3AED'
+  },
+  'health': {
+    id: 'health',
+    name: 'Health & Fitness',
+    description: 'BMI, body fat, fitness calculators and health tools',
+    icon: 'Heart',
+    color: '#DC2626'
+  },
+  'writing': {
+    id: 'writing',
+    name: 'Writing Tools',
+    description: 'Headline analyzers, bio generators, and content tools',
+    icon: 'Pen',
+    color: '#9333EA'
   }
 };
