@@ -11,7 +11,6 @@ import { AuthProvider } from "@/components/providers/AuthProvider";
 import { UserProvider } from "@/lib/user-context";
 import crypto from 'crypto';
 import { NonceProvider } from "@/app/nonce-context";
-import { config as envConfig } from "@/lib/config"; // Validate env vars on startup
 
 const inter = Inter({ subsets: ["latin"] });
 const jetbrainsMono = JetBrains_Mono({
