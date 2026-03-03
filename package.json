@@ -18,7 +18,16 @@
     "seo:submit": "node scripts/seo-automation.js submit",
     "seo:generate": "node scripts/seo-automation.js generate",
     "seo:status": "node scripts/seo-automation.js status",
-    "seo:verify": "node scripts/verify-indexnow.js"
+    "seo:verify": "node scripts/verify-indexnow.js",
+    "tools:audit": "node scripts/audit-tool-readiness.js",
+    "tools:status": "node scripts/generate-tool-status-map.js",
+    "tools:wave1": "node scripts/generate-wave-launch-list.js --wave=1 --size=25",
+    "tools:wave2": "node scripts/generate-wave-launch-list.js --wave=2 --size=25",
+    "tools:wave2:dedupe": "node scripts/generate-wave-launch-list.js --wave=2 --size=25 --exclude-similar --threshold=2",
+    "tools:wave3": "node scripts/generate-wave-launch-list.js --wave=3 --size=25",
+    "tools:wave3:dedupe": "node scripts/generate-wave-launch-list.js --wave=3 --size=25 --exclude-similar --threshold=2",
+    "tools:wave3:dedupe:quota": "node scripts/generate-wave-launch-list.js --wave=3 --size=25 --exclude-similar --threshold=2 --min-category-quota=1",
+    "tools:wave3:dedupe:quota:fallback": "node scripts/generate-wave-launch-list.js --wave=3 --size=25 --exclude-similar --threshold=2 --min-category-quota=1 --progressive-fallback"
   },
   "dependencies": {
     "@ducanh2912/next-pwa": "^10.2.9",

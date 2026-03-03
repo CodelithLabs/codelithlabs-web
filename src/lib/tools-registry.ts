@@ -5,6 +5,7 @@
 // ═══════════════════════════════════════════════════════════════════════════
 
 import { ToolMeta } from '@/types/tool';
+import { TOOL_STATUS_MAP } from '@/lib/tool-status-map';
 
 export const TOOLS_REGISTRY: ToolMeta[] = [
   // ═══════════════════════════════════════════════════════════════
@@ -1349,4 +1350,46 @@ export function getRelatedTools(slug: string, limit = 4): ToolMeta[] {
  */
 export function getAllCategories(): string[] {
   return Array.from(new Set(TOOLS_REGISTRY.map(t => t.category)));
+}
+
+/**
+ * Resolve effective rollout status for a tool using:
+ * 1) explicit inline values in TOOLS_REGISTRY (highest priority)
+ * 2) generated status map from readiness audit
+ * 3) safe defaults
+ */
+export function getToolRolloutStatus(tool: ToolMeta): {
+  implementationStatus: 'planned' | 'in-progress' | 'ready';
+  indexingStatus: 'index' | 'noindex';
+} {
+  const mapStatus = TOOL_STATUS_MAP[tool.slug];
+
+  const implementationStatus = tool.implementationStatus
+    ?? mapStatus?.implementationStatus
+    ?? 'ready';
+
+  const indexingStatus = tool.indexingStatus
+    ?? mapStatus?.indexingStatus
+    ?? (implementationStatus === 'ready' ? 'index' : 'noindex');
+
+  return {
+    implementationStatus,
+    indexingStatus,
+  };
+}
+
+/**
+ * A tool is indexable only when it's implementation-ready and not explicitly noindexed.
+ * Defaults preserve existing behavior for legacy entries.
+ */
+export function isToolIndexable(tool: ToolMeta): boolean {
+  const status = getToolRolloutStatus(tool);
+  return status.implementationStatus === 'ready' && status.indexingStatus === 'index';
+}
+
+/**
+ * Returns tools that should be submitted to search engines and included in sitemap.
+ */
+export function getIndexableTools(): ToolMeta[] {
+  return TOOLS_REGISTRY.filter(isToolIndexable);
 }

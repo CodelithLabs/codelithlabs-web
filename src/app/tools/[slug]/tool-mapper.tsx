@@ -188,6 +188,68 @@ const TOOL_COMPONENTS: Record<string, ComponentType<any>> = {
   'css-gradient-generator': dynamic(() => import('@/components/tools/impl/CssGradientGenerator'), { loading: () => <ToolLoadingFallback /> }),
   'website-security-checker': dynamic(() => import('@/components/tools/impl/WebsiteSecurityChecker'), { loading: () => <ToolLoadingFallback /> }),
 
+  // ═══ AI REPURPOSE TOOLS (existing) ═══
+  'blog-to-linkedin-post': dynamic(() => import('@/components/tools/impl/BlogToLinkedinPost'), { loading: () => <ToolLoadingFallback /> }),
+  'blog-to-twitter-thread': dynamic(() => import('@/components/tools/impl/BlogToTwitterThread'), { loading: () => <ToolLoadingFallback /> }),
+  'content-to-carousel': dynamic(() => import('@/components/tools/impl/ContentToCarousel'), { loading: () => <ToolLoadingFallback /> }),
+  'email-to-tweet': dynamic(() => import('@/components/tools/impl/EmailToTweet'), { loading: () => <ToolLoadingFallback /> }),
+  'long-form-to-short': dynamic(() => import('@/components/tools/impl/LongFormToShort'), { loading: () => <ToolLoadingFallback /> }),
+  'meeting-to-actions': dynamic(() => import('@/components/tools/impl/MeetingToActions'), { loading: () => <ToolLoadingFallback /> }),
+  'podcast-notes-generator': dynamic(() => import('@/components/tools/impl/PodcastNotesGenerator'), { loading: () => <ToolLoadingFallback /> }),
+  'text-to-faq': dynamic(() => import('@/components/tools/impl/TextToFaq'), { loading: () => <ToolLoadingFallback /> }),
+  'youtube-script-to-blog': dynamic(() => import('@/components/tools/impl/YoutubeScriptToBlog'), { loading: () => <ToolLoadingFallback /> }),
+  'article-to-bullet-points': dynamic(() => import('@/components/tools/impl/ArticleToBulletPoints'), { loading: () => <ToolLoadingFallback /> }),
+
+  // ═══ INDIA FINANCE TOOLS (existing) ═══
+  'emi-principal-calculator': dynamic(() => import('@/components/tools/impl/EmiPrincipalCalculator'), { loading: () => <ToolLoadingFallback /> }),
+  'fd-calculator-india': dynamic(() => import('@/components/tools/impl/FdCalculatorIndia'), { loading: () => <ToolLoadingFallback /> }),
+  'gratuity-calculator-india': dynamic(() => import('@/components/tools/impl/GratuityCalculatorIndia'), { loading: () => <ToolLoadingFallback /> }),
+  'gst-calculator-india': dynamic(() => import('@/components/tools/impl/GstCalculatorIndia'), { loading: () => <ToolLoadingFallback /> }),
+  'home-loan-affordability': dynamic(() => import('@/components/tools/impl/HomeLoanAffordability'), { loading: () => <ToolLoadingFallback /> }),
+  'nps-calculator-india': dynamic(() => import('@/components/tools/impl/NpsCalculatorIndia'), { loading: () => <ToolLoadingFallback /> }),
+  'ppf-calculator': dynamic(() => import('@/components/tools/impl/PpfCalculator'), { loading: () => <ToolLoadingFallback /> }),
+  'roi-calculator': dynamic(() => import('@/components/tools/impl/RoiCalculator'), { loading: () => <ToolLoadingFallback /> }),
+  'sip-stepup-calculator': dynamic(() => import('@/components/tools/impl/SipStepupCalculator'), { loading: () => <ToolLoadingFallback /> }),
+
+  // ═══ DEVELOPER TOOLS (ADDITIONAL 9 tools) ═══
+  'chmod-calculator': dynamic(() => import('@/components/tools/impl/ChmodCalculator'), { loading: () => <ToolLoadingFallback /> }),
+  'docker-compose-generator': dynamic(() => import('@/components/tools/impl/DockerComposeGenerator'), { loading: () => <ToolLoadingFallback /> }),
+  'dotenv-editor': dynamic(() => import('@/components/tools/impl/DotenvEditor'), { loading: () => <ToolLoadingFallback /> }),
+  'gitignore-generator': dynamic(() => import('@/components/tools/impl/GitignoreGenerator'), { loading: () => <ToolLoadingFallback /> }),
+  'graphql-query-builder': dynamic(() => import('@/components/tools/impl/GraphqlQueryBuilder'), { loading: () => <ToolLoadingFallback /> }),
+  'http-status-codes': dynamic(() => import('@/components/tools/impl/HttpStatusCodes'), { loading: () => <ToolLoadingFallback /> }),
+  'json-schema-generator': dynamic(() => import('@/components/tools/impl/JsonSchemaGenerator'), { loading: () => <ToolLoadingFallback /> }),
+  'sql-to-mongodb': dynamic(() => import('@/components/tools/impl/SqlToMongodb'), { loading: () => <ToolLoadingFallback /> }),
+  'typescript-to-js': dynamic(() => import('@/components/tools/impl/TypescriptToJs'), { loading: () => <ToolLoadingFallback /> }),
+
+  // ═══ LOCAL SEO SCHEMA TOOLS (9 tools) ═══
+  'faq-schema-generator': dynamic(() => import('@/components/tools/impl/FaqSchemaGenerator'), { loading: () => <ToolLoadingFallback /> }),
+  'gmb-post-generator': dynamic(() => import('@/components/tools/impl/GmbPostGenerator'), { loading: () => <ToolLoadingFallback /> }),
+  'hours-schema-generator': dynamic(() => import('@/components/tools/impl/HoursSchemaGenerator'), { loading: () => <ToolLoadingFallback /> }),
+  'local-business-schema': dynamic(() => import('@/components/tools/impl/LocalBusinessSchema'), { loading: () => <ToolLoadingFallback /> }),
+  'local-keywords-generator': dynamic(() => import('@/components/tools/impl/LocalKeywordsGenerator'), { loading: () => <ToolLoadingFallback /> }),
+  'nap-checker': dynamic(() => import('@/components/tools/impl/NapChecker'), { loading: () => <ToolLoadingFallback /> }),
+  'product-schema-generator': dynamic(() => import('@/components/tools/impl/ProductSchemaGenerator'), { loading: () => <ToolLoadingFallback /> }),
+  'service-area-schema': dynamic(() => import('@/components/tools/impl/ServiceAreaSchema'), { loading: () => <ToolLoadingFallback /> }),
+  'review-response-generator': dynamic(() => import('@/components/tools/impl/ReviewResponseGenerator'), { loading: () => <ToolLoadingFallback /> }),
+
+  // ═══ NICHE CALCULATORS (11 tools) ═══
+  'carbon-footprint-calculator': dynamic(() => import('@/components/tools/impl/CarbonFootprintCalculator'), { loading: () => <ToolLoadingFallback /> }),
+  'electricity-bill-calculator': dynamic(() => import('@/components/tools/impl/ElectricityBillCalculator'), { loading: () => <ToolLoadingFallback /> }),
+  'freelance-rate-calculator': dynamic(() => import('@/components/tools/impl/FreelanceRateCalculator'), { loading: () => <ToolLoadingFallback /> }),
+  'fuel-cost-calculator': dynamic(() => import('@/components/tools/impl/FuelCostCalculator'), { loading: () => <ToolLoadingFallback /> }),
+  'markup-vs-margin': dynamic(() => import('@/components/tools/impl/MarkupVsMargin'), { loading: () => <ToolLoadingFallback /> }),
+  'paint-calculator': dynamic(() => import('@/components/tools/impl/PaintCalculator'), { loading: () => <ToolLoadingFallback /> }),
+  'tile-calculator': dynamic(() => import('@/components/tools/impl/TileCalculator'), { loading: () => <ToolLoadingFallback /> }),
+  'sleep-cycle-calculator': dynamic(() => import('@/components/tools/impl/SleepCycleCalculator'), { loading: () => <ToolLoadingFallback /> }),
+  'water-intake-calculator': dynamic(() => import('@/components/tools/impl/WaterIntakeCalculator'), { loading: () => <ToolLoadingFallback /> }),
+  'wedding-budget-calculator': dynamic(() => import('@/components/tools/impl/WeddingBudgetCalculator'), { loading: () => <ToolLoadingFallback /> }),
+  'vat-calculator': dynamic(() => import('@/components/tools/impl/VatCalculator'), { loading: () => <ToolLoadingFallback /> }),
+
+  // ═══ REFERENCE TOOLS (2 tools) ═══
+  'citation-formatter': dynamic(() => import('@/components/tools/impl/CitationFormatter'), { loading: () => <ToolLoadingFallback /> }),
+  'regex-library': dynamic(() => import('@/components/tools/impl/RegexLibrary'), { loading: () => <ToolLoadingFallback /> }),
+
 };
 
 // ═══════════════════════════════════════════════════════════════════════════

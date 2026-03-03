@@ -7,7 +7,7 @@
 import fs from 'fs';
 import path from 'path';
 import { MetadataRoute } from 'next';
-import { TOOLS_REGISTRY } from '@/lib/tools-registry';
+import { TOOLS_REGISTRY, getIndexableTools } from '@/lib/tools-registry';
 import { getAllBlogPosts } from '@/lib/blog-loader';
 
 export const dynamic = 'force-static';
@@ -49,6 +49,7 @@ function getToolLastModifiedMap(): Map<string, Date> {
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const blogPosts = await getAllBlogPosts();
   const toolLastModifiedMap = getToolLastModifiedMap();
+  const indexableTools = getIndexableTools();
 
   const latestBlogContentDate = blogPosts.reduce<Date>(
     (latest, post) => {
@@ -87,7 +88,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: withTrailingSlash('/transparency'), lastModified: siteLastModified, changeFrequency: 'monthly', priority: 0.4 },
   ];
 
-  const categories = Array.from(new Set(TOOLS_REGISTRY.map((tool) => tool.category)));
+  const categories = Array.from(new Set(indexableTools.map((tool) => tool.category)));
   const categoryPages: MetadataRoute.Sitemap = categories.map((category) => ({
     url: withTrailingSlash(`/tools/category/${category}`),
     lastModified: latestToolContentDate,
@@ -108,7 +109,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     seo: 0.6,
   };
 
-  const toolPages: MetadataRoute.Sitemap = TOOLS_REGISTRY.map((tool) => ({
+  const toolPages: MetadataRoute.Sitemap = indexableTools.map((tool) => ({
     url: withTrailingSlash(`/tools/${tool.slug}`),
     lastModified: toolLastModifiedMap.get(tool.slug) ?? latestToolContentDate,
     changeFrequency: 'weekly',

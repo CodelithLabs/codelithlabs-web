@@ -6,6 +6,7 @@
 
 import { useState, useEffect, useMemo } from 'react';
 import { Search, X, ChevronDown, ChevronUp } from 'lucide-react';
+import Link from 'next/link';
 import { TOOLS_REGISTRY, getToolsByCategory } from '@/lib/tools-registry';
 import { TOOL_CATEGORIES, ToolCategory } from '@/types/tool';
 import { ToolCard } from '@/components/tools/ToolCard';
@@ -61,6 +62,13 @@ const CATEGORY_GROUPS: CategoryGroup[] = [
     color: "#EF4444",
   },
   {
+    id: "fintech",
+    name: "Fintech & Compliance",
+    description: "GST, VAT, PPF, NPS, ROI and compliance-focused calculators",
+    categories: ["fintech"],
+    color: "#34D399",
+  },
+  {
     id: "generator",
     name: "Generators",
     description: "Password, QR code, UUID, Lorem Ipsum & more",
@@ -80,6 +88,27 @@ const CATEGORY_GROUPS: CategoryGroup[] = [
     description: "Meta tag generators, analyzers & geographic tools",
     categories: ["seo", "geo"],
     color: "#6366F1",
+  },
+  {
+    id: "local-seo",
+    name: "Local SEO Growth",
+    description: "Schema, citations, reviews, NAP consistency and local ranking tools",
+    categories: ["local-seo"],
+    color: "#FB923C",
+  },
+  {
+    id: "ai-repurpose",
+    name: "AI Repurposing",
+    description: "Turn long content into posts, threads, FAQs, and campaign assets",
+    categories: ["ai-repurpose"],
+    color: "#F472B6",
+  },
+  {
+    id: "niche-calculators",
+    name: "Niche Calculators",
+    description: "Lifestyle, home, planning and specialized calculators",
+    categories: ["niche-calculator"],
+    color: "#A78BFA",
   },
 ];
 
@@ -123,6 +152,18 @@ export default function ToolsPage() {
   }, [debouncedQuery]);
 
   const isSearching = debouncedQuery.length > 0;
+
+  const categoryCards = useMemo(() => {
+    return Object.entries(TOOL_CATEGORIES)
+      .map(([id, meta]) => ({
+        id,
+        name: meta.name,
+        color: meta.color,
+        count: getToolsByCategory(id).length,
+      }))
+      .filter((cat) => cat.count > 0)
+      .sort((a, b) => b.count - a.count || a.name.localeCompare(b.name));
+  }, []);
 
   const toggleGroup = (id: string) => {
     setCollapsedGroups((prev) => {
@@ -189,6 +230,30 @@ export default function ToolsPage() {
 
       {/* ── CONTENT ── */}
       <div className="max-w-6xl mx-auto px-6 py-10">
+
+        {/* ── CATEGORY QUICK NAV ── */}
+        <section className="mb-8">
+          <div className="flex items-center justify-between mb-3">
+            <h2 className="text-sm font-semibold text-zinc-300 uppercase tracking-wider">Browse by Category</h2>
+            <Link href="/tools" className="text-xs text-zinc-500 hover:text-zinc-300 transition-colors">
+              View All
+            </Link>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+            {categoryCards.map((cat) => (
+              <Link
+                key={cat.id}
+                href={`/tools/category/${cat.id}`}
+                className="p-3 rounded-lg border border-zinc-800 bg-zinc-900/40 hover:border-zinc-600 transition-all"
+              >
+                <div className="text-sm font-medium" style={{ color: cat.color }}>
+                  {cat.name}
+                </div>
+                <p className="text-xs text-zinc-500 mt-1">{cat.count} tools</p>
+              </Link>
+            ))}
+          </div>
+        </section>
 
         {isSearching ? (
           /* ═══════════════════════════════════════

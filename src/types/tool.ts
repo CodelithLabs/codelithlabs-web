@@ -11,6 +11,8 @@ export interface ToolMeta {
   keywords: string[];
   icon?: string;
   processingType: 'client' | 'server'; // Client-side saves RAM
+  implementationStatus?: 'planned' | 'in-progress' | 'ready';
+  indexingStatus?: 'index' | 'noindex';
 }
 
 export type ToolCategory =

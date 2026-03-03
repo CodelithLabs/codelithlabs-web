@@ -5,7 +5,7 @@
 
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { getToolBySlug, getAllSlugs, getRelatedTools } from '@/lib/tools-registry';
+import { getToolBySlug, getAllSlugs, getRelatedTools, isToolIndexable } from '@/lib/tools-registry';
 import { TOOL_CATEGORIES } from '@/types/tool';
 import { ToolLayout } from '@/components/tools/ToolLayout';
 import { getToolContent } from '@/lib/content-loader';
@@ -40,6 +40,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   }
 
   const category = TOOL_CATEGORIES[tool.category];
+  const shouldIndex = isToolIndexable(tool);
 
   return {
     title: `${tool.name} - Free Online Tool | CodelithLabs`,
@@ -61,7 +62,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       canonical: `https://codelithlabs.in/tools/${tool.slug}/`,
     },
     robots: {
-      index: true,
+      index: shouldIndex,
       follow: true,
     },
   };

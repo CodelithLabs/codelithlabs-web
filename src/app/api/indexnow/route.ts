@@ -6,7 +6,7 @@
 // ═══════════════════════════════════════════════════════════════════════════
 
 import { NextRequest, NextResponse } from 'next/server';
-import { TOOLS_REGISTRY } from '@/lib/tools-registry';
+import { getIndexableTools } from '@/lib/tools-registry';
 
 const INDEXNOW_KEY = '44a3630285764b5cad4c0d104f0e4d6b';
 const BASE_URL = 'https://codelithlabs.in';
@@ -16,6 +16,7 @@ const BASE_URL = 'https://codelithlabs.in';
  */
 function buildUrlList(): string[] {
   const urls: string[] = [];
+  const indexableTools = getIndexableTools();
 
   // Static pages
   const staticPaths = [
@@ -28,13 +29,13 @@ function buildUrlList(): string[] {
   }
 
   // Category pages
-  const categories = Array.from(new Set(TOOLS_REGISTRY.map(t => t.category)));
+  const categories = Array.from(new Set(indexableTools.map(t => t.category)));
   for (const cat of categories) {
     urls.push(`${BASE_URL}/tools/category/${cat}`);
   }
 
   // Tool pages
-  for (const tool of TOOLS_REGISTRY) {
+  for (const tool of indexableTools) {
     urls.push(`${BASE_URL}/tools/${tool.slug}`);
   }
 

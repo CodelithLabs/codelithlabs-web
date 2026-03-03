@@ -6,7 +6,7 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import { TOOLS_REGISTRY, getAllCategories } from '@/lib/tools-registry';
+import { TOOLS_REGISTRY, getAllCategories, getToolsByCategory } from '@/lib/tools-registry';
 import { TOOL_CATEGORIES, ToolCategory } from '@/types/tool';
 import { ToolsLeaderboard } from '@/components/ads/ToolsIndexAd';
 
@@ -184,6 +184,42 @@ Our Distance Calculator uses the Haversine formula to compute great-circle dista
 
 The IP Geolocation tool looks up approximate geographic location, ISP details, timezone, and autonomous system information for any IP address — useful for debugging CDN routing, analyzing web traffic origins, and verifying VPN connections. Our World Clock displays current time across multiple timezones with daylight saving time awareness, helping remote teams coordinate meetings across continents. The Lat/Long Finder provides reverse geocoding from place names to coordinates. All geo tools that perform client-side computation keep your data local, while lookup-based tools use secure HTTPS connections to trusted geolocation APIs.`,
   },
+  'ai-repurpose': {
+    intro: 'AI Repurposing tools help creators and growth teams turn long-form content into channel-ready assets such as threads, posts, FAQs, and summaries in minutes.',
+    benefits: ['Convert blogs into social-ready formats', 'Generate FAQ and bullet-point versions for SEO', 'Repurpose scripts, notes, and newsletters faster', 'Maintain consistent messaging across channels'],
+    longDescription: `Modern content growth requires distribution velocity. The AI Repurposing category is designed for teams that publish once and distribute everywhere. These tools convert existing articles, notes, and scripts into platform-specific formats while preserving core meaning.
+
+Instead of rewriting manually for each platform, users can generate structured derivatives such as thread drafts, LinkedIn summaries, FAQ blocks, and short-form variants. This supports both SEO and GEO workflows by increasing content coverage and reuse.
+
+As part of the broader tools ecosystem, repurposed outputs can flow into related utilities including schema generation, formatting, and keyword expansion. This makes publishing pipelines faster and more consistent.`,
+  },
+  fintech: {
+    intro: 'Fintech & Compliance tools focus on tax, investment, and business math workflows with practical calculators tailored for operators and analysts.',
+    benefits: ['Tax and compliance-oriented calculators', 'Investment and return planning utilities', 'Pricing, margin, and ROI workflows for teams', 'Fast browser-based calculations with privacy-first handling'],
+    longDescription: `Finance decisions often depend on fast and transparent calculations. The Fintech category groups high-utility tools used in tax planning, returns estimation, pricing, and compliance checks.
+
+From GST and fixed-income scenarios to ROI and margin comparisons, these tools reduce spreadsheet friction and make results easier to validate. They are especially useful for SMB teams, consultants, and founders making day-to-day operating decisions.
+
+Each tool is designed for quick execution in the browser so sensitive numbers remain local while still producing shareable and decision-ready outputs.`,
+  },
+  'local-seo': {
+    intro: 'Local SEO tools support location-based growth with schema generators, citation workflows, review-response assistance, and profile optimization helpers.',
+    benefits: ['Generate local business structured data faster', 'Improve NAP and citation consistency', 'Create review responses and profile post drafts', 'Support service-area and multi-location visibility efforts'],
+    longDescription: `Local discoverability depends on consistency and structured signals. The Local SEO category is built for agencies and business owners who need to strengthen local relevance across search profiles and listing ecosystems.
+
+These tools simplify repeated tasks like schema creation, citation formatting, and response drafting so teams can move faster without sacrificing quality. They are particularly helpful for franchises, service businesses, and regional brands.
+
+Combined with other SEO and content tools in CodelithLabs, this cluster helps teams execute a repeatable local growth playbook with cleaner technical foundations.`,
+  },
+  'niche-calculator': {
+    intro: 'Niche Calculators cover specialized day-to-day scenarios including home planning, lifestyle tracking, utilities, and practical budgeting decisions.',
+    benefits: ['Scenario-specific calculators beyond generic finance', 'Useful for planning, estimation, and personal decisions', 'Mobile-friendly flows for quick answers', 'Long-tail intent coverage for highly specific searches'],
+    longDescription: `Many real-world decisions require targeted calculators that generic tools do not cover well. The Niche Calculator category is designed for those practical use cases — from home and utility planning to lifestyle estimation workflows.
+
+These tools emphasize fast inputs and clear outputs so users can make decisions without building custom spreadsheets from scratch. This improves usability and creates strong utility value for recurring tasks.
+
+As this category expands, it strengthens internal discovery and long-tail organic reach by serving specific intents with focused, task-oriented experiences.`,
+  },
 };
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -195,7 +231,7 @@ export default async function CategoryPage({ params }: PageProps) {
   const categoryInfo = TOOL_CATEGORIES[category as ToolCategory];
   if (!categoryInfo) notFound();
 
-  const tools = TOOLS_REGISTRY.filter(t => t.category === category);
+  const tools = getToolsByCategory(category);
   const content = CATEGORY_CONTENT[category];
 
   // Breadcrumb Schema
@@ -238,6 +274,16 @@ export default async function CategoryPage({ params }: PageProps) {
       description: t.description
     }))
   };
+
+  const categoryDirectory = Object.entries(TOOL_CATEGORIES)
+    .filter(([key]) => key !== category)
+    .map(([key, cat]) => ({
+      key,
+      cat,
+      count: getToolsByCategory(key).length,
+    }))
+    .filter((item) => item.count > 0)
+    .sort((a, b) => b.count - a.count || a.cat.name.localeCompare(b.cat.name));
 
   return (
     <>
