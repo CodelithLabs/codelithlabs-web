@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback, memo } from "react";
 import {
   Terminal, ChevronDown, Menu, X, ArrowRight,
   Shield, Globe, Server, Code2, Image, Type, Lock,
@@ -12,6 +12,55 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { useSession, signIn, signOut } from "next-auth/react";
+
+// ═══════════════════════════════════════════════════════════════════════════
+// MEMOIZED DROPDOWN ITEM COMPONENTS (performance optimization)
+// ═══════════════════════════════════════════════════════════════════════════
+
+interface DropdownItemProps {
+  name: string;
+  href: string;
+  desc: string;
+  icon: React.ElementType;
+  color: string;
+}
+
+const DropdownItem = memo(function DropdownItem({ 
+  name, href, desc, icon: Icon, color 
+}: DropdownItemProps) {
+  return (
+    <Link
+      href={href}
+      className="flex items-start gap-3 p-3 rounded-lg hover:bg-white/[0.06] transition-colors group/item"
+    >
+      <div className="w-9 h-9 rounded-lg bg-white/[0.04] border border-white/[0.08] flex items-center justify-center shrink-0 group-hover/item:border-white/[0.15] transition-colors">
+        <Icon className={`w-4 h-4 ${color}`} />
+      </div>
+      <div className="min-w-0">
+        <p className="text-sm font-medium text-white">{name}</p>
+        <p className="text-xs text-zinc-500 mt-0.5">{desc}</p>
+      </div>
+    </Link>
+  );
+});
+
+const MobileDropdownItem = memo(function MobileDropdownItem({ 
+  name, href, desc, icon: Icon, color, onClose 
+}: DropdownItemProps & { onClose: () => void }) {
+  return (
+    <Link
+      href={href}
+      className="flex items-center gap-3 p-3 rounded-lg hover:bg-white/[0.06] transition-colors"
+      onClick={onClose}
+    >
+      <Icon className={`w-4 h-4 ${color}`} />
+      <div className="min-w-0">
+        <p className="text-sm font-medium text-white">{name}</p>
+        <p className="text-xs text-zinc-500 mt-0.5">{desc}</p>
+      </div>
+    </Link>
+  );
+});
 
 // ═══════════════════════════════════════════════════════════════════════════
 // MEGA-MENU DATA
@@ -151,24 +200,9 @@ export function Navbar() {
                       onMouseLeave={handleMouseLeave}
                     >
                       <div className="p-2">
-                        {section.items.map((item) => {
-                          const Icon = item.icon;
-                          return (
-                            <Link
-                              key={item.name}
-                              href={item.href}
-                              className="flex items-start gap-3 p-3 rounded-lg hover:bg-white/[0.06] transition-colors group/item"
-                            >
-                              <div className={`w-9 h-9 rounded-lg bg-white/[0.04] border border-white/[0.08] flex items-center justify-center shrink-0 group-hover/item:border-white/[0.15] transition-colors`}>
-                                <Icon className={`w-4 h-4 ${item.color}`} />
-                              </div>
-                              <div className="min-w-0">
-                                <p className="text-sm font-medium text-white">{item.name}</p>
-                                <p className="text-xs text-zinc-500 mt-0.5">{item.desc}</p>
-                              </div>
-                            </Link>
-                          );
-                        })}
+                        {section.items.map((item) => (
+                          <DropdownItem key={item.name} {...item} />
+                        ))}
                       </div>
                       {section.cta && (
                         <div className="border-t border-white/[0.06] p-2">
@@ -308,23 +342,13 @@ export function Navbar() {
                       {section.label}
                     </Link>
                     <div className="space-y-1">
-                      {section.items.map((item) => {
-                        const Icon = item.icon;
-                        return (
-                          <Link
-                            key={item.name}
-                            href={item.href}
-                            className="flex items-center gap-3 p-3 rounded-lg hover:bg-white/[0.06] transition-colors"
-                            onClick={() => setMobileOpen(false)}
-                          >
-                            <Icon className={`w-4 h-4 ${item.color}`} />
-                            <div>
-                              <p className="text-sm text-white font-medium">{item.name}</p>
-                              <p className="text-xs text-zinc-500">{item.desc}</p>
-                            </div>
-                          </Link>
-                        );
-                      })}
+                      {section.items.map((item) => (
+                        <MobileDropdownItem
+                          key={item.name}
+                          {...item}
+                          onClose={() => setMobileOpen(false)}
+                        />
+                      ))}
                     </div>
                   </div>
                 ))}

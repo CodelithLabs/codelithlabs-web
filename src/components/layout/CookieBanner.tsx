@@ -35,7 +35,11 @@ export default function CookieBanner() {
     setShow(false);
   };
 
-  if (!show) return null;
+  // Reserve space for banner to prevent CLS (Cumulative Layout Shift)
+  // When banner is not shown, return invisible placeholder with same height
+  if (!show) {
+    return <div className="h-[120px] md:h-20" />;
+  }
 
   return (
     <div className="fixed bottom-0 left-0 right-0 bg-zinc-900/95 backdrop-blur-xl border-t border-zinc-800 p-4 z-[100] shadow-2xl animate-slide-up">

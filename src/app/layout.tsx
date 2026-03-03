@@ -101,6 +101,15 @@ export default function RootLayout({
 
     return (
         <html lang="en" className="dark">
+            {/* Performance: Font preload & DNS prefetch hints */}
+            <head>
+                <link rel="preconnect" href="https://fonts.googleapis.com" />
+                <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+                <link rel="dns-prefetch" href="https://www.google-analytics.com" />
+                <link rel="dns-prefetch" href="https://checkout.razorpay.com" />
+                <link rel="dns-prefetch" href="https://www.clarity.ms" />
+                <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com" />
+            </head>
             <body className={`${inter.className} ${jetbrainsMono.variable} antialiased selection:bg-blue-500/30 bg-[#0a0a0a]`}>
                 {/* Skip to main content — accessibility */}
                 <a
