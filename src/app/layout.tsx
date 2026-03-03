@@ -7,7 +7,7 @@ import CookieBanner from "@/components/layout/CookieBanner";
 import GoogleAnalytics from "@/components/analytics/GoogleAnalytics";
 import MicrosoftClarity from "@/components/analytics/MicrosoftClarity";
 import WebVitals from "@/components/analytics/WebVitals";
-import Script from 'next/script';
+import AdSense from "@/components/analytics/AdSense";
 import { AuthProvider } from "@/components/providers/AuthProvider";
 import { UserProvider } from "@/lib/user-context";
 import crypto from 'crypto';
@@ -104,8 +104,6 @@ export default function RootLayout({
         <html lang="en" className="dark">
             {/* Performance: Font preload & DNS prefetch hints */}
             <head>
-                <link rel="preconnect" href="https://fonts.googleapis.com" />
-                <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
                 <link rel="dns-prefetch" href="https://www.google-analytics.com" />
                 <link rel="dns-prefetch" href="https://checkout.razorpay.com" />
                 <link rel="dns-prefetch" href="https://www.clarity.ms" />
@@ -218,12 +216,7 @@ export default function RootLayout({
                 <GoogleAnalytics />
                 <WebVitals />
                 <MicrosoftClarity />
-                {/* AdSense: lazyOnload reduces initial render blocking on mobile */}
-                <Script
-                    src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6839552407587904"
-                    strategy="lazyOnload"
-                    crossOrigin="anonymous"
-                />
+                <AdSense />
                 </UserProvider>
                 </AuthProvider>
                 </NonceProvider>
