@@ -6,6 +6,7 @@ import { Footer } from "@/components/layout/Footer";
 import CookieBanner from "@/components/layout/CookieBanner";
 import GoogleAnalytics from "@/components/analytics/GoogleAnalytics";
 import MicrosoftClarity from "@/components/analytics/MicrosoftClarity";
+import WebVitals from "@/components/analytics/WebVitals";
 import Script from 'next/script';
 import { AuthProvider } from "@/components/providers/AuthProvider";
 import { UserProvider } from "@/lib/user-context";
@@ -109,6 +110,20 @@ export default function RootLayout({
                 <link rel="dns-prefetch" href="https://checkout.razorpay.com" />
                 <link rel="dns-prefetch" href="https://www.clarity.ms" />
                 <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com" />
+                {/* P2: Inline critical above-the-fold CSS for home hero */}
+                <style
+                    nonce={nonce}
+                    dangerouslySetInnerHTML={{
+                        __html: `
+                        .hero-critical{position:relative;min-height:90vh;display:flex;align-items:center;justify-content:center;overflow:hidden}
+                        .hero-title{font-weight:700;line-height:1.05;letter-spacing:-0.03em;color:#fff}
+                        .hero-subtitle{color:#d4d4d8;max-width:42rem;margin-left:auto;margin-right:auto}
+                        .hero-bg-grid{position:absolute;inset:0;opacity:.4;background-image:radial-gradient(circle,rgba(255,255,255,.04) 1px,transparent 1px);background-size:24px 24px}
+                        .hero-bg-glow{position:absolute;inset:0;opacity:.6;background:radial-gradient(circle at 50% 30%,rgba(41,121,255,.25),transparent 60%)}
+                        .hero-content{position:relative;z-index:10;max-width:64rem;margin:0 auto;padding:0 1.5rem;text-align:center}
+                        `,
+                    }}
+                />
             </head>
             <body className={`${inter.className} ${jetbrainsMono.variable} antialiased selection:bg-blue-500/30 bg-[#0a0a0a]`}>
                 {/* Skip to main content — accessibility */}
@@ -201,6 +216,7 @@ export default function RootLayout({
                 <Footer />
                 <CookieBanner />
                 <GoogleAnalytics />
+                <WebVitals />
                 <MicrosoftClarity />
                 {/* AdSense: lazyOnload reduces initial render blocking on mobile */}
                 <Script

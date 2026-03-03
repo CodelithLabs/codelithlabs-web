@@ -9,13 +9,13 @@ const badges = [
 
 export function HeroSection() {
   return (
-    <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
+    <section className="hero-critical relative min-h-[90vh] flex items-center justify-center overflow-hidden">
       {/* Animated Grid Background */}
-      <div className="absolute inset-0 bg-grid-pattern opacity-40" />
-      <div className="absolute inset-0 bg-glow-radial opacity-60" />
+      <div className="hero-bg-grid absolute inset-0 bg-grid-pattern opacity-40" />
+      <div className="hero-bg-glow absolute inset-0 bg-glow-radial opacity-60" />
       <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-[#0a0a0a] to-transparent" />
 
-      <div className="relative z-10 max-w-5xl mx-auto px-6 text-center">
+      <div className="hero-content relative z-10 max-w-5xl mx-auto px-6 text-center">
         {/* Lab Badge */}
         <div className="inline-flex items-center gap-2 mb-8">
           <div className="flex items-center gap-2 px-4 py-2 rounded-full border border-white/[0.08] bg-white/[0.03] backdrop-blur-sm">
@@ -27,7 +27,7 @@ export function HeroSection() {
         </div>
 
         {/* Headline */}
-        <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight text-white leading-[1.05] mb-6">
+        <h1 className="hero-title text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight text-white leading-[1.05] mb-6">
           Open Source Innovation.
           <br />
           <span className="bg-gradient-to-r from-glow-blue via-glow-cyan to-glow-blue bg-clip-text text-transparent">
@@ -36,7 +36,7 @@ export function HeroSection() {
         </h1>
 
         {/* Subheadline */}
-        <p className="text-lg md:text-xl text-zinc-300 max-w-2xl mx-auto mb-10 leading-relaxed">
+        <p className="hero-subtitle text-lg md:text-xl text-zinc-300 max-w-2xl mx-auto mb-10 leading-relaxed">
           We build high-performance developer tools, fintech solutions, and research
           infrastructure — all engineered from Kokrajhar, shipped to the world.
         </p>
