@@ -1,8 +1,8 @@
 'use client';
-import { useState } from 'react';
+import { useState , memo } from 'react';
 import { LineChart, Calculator } from 'lucide-react';
 
-export default function StockCalculator() {
+const StockCalculatorComponent = function StockCalculator() {
   const [mode, setMode] = useState<'profit' | 'average'>('profit');
   const [buyPrice, setBuyPrice] = useState('');
   const [buyQty, setBuyQty] = useState('');
@@ -110,3 +110,5 @@ export default function StockCalculator() {
     </div>
   );
 }
+
+export default memo(StockCalculatorComponent);

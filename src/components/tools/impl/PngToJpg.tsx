@@ -1,7 +1,7 @@
 'use client';
-import { useState, useRef } from 'react';
+import { useState, useRef , memo } from 'react';
 
-export default function PngToJpg() {
+const PngToJpgComponent = function PngToJpg() {
   const [img, setImg] = useState<string | null>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -44,3 +44,5 @@ export default function PngToJpg() {
     </div>
   );
 }
+
+export default memo(PngToJpgComponent);

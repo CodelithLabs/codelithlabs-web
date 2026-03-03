@@ -5,10 +5,10 @@
 // ═══════════════════════════════════════════════════════════════════════════
 'use client';
 
-import { useState } from 'react';
+import { useState , memo } from 'react';
 import { Smile, Frown, Meh, TrendingUp, AlertCircle } from 'lucide-react';
 
-export default function SentimentAnalyzer() {
+const SentimentAnalyzerComponent = function SentimentAnalyzer() {
   const [text, setText] = useState('');
   const [result, setResult] = useState<{
     score: number;
@@ -159,3 +159,5 @@ export default function SentimentAnalyzer() {
     </div>
   );
 }
+
+export default memo(SentimentAnalyzerComponent);

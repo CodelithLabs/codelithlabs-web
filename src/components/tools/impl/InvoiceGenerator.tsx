@@ -1,10 +1,10 @@
 'use client';
-import { useState } from 'react';
+import { useState , memo } from 'react';
 import { FileText, Plus, Trash2, Download } from 'lucide-react';
 
 interface InvoiceItem { description: string; qty: number; rate: number; }
 
-export default function InvoiceGenerator() {
+const InvoiceGeneratorComponent = function InvoiceGenerator() {
   const [from, setFrom] = useState({ name: '', email: '', address: '' });
   const [to, setTo] = useState({ name: '', email: '', address: '' });
   const [invoiceNo, setInvoiceNo] = useState(() => `INV-${Date.now().toString(36).toUpperCase()}`);
@@ -89,3 +89,5 @@ export default function InvoiceGenerator() {
     </div>
   );
 }
+
+export default memo(InvoiceGeneratorComponent);

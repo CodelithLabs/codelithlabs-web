@@ -1,6 +1,6 @@
 'use client';
-import { useState } from 'react';
-export default function DuplicateRemover() {
+import { useState , memo } from 'react';
+const DuplicateRemoverComponent = function DuplicateRemover() {
   const [text, setText] = useState('');
   const process = () => setText([...new Set(text.split('\n'))].join('\n'));
   return (
@@ -10,3 +10,5 @@ export default function DuplicateRemover() {
     </div>
   );
 }
+
+export default memo(DuplicateRemoverComponent);

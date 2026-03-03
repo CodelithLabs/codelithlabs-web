@@ -4,9 +4,9 @@
 // ═══════════════════════════════════════════════════════════════════════════
 'use client';
 
-import { useState } from 'react';
+import { useState , memo } from 'react';
 
-export default function HtmlEntityEncoder() {
+const HtmlEntityEncoderComponent = function HtmlEntityEncoder() {
   const [input, setInput] = useState('');
   const [encoded, setEncoded] = useState('');
   const [decoded, setDecoded] = useState('');
@@ -240,3 +240,5 @@ export default function HtmlEntityEncoder() {
     </div>
   );
 }
+
+export default memo(HtmlEntityEncoderComponent);

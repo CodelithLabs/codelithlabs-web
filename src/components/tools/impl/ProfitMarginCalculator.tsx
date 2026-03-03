@@ -1,8 +1,8 @@
 'use client';
-import { useState } from 'react';
+import { useState , memo } from 'react';
 import { Percent, Calculator } from 'lucide-react';
 
-export default function ProfitMarginCalculator() {
+const ProfitMarginCalculatorComponent = function ProfitMarginCalculator() {
   const [cost, setCost] = useState('');
   const [revenue, setRevenue] = useState('');
   const [result, setResult] = useState<{ grossProfit: number; grossMargin: number; markup: number; costRatio: number } | null>(null);
@@ -58,3 +58,5 @@ export default function ProfitMarginCalculator() {
     </div>
   );
 }
+
+export default memo(ProfitMarginCalculatorComponent);

@@ -1,7 +1,7 @@
 'use client';
-import { useState } from 'react';
+import { useState , memo } from 'react';
 
-export default function TipCalculator() {
+const TipCalculatorComponent = function TipCalculator() {
   const [bill, setBill] = useState(100);
   const [tip, setTip] = useState(15);
   const [people, setPeople] = useState(1);
@@ -21,3 +21,5 @@ export default function TipCalculator() {
     </div>
   );
 }
+
+export default memo(TipCalculatorComponent);

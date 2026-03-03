@@ -1,8 +1,8 @@
 'use client';
-import { useState } from 'react';
+import { useState , memo } from 'react';
 import { MapPin, Navigation } from 'lucide-react';
 
-export default function LatLongFinder() {
+const LatLongFinderComponent = function LatLongFinder() {
   const [address, setAddress] = useState('');
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<{ lat: number; lon: number; display: string } | null>(null);
@@ -67,3 +67,5 @@ export default function LatLongFinder() {
     </div>
   );
 }
+
+export default memo(LatLongFinderComponent);

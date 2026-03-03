@@ -4,9 +4,9 @@
 // ═══════════════════════════════════════════════════════════════════════════
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect , memo } from 'react';
 
-export default function UnixTimestampConverter() {
+const UnixTimestampConverterComponent = function UnixTimestampConverter() {
   const [currentTimestamp, setCurrentTimestamp] = useState(() => Math.floor(Date.now() / 1000));
   const [inputTimestamp, setInputTimestamp] = useState('');
   const [inputDate, setInputDate] = useState('');
@@ -213,3 +213,5 @@ export default function UnixTimestampConverter() {
     </div>
   );
 }
+
+export default memo(UnixTimestampConverterComponent);

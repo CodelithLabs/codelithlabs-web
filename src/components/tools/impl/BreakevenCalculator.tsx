@@ -1,8 +1,8 @@
 'use client';
-import { useState } from 'react';
+import { useState , memo } from 'react';
 import { BarChart3, Calculator } from 'lucide-react';
 
-export default function BreakevenCalculator() {
+const BreakevenCalculatorComponent = function BreakevenCalculator() {
   const [fixedCosts, setFixedCosts] = useState('50000');
   const [variableCost, setVariableCost] = useState('30');
   const [sellingPrice, setSellingPrice] = useState('100');
@@ -71,3 +71,5 @@ export default function BreakevenCalculator() {
     </div>
   );
 }
+
+export default memo(BreakevenCalculatorComponent);

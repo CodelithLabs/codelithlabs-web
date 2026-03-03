@@ -4,9 +4,9 @@
 // ═══════════════════════════════════════════════════════════════════════════
 'use client';
 
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo , memo } from 'react';
 
-export default function WordCounterPro() {
+const WordCounterProComponent = function WordCounterPro() {
   const [text, setText] = useState('');
 
   // Calculate statistics
@@ -165,3 +165,5 @@ export default function WordCounterPro() {
     </div>
   );
 }
+
+export default memo(WordCounterProComponent);

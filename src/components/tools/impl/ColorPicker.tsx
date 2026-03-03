@@ -1,8 +1,8 @@
 'use client';
-import { useState } from 'react';
+import { useState , memo } from 'react';
 import { Pipette, Copy, Check } from 'lucide-react';
 
-export default function ColorPicker() {
+const ColorPickerComponent = function ColorPicker() {
   const [color, setColor] = useState('#3B82F6');
   const [copied, setCopied] = useState('');
 
@@ -111,3 +111,5 @@ export default function ColorPicker() {
     </div>
   );
 }
+
+export default memo(ColorPickerComponent);

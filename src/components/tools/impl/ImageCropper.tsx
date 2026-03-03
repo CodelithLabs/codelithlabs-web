@@ -1,7 +1,7 @@
 'use client';
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect , memo } from 'react';
 
-export default function ImageCropper() {
+const ImageCropperComponent = function ImageCropper() {
   const [src, setSrc] = useState<string | null>(null);
   const [cropping, setCropping] = useState(false);
   const [cropStart, setCropStart] = useState<{x: number; y: number} | null>(null);
@@ -196,3 +196,5 @@ export default function ImageCropper() {
     </div>
   );
 }
+
+export default memo(ImageCropperComponent);

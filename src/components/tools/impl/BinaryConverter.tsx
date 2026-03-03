@@ -1,6 +1,6 @@
 'use client';
-import { useState } from 'react';
-export default function BinaryConverter() {
+import { useState , memo } from 'react';
+const BinaryConverterComponent = function BinaryConverter() {
   const [text, setText] = useState('Hello');
   const toBinary = (str: string) => str.split('').map(char => char.charCodeAt(0).toString(2).padStart(8, '0')).join(' ');
   return (
@@ -10,3 +10,5 @@ export default function BinaryConverter() {
     </div>
   );
 }
+
+export default memo(BinaryConverterComponent);

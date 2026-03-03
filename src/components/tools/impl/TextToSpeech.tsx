@@ -1,8 +1,8 @@
 'use client';
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect , memo } from 'react';
 import { Volume2, VolumeX, Play, Square, Settings } from 'lucide-react';
 
-export default function TextToSpeech() {
+const TextToSpeechComponent = function TextToSpeech() {
   const [text, setText] = useState('');
   const [speaking, setSpeaking] = useState(false);
   const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([]);
@@ -82,3 +82,5 @@ export default function TextToSpeech() {
     </div>
   );
 }
+
+export default memo(TextToSpeechComponent);

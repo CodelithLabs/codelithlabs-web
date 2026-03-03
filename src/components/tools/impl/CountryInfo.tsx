@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useState , memo } from 'react';
 import { Globe, Search } from 'lucide-react';
 
 const COUNTRIES: Record<string, { name: string; capital: string; population: string; area: string; currency: string; languages: string; region: string; callingCode: string; tld: string; flag: string; driveSide: string }> = {
@@ -19,7 +19,7 @@ const COUNTRIES: Record<string, { name: string; capital: string; population: str
   FR: { name: 'France', capital: 'Paris', population: '64,756,584', area: '551,695 km²', currency: 'Euro (EUR)', languages: 'French', region: 'Western Europe', callingCode: '+33', tld: '.fr', flag: '🇫🇷', driveSide: 'Right' },
 };
 
-export default function CountryInfo() {
+const CountryInfoComponent = function CountryInfo() {
   const [search, setSearch] = useState('');
   const [selectedCode, setSelectedCode] = useState('IN');
 
@@ -73,3 +73,5 @@ export default function CountryInfo() {
     </div>
   );
 }
+
+export default memo(CountryInfoComponent);

@@ -1,8 +1,8 @@
 'use client';
-import { useState, useCallback, useMemo } from 'react';
+import { useState, useCallback, useMemo , memo } from 'react';
 import { Palette, Copy, Check, RefreshCw } from 'lucide-react';
 
-export default function AiColorPalette() {
+const AiColorPaletteComponent = function AiColorPalette() {
   const [keyword, setKeyword] = useState('');
   const [palette, setPalette] = useState<string[]>([]);
   const [copied, setCopied] = useState<number | null>(null);
@@ -91,3 +91,5 @@ export default function AiColorPalette() {
     </div>
   );
 }
+
+export default memo(AiColorPaletteComponent);

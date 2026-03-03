@@ -1,7 +1,7 @@
 'use client';
-import { useState } from 'react';
+import { useState , memo } from 'react';
 
-export default function UnitConverter() {
+const UnitConverterComponent = function UnitConverter() {
   const [val, setVal] = useState(0);
   const [from, setFrom] = useState('m');
   const [to, setTo] = useState('ft');
@@ -60,3 +60,5 @@ export default function UnitConverter() {
     </div>
   );
 }
+
+export default memo(UnitConverterComponent);

@@ -1,7 +1,7 @@
 'use client';
-import { useState } from 'react';
+import { useState , memo } from 'react';
 
-export default function RobotsTxtGenerator() {
+const RobotsTxtGeneratorComponent = function RobotsTxtGenerator() {
   const [userAgent, setUserAgent] = useState('*');
   const [allow, setAllow] = useState('/');
   const [disallow, setDisallow] = useState('/admin\n/private');
@@ -68,3 +68,5 @@ export default function RobotsTxtGenerator() {
     </div>
   );
 }
+
+export default memo(RobotsTxtGeneratorComponent);

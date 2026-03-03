@@ -1,8 +1,8 @@
 'use client';
-import { useState } from 'react';
+import { useState , memo } from 'react';
 import { ShieldCheck, AlertTriangle, Check, X } from 'lucide-react';
 
-export default function WebsiteSecurityChecker() {
+const WebsiteSecurityCheckerComponent = function WebsiteSecurityChecker() {
   const [url, setUrl] = useState('');
   const [result, setResult] = useState<{ checks: { name: string; status: 'pass' | 'fail' | 'warn'; detail: string }[]; score: number } | null>(null);
   const [loading, setLoading] = useState(false);
@@ -82,3 +82,5 @@ export default function WebsiteSecurityChecker() {
     </div>
   );
 }
+
+export default memo(WebsiteSecurityCheckerComponent);

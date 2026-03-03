@@ -1,7 +1,7 @@
 'use client';
-import { useState } from 'react';
+import { useState , memo } from 'react';
 
-export default function CssMinifier() {
+const CssMinifierComponent = function CssMinifier() {
   const [css, setCss] = useState('');
   const minify = () => {
     setCss(css.replace(/\/\*[\s\S]*?\*\//g, '').replace(/\s+/g, ' ').replace(/\s?([:;{}])\s?/g, '$1').trim());
@@ -13,3 +13,5 @@ export default function CssMinifier() {
     </div>
   );
 }
+
+export default memo(CssMinifierComponent);

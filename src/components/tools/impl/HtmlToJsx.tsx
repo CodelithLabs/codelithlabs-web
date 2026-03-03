@@ -1,8 +1,8 @@
 'use client';
-import { useState } from 'react';
+import { useState , memo } from 'react';
 import { Code, Copy, Check } from 'lucide-react';
 
-export default function HtmlToJsx() {
+const HtmlToJsxComponent = function HtmlToJsx() {
   const [input, setInput] = useState('<div class="container">\n  <label for="name">Name</label>\n  <input type="text" class="input" tabindex="1" readonly />\n  <img src="photo.jpg" alt="photo" />\n  <br>\n  <hr>\n  <p style="color: red; font-size: 16px;">Hello World</p>\n  <!-- This is a comment -->\n</div>');
   const [output, setOutput] = useState('');
   const [copied, setCopied] = useState(false);
@@ -96,3 +96,5 @@ export default function HtmlToJsx() {
     </div>
   );
 }
+
+export default memo(HtmlToJsxComponent);

@@ -1,7 +1,7 @@
 'use client';
-import { useState } from 'react';
+import { useState , memo } from 'react';
 
-export default function RegexTester() {
+const RegexTesterComponent = function RegexTester() {
   const [pattern, setPattern] = useState('');
   const [flags, setFlags] = useState('g');
   const [testString, setTestString] = useState('');
@@ -79,3 +79,5 @@ export default function RegexTester() {
     </div>
   );
 }
+
+export default memo(RegexTesterComponent);

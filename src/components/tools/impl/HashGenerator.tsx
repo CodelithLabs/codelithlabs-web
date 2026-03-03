@@ -1,7 +1,7 @@
 'use client';
-import { useState } from 'react';
+import { useState , memo } from 'react';
 
-export default function HashGenerator() {
+const HashGeneratorComponent = function HashGenerator() {
   const [text, setText] = useState('');
   const [hashes, setHashes] = useState<Record<string, string>>({});
 
@@ -57,3 +57,5 @@ export default function HashGenerator() {
     </div>
   );
 }
+
+export default memo(HashGeneratorComponent);

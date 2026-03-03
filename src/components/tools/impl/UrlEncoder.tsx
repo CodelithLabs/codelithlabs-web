@@ -4,9 +4,9 @@
 // ═══════════════════════════════════════════════════════════════════════════
 'use client';
 
-import { useState } from 'react';
+import { useState , memo } from 'react';
 
-export default function UrlEncoder() {
+const UrlEncoderComponent = function UrlEncoder() {
   const [input, setInput] = useState('');
   const [encoded, setEncoded] = useState('');
   const [decoded, setDecoded] = useState('');
@@ -227,3 +227,5 @@ export default function UrlEncoder() {
     </div>
   );
 }
+
+export default memo(UrlEncoderComponent);

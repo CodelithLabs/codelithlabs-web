@@ -1,8 +1,8 @@
 'use client';
-import { useState } from 'react';
+import { useState , memo } from 'react';
 import { Type, Copy, Check, Wand2 } from 'lucide-react';
 
-export default function EmailGenerator() {
+const EmailGeneratorComponent = function EmailGenerator() {
   const [purpose, setPurpose] = useState('professional');
   const [subject, setSubject] = useState('');
   const [recipient, setRecipient] = useState('');
@@ -53,3 +53,5 @@ export default function EmailGenerator() {
     </div>
   );
 }
+
+export default memo(EmailGeneratorComponent);

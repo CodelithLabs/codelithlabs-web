@@ -4,9 +4,9 @@
 // ═══════════════════════════════════════════════════════════════════════════
 'use client';
 
-import { useState } from 'react';
+import { useState , memo } from 'react';
 
-export default function LoremIpsumGen() {
+const LoremIpsumGenComponent = function LoremIpsumGen() {
   const [generated, setGenerated] = useState('');
   const [count, setCount] = useState(3);
   const [type, setType] = useState<'paragraphs' | 'sentences' | 'words'>('paragraphs');
@@ -189,3 +189,5 @@ export default function LoremIpsumGen() {
     </div>
   );
 }
+
+export default memo(LoremIpsumGenComponent);

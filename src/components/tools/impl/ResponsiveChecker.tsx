@@ -1,8 +1,8 @@
 'use client';
-import { useState } from 'react';
+import { useState , memo } from 'react';
 import { Smartphone, Copy, Check, Monitor, Tablet } from 'lucide-react';
 
-export default function ResponsiveChecker() {
+const ResponsiveCheckerComponent = function ResponsiveChecker() {
   const [url, setUrl] = useState('https://example.com');
   const [device, setDevice] = useState<'mobile' | 'tablet' | 'desktop'>('mobile');
   const [customW, setCustomW] = useState('375');
@@ -80,3 +80,5 @@ export default function ResponsiveChecker() {
     </div>
   );
 }
+
+export default memo(ResponsiveCheckerComponent);

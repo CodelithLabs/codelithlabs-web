@@ -1,8 +1,8 @@
 'use client';
-import { useState } from 'react';
+import { useState , memo } from 'react';
 import { Database, Copy, Check } from 'lucide-react';
 
-export default function JsonPathFinder() {
+const JsonPathFinderComponent = function JsonPathFinder() {
   const [input, setInput] = useState('{\n  "name": "John",\n  "age": 30,\n  "address": {\n    "city": "Mumbai",\n    "state": "Maharashtra"\n  },\n  "skills": ["JavaScript", "Python", "Go"]\n}');
   const [path, setPath] = useState('');
   const [result, setResult] = useState<string>('');
@@ -109,3 +109,5 @@ export default function JsonPathFinder() {
     </div>
   );
 }
+
+export default memo(JsonPathFinderComponent);

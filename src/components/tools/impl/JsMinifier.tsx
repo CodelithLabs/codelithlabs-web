@@ -1,7 +1,7 @@
 'use client';
-import { useState } from 'react';
+import { useState , memo } from 'react';
 
-export default function JsMinifier() {
+const JsMinifierComponent = function JsMinifier() {
   const [js, setJs] = useState('');
   const [minified, setMinified] = useState('');
 
@@ -45,3 +45,5 @@ export default function JsMinifier() {
     </div>
   );
 }
+
+export default memo(JsMinifierComponent);

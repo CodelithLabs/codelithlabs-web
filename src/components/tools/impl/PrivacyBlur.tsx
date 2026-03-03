@@ -4,9 +4,9 @@
 // ═══════════════════════════════════════════════════════════════════════════
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect , memo } from 'react';
 
-export default function PrivacyBlur() {
+const PrivacyBlurComponent = function PrivacyBlur() {
   const [originalImage, setOriginalImage] = useState<string | null>(null);
   const [blurAmount, setBlurAmount] = useState(20);
   const [isDrawing, setIsDrawing] = useState(false);
@@ -283,3 +283,5 @@ export default function PrivacyBlur() {
     </div>
   );
 }
+
+export default memo(PrivacyBlurComponent);

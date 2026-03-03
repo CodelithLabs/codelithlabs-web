@@ -1,7 +1,7 @@
 'use client';
-import { useState } from 'react';
+import { useState , memo } from 'react';
 
-export default function AgeCalculator() {
+const AgeCalculatorComponent = function AgeCalculator() {
   const [dob, setDob] = useState('');
   const [age, setAge] = useState<{y:number, m:number, d:number}|null>(null);
 
@@ -25,3 +25,5 @@ export default function AgeCalculator() {
     </div>
   );
 }
+
+export default memo(AgeCalculatorComponent);

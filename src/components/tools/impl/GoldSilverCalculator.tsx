@@ -1,8 +1,8 @@
 'use client';
-import { useState, useMemo } from 'react';
+import { useState, useMemo , memo } from 'react';
 import { Gem, RefreshCw } from 'lucide-react';
 
-export default function GoldSilverCalculator() {
+const GoldSilverCalculatorComponent = function GoldSilverCalculator() {
   const [goldPrice, setGoldPrice] = useState('7200');
   const [silverPrice, setSilverPrice] = useState('92');
   const [metal, setMetal] = useState<'gold' | 'silver'>('gold');
@@ -83,3 +83,5 @@ export default function GoldSilverCalculator() {
     </div>
   );
 }
+
+export default memo(GoldSilverCalculatorComponent);

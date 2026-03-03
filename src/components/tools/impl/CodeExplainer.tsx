@@ -1,8 +1,8 @@
 'use client';
-import { useState } from 'react';
+import { useState , memo } from 'react';
 import { FileCode, Copy, Check, ArrowRight } from 'lucide-react';
 
-export default function CodeExplainer() {
+const CodeExplainerComponent = function CodeExplainer() {
   const [code, setCode] = useState('');
   const [language, setLanguage] = useState('javascript');
   const [explanation, setExplanation] = useState<string[]>([]);
@@ -87,3 +87,5 @@ export default function CodeExplainer() {
     </div>
   );
 }
+
+export default memo(CodeExplainerComponent);

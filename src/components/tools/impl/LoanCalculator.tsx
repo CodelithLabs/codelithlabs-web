@@ -4,9 +4,9 @@
 // ═══════════════════════════════════════════════════════════════════════════
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo , memo } from 'react';
 
-export default function LoanCalculator() {
+const LoanCalculatorComponent = function LoanCalculator() {
   const [loanAmount, setLoanAmount] = useState('100000');
   const [interestRate, setInterestRate] = useState('7');
   const [loanTerm, setLoanTerm] = useState('12');
@@ -257,3 +257,5 @@ export default function LoanCalculator() {
     </div>
   );
 }
+
+export default memo(LoanCalculatorComponent);

@@ -5,7 +5,7 @@
 // ═══════════════════════════════════════════════════════════════════════════
 'use client';
 
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef, useCallback , memo } from 'react';
 import { Bitcoin, RefreshCw, TrendingUp, TrendingDown, DollarSign, AlertCircle } from 'lucide-react';
 
 interface CryptoPrice {
@@ -20,7 +20,7 @@ interface CryptoPrice {
 const cryptoCache = new Map<string, { data: CryptoPrice[]; timestamp: number }>();
 const CACHE_TTL = 5 * 60 * 1000; // 5 minutes
 
-export default function CryptoConverter() {
+const CryptoConverterComponent = function CryptoConverter() {
   const [amount, setAmount] = useState('1');
   const [fromCrypto, setFromCrypto] = useState('bitcoin');
   const [toCurrency, setToCurrency] = useState('usd');
@@ -267,3 +267,5 @@ export default function CryptoConverter() {
     </div>
   );
 }
+
+export default memo(CryptoConverterComponent);

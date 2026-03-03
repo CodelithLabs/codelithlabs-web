@@ -1,7 +1,7 @@
 'use client';
-import { useState } from 'react';
+import { useState , memo } from 'react';
 
-export default function SitemapGenerator() {
+const SitemapGeneratorComponent = function SitemapGenerator() {
   const [urls, setUrls] = useState('');
   const [sitemap, setSitemap] = useState('');
 
@@ -41,3 +41,5 @@ ${urlList.map(url => `  <url>
     </div>
   );
 }
+
+export default memo(SitemapGeneratorComponent);

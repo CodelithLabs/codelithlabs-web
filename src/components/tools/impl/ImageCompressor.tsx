@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState , memo } from 'react';
 import { z } from 'zod';
 
 const MAX_IMAGE_SIZE_BYTES = 15 * 1024 * 1024; // 15 MiB
@@ -13,7 +13,7 @@ const fileSchema = z
     message: 'File too large. Max size is 15 MiB.'
   });
 
-export default function ImageCompressor() {
+const ImageCompressorComponent = function ImageCompressor() {
   const [originalImage, setOriginalImage] = useState<string | null>(null);
   const [originalFile, setOriginalFile] = useState<File | null>(null);
   const [compressedImage, setCompressedImage] = useState<string | null>(null);
@@ -228,3 +228,5 @@ export default function ImageCompressor() {
     </div>
   );
 }
+
+export default memo(ImageCompressorComponent);

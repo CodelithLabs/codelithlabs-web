@@ -1,7 +1,7 @@
 'use client';
-import { useState } from 'react';
+import { useState , memo } from 'react';
 
-export default function ImageToBase64() {
+const ImageToBase64Component = function ImageToBase64() {
   const [base64, setBase64] = useState('');
 
   const handleUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -40,3 +40,5 @@ export default function ImageToBase64() {
     </div>
   );
 }
+
+export default memo(ImageToBase64Component);

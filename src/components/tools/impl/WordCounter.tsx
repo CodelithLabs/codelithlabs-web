@@ -4,9 +4,9 @@
 // ═══════════════════════════════════════════════════════════════════════════
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo , memo } from 'react';
 
-export default function WordCounter() {
+const WordCounterComponent = function WordCounter() {
   const [text, setText] = useState('');
 
   const stats = useMemo(() => {
@@ -89,3 +89,5 @@ export default function WordCounter() {
     </div>
   );
 }
+
+export default memo(WordCounterComponent);

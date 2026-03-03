@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useState , memo } from 'react';
 import { Regex, Copy, Check, Wand2 } from 'lucide-react';
 
 const TEMPLATES = [
@@ -19,7 +19,7 @@ const TEMPLATES = [
   { label: 'Alphanumeric', pattern: '[a-zA-Z0-9]+' },
 ];
 
-export default function RegexGenerator() {
+const RegexGeneratorComponent = function RegexGenerator() {
   const [description, setDescription] = useState('');
   const [pattern, setPattern] = useState('');
   const [testString, setTestString] = useState('');
@@ -82,3 +82,5 @@ export default function RegexGenerator() {
     </div>
   );
 }
+
+export default memo(RegexGeneratorComponent);

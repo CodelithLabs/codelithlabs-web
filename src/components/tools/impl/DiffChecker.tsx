@@ -1,8 +1,8 @@
 'use client';
-import { useState } from 'react';
+import { useState , memo } from 'react';
 import { GitCompare } from 'lucide-react';
 
-export default function DiffChecker() {
+const DiffCheckerComponent = function DiffChecker() {
   const [text1, setText1] = useState('');
   const [text2, setText2] = useState('');
   const [diff, setDiff] = useState<{ type: 'same' | 'added' | 'removed'; line: string; lineNum1?: number; lineNum2?: number }[]>([]);
@@ -76,3 +76,5 @@ export default function DiffChecker() {
     </div>
   );
 }
+
+export default memo(DiffCheckerComponent);

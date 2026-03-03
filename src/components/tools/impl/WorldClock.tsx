@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef , memo } from 'react';
 import { Clock, Plus, Trash2 } from 'lucide-react';
 
 const TIMEZONES: Record<string, { offset: number; label: string; country: string }> = {
@@ -21,7 +21,7 @@ const TIMEZONES: Record<string, { offset: number; label: string; country: string
   'America/Sao_Paulo': { offset: -3, label: 'São Paulo (BRT)', country: '🇧🇷' },
 };
 
-export default function WorldClock() {
+const WorldClockComponent = function WorldClock() {
   const [selected, setSelected] = useState<string[]>(['Asia/Kolkata', 'America/New_York', 'Europe/London', 'Asia/Tokyo']);
   const [time, setTime] = useState(new Date());
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -85,3 +85,5 @@ export default function WorldClock() {
     </div>
   );
 }
+
+export default memo(WorldClockComponent);

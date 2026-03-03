@@ -5,7 +5,7 @@
 // ═══════════════════════════════════════════════════════════════════════════
 'use client';
 
-import { useState } from 'react';
+import { useState , memo } from 'react';
 import { Home, TrendingUp, DollarSign, Calendar, PieChart } from 'lucide-react';
 
 interface AmortizationEntry {
@@ -16,7 +16,7 @@ interface AmortizationEntry {
   balance: number;
 }
 
-export default function MortgageCalculator() {
+const MortgageCalculatorComponent = function MortgageCalculator() {
   const [loanAmount, setLoanAmount] = useState('300000');
   const [interestRate, setInterestRate] = useState('6.5');
   const [loanTerm, setLoanTerm] = useState('30');
@@ -271,3 +271,5 @@ export default function MortgageCalculator() {
     </div>
   );
 }
+
+export default memo(MortgageCalculatorComponent);

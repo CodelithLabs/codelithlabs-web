@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useState , memo } from 'react';
 import { Languages, Copy, Check, ArrowRightLeft } from 'lucide-react';
 
 const translations: Record<string, Record<string, string>> = {
@@ -29,7 +29,7 @@ const langs = [
   { code: 'ru', name: 'Russian', flag: '🇷🇺' },
 ];
 
-export default function AiTranslator() {
+const AiTranslatorComponent = function AiTranslator() {
   const [text, setText] = useState('');
   const [targetLang, setTargetLang] = useState('es');
   const [result, setResult] = useState('');
@@ -75,3 +75,5 @@ export default function AiTranslator() {
     </div>
   );
 }
+
+export default memo(AiTranslatorComponent);

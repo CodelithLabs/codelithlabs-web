@@ -4,7 +4,7 @@
 // ═══════════════════════════════════════════════════════════════════════════
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect , memo } from 'react';
 
 interface PasswordOptions {
   length: number;
@@ -14,7 +14,7 @@ interface PasswordOptions {
   symbols: boolean;
 }
 
-export default function PasswordGenerator() {
+const PasswordGeneratorComponent = function PasswordGenerator() {
   const [password, setPassword] = useState('');
   const [options, setOptions] = useState<PasswordOptions>({
     length: 16,
@@ -353,3 +353,5 @@ export default function PasswordGenerator() {
     </div>
   );
 }
+
+export default memo(PasswordGeneratorComponent);

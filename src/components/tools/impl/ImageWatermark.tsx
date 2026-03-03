@@ -1,8 +1,8 @@
 'use client';
-import { useState, useRef } from 'react';
+import { useState, useRef , memo } from 'react';
 import { Droplets, Upload, Download } from 'lucide-react';
 
-export default function ImageWatermark() {
+const ImageWatermarkComponent = function ImageWatermark() {
   const [image, setImage] = useState<string | null>(null);
   const [text, setText] = useState('CodelithLabs');
   const [position, setPosition] = useState<'center' | 'bottom-right' | 'bottom-left' | 'top-right' | 'top-left'>('bottom-right');
@@ -95,3 +95,5 @@ export default function ImageWatermark() {
     </div>
   );
 }
+
+export default memo(ImageWatermarkComponent);

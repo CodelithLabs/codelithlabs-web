@@ -1,6 +1,6 @@
 'use client';
-import { useState } from 'react';
-export default function RomanNumeralConverter() {
+import { useState , memo } from 'react';
+const RomanNumeralConverterComponent = function RomanNumeralConverter() {
   const [num, setNum] = useState(2024);
   const toRoman = (num: number) => {
     const lookup: Record<string, number> = {M:1000,CM:900,D:500,CD:400,C:100,XC:90,L:50,XL:40,X:10,IX:9,V:5,IV:4,I:1};
@@ -15,3 +15,5 @@ export default function RomanNumeralConverter() {
     </div>
   );
 }
+
+export default memo(RomanNumeralConverterComponent);

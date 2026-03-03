@@ -4,9 +4,9 @@
 // ═══════════════════════════════════════════════════════════════════════════
 'use client';
 
-import { useState } from 'react';
+import { useState , memo } from 'react';
 
-export default function UuidGenerator() {
+const UuidGeneratorComponent = function UuidGenerator() {
   const [uuids, setUuids] = useState<string[]>([]);
   const [count, setCount] = useState(1);
   const [copied, setCopied] = useState(false);
@@ -210,3 +210,5 @@ export default function UuidGenerator() {
     </div>
   );
 }
+
+export default memo(UuidGeneratorComponent);

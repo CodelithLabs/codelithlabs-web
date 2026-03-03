@@ -4,7 +4,7 @@
 // ═══════════════════════════════════════════════════════════════════════════
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef , memo } from 'react';
 
 type Preset = {
   name: string;
@@ -13,7 +13,7 @@ type Preset = {
   platform: string;
 };
 
-export default function SocialMediaResizer() {
+const SocialMediaResizerComponent = function SocialMediaResizer() {
   const [originalImage, setOriginalImage] = useState<string | null>(null);
   const [resizedImage, setResizedImage] = useState<string | null>(null);
   const [selectedPreset, setSelectedPreset] = useState<Preset | null>(null);
@@ -216,3 +216,5 @@ export default function SocialMediaResizer() {
     </div>
   );
 }
+
+export default memo(SocialMediaResizerComponent);

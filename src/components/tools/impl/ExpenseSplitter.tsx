@@ -1,10 +1,10 @@
 'use client';
-import { useState } from 'react';
+import { useState , memo } from 'react';
 import { Users, Plus, Trash2, Check } from 'lucide-react';
 
 interface Person { name: string; paid: number; }
 
-export default function ExpenseSplitter() {
+const ExpenseSplitterComponent = function ExpenseSplitter() {
   const [people, setPeople] = useState<Person[]>([{ name: 'You', paid: 0 }, { name: 'Friend', paid: 0 }]);
   const [totalBill, setTotalBill] = useState('');
   const [tipPct, setTipPct] = useState('0');
@@ -93,3 +93,5 @@ export default function ExpenseSplitter() {
     </div>
   );
 }
+
+export default memo(ExpenseSplitterComponent);

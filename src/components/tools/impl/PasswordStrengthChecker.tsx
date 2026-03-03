@@ -1,7 +1,7 @@
 'use client';
-import { useState } from 'react';
+import { useState , memo } from 'react';
 
-export default function PasswordStrengthChecker() {
+const PasswordStrengthCheckerComponent = function PasswordStrengthChecker() {
   const [password, setPassword] = useState('');
   const [result, setResult] = useState<{score: number; feedback: string; strength: string; color: string} | null>(null);
 
@@ -68,3 +68,5 @@ export default function PasswordStrengthChecker() {
     </div>
   );
 }
+
+export default memo(PasswordStrengthCheckerComponent);

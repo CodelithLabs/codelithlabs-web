@@ -1,7 +1,7 @@
 'use client';
-import { useState } from 'react';
+import { useState , memo } from 'react';
 
-export default function HtmlFormatter() {
+const HtmlFormatterComponent = function HtmlFormatter() {
   const [html, setHtml] = useState('');
   const [formatted, setFormatted] = useState('');
 
@@ -56,3 +56,5 @@ export default function HtmlFormatter() {
     </div>
   );
 }
+
+export default memo(HtmlFormatterComponent);

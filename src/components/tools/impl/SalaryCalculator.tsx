@@ -1,8 +1,8 @@
 'use client';
-import { useState } from 'react';
+import { useState , memo } from 'react';
 import { Briefcase, IndianRupee } from 'lucide-react';
 
-export default function SalaryCalculator() {
+const SalaryCalculatorComponent = function SalaryCalculator() {
   const [ctc, setCtc] = useState('1500000');
   const [bonus, setBonus] = useState('10');
   const [pf, setPf] = useState('12');
@@ -78,3 +78,5 @@ export default function SalaryCalculator() {
     </div>
   );
 }
+
+export default memo(SalaryCalculatorComponent);

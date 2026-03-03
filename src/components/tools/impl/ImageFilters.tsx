@@ -1,7 +1,7 @@
 'use client';
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect , memo } from 'react';
 
-export default function ImageFilters() {
+const ImageFiltersComponent = function ImageFilters() {
   const [src, setSrc] = useState<string | null>(null);
   const [filter, setFilter] = useState('none');
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -43,3 +43,5 @@ export default function ImageFilters() {
     </div>
   );
 }
+
+export default memo(ImageFiltersComponent);

@@ -1,7 +1,7 @@
 'use client';
-import { useState } from 'react';
+import { useState , memo } from 'react';
 
-export default function DiscountCalculator() {
+const DiscountCalculatorComponent = function DiscountCalculator() {
   const [price, setPrice] = useState(1000);
   const [disc, setDisc] = useState(20);
   return (
@@ -18,3 +18,5 @@ export default function DiscountCalculator() {
     </div>
   );
 }
+
+export default memo(DiscountCalculatorComponent);

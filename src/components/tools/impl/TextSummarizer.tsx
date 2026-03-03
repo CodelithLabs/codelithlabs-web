@@ -1,8 +1,8 @@
 'use client';
-import { useState } from 'react';
+import { useState , memo } from 'react';
 import { FileText, Copy, Check } from 'lucide-react';
 
-export default function TextSummarizer() {
+const TextSummarizerComponent = function TextSummarizer() {
   const [text, setText] = useState('');
   const [summary, setSummary] = useState('');
   const [sentences, setSentences] = useState(3);
@@ -57,3 +57,5 @@ export default function TextSummarizer() {
     </div>
   );
 }
+
+export default memo(TextSummarizerComponent);

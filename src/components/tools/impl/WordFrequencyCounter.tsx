@@ -1,8 +1,8 @@
 'use client';
-import { useState } from 'react';
+import { useState , memo } from 'react';
 import { BookOpen, Copy, Check, Hash } from 'lucide-react';
 
-export default function WordFrequencyCounter() {
+const WordFrequencyCounterComponent = function WordFrequencyCounter() {
   const [text, setText] = useState('');
   const [results, setResults] = useState<{ word: string; count: number; percentage: number }[]>([]);
   const [copied, setCopied] = useState(false);
@@ -58,3 +58,5 @@ export default function WordFrequencyCounter() {
     </div>
   );
 }
+
+export default memo(WordFrequencyCounterComponent);

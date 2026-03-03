@@ -1,7 +1,7 @@
 'use client';
-import { useState } from 'react';
+import { useState , memo } from 'react';
 
-export default function SqlFormatter() {
+const SqlFormatterComponent = function SqlFormatter() {
   const [sql, setSql] = useState('');
   const format = () => {
     setSql(sql.replace(/\s+/g, ' ').replace(/(SELECT|FROM|WHERE|AND|OR|ORDER BY|GROUP BY|LIMIT|INSERT|UPDATE|DELETE)/gi, '\n$1'));
@@ -13,3 +13,5 @@ export default function SqlFormatter() {
     </div>
   );
 }
+
+export default memo(SqlFormatterComponent);

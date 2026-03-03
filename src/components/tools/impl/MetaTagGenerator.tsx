@@ -1,7 +1,7 @@
 'use client';
-import { useState } from 'react';
+import { useState , memo } from 'react';
 
-export default function MetaTagGenerator() {
+const MetaTagGeneratorComponent = function MetaTagGenerator() {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [keywords, setKeywords] = useState('');
@@ -68,3 +68,5 @@ export default function MetaTagGenerator() {
     </div>
   );
 }
+
+export default memo(MetaTagGeneratorComponent);

@@ -1,10 +1,10 @@
 'use client';
-import { useState } from 'react';
+import { useState , memo } from 'react';
 import { Send, Loader2, Copy, Check } from 'lucide-react';
 
 interface ApiResponse { status: number; statusText: string; headers: Record<string, string>; body: string; time: number; size: number; }
 
-export default function ApiTester() {
+const ApiTesterComponent = function ApiTester() {
   const [method, setMethod] = useState('GET');
   const [url, setUrl] = useState('https://jsonplaceholder.typicode.com/posts/1');
   const [headers, setHeaders] = useState('');
@@ -97,3 +97,5 @@ export default function ApiTester() {
     </div>
   );
 }
+
+export default memo(ApiTesterComponent);

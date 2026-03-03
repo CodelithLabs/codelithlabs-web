@@ -1,8 +1,8 @@
 'use client';
-import { useState } from 'react';
+import { useState , memo } from 'react';
 import { Sun, Moon, Sunrise, Sunset } from 'lucide-react';
 
-export default function SunriseSunsetCalc() {
+const SunriseSunsetCalcComponent = function SunriseSunsetCalc() {
   const [lat, setLat] = useState('26.4008');
   const [lon, setLon] = useState('90.2717');
   const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
@@ -106,3 +106,5 @@ export default function SunriseSunsetCalc() {
     </div>
   );
 }
+
+export default memo(SunriseSunsetCalcComponent);

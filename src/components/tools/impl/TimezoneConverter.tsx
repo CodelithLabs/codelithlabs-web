@@ -5,10 +5,10 @@
 // ═══════════════════════════════════════════════════════════════════════════
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback , memo } from 'react';
 import { Clock, Globe, Calendar, ArrowRight } from 'lucide-react';
 
-export default function TimezoneConverter() {
+const TimezoneConverterComponent = function TimezoneConverter() {
   const now = new Date();
   const [sourceDate, setSourceDate] = useState(() => now.toISOString().split('T')[0]);
   const [sourceTime, setSourceTime] = useState(() => now.toTimeString().split(' ')[0].substring(0, 5));
@@ -243,3 +243,5 @@ export default function TimezoneConverter() {
     </div>
   );
 }
+
+export default memo(TimezoneConverterComponent);

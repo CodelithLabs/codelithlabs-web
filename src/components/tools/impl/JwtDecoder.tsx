@@ -1,7 +1,7 @@
 'use client';
-import { useState } from 'react';
+import { useState , memo } from 'react';
 
-export default function JwtDecoder() {
+const JwtDecoderComponent = function JwtDecoder() {
   const [token, setToken] = useState('');
   const [decoded, setDecoded] = useState('');
 
@@ -25,3 +25,5 @@ export default function JwtDecoder() {
     </div>
   );
 }
+
+export default memo(JwtDecoderComponent);

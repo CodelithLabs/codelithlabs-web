@@ -1,7 +1,7 @@
 'use client';
-import { useState } from 'react';
+import { useState , memo } from 'react';
 
-export default function BmiCalculator() {
+const BmiCalculatorComponent = function BmiCalculator() {
   const [h, setH] = useState(170);
   const [w, setW] = useState(70);
   const bmi = (w / ((h/100)**2)).toFixed(1);
@@ -16,3 +16,5 @@ export default function BmiCalculator() {
     </div>
   );
 }
+
+export default memo(BmiCalculatorComponent);

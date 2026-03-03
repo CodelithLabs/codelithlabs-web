@@ -1,8 +1,8 @@
 'use client';
-import { useState } from 'react';
+import { useState , memo } from 'react';
 import { Compass, Copy, Check } from 'lucide-react';
 
-export default function CoordinateConverter() {
+const CoordinateConverterComponent = function CoordinateConverter() {
   const [input, setInput] = useState('');
   const [format, setFormat] = useState<'dd' | 'dms' | 'ddm'>('dd');
   const [copied, setCopied] = useState('');
@@ -118,3 +118,5 @@ export default function CoordinateConverter() {
     </div>
   );
 }
+
+export default memo(CoordinateConverterComponent);

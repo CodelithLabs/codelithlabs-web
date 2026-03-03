@@ -1,7 +1,7 @@
 'use client';
-import { useState, useRef } from 'react';
+import { useState, useRef , memo } from 'react';
 
-export default function WebpConverter() {
+const WebpConverterComponent = function WebpConverter() {
   const [img, setImg] = useState<string | null>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -40,3 +40,5 @@ export default function WebpConverter() {
     </div>
   );
 }
+
+export default memo(WebpConverterComponent);

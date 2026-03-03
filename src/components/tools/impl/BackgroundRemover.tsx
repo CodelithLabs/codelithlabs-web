@@ -1,8 +1,8 @@
 'use client';
-import { useState, useRef, useCallback } from 'react';
+import { useState, useRef, useCallback , memo } from 'react';
 import { Upload, Download, Palette } from 'lucide-react';
 
-export default function BackgroundRemover() {
+const BackgroundRemoverComponent = function BackgroundRemover() {
   const [image, setImage] = useState<string | null>(null);
   const [result, setResult] = useState<string | null>(null);
   const [processing, setProcessing] = useState(false);
@@ -102,3 +102,5 @@ export default function BackgroundRemover() {
     </div>
   );
 }
+
+export default memo(BackgroundRemoverComponent);

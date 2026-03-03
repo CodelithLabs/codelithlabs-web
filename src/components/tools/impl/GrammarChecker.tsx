@@ -1,10 +1,10 @@
 'use client';
-import { useState } from 'react';
+import { useState , memo } from 'react';
 import { CheckCircle, XCircle, AlertTriangle } from 'lucide-react';
 
 interface Issue { type: 'error' | 'warning' | 'suggestion'; message: string; index: number; }
 
-export default function GrammarChecker() {
+const GrammarCheckerComponent = function GrammarChecker() {
   const [text, setText] = useState('');
   const [issues, setIssues] = useState<Issue[]>([]);
   const [checked, setChecked] = useState(false);
@@ -83,3 +83,5 @@ export default function GrammarChecker() {
     </div>
   );
 }
+
+export default memo(GrammarCheckerComponent);

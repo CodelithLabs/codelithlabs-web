@@ -1,8 +1,8 @@
 'use client';
-import { useState } from 'react';
+import { useState , memo } from 'react';
 import { Receipt, Calculator } from 'lucide-react';
 
-export default function CapitalGainsTax() {
+const CapitalGainsTaxComponent = function CapitalGainsTax() {
   const [assetType, setAssetType] = useState<'equity' | 'debt' | 'property'>('equity');
   const [buyPrice, setBuyPrice] = useState('');
   const [sellPrice, setSellPrice] = useState('');
@@ -88,3 +88,5 @@ export default function CapitalGainsTax() {
     </div>
   );
 }
+
+export default memo(CapitalGainsTaxComponent);

@@ -1,7 +1,7 @@
 'use client';
-import { useState } from 'react';
+import { useState , memo } from 'react';
 
-export default function CsvToJson() {
+const CsvToJsonComponent = function CsvToJson() {
   const [csv, setCsv] = useState('');
   const [json, setJson] = useState('');
 
@@ -53,3 +53,5 @@ export default function CsvToJson() {
     </div>
   );
 }
+
+export default memo(CsvToJsonComponent);

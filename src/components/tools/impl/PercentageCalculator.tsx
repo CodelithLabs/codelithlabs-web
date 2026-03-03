@@ -4,9 +4,9 @@
 // ═══════════════════════════════════════════════════════════════════════════
 'use client';
 
-import { useState } from 'react';
+import { useState , memo } from 'react';
 
-export default function PercentageCalculator() {
+const PercentageCalculatorComponent = function PercentageCalculator() {
   const [mode, setMode] = useState<'what' | 'is' | 'change'>('what');
 
   // Mode 1: X is what % of Y
@@ -260,3 +260,5 @@ export default function PercentageCalculator() {
     </div>
   );
 }
+
+export default memo(PercentageCalculatorComponent);

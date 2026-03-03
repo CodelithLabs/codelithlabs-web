@@ -5,7 +5,7 @@
 // ═══════════════════════════════════════════════════════════════════════════
 'use client';
 
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef, useCallback , memo } from 'react';
 import { DollarSign, RefreshCw, TrendingUp, ArrowRightLeft, AlertCircle } from 'lucide-react';
 
 interface ExchangeRates {
@@ -16,7 +16,7 @@ interface ExchangeRates {
 const ratesCache = new Map<string, { rates: ExchangeRates; timestamp: number }>();
 const CACHE_TTL = 5 * 60 * 1000; // 5 minutes
 
-export default function CurrencyConverter() {
+const CurrencyConverterComponent = function CurrencyConverter() {
   const [amount, setAmount] = useState('100');
   const [fromCurrency, setFromCurrency] = useState('USD');
   const [toCurrency, setToCurrency] = useState('EUR');
@@ -264,3 +264,5 @@ export default function CurrencyConverter() {
     </div>
   );
 }
+
+export default memo(CurrencyConverterComponent);

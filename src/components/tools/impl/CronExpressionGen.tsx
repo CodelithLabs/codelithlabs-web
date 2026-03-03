@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useState , memo } from 'react';
 import { Clock, Copy, Check } from 'lucide-react';
 
 const PRESETS = [
@@ -17,7 +17,7 @@ const PRESETS = [
   { label: 'Every 6 hours', value: '0 */6 * * *' },
 ];
 
-export default function CronExpressionGen() {
+const CronExpressionGenComponent = function CronExpressionGen() {
   const [minute, setMinute] = useState('*');
   const [hour, setHour] = useState('*');
   const [day, setDay] = useState('*');
@@ -127,3 +127,5 @@ export default function CronExpressionGen() {
     </div>
   );
 }
+
+export default memo(CronExpressionGenComponent);

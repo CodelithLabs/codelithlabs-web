@@ -1,8 +1,8 @@
 'use client';
-import { useState } from 'react';
+import { useState , memo } from 'react';
 import { Umbrella, Calculator } from 'lucide-react';
 
-export default function RetirementCalculator() {
+const RetirementCalculatorComponent = function RetirementCalculator() {
   const [currentAge, setCurrentAge] = useState('30');
   const [retireAge, setRetireAge] = useState('60');
   const [lifeExpect, setLifeExpect] = useState('80');
@@ -84,3 +84,5 @@ export default function RetirementCalculator() {
     </div>
   );
 }
+
+export default memo(RetirementCalculatorComponent);

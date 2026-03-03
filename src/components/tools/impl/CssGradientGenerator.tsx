@@ -1,8 +1,8 @@
 'use client';
-import { useState } from 'react';
+import { useState , memo } from 'react';
 import { Zap, Copy, Check } from 'lucide-react';
 
-export default function CssGradientGenerator() {
+const CssGradientGeneratorComponent = function CssGradientGenerator() {
   const [type, setType] = useState<'linear' | 'radial' | 'conic'>('linear');
   const [angle, setAngle] = useState(135);
   const [color1, setColor1] = useState('#667eea');
@@ -64,3 +64,5 @@ export default function CssGradientGenerator() {
     </div>
   );
 }
+
+export default memo(CssGradientGeneratorComponent);

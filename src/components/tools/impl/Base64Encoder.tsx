@@ -4,9 +4,9 @@
 // ═══════════════════════════════════════════════════════════════════════════
 'use client';
 
-import { useState } from 'react';
+import { useState , memo } from 'react';
 
-export default function Base64Encoder() {
+const Base64EncoderComponent = function Base64Encoder() {
   const [input, setInput] = useState('');
   const [output, setOutput] = useState('');
   const [mode, setMode] = useState<'encode' | 'decode'>('encode');
@@ -134,3 +134,5 @@ export default function Base64Encoder() {
     </div>
   );
 }
+
+export default memo(Base64EncoderComponent);

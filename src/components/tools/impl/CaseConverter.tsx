@@ -4,11 +4,11 @@
 // ═══════════════════════════════════════════════════════════════════════════
 'use client';
 
-import { useState } from 'react';
+import { useState , memo } from 'react';
 
 type CaseType = 'upper' | 'lower' | 'title' | 'camel' | 'pascal' | 'snake' | 'kebab' | 'constant';
 
-export default function CaseConverter() {
+const CaseConverterComponent = function CaseConverter() {
   const [input, setInput] = useState('');
   const [copied, setCopied] = useState<CaseType | null>(null);
 
@@ -171,3 +171,5 @@ export default function CaseConverter() {
     </div>
   );
 }
+
+export default memo(CaseConverterComponent);

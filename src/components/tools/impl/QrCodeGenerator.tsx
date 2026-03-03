@@ -1,5 +1,5 @@
 'use client';
-import { useState, useRef, useEffect, useCallback } from 'react';
+import { useState, useRef, useEffect, useCallback , memo } from 'react';
 
 // ═══════════════════════════════════════════════════════════════════════════
 // REAL QR CODE ENCODER - Full ISO/IEC 18004 Implementation
@@ -215,7 +215,7 @@ class QRCodeEncoder {
 // REACT COMPONENT
 // ═══════════════════════════════════════════════════════════════════════════
 
-export default function QrCodeGenerator() {
+const QrCodeGeneratorComponent = function QrCodeGenerator() {
   const [text, setText] = useState('https://codelithlabs.in');
   const [eccLevel, setEccLevel] = useState<ErrorCorrectionLevel>('M');
   const [size, setSize] = useState(256);
@@ -360,3 +360,5 @@ export default function QrCodeGenerator() {
     </div>
   );
 }
+
+export default memo(QrCodeGeneratorComponent);

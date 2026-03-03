@@ -1,8 +1,8 @@
 'use client';
-import { useState } from 'react';
+import { useState , memo } from 'react';
 import { RefreshCw, Copy, Check } from 'lucide-react';
 
-export default function Paraphraser() {
+const ParaphraserComponent = function Paraphraser() {
   const [text, setText] = useState('');
   const [result, setResult] = useState('');
   const [mode, setMode] = useState<'formal' | 'casual' | 'shorter' | 'longer'>('formal');
@@ -76,3 +76,5 @@ export default function Paraphraser() {
     </div>
   );
 }
+
+export default memo(ParaphraserComponent);

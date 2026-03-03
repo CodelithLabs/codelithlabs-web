@@ -4,7 +4,7 @@
 // ═══════════════════════════════════════════════════════════════════════════
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo , memo } from 'react';
 
 type DiffLine = {
   left: string;
@@ -12,7 +12,7 @@ type DiffLine = {
   type: 'same' | 'different' | 'leftOnly' | 'rightOnly';
 };
 
-export default function TextDiffChecker() {
+const TextDiffCheckerComponent = function TextDiffChecker() {
   const [leftText, setLeftText] = useState('');
   const [rightText, setRightText] = useState('');
 
@@ -205,3 +205,5 @@ export default function TextDiffChecker() {
     </div>
   );
 }
+
+export default memo(TextDiffCheckerComponent);

@@ -4,9 +4,9 @@
 // ═══════════════════════════════════════════════════════════════════════════
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback , memo } from 'react';
 
-export default function JsonFormatter() {
+const JsonFormatterComponent = function JsonFormatter() {
   const [input, setInput] = useState('');
   const [output, setOutput] = useState('');
   const [error, setError] = useState('');
@@ -120,3 +120,5 @@ export default function JsonFormatter() {
     </div>
   );
 }
+
+export default memo(JsonFormatterComponent);

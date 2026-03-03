@@ -1,7 +1,7 @@
 'use client';
-import { useState } from 'react';
+import { useState , memo } from 'react';
 
-export default function YamlToJson() {
+const YamlToJsonComponent = function YamlToJson() {
   const [yaml, setYaml] = useState('');
   const [json, setJson] = useState('');
 
@@ -85,3 +85,5 @@ export default function YamlToJson() {
     </div>
   );
 }
+
+export default memo(YamlToJsonComponent);

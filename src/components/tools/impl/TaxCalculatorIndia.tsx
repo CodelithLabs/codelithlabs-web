@@ -1,8 +1,8 @@
 'use client';
-import { useState } from 'react';
+import { useState , memo } from 'react';
 import { Receipt, IndianRupee } from 'lucide-react';
 
-export default function TaxCalculatorIndia() {
+const TaxCalculatorIndiaComponent = function TaxCalculatorIndia() {
   const [income, setIncome] = useState('1200000');
   const [regime, setRegime] = useState<'old' | 'new'>('new');
   const [deductions80c, setDeductions80c] = useState('150000');
@@ -114,3 +114,5 @@ export default function TaxCalculatorIndia() {
     </div>
   );
 }
+
+export default memo(TaxCalculatorIndiaComponent);

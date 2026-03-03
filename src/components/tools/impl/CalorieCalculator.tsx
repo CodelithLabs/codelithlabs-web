@@ -1,7 +1,7 @@
 'use client';
-import { useState } from 'react';
+import { useState , memo } from 'react';
 
-export default function CalorieCalculator() {
+const CalorieCalculatorComponent = function CalorieCalculator() {
   const [age, setAge] = useState('');
   const [gender, setGender] = useState<'male' | 'female'>('male');
   const [weight, setWeight] = useState('');
@@ -168,3 +168,5 @@ export default function CalorieCalculator() {
     </div>
   );
 }
+
+export default memo(CalorieCalculatorComponent);

@@ -1,8 +1,8 @@
 'use client';
-import { useState } from 'react';
+import { useState , memo } from 'react';
 import { Type, Copy, Check, RefreshCw } from 'lucide-react';
 
-export default function FontPairSuggester() {
+const FontPairSuggesterComponent = function FontPairSuggester() {
   const [style, setStyle] = useState<'modern' | 'classic' | 'playful' | 'minimal'>('modern');
   const [copied, setCopied] = useState('');
 
@@ -66,3 +66,5 @@ export default function FontPairSuggester() {
     </div>
   );
 }
+
+export default memo(FontPairSuggesterComponent);

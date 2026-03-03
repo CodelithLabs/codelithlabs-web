@@ -1,6 +1,6 @@
 'use client';
-import { useState } from 'react';
-export default function TextToSlug() {
+import { useState , memo } from 'react';
+const TextToSlugComponent = function TextToSlug() {
   const [input, setInput] = useState('');
   return (
     <div className="space-y-4">
@@ -9,3 +9,5 @@ export default function TextToSlug() {
     </div>
   );
 }
+
+export default memo(TextToSlugComponent);

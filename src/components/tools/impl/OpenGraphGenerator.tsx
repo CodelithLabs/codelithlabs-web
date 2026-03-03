@@ -1,7 +1,7 @@
 'use client';
-import { useState } from 'react';
+import { useState , memo } from 'react';
 
-export default function OpenGraphGenerator() {
+const OpenGraphGeneratorComponent = function OpenGraphGenerator() {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [image, setImage] = useState('');
@@ -84,3 +84,5 @@ export default function OpenGraphGenerator() {
     </div>
   );
 }
+
+export default memo(OpenGraphGeneratorComponent);

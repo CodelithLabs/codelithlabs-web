@@ -1,8 +1,8 @@
 'use client';
-import { useState } from 'react';
+import { useState , memo } from 'react';
 import { Globe, Search, Copy, Check } from 'lucide-react';
 
-export default function IpGeolocation() {
+const IpGeolocationComponent = function IpGeolocation() {
   const [ip, setIp] = useState('');
   const [loading, setLoading] = useState(false);
   const [copied, setCopied] = useState('');
@@ -90,3 +90,5 @@ export default function IpGeolocation() {
     </div>
   );
 }
+
+export default memo(IpGeolocationComponent);

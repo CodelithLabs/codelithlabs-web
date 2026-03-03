@@ -1,8 +1,8 @@
 'use client';
-import { useState } from 'react';
+import { useState , memo } from 'react';
 import { TrendingUp, BarChart3 } from 'lucide-react';
 
-export default function InvestmentComparator() {
+const InvestmentComparatorComponent = function InvestmentComparator() {
   const [amount, setAmount] = useState('100000');
   const [years, setYears] = useState('10');
   const [results, setResults] = useState<{ name: string; rate: number; final: number; interest: number; color: string }[]>([]);
@@ -75,3 +75,5 @@ export default function InvestmentComparator() {
     </div>
   );
 }
+
+export default memo(InvestmentComparatorComponent);

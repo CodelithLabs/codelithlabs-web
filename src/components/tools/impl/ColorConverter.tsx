@@ -4,9 +4,9 @@
 // ═══════════════════════════════════════════════════════════════════════════
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect , memo } from 'react';
 
-export default function ColorConverter() {
+const ColorConverterComponent = function ColorConverter() {
   const [hex, setHex] = useState('#3B82F6');
   const [rgb, setRgb] = useState({ r: 59, g: 130, b: 246 });
   const [hsl, setHsl] = useState({ h: 217, s: 91, l: 60 });
@@ -293,3 +293,5 @@ export default function ColorConverter() {
     </div>
   );
 }
+
+export default memo(ColorConverterComponent);

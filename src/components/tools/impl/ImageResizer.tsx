@@ -1,7 +1,7 @@
 'use client';
-import { useState, useRef } from 'react';
+import { useState, useRef , memo } from 'react';
 
-export default function ImageResizer() {
+const ImageResizerComponent = function ImageResizer() {
   const [img, setImg] = useState<string | null>(null);
   const [width, setWidth] = useState('800');
   const [height, setHeight] = useState('600');
@@ -79,3 +79,5 @@ export default function ImageResizer() {
     </div>
   );
 }
+
+export default memo(ImageResizerComponent);

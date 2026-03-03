@@ -1,8 +1,8 @@
 'use client';
-import { useState } from 'react';
+import { useState , memo } from 'react';
 import { TrendingUp, DollarSign, PieChart } from 'lucide-react';
 
-export default function CompoundInterestCalculator() {
+const CompoundInterestCalculatorComponent = function CompoundInterestCalculator() {
   const [principal, setPrincipal] = useState('10000');
   const [rate, setRate] = useState('8');
   const [time, setTime] = useState('10');
@@ -75,3 +75,5 @@ export default function CompoundInterestCalculator() {
     </div>
   );
 }
+
+export default memo(CompoundInterestCalculatorComponent);

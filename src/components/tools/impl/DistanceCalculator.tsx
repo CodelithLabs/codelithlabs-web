@@ -1,8 +1,8 @@
 'use client';
-import { useState } from 'react';
+import { useState , memo } from 'react';
 import { MapPin, Navigation } from 'lucide-react';
 
-export default function DistanceCalculator() {
+const DistanceCalculatorComponent = function DistanceCalculator() {
   const [lat1, setLat1] = useState('');
   const [lon1, setLon1] = useState('');
   const [lat2, setLat2] = useState('');
@@ -112,3 +112,5 @@ export default function DistanceCalculator() {
     </div>
   );
 }
+
+export default memo(DistanceCalculatorComponent);

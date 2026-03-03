@@ -1,6 +1,6 @@
 'use client';
-import { useState } from 'react';
-export default function RandomNumberGen() {
+import { useState , memo } from 'react';
+const RandomNumberGenComponent = function RandomNumberGen() {
   const [min, setMin] = useState(1);
   const [max, setMax] = useState(100);
   const [res, setRes] = useState<number | null>(null);
@@ -16,3 +16,5 @@ export default function RandomNumberGen() {
     </div>
   );
 }
+
+export default memo(RandomNumberGenComponent);

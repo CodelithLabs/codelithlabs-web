@@ -1,8 +1,8 @@
 'use client';
-import { useState } from 'react';
+import { useState , memo } from 'react';
 import { FileText, Download, Upload } from 'lucide-react';
 
-export default function PdfToImage() {
+const PdfToImageComponent = function PdfToImage() {
   return (
     <div className="space-y-4">
       <div className="bg-blue-900/20 border border-blue-500/30 rounded-lg p-4 text-sm text-blue-200">
@@ -32,3 +32,5 @@ export default function PdfToImage() {
     </div>
   );
 }
+
+export default memo(PdfToImageComponent);

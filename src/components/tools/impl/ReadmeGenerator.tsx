@@ -1,8 +1,8 @@
 'use client';
-import { useState } from 'react';
+import { useState , memo } from 'react';
 import { FileCode, Copy, Check, Download } from 'lucide-react';
 
-export default function ReadmeGenerator() {
+const ReadmeGeneratorComponent = function ReadmeGenerator() {
   const [projectName, setProjectName] = useState('');
   const [description, setDescription] = useState('');
   const [tech, setTech] = useState('');
@@ -87,3 +87,5 @@ export default function ReadmeGenerator() {
     </div>
   );
 }
+
+export default memo(ReadmeGeneratorComponent);

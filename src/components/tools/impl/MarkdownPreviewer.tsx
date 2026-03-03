@@ -1,8 +1,8 @@
 'use client';
-import { useState } from 'react';
+import { useState , memo } from 'react';
 import DOMPurify from 'dompurify';
 
-export default function MarkdownPreviewer() {
+const MarkdownPreviewerComponent = function MarkdownPreviewer() {
   const [md, setMd] = useState('# Hello World\n\nType **markdown** here!');
   
   // Basic parser that doesn't use the /s flag to avoid TS errors
@@ -41,3 +41,5 @@ export default function MarkdownPreviewer() {
     </div>
   );
 }
+
+export default memo(MarkdownPreviewerComponent);
