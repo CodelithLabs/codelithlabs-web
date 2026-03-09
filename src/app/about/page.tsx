@@ -48,7 +48,7 @@ export default function AboutPage() {
               "alumniOf": "Technology Education",
               "knowsAbout": ["Web Development", "JavaScript", "React", "Next.js", "Software Architecture"],
               "sameAs": [
-                "https://github.com/prasantaray"
+                "https://github.com/prasanta-ray"
               ]
             },
             {
@@ -62,7 +62,7 @@ export default function AboutPage() {
               },
               "knowsAbout": ["Software Engineering", "Cloud Infrastructure", "DevOps", "System Design"],
               "sameAs": [
-                "https://github.com/donbilmwshary"
+                "https://github.com/donbili69"
               ]
             }
           ])
@@ -192,7 +192,7 @@ export default function AboutPage() {
               </p>
               <div className="flex justify-center gap-4">
                 <a
-                  href="https://github.com/prasantaray"
+                  href="https://github.com/prasanta-ray"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-gray-400 hover:text-blue-500 transition-colors"
@@ -217,7 +217,7 @@ export default function AboutPage() {
               </p>
               <div className="flex justify-center gap-4">
                 <a
-                  href="https://github.com/donbilmwshary"
+                  href="https://github.com/donbili69"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-gray-400 hover:text-purple-500 transition-colors"
@@ -257,7 +257,7 @@ export default function AboutPage() {
                 We'd love to hear from you!
               </p>
               <a
-                href="mailto:contact@codelithlabs.in"
+                href="mailto:team.codelithlabs@gmail.com"
                 className="inline-flex items-center px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors"
               >
                 Contact Us
