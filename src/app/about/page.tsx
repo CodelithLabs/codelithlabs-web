@@ -48,7 +48,7 @@ export default function AboutPage() {
               "alumniOf": "Technology Education",
               "knowsAbout": ["Web Development", "JavaScript", "React", "Next.js", "Software Architecture"],
               "sameAs": [
-                "https://github.com/prasantaray"
+                "https://github.com/prasanta-ray"
               ]
             },
             {
@@ -62,7 +62,7 @@ export default function AboutPage() {
               },
               "knowsAbout": ["Software Engineering", "Cloud Infrastructure", "DevOps", "System Design"],
               "sameAs": [
-                "https://github.com/donbilmwshary"
+                "https://github.com/donbili69"
               ]
             }
           ])
