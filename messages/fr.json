@@ -1,0 +1,631 @@
+{
+  "common": {
+    "navbar": {
+      "signIn": "Se Connecter",
+      "signOut": "Se Déconnecter",
+      "signInWithGoogle": "Se Connecter avec Google",
+      "goPremium": "Passer à Premium",
+      "dashboard": "Tableau de Bord",
+      "profile": "Profil"
+    },
+    "footer": {
+      "aboutUs": "À Propos",
+      "contact": "Contact",
+      "premium": "Premium",
+      "privacyPolicy": "Politique de Confidentialité",
+      "termsOfService": "Conditions d'Utilisation",
+      "allRightsReserved": "Tous droits réservés",
+      "banner": "Des outils axés sur la confidentialité. Aucun stockage serveur. Vos données ne quittent jamais votre navigateur.",
+      "sections": {
+        "company": "Entreprise",
+        "research": "Recherche",
+        "legal": "Mentions légales",
+        "openSource": "Open source"
+      },
+      "links": {
+        "allTools": "Tous les outils",
+        "developerTools": "Outils développeur",
+        "imageTools": "Outils d'image",
+        "converters": "Convertisseurs",
+        "calculators": "Calculatrices",
+        "aiTools": "Outils IA",
+        "team": "Notre équipe",
+        "pricing": "Tarifs",
+        "techStack": "Stack technologique",
+        "transparency": "Transparence",
+        "blog": "Blog",
+        "researchLogs": "Journaux R&D",
+        "projects": "Projets",
+        "refundCancellation": "Remboursement et annulation",
+        "github": "GitHub"
+      },
+      "independentDisclaimer": "CodelithLabs.in est une plateforme indépendante et n'est pas affiliée à codelithlab.com (une société informatique basée à Pune).",
+      "systemOperational": "Tous les systèmes fonctionnent normalement",
+      "lastDeploy": "Dernier déploiement",
+      "clientSideProcessing": "Traitement 100% côté client",
+      "builtWith": "Conçu avec Next.js + TypeScript",
+      "copyright": "© 2026 CodelithLabs. Tous droits réservés. Kokrajhar, Assam, India."
+    },
+    "research": {
+      "title": "Recherche",
+      "logs": {
+        "name": "Journaux de recherche",
+        "desc": "Articles techniques et analyses"
+      },
+      "blog": {
+        "name": "Blog",
+        "desc": "Articles d'ingénierie"
+      },
+      "pages": {
+        "team": {
+          "meta": {
+            "title": "Découvrez l'équipe CodelithLabs",
+            "description": "Découvrez les ingénieurs et opérateurs qui construisent CodelithLabs autour de la recherche, de l'infrastructure et de la livraison produit."
+          }
+        },
+        "transparency": {
+          "meta": {
+            "title": "Transparence financière — CodelithLabs",
+            "description": "CodelithLabs est financé à 100 % par des dons Razorpay de ses membres principaux. Consultez nos données financières réelles, nos coûts d'infrastructure et nos métriques GitHub en direct."
+          },
+          "eyebrow": "Rapport de transparence financière",
+          "title": "Bootstrapé et ouvert",
+          "description": "CodelithLabs est financé à 100 % en interne par des dons Razorpay de nos membres principaux. Nous n'avons aucun revenu externe — chaque roupie est suivie et rendue publique.",
+          "memberMandateText": "Tous les membres principaux contribuent au minimum ₹54/mois via Razorpay pour faire vivre l'organisation.",
+          "summaryCards": {
+            "externalRevenue": { "label": "Revenus externes", "sub": "AdSense n'a pas encore démarré" },
+            "totalMemberFunding": { "label": "Financement total des membres", "sub": "100 % dons Razorpay" },
+            "annualInfraCost": { "label": "Coût annuel d'infrastructure", "sub": "Domaine + serveur + maintenance" },
+            "memberMandate": { "label": "Contribution minimale", "sub": "Minimum par membre principal" }
+          },
+          "runningCosts": {
+            "title": "Coûts de fonctionnement",
+            "subtitle": "₹3,600/an au total",
+            "feesNote": "+ Frais standard de passerelle Razorpay sur chaque don",
+            "items": {
+              "serverElectricity": { "label": "Serveur de test Ubuntu (électricité)", "note": "Hébergé à la maison" },
+              "domain": { "label": "Enregistrement du domaine (.in)", "note": "codelithlabs.in" },
+              "serverMaintenance": { "label": "Maintenance serveur", "note": "Matériel et entretien" }
+            }
+          },
+          "memberFunding": {
+            "title": "Contributions Razorpay",
+            "subtitle": "₹2,775 collectés au total",
+            "totalRaised": "Total collecté",
+            "externalRevenueLabel": "Revenus externes (AdSense, sponsoring, projets clients) :",
+            "members": {
+              "prasanta": { "role": "Fondateur et CEO" },
+              "donbil": { "role": "Co-fondateur et CTO" },
+              "harun": { "role": "Membre principal" }
+            }
+          },
+          "infrastructure": {
+            "title": "Infrastructure",
+            "items": {
+              "vercelHosting": { "label": "Hébergement Vercel", "status": "Offre gratuite" },
+              "domain": { "label": "Domaine (.in)", "status": "Actif" },
+              "ubuntuServer": { "label": "Serveur Ubuntu domestique", "status": "Auto-hébergé" },
+              "githubActions": { "label": "CI GitHub Actions", "status": "Offre gratuite" },
+              "maintenance": { "label": "Maintenance serveur", "status": "Entretien matériel" },
+              "razorpay": { "label": "Passerelle Razorpay", "status": "Traitement des paiements" },
+              "cloudflare": { "label": "CDN Cloudflare", "status": "Offre gratuite" },
+              "monitoring": { "label": "Supervision", "status": "Construit en interne" }
+            }
+          },
+          "team": {
+            "title": "Équipe principale — métriques en direct",
+            "subtitle": "Commits GitHub et PR récupérés au moment du build via l'API GitHub Search",
+            "stats": {
+              "commits": "Commits",
+              "prs": "PR",
+              "funded": "Financé"
+            },
+            "roles": {
+              "founderCeo": "Fondateur et CEO",
+              "coFounderCto": "Co-fondateur et CTO",
+              "coreMember": "Membre principal"
+            },
+            "focus": {
+              "architecture": "Architecture",
+              "backend": "Backend",
+              "devops": "DevOps",
+              "security": "Sécurité",
+              "financials": "Finances",
+              "frontend": "Frontend",
+              "infrastructure": "Infrastructure",
+              "openSource": "Open source",
+              "development": "Développement",
+              "testing": "Tests",
+              "community": "Communauté"
+            }
+          },
+          "principles": {
+            "title": "Notre engagement pour la transparence",
+            "items": {
+              "bootstrappedReality": { "title": "Réalité bootstrapée", "desc": "CodelithLabs a ₹0 de revenus externes. Chaque roupie vient de la poche de nos membres principaux via des contributions Razorpay obligatoires de ₹54/mois. Nous assumons cette réalité avec fierté." },
+              "zeroHiddenCosts": { "title": "Zéro coût caché", "desc": "Nos outils fonctionnent 100 % côté client. L'infrastructure repose sur un serveur Ubuntu domestique, un domaine à ₹800 et des services cloud gratuits. Coût annuel total : ₹3,600." },
+              "communityFirst": { "title": "La communauté d'abord", "desc": "Tout le financement va directement à l'infrastructure. Aucun salaire dirigeant, aucun bureau. Quand AdSense commencera, ces revenus reviendront à la plateforme et au travail open source." }
+            }
+          }
+        },
+        "research": {
+          "meta": {
+            "title": "Recherche & ingénierie — CodelithLabs",
+            "description": "Articles techniques, décisions d'architecture et post-mortems d'ingénierie de l'équipe CodelithLabs."
+          },
+          "schemaName": "Recherche & ingénierie CodelithLabs",
+          "schemaDescription": "Articles techniques, décisions d'architecture et post-mortems d'ingénierie de l'équipe CodelithLabs.",
+          "title": "Recherche & ingénierie",
+          "subtitle": "Articles techniques, décisions d'architecture et post-mortems d'ingénierie de l'équipe CodelithLabs. Validé par la pratique.",
+          "stats": {
+            "papersPublished": "articles publiés",
+            "topicsCovered": "sujets couverts",
+            "openAccess": "Accès libre"
+          },
+          "searchPlaceholder": "Rechercher des articles, sujets ou tags...",
+          "featuredResearch": "Recherche mise en avant",
+          "featuredBadge": "À la une",
+          "allPapers": "Tous les articles",
+          "results": {
+            "singular": "résultat",
+            "plural": "résultats"
+          },
+          "categories": {
+            "all": "Tous",
+            "systemsEngineering": "Ingénierie système",
+            "devops": "DevOps",
+            "webEngineering": "Ingénierie web",
+            "frontendArchitecture": "Architecture frontend",
+            "systemsDesign": "Conception système",
+            "networking": "Réseaux"
+          },
+          "papers": {
+            "paper1": { "title": "Optimiser les temps de compilation C++ pour un ECS à grande échelle", "abstract": "Une analyse approfondie des dépendances d'en-têtes, des en-têtes précompilés et des forward declarations dans le moteur VectorDefense. Réduction de 40 % des temps de build incrémental grâce à des graphes de dépendances conscients des modules et à des frontières PCH stratégiques sur plus de 200 unités de traduction.", "date": "12 janv. 2026" },
+            "paper2": { "title": "Architecture sécurisée de serveur domestique : post-mortem", "abstract": "Retour d'expérience sur le déploiement d'un reverse proxy Nginx auto-hébergé, du renouvellement automatique SSL avec Let's Encrypt, de la détection d'intrusion via Fail2Ban et de l'isolation Docker sur Debian Linux. Comprend une analyse complète du modèle de menace.", "date": "28 déc. 2025" },
+            "paper3": { "title": "Architecture WebWorker pour le traitement côté navigateur", "abstract": "Conception d'un pipeline Web Worker évolutif pour des opérations navigateur intensives en CPU. Décrit notre approche pour la compression d'images, le formatage JSON et la génération de hash — le tout hors thread principal avec transfert par structured clone pour un mouvement de données sans copie.", "date": "15 déc. 2025" },
+            "paper4": { "title": "Génération de sites statiques à grande échelle avec Next.js 16", "abstract": "Comment CodelithLabs génère plus de 200 pages d'outils au build via un pipeline de contenu personnalisé. Analyse de notre registre d'outils piloté par Markdown, de la génération automatique d'images OG, de l'intégration Turbopack et des compromis entre export statique et rendu serveur.", "date": "30 nov. 2025" },
+            "paper5": { "title": "Conception de systèmes d'automatisation financière", "abstract": "Considérations architecturales pour créer des tableaux de bord financiers transparents avec rendu côté client. Couvre la modélisation des données de dépenses, les alternatives CSS pures aux bibliothèques de graphiques lourdes et le maintien de la conformité DPDPA pour les organisations indiennes.", "date": "15 nov. 2025" },
+            "paper6": { "title": "Optimisation de topologie réseau pour campus", "abstract": "Étude des schémas de topologie réseau pour les plateformes de connectivité universitaire. Analyse des compromis de latence entre topologies en étoile, maillée et hybride pour la communication WebSocket temps réel, avec benchmarks de pool de connexions PostgreSQL sous charge concurrente.", "date": "28 oct. 2025" }
+          }
+        },
+        "projects": {
+          "meta": {
+            "title": "Notre travail — Projets CodelithLabs",
+            "description": "Explorez les initiatives de recherche, les livrables clients et le travail d'ingénierie open source réalisés par l'équipe CodelithLabs."
+          },
+          "title": "Notre travail",
+          "subtitle": "Une collection d'initiatives de recherche, de livrables clients et de contributions open source de l'équipe d'ingénierie CodelithLabs.",
+          "filters": {
+            "all": "Tous",
+            "webApp": "Application web",
+            "gameDev": "Développement de jeux",
+            "systems": "Systèmes"
+          },
+          "status": {
+            "active": "Actif",
+            "completed": "Terminé",
+            "research": "Recherche"
+          },
+          "viewOnGitHub": "Voir sur GitHub",
+          "items": {
+            "vectordefense": { "description": "Moteur C++ de tower defense haute performance avec architecture Entity-Component-System personnalisée et pipeline de rendu multithread.", "architectureOverview": "Boucle de jeu basée sur ECS avec rendu OpenGL 4.5, grille de hachage spatiale pour les collisions et planificateur lock-free pour les mises à jour parallèles des entités." },
+            "citkConnect": { "description": "Plateforme full-stack de connectivité campus permettant la gestion des ressources, la planification d'événements et la communication temps réel pour l'infrastructure universitaire.", "architectureOverview": "Frontend SSR Next.js avec backend PostgreSQL, authentification JWT, mises à jour temps réel via WebSocket et couche REST validée par Zod." },
+            "coreS": { "description": "Architecture Linux auto-hébergée avec reverse proxy Nginx, SSL automatisé, conteneurisation Docker et supervision de disponibilité.", "architectureOverview": "Hôte Debian avec orchestration Docker Compose, reverse proxy Nginx avec renouvellement automatique Let's Encrypt et stack de supervision Prometheus + Grafana." },
+            "codelithWeb": { "description": "Plateforme d'outils de niveau entreprise avec plus de 200 utilitaires navigateur, génération statique et pipelines de contenu automatisés.", "architectureOverview": "Export statique Next.js 16 avec Turbopack, traitement par Web Workers pour les outils image/JSON, système de design Tailwind CSS et CDN edge Vercel." }
+          }
+        }
+      }
+    },
+    "projects": {
+      "title": "Projets de R&D",
+      "vectordefense": {
+        "name": "VectorDefense",
+        "desc": "Moteur de Tower Defense en C++"
+      },
+      "citkConnect": {
+        "name": "CITK-Connect",
+        "desc": "Plateforme de Connectivité du Campus"
+      },
+      "coreS": {
+        "name": "Infrastructure Core-S",
+        "desc": "Architecture Linux Auto-hébergée"
+      }
+    },
+    "tools": {
+      "title": "Outils pour Développeurs",
+      "viewAll": "Voir Tous les 200+ Outils",
+      "categories": {
+        "developer": {
+          "name": "Utilitaires de Développeur",
+          "desc": "JSON, Regex, JWT et plus"
+        },
+        "image": {
+          "name": "Traitement d'Images",
+          "desc": "Compresser, convertir, redimensionner"
+        },
+        "text": {
+          "name": "Texte et Contenu",
+          "desc": "Compteur de mots, conversion de casse, diff"
+        },
+        "security": {
+          "name": "Sécurité et Cryptographie",
+          "desc": "Hash, mots de passe, encodeurs"
+        },
+        "calculator": {
+          "name": "Calculatrices",
+          "desc": "Finance, mathématiques, convertisseurs"
+        },
+        "generator": {
+          "name": "Générateurs",
+          "desc": "Mots de passe, QR, Lorem Ipsum"
+        }
+      }
+    },
+    "transparency": {
+      "title": "Transparence",
+      "financialDashboard": {
+        "name": "Tableau de Bord Financier",
+        "desc": "Détail complet des dépenses"
+      },
+      "techStack": {
+        "name": "Stack Technologique",
+        "desc": "Transparence de notre infrastructure"
+      }
+    },
+    "buttons": {
+      "getStarted": "Commencer",
+      "learnMore": "En Savoir Plus",
+      "tryNow": "Essayer Maintenant",
+      "viewDetails": "Voir les Détails",
+      "backToHome": "Retour à l'Accueil",
+      "search": "Rechercher",
+      "clear": "Effacer",
+      "copy": "Copier",
+      "download": "Télécharger",
+      "upload": "Téléverser",
+      "reset": "Réinitialiser",
+      "submit": "Soumettre",
+      "cancel": "Annuler",
+      "close": "Fermer",
+      "save": "Enregistrer"
+    },
+    "status": {
+      "loading": "Chargement...",
+      "processing": "Traitement...",
+      "success": "Succès!",
+      "error": "Erreur",
+      "copied": "Copié!",
+      "noResults": "Aucun résultat trouvé",
+      "operational": "Opérationnel",
+      "allSystemsOperational": "Tous les systèmes fonctionnent normalement"
+    },
+    "errors": {
+      "generic": "Une erreur s'est produite. Veuillez réessayer.",
+      "invalidInput": "Entrée invalide. Veuillez vérifier vos données.",
+      "networkError": "Erreur réseau. Veuillez vérifier votre connexion.",
+      "notFound": "Page non trouvée",
+      "unauthorized": "Vous devez vous connecter pour accéder à cette page.",
+      "paymentRequired": "Fonctionnalité Premium. Mettez à niveau pour y accéder."
+    }
+  },
+  "hero": {
+    "badges": {
+      "freeTools": "200+ outils gratuits",
+      "clientSide": "100% côté client",
+      "openSource": "Open source"
+    },
+    "labActive": "Laboratoire de recherche actif",
+    "title": {
+      "line1": "Innovation open source.",
+      "line2": "Architecture des systèmes."
+    },
+    "subtitle": "Nous concevons des outils de développement haute performance, des solutions fintech et une infrastructure de recherche — imaginés à Kokrajhar et livrés au monde entier.",
+    "cta": {
+      "exploreTools": "Explorer les outils",
+      "viewResearch": "Voir la recherche"
+    }
+  },
+  "pricing": {
+    "free": {
+      "title": "Free",
+      "subtitle": "Everything you need to get started",
+      "price": "₹0",
+      "period": "/ forever",
+      "features": {
+        "accessTools": "Access to all 200+ tools",
+        "clientSide": "Client-side processing",
+        "noRegistration": "No registration required",
+        "communitySupport": "Community support",
+        "standardSpeed": "Standard processing speed"
+      },
+      "currentPlan": "Current Plan"
+    },
+    "premium": {
+      "badge": "RECOMMENDED",
+      "title": "Premium",
+      "subtitle": "Ad-free tools + faster workflows + priority support",
+      "price": "₹299",
+      "period": "/ month",
+      "features": {
+        "everythingFree": "Everything in Free",
+        "adFree": "Ad-free experience across all tools",
+        "priorityQueue": "Priority processing queue",
+        "prioritySupport": "Priority support (response within 24 hours)",
+        "earlyAccess": "Early access to upcoming tools",
+        "customRequest": "Custom tool request priority",
+        "voting": "Roadmap feature voting"
+      },
+      "activeMember": "✓ Active Member",
+      "premiumActive": "Premium status active",
+      "renewsOn": "Renews on",
+      "getPremium": "Get Premium Access",
+      "signInGetPremium": "Sign In & Get Premium"
+    }
+  },
+  "home": {
+    "hero": {
+      "title": "Outils Professionnels pour Développeurs",
+      "subtitle": "Plus de 200 Outils en Ligne Gratuits pour Développeurs et Créateurs",
+      "cta": "Explorer les Outils"
+    },
+    "stats": {
+      "tools": "Utilitaires de recherche",
+      "clientSide": "Traitement côté client",
+      "zeroCost": "Coût nul — pour toujours",
+      "privacy": "Confidentialité garantie"
+    },
+    "toolHighlights": {
+      "title": "Utilitaires de recherche les plus utilisés",
+      "subtitle": "Des outils haute performance qui fonctionnent entièrement dans votre navigateur. Zéro traitement serveur, confidentialité maximale.",
+      "openTool": "Ouvrir l'outil",
+      "browseAll": "Voir tous les 200+ outils",
+      "items": {
+        "jsonFormatter": {
+          "name": "Formateur JSON",
+          "description": "Formatez, embellissez et validez des données JSON avec coloration syntaxique et détection d'erreurs."
+        },
+        "hashGenerator": {
+          "name": "Générateur de hash",
+          "description": "Générez des hashes MD5, SHA-1, SHA-256 et SHA-512 à partir de n'importe quel texte."
+        },
+        "imageCompressor": {
+          "name": "Compresseur d'images",
+          "description": "Compressez des images tout en conservant la qualité — prise en charge WebP, PNG et JPEG."
+        },
+        "passwordGenerator": {
+          "name": "Générateur de mots de passe",
+          "description": "Créez des mots de passe sûrs et aléatoires avec longueur et règles personnalisées."
+        },
+        "qrCodeGenerator": {
+          "name": "Générateur de QR code",
+          "description": "Générez des QR codes pour des URLs, du texte et des informations de contact."
+        },
+        "base64Encoder": {
+          "name": "Encodeur Base64",
+          "description": "Encodez du texte en Base64 ou décodez du Base64 en texte clair instantanément."
+        }
+      }
+    },
+    "features": {
+      "title": "Pourquoi Choisir CodelithLabs?",
+      "subtitle": "Conçu avec la confidentialité, la performance et l'excellence technique au cœur",
+      "privacyFirst": {
+        "title": "Confidentialité avant tout",
+        "desc": "Tous les outils traitent les données dans votre navigateur. Vos fichiers et vos données ne quittent jamais votre appareil."
+      },
+      "lightningFast": {
+        "title": "Ultra rapide",
+        "desc": "Le traitement côté client fournit des résultats instantanés sans délai serveur ni téléversement."
+      },
+      "noSignup": {
+        "title": "Aucune inscription requise",
+        "desc": "Commencez à utiliser n'importe quel outil immédiatement. Pas d'inscription, pas d'e-mail, pas de suivi."
+      },
+      "alwaysGrowing": {
+        "title": "En constante évolution",
+        "desc": "De nouveaux outils sont ajoutés régulièrement selon les retours des utilisateurs et les besoins des développeurs."
+      },
+      "worksOffline": {
+        "title": "Fonctionne hors ligne",
+        "desc": "Une fois chargés, les outils fonctionnent sans connexion internet. Parfait en déplacement."
+      },
+      "premiumOption": {
+        "title": "Gratuit + option premium",
+        "desc": "Tous les outils restent gratuits. Premium ajoute des workflows sans publicité, un support prioritaire et une utilisation plus rapide."
+      }
+    },
+    "projects": {
+      "title": "Initiatives d'ingénierie",
+      "subtitle": "Des projets actifs de recherche et développement couvrant les moteurs de jeu, les plateformes full-stack et les systèmes d'infrastructure.",
+      "viewAll": "Voir tous les projets",
+      "items": {
+        "vectordefense": {
+          "description": "Un moteur C++ de tower defense haute performance avec architecture Entity-Component-System personnalisée, rendu OpenGL et boucles de jeu multithread."
+        },
+        "citkConnect": {
+          "description": "Une plateforme full-stack de connectivité campus pour la gestion des ressources, la planification d'événements et la communication en temps réel."
+        },
+        "coreS": {
+          "description": "Une architecture de serveurs Linux auto-hébergés avec proxy inverse Nginx, SSL automatisé, conteneurisation Docker et tableaux de bord de supervision."
+        }
+      }
+    },
+    "categories": {
+      "title": "Explorer par catégorie",
+      "subtitle": "Trouvez le bon outil pour chaque tâche"
+    },
+    "cta": {
+      "title": "Prêt à commencer ?",
+      "subtitle": "Rejoignez des milliers de développeurs et de créateurs qui utilisent les outils CodelithLabs chaque jour.",
+      "browseAllTools": "Parcourir tous les outils",
+      "meetTeam": "Rencontrer l'équipe"
+    }
+  },
+  "tools": {
+    "searchPlaceholder": "Rechercher parmi 200+ outils...",
+    "categories": "Catégories",
+    "allTools": "Tous les Outils",
+    "popular": "Populaire",
+    "new": "Nouveau",
+    "trending": "Tendance"
+  },
+  "pages": {
+    "team": {
+      "meta": {
+        "title": "Découvrez l'équipe CodelithLabs",
+        "description": "Découvrez les ingénieurs et opérateurs qui construisent CodelithLabs autour de la recherche, de l'infrastructure et de la livraison produit."
+      }
+    },
+    "transparency": {
+      "meta": {
+        "title": "Transparence financière — CodelithLabs",
+        "description": "CodelithLabs est financé à 100 % par des dons Razorpay de ses membres principaux. Consultez nos données financières réelles, nos coûts d'infrastructure et nos métriques GitHub en direct."
+      },
+      "eyebrow": "Rapport de transparence financière",
+      "title": "Bootstrapé et ouvert",
+      "description": "CodelithLabs est financé à 100 % en interne par des dons Razorpay de nos membres principaux. Nous n'avons aucun revenu externe — chaque roupie est suivie et rendue publique.",
+      "memberMandateText": "Tous les membres principaux contribuent au minimum ₹54/mois via Razorpay pour faire vivre l'organisation.",
+      "summaryCards": {
+        "externalRevenue": { "label": "Revenus externes", "sub": "AdSense n'a pas encore démarré" },
+        "totalMemberFunding": { "label": "Financement total des membres", "sub": "100 % dons Razorpay" },
+        "annualInfraCost": { "label": "Coût annuel d'infrastructure", "sub": "Domaine + serveur + maintenance" },
+        "memberMandate": { "label": "Contribution minimale", "sub": "Minimum par membre principal" }
+      },
+      "runningCosts": {
+        "title": "Coûts de fonctionnement",
+        "subtitle": "₹3,600/an au total",
+        "feesNote": "+ Frais standard de passerelle Razorpay sur chaque don",
+        "items": {
+          "serverElectricity": { "label": "Serveur de test Ubuntu (électricité)", "note": "Hébergé à la maison" },
+          "domain": { "label": "Enregistrement du domaine (.in)", "note": "codelithlabs.in" },
+          "serverMaintenance": { "label": "Maintenance serveur", "note": "Matériel et entretien" }
+        }
+      },
+      "memberFunding": {
+        "title": "Contributions Razorpay",
+        "subtitle": "₹2,775 collectés au total",
+        "totalRaised": "Total collecté",
+        "externalRevenueLabel": "Revenus externes (AdSense, sponsoring, projets clients) :",
+        "members": {
+          "prasanta": { "role": "Fondateur et CEO" },
+          "donbil": { "role": "Co-fondateur et CTO" },
+          "harun": { "role": "Membre principal" }
+        }
+      },
+      "infrastructure": {
+        "title": "Infrastructure",
+        "items": {
+          "vercelHosting": { "label": "Hébergement Vercel", "status": "Offre gratuite" },
+          "domain": { "label": "Domaine (.in)", "status": "Actif" },
+          "ubuntuServer": { "label": "Serveur Ubuntu domestique", "status": "Auto-hébergé" },
+          "githubActions": { "label": "CI GitHub Actions", "status": "Offre gratuite" },
+          "maintenance": { "label": "Maintenance serveur", "status": "Entretien matériel" },
+          "razorpay": { "label": "Passerelle Razorpay", "status": "Traitement des paiements" },
+          "cloudflare": { "label": "CDN Cloudflare", "status": "Offre gratuite" },
+          "monitoring": { "label": "Supervision", "status": "Construit en interne" }
+        }
+      },
+      "team": {
+        "title": "Équipe principale — métriques en direct",
+        "subtitle": "Commits GitHub et PR récupérés au moment du build via l'API GitHub Search",
+        "stats": {
+          "commits": "Commits",
+          "prs": "PR",
+          "funded": "Financé"
+        },
+        "roles": {
+          "founderCeo": "Fondateur et CEO",
+          "coFounderCto": "Co-fondateur et CTO",
+          "coreMember": "Membre principal"
+        },
+        "focus": {
+          "architecture": "Architecture",
+          "backend": "Backend",
+          "devops": "DevOps",
+          "security": "Sécurité",
+          "financials": "Finances",
+          "frontend": "Frontend",
+          "infrastructure": "Infrastructure",
+          "openSource": "Open source",
+          "development": "Développement",
+          "testing": "Tests",
+          "community": "Communauté"
+        }
+      },
+      "principles": {
+        "title": "Notre engagement pour la transparence",
+        "items": {
+          "bootstrappedReality": { "title": "Réalité bootstrapée", "desc": "CodelithLabs a ₹0 de revenus externes. Chaque roupie vient de la poche de nos membres principaux via des contributions Razorpay obligatoires de ₹54/mois. Nous assumons cette réalité avec fierté." },
+          "zeroHiddenCosts": { "title": "Zéro coût caché", "desc": "Nos outils fonctionnent 100 % côté client. L'infrastructure repose sur un serveur Ubuntu domestique, un domaine à ₹800 et des services cloud gratuits. Coût annuel total : ₹3,600." },
+          "communityFirst": { "title": "La communauté d'abord", "desc": "Tout le financement va directement à l'infrastructure. Aucun salaire dirigeant, aucun bureau. Quand AdSense commencera, ces revenus reviendront à la plateforme et au travail open source." }
+        }
+      }
+    },
+    "research": {
+      "meta": {
+        "title": "Recherche & ingénierie — CodelithLabs",
+        "description": "Articles techniques, décisions d'architecture et post-mortems d'ingénierie de l'équipe CodelithLabs."
+      },
+      "schemaName": "Recherche & ingénierie CodelithLabs",
+      "schemaDescription": "Articles techniques, décisions d'architecture et post-mortems d'ingénierie de l'équipe CodelithLabs.",
+      "title": "Recherche & ingénierie",
+      "subtitle": "Articles techniques, décisions d'architecture et post-mortems d'ingénierie de l'équipe CodelithLabs. Validé par la pratique.",
+      "stats": {
+        "papersPublished": "articles publiés",
+        "topicsCovered": "sujets couverts",
+        "openAccess": "Accès libre"
+      },
+      "searchPlaceholder": "Rechercher des articles, sujets ou tags...",
+      "featuredResearch": "Recherche mise en avant",
+      "featuredBadge": "À la une",
+      "allPapers": "Tous les articles",
+      "results": {
+        "singular": "résultat",
+        "plural": "résultats"
+      },
+      "categories": {
+        "all": "Tous",
+        "systemsEngineering": "Ingénierie système",
+        "devops": "DevOps",
+        "webEngineering": "Ingénierie web",
+        "frontendArchitecture": "Architecture frontend",
+        "systemsDesign": "Conception système",
+        "networking": "Réseaux"
+      },
+      "papers": {
+        "paper1": { "title": "Optimiser les temps de compilation C++ pour un ECS à grande échelle", "abstract": "Une analyse approfondie des dépendances d'en-têtes, des en-têtes précompilés et des forward declarations dans le moteur VectorDefense. Réduction de 40 % des temps de build incrémental grâce à des graphes de dépendances conscients des modules et à des frontières PCH stratégiques sur plus de 200 unités de traduction.", "date": "12 janv. 2026" },
+        "paper2": { "title": "Architecture sécurisée de serveur domestique : post-mortem", "abstract": "Retour d'expérience sur le déploiement d'un reverse proxy Nginx auto-hébergé, du renouvellement automatique SSL avec Let's Encrypt, de la détection d'intrusion via Fail2Ban et de l'isolation Docker sur Debian Linux. Comprend une analyse complète du modèle de menace.", "date": "28 déc. 2025" },
+        "paper3": { "title": "Architecture WebWorker pour le traitement côté navigateur", "abstract": "Conception d'un pipeline Web Worker évolutif pour des opérations navigateur intensives en CPU. Décrit notre approche pour la compression d'images, le formatage JSON et la génération de hash — le tout hors thread principal avec transfert par structured clone pour un mouvement de données sans copie.", "date": "15 déc. 2025" },
+        "paper4": { "title": "Génération de sites statiques à grande échelle avec Next.js 16", "abstract": "Comment CodelithLabs génère plus de 200 pages d'outils au build via un pipeline de contenu personnalisé. Analyse de notre registre d'outils piloté par Markdown, de la génération automatique d'images OG, de l'intégration Turbopack et des compromis entre export statique et rendu serveur.", "date": "30 nov. 2025" },
+        "paper5": { "title": "Conception de systèmes d'automatisation financière", "abstract": "Considérations architecturales pour créer des tableaux de bord financiers transparents avec rendu côté client. Couvre la modélisation des données de dépenses, les alternatives CSS pures aux bibliothèques de graphiques lourdes et le maintien de la conformité DPDPA pour les organisations indiennes.", "date": "15 nov. 2025" },
+        "paper6": { "title": "Optimisation de topologie réseau pour campus", "abstract": "Étude des schémas de topologie réseau pour les plateformes de connectivité universitaire. Analyse des compromis de latence entre topologies en étoile, maillée et hybride pour la communication WebSocket temps réel, avec benchmarks de pool de connexions PostgreSQL sous charge concurrente.", "date": "28 oct. 2025" }
+      }
+    },
+    "projects": {
+      "meta": {
+        "title": "Notre travail — Projets CodelithLabs",
+        "description": "Explorez les initiatives de recherche, les livrables clients et le travail d'ingénierie open source réalisés par l'équipe CodelithLabs."
+      },
+      "title": "Notre travail",
+      "subtitle": "Une collection d'initiatives de recherche, de livrables clients et de contributions open source de l'équipe d'ingénierie CodelithLabs.",
+      "filters": {
+        "all": "Tous",
+        "webApp": "Application web",
+        "gameDev": "Développement de jeux",
+        "systems": "Systèmes"
+      },
+      "status": {
+        "active": "Actif",
+        "completed": "Terminé",
+        "research": "Recherche"
+      },
+      "viewOnGitHub": "Voir sur GitHub",
+      "items": {
+        "vectordefense": { "description": "Moteur C++ de tower defense haute performance avec architecture Entity-Component-System personnalisée et pipeline de rendu multithread.", "architectureOverview": "Boucle de jeu basée sur ECS avec rendu OpenGL 4.5, grille de hachage spatiale pour les collisions et planificateur lock-free pour les mises à jour parallèles des entités." },
+        "citkConnect": { "description": "Plateforme full-stack de connectivité campus permettant la gestion des ressources, la planification d'événements et la communication temps réel pour l'infrastructure universitaire.", "architectureOverview": "Frontend SSR Next.js avec backend PostgreSQL, authentification JWT, mises à jour temps réel via WebSocket et couche REST validée par Zod." },
+        "coreS": { "description": "Architecture Linux auto-hébergée avec reverse proxy Nginx, SSL automatisé, conteneurisation Docker et supervision de disponibilité.", "architectureOverview": "Hôte Debian avec orchestration Docker Compose, reverse proxy Nginx avec renouvellement automatique Let's Encrypt et stack de supervision Prometheus + Grafana." },
+        "codelithWeb": { "description": "Plateforme d'outils de niveau entreprise avec plus de 200 utilitaires navigateur, génération statique et pipelines de contenu automatisés.", "architectureOverview": "Export statique Next.js 16 avec Turbopack, traitement par Web Workers pour les outils image/JSON, système de design Tailwind CSS et CDN edge Vercel." }
+      }
+    }
+  }
+}

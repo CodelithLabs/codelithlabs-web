@@ -183,7 +183,7 @@ export default async function BlogPage() {
               We publish new developer guides and tutorials regularly. Explore
               our{" "}
               <Link href="/tools" className="text-blue-400 hover:underline">
-                100+ free tools
+                200+ free tools
               </Link>{" "}
               in the meantime.
             </p>

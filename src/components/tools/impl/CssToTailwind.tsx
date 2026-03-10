@@ -2,43 +2,43 @@
 
 import { memo, useState, useCallback } from 'react';
 
+const cssToTailwindMap: { [key: string]: (value: string) => string } = {
+  'display': (v) => v === 'flex' ? 'flex' : v === 'grid' ? 'grid' : v === 'block' ? 'block' : v === 'inline' ? 'inline' : v === 'none' ? 'hidden' : v === 'inline-block' ? 'inline-block' : '',
+  'flex-direction': (v) => v === 'column' ? 'flex-col' : v === 'row' ? 'flex-row' : v === 'column-reverse' ? 'flex-col-reverse' : v === 'row-reverse' ? 'flex-row-reverse' : '',
+  'justify-content': (v) => v === 'center' ? 'justify-center' : v === 'flex-start' ? 'justify-start' : v === 'flex-end' ? 'justify-end' : v === 'space-between' ? 'justify-between' : v === 'space-around' ? 'justify-around' : v === 'space-evenly' ? 'justify-evenly' : '',
+  'align-items': (v) => v === 'center' ? 'items-center' : v === 'flex-start' ? 'items-start' : v === 'flex-end' ? 'items-end' : v === 'stretch' ? 'items-stretch' : v === 'baseline' ? 'items-baseline' : '',
+  'flex-wrap': (v) => v === 'wrap' ? 'flex-wrap' : v === 'nowrap' ? 'flex-nowrap' : v === 'wrap-reverse' ? 'flex-wrap-reverse' : '',
+  'position': (v) => v === 'relative' ? 'relative' : v === 'absolute' ? 'absolute' : v === 'fixed' ? 'fixed' : v === 'sticky' ? 'sticky' : v === 'static' ? 'static' : '',
+  'text-align': (v) => v === 'center' ? 'text-center' : v === 'left' ? 'text-left' : v === 'right' ? 'text-right' : v === 'justify' ? 'text-justify' : '',
+  'font-weight': (v) => v === 'bold' || v === '700' ? 'font-bold' : v === '600' ? 'font-semibold' : v === '500' ? 'font-medium' : v === '400' || v === 'normal' ? 'font-normal' : v === '300' ? 'font-light' : '',
+  'overflow': (v) => v === 'hidden' ? 'overflow-hidden' : v === 'auto' ? 'overflow-auto' : v === 'scroll' ? 'overflow-scroll' : v === 'visible' ? 'overflow-visible' : '',
+  'cursor': (v) => `cursor-${v}`,
+  'visibility': (v) => v === 'hidden' ? 'invisible' : v === 'visible' ? 'visible' : '',
+  'width': (v) => v === '100%' ? 'w-full' : v === 'auto' ? 'w-auto' : v === '100vw' ? 'w-screen' : `w-[${v}]`,
+  'height': (v) => v === '100%' ? 'h-full' : v === 'auto' ? 'h-auto' : v === '100vh' ? 'h-screen' : `h-[${v}]`,
+  'min-width': (v) => v === '100%' ? 'min-w-full' : `min-w-[${v}]`,
+  'max-width': (v) => v === '100%' ? 'max-w-full' : v === 'none' ? 'max-w-none' : `max-w-[${v}]`,
+  'min-height': (v) => v === '100%' ? 'min-h-full' : v === '100vh' ? 'min-h-screen' : `min-h-[${v}]`,
+  'max-height': (v) => v === '100%' ? 'max-h-full' : v === '100vh' ? 'max-h-screen' : `max-h-[${v}]`,
+  'margin': (v) => v === 'auto' ? 'm-auto' : v === '0' ? 'm-0' : `m-[${v}]`,
+  'margin-top': (v) => v === 'auto' ? 'mt-auto' : v === '0' ? 'mt-0' : `mt-[${v}]`,
+  'margin-right': (v) => v === 'auto' ? 'mr-auto' : v === '0' ? 'mr-0' : `mr-[${v}]`,
+  'margin-bottom': (v) => v === 'auto' ? 'mb-auto' : v === '0' ? 'mb-0' : `mb-[${v}]`,
+  'margin-left': (v) => v === 'auto' ? 'ml-auto' : v === '0' ? 'ml-0' : `ml-[${v}]`,
+  'padding': (v) => v === '0' ? 'p-0' : `p-[${v}]`,
+  'padding-top': (v) => v === '0' ? 'pt-0' : `pt-[${v}]`,
+  'padding-right': (v) => v === '0' ? 'pr-0' : `pr-[${v}]`,
+  'padding-bottom': (v) => v === '0' ? 'pb-0' : `pb-[${v}]`,
+  'padding-left': (v) => v === '0' ? 'pl-0' : `pl-[${v}]`,
+  'border-radius': (v) => v === '50%' ? 'rounded-full' : v === '0' ? 'rounded-none' : `rounded-[${v}]`,
+  'gap': (v) => v === '0' ? 'gap-0' : `gap-[${v}]`,
+  'opacity': (v) => `opacity-[${v}]`,
+  'z-index': (v) => `z-[${v}]`,
+};
+
 function CssToTailwind() {
   const [css, setCss] = useState('');
   const [result, setResult] = useState('');
-
-  const cssToTailwindMap: { [key: string]: (value: string) => string } = {
-    'display': (v) => v === 'flex' ? 'flex' : v === 'grid' ? 'grid' : v === 'block' ? 'block' : v === 'inline' ? 'inline' : v === 'none' ? 'hidden' : v === 'inline-block' ? 'inline-block' : '',
-    'flex-direction': (v) => v === 'column' ? 'flex-col' : v === 'row' ? 'flex-row' : v === 'column-reverse' ? 'flex-col-reverse' : v === 'row-reverse' ? 'flex-row-reverse' : '',
-    'justify-content': (v) => v === 'center' ? 'justify-center' : v === 'flex-start' ? 'justify-start' : v === 'flex-end' ? 'justify-end' : v === 'space-between' ? 'justify-between' : v === 'space-around' ? 'justify-around' : v === 'space-evenly' ? 'justify-evenly' : '',
-    'align-items': (v) => v === 'center' ? 'items-center' : v === 'flex-start' ? 'items-start' : v === 'flex-end' ? 'items-end' : v === 'stretch' ? 'items-stretch' : v === 'baseline' ? 'items-baseline' : '',
-    'flex-wrap': (v) => v === 'wrap' ? 'flex-wrap' : v === 'nowrap' ? 'flex-nowrap' : v === 'wrap-reverse' ? 'flex-wrap-reverse' : '',
-    'position': (v) => v === 'relative' ? 'relative' : v === 'absolute' ? 'absolute' : v === 'fixed' ? 'fixed' : v === 'sticky' ? 'sticky' : v === 'static' ? 'static' : '',
-    'text-align': (v) => v === 'center' ? 'text-center' : v === 'left' ? 'text-left' : v === 'right' ? 'text-right' : v === 'justify' ? 'text-justify' : '',
-    'font-weight': (v) => v === 'bold' || v === '700' ? 'font-bold' : v === '600' ? 'font-semibold' : v === '500' ? 'font-medium' : v === '400' || v === 'normal' ? 'font-normal' : v === '300' ? 'font-light' : '',
-    'overflow': (v) => v === 'hidden' ? 'overflow-hidden' : v === 'auto' ? 'overflow-auto' : v === 'scroll' ? 'overflow-scroll' : v === 'visible' ? 'overflow-visible' : '',
-    'cursor': (v) => `cursor-${v}`,
-    'visibility': (v) => v === 'hidden' ? 'invisible' : v === 'visible' ? 'visible' : '',
-    'width': (v) => v === '100%' ? 'w-full' : v === 'auto' ? 'w-auto' : v === '100vw' ? 'w-screen' : `w-[${v}]`,
-    'height': (v) => v === '100%' ? 'h-full' : v === 'auto' ? 'h-auto' : v === '100vh' ? 'h-screen' : `h-[${v}]`,
-    'min-width': (v) => v === '100%' ? 'min-w-full' : `min-w-[${v}]`,
-    'max-width': (v) => v === '100%' ? 'max-w-full' : v === 'none' ? 'max-w-none' : `max-w-[${v}]`,
-    'min-height': (v) => v === '100%' ? 'min-h-full' : v === '100vh' ? 'min-h-screen' : `min-h-[${v}]`,
-    'max-height': (v) => v === '100%' ? 'max-h-full' : v === '100vh' ? 'max-h-screen' : `max-h-[${v}]`,
-    'margin': (v) => v === 'auto' ? 'm-auto' : v === '0' ? 'm-0' : `m-[${v}]`,
-    'margin-top': (v) => v === 'auto' ? 'mt-auto' : v === '0' ? 'mt-0' : `mt-[${v}]`,
-    'margin-right': (v) => v === 'auto' ? 'mr-auto' : v === '0' ? 'mr-0' : `mr-[${v}]`,
-    'margin-bottom': (v) => v === 'auto' ? 'mb-auto' : v === '0' ? 'mb-0' : `mb-[${v}]`,
-    'margin-left': (v) => v === 'auto' ? 'ml-auto' : v === '0' ? 'ml-0' : `ml-[${v}]`,
-    'padding': (v) => v === '0' ? 'p-0' : `p-[${v}]`,
-    'padding-top': (v) => v === '0' ? 'pt-0' : `pt-[${v}]`,
-    'padding-right': (v) => v === '0' ? 'pr-0' : `pr-[${v}]`,
-    'padding-bottom': (v) => v === '0' ? 'pb-0' : `pb-[${v}]`,
-    'padding-left': (v) => v === '0' ? 'pl-0' : `pl-[${v}]`,
-    'border-radius': (v) => v === '50%' ? 'rounded-full' : v === '0' ? 'rounded-none' : `rounded-[${v}]`,
-    'gap': (v) => v === '0' ? 'gap-0' : `gap-[${v}]`,
-    'opacity': (v) => `opacity-[${v}]`,
-    'z-index': (v) => `z-[${v}]`,
-  };
 
   const handleConvert = useCallback(() => {
     const lines = css.split('\n');

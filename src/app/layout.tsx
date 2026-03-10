@@ -12,6 +12,8 @@ import { AuthProvider } from "@/components/providers/AuthProvider";
 import { UserProvider } from "@/lib/user-context";
 import crypto from 'crypto';
 import { NonceProvider } from "@/app/nonce-context";
+import { headers } from 'next/headers';
+import { defaultLocale, locales, type Locale } from '@/i18n/request';
 
 const inter = Inter({ subsets: ["latin"] });
 const jetbrainsMono = JetBrains_Mono({
@@ -22,10 +24,10 @@ const jetbrainsMono = JetBrains_Mono({
 
 export const metadata: Metadata = {
     title: {
-        default: "CodelithLabs - Free Online Tools Platform | 100+ Developer & Productivity Tools",
+        default: "CodelithLabs - Free Online Tools Platform | 200+ Developer & Productivity Tools",
         template: "%s | CodelithLabs"
     },
-    description: "CodelithLabs offers 100+ free online tools for developers, designers, and content creators. JSON formatter, image compressor, password generator, SEO tools, financial calculators & more. 100% client-side processing for maximum privacy.",
+    description: "CodelithLabs offers 200+ free online tools for developers, designers, and content creators. JSON formatter, image compressor, password generator, SEO tools, financial calculators & more. 100% client-side processing for maximum privacy.",
     keywords: [
         "free online tools",
         "developer tools",
@@ -55,7 +57,7 @@ export const metadata: Metadata = {
         locale: "en_US",
         url: "https://codelithlabs.in",
         title: "CodelithLabs - Free Online Tools Platform",
-        description: "100+ free online tools with client-side processing. JSON formatter, image compressor, password generator, and more.",
+        description: "200+ free online tools with client-side processing. JSON formatter, image compressor, password generator, and more.",
         siteName: "CodelithLabs",
         images: [
             {
@@ -71,7 +73,7 @@ export const metadata: Metadata = {
         site: '@codelithlabs',
         creator: '@codelithlabs',
         title: 'CodelithLabs - Free Online Tools Platform',
-        description: '100+ free developer and productivity tools with client-side processing',
+        description: '200+ free developer and productivity tools with client-side processing',
         images: ['https://codelithlabs.in/og-image.png'],
     },
     other: {
@@ -92,7 +94,7 @@ export const metadata: Metadata = {
     },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
     children,
 }: Readonly<{
     children: React.ReactNode;
@@ -100,8 +102,16 @@ export default function RootLayout({
     // Generate a cryptographically secure nonce for CSP inline scripts
     const nonce = crypto.randomBytes(16).toString('base64');
 
+    // Resolve the active locale from the next-intl middleware request header.
+    // Falls back to defaultLocale for API routes and other non-locale paths.
+    const requestHeaders = await headers();
+    const localeFromHeader = requestHeaders.get('x-next-intl-locale') as Locale | null;
+    const locale = localeFromHeader && locales.includes(localeFromHeader as Locale)
+        ? localeFromHeader
+        : defaultLocale;
+
     return (
-        <html lang="en" className="dark">
+        <html lang={locale} className="dark">
             {/* Performance: Font preload & DNS prefetch hints */}
             <head>
                 <link rel="dns-prefetch" href="https://www.google-analytics.com" />
@@ -147,7 +157,7 @@ export default function RootLayout({
                             "name": "CodelithLabs",
                             "url": "https://codelithlabs.in",
                             "logo": "https://codelithlabs.in/icon.png",
-                            "description": "Free online tools platform with 100+ utilities for developers, designers, and content creators",
+                            "description": "Free online tools platform with 200+ utilities for developers, designers, and content creators",
                             "founders": [
                                 {
                                     "@type": "Person",
@@ -189,7 +199,7 @@ export default function RootLayout({
                             "@type": "WebSite",
                             "name": "CodelithLabs",
                             "url": "https://codelithlabs.in",
-                            "description": "Free online tools platform with 100+ utilities for developers, designers, and content creators",
+                            "description": "Free online tools platform with 200+ utilities for developers, designers, and content creators",
                             "potentialAction": {
                                 "@type": "SearchAction",
                                 "target": {

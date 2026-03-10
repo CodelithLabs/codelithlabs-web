@@ -2,33 +2,48 @@
 
 import { memo, useState, useCallback } from 'react';
 
+type ProbabilityMode = 'single' | 'multiple' | 'combination' | 'permutation';
+
+type ProbabilityResult = {
+  probability?: number;
+  percentage?: number;
+  odds?: string;
+  and?: number;
+  or?: number;
+  notA?: number;
+  notB?: number;
+  aGivenB?: number;
+  value?: number;
+  formula?: string;
+};
+
+function factorial(num: number): number {
+  if (num < 0) return NaN;
+  if (num === 0 || num === 1) return 1;
+  let result = 1;
+  for (let i = 2; i <= num; i++) result *= i;
+  return result;
+}
+
+function combination(n: number, r: number): number {
+  if (r > n || r < 0) return 0;
+  return factorial(n) / (factorial(r) * factorial(n - r));
+}
+
+function permutation(n: number, r: number): number {
+  if (r > n || r < 0) return 0;
+  return factorial(n) / factorial(n - r);
+}
+
 function ProbabilityCalculator() {
-  const [mode, setMode] = useState<'single' | 'multiple' | 'combination' | 'permutation'>('single');
+  const [mode, setMode] = useState<ProbabilityMode>('single');
   const [favorable, setFavorable] = useState('');
   const [total, setTotal] = useState('');
   const [n, setN] = useState('');
   const [r, setR] = useState('');
   const [probA, setProbA] = useState('');
   const [probB, setProbB] = useState('');
-  const [result, setResult] = useState<any>(null);
-
-  const factorial = (num: number): number => {
-    if (num < 0) return NaN;
-    if (num === 0 || num === 1) return 1;
-    let result = 1;
-    for (let i = 2; i <= num; i++) result *= i;
-    return result;
-  };
-
-  const combination = (n: number, r: number): number => {
-    if (r > n || r < 0) return 0;
-    return factorial(n) / (factorial(r) * factorial(n - r));
-  };
-
-  const permutation = (n: number, r: number): number => {
-    if (r > n || r < 0) return 0;
-    return factorial(n) / factorial(n - r);
-  };
+  const [result, setResult] = useState<ProbabilityResult | null>(null);
 
   const handleCalculate = useCallback(() => {
     switch (mode) {
@@ -92,7 +107,7 @@ function ProbabilityCalculator() {
           ].map(opt => (
             <button
               key={opt.value}
-              onClick={() => setMode(opt.value as any)}
+              onClick={() => setMode(opt.value as ProbabilityMode)}
               className={`px-3 py-1 rounded-lg text-sm transition-colors ${
                 mode === opt.value
                   ? 'bg-blue-600 text-white'
@@ -203,11 +218,11 @@ function ProbabilityCalculator() {
               <>
                 <div className="flex justify-between items-center py-2 border-b border-zinc-700">
                   <span className="text-zinc-400">Probability:</span>
-                  <span className="text-green-400 font-mono text-xl">{result.probability.toFixed(4)}</span>
+                  <span className="text-green-400 font-mono text-xl">{(result.probability ?? 0).toFixed(4)}</span>
                 </div>
                 <div className="flex justify-between items-center py-2 border-b border-zinc-700">
                   <span className="text-zinc-400">Percentage:</span>
-                  <span className="text-blue-400 font-mono">{result.percentage.toFixed(2)}%</span>
+                  <span className="text-blue-400 font-mono">{(result.percentage ?? 0).toFixed(2)}%</span>
                 </div>
                 <div className="flex justify-between items-center py-2">
                   <span className="text-zinc-400">Odds:</span>
@@ -219,19 +234,19 @@ function ProbabilityCalculator() {
               <>
                 <div className="flex justify-between items-center py-2 border-b border-zinc-700">
                   <span className="text-zinc-400">P(A and B):</span>
-                  <span className="text-green-400 font-mono">{result.and.toFixed(4)}</span>
+                  <span className="text-green-400 font-mono">{(result.and ?? 0).toFixed(4)}</span>
                 </div>
                 <div className="flex justify-between items-center py-2 border-b border-zinc-700">
                   <span className="text-zinc-400">P(A or B):</span>
-                  <span className="text-blue-400 font-mono">{result.or.toFixed(4)}</span>
+                  <span className="text-blue-400 font-mono">{(result.or ?? 0).toFixed(4)}</span>
                 </div>
                 <div className="flex justify-between items-center py-2 border-b border-zinc-700">
                   <span className="text-zinc-400">P(not A):</span>
-                  <span className="text-yellow-400 font-mono">{result.notA.toFixed(4)}</span>
+                  <span className="text-yellow-400 font-mono">{(result.notA ?? 0).toFixed(4)}</span>
                 </div>
                 <div className="flex justify-between items-center py-2">
                   <span className="text-zinc-400">P(not B):</span>
-                  <span className="text-purple-400 font-mono">{result.notB.toFixed(4)}</span>
+                  <span className="text-purple-400 font-mono">{(result.notB ?? 0).toFixed(4)}</span>
                 </div>
               </>
             )}
@@ -239,7 +254,7 @@ function ProbabilityCalculator() {
               <>
                 <div className="flex justify-between items-center py-2 border-b border-zinc-700">
                   <span className="text-zinc-400">Result:</span>
-                  <span className="text-green-400 font-mono text-xl">{result.value.toLocaleString()}</span>
+                  <span className="text-green-400 font-mono text-xl">{(result.value ?? 0).toLocaleString()}</span>
                 </div>
                 <div className="bg-zinc-900 rounded-lg p-3">
                   <span className="text-zinc-400 text-sm font-mono">{result.formula}</span>

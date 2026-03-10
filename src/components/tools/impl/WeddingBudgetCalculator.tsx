@@ -1,6 +1,6 @@
 'use client';
 import { useState, useCallback, memo } from 'react';
-import { Heart, DollarSign, PieChart, AlertCircle } from 'lucide-react';
+import { Heart, AlertCircle } from 'lucide-react';
 
 interface BudgetCategory {
   name: string;
@@ -10,24 +10,24 @@ interface BudgetCategory {
   subcategories: string[];
 }
 
-const WeddingBudgetCalculatorComponent = function WeddingBudgetCalculator() {
+const defaultCategories: BudgetCategory[] = [
+  { name: 'Venue & Catering', percentage: 45, amount: 0, icon: '🏛️', subcategories: ['Venue rental', 'Catering', 'Bar/drinks', 'Cake', 'Rentals'] },
+  { name: 'Photography & Video', percentage: 12, amount: 0, icon: '📸', subcategories: ['Photographer', 'Videographer', 'Photo booth'] },
+  { name: 'Music & Entertainment', percentage: 8, amount: 0, icon: '🎵', subcategories: ['DJ/Band', 'Ceremony music', 'Other entertainment'] },
+  { name: 'Flowers & Decor', percentage: 8, amount: 0, icon: '💐', subcategories: ['Centerpieces', 'Bouquets', 'Ceremony decor', 'Lighting'] },
+  { name: 'Attire & Beauty', percentage: 8, amount: 0, icon: '👗', subcategories: ['Wedding dress', 'Suit/tux', 'Alterations', 'Hair/makeup'] },
+  { name: 'Invitations & Stationery', percentage: 3, amount: 0, icon: '💌', subcategories: ['Save the dates', 'Invitations', 'Programs', 'Thank you cards'] },
+  { name: 'Officiant & Ceremony', percentage: 2, amount: 0, icon: '💍', subcategories: ['Officiant fee', 'Marriage license', 'Ceremony items'] },
+  { name: 'Favors & Gifts', percentage: 3, amount: 0, icon: '🎁', subcategories: ['Guest favors', 'Wedding party gifts', 'Parent gifts'] },
+  { name: 'Transportation', percentage: 3, amount: 0, icon: '🚗', subcategories: ['Limo/car service', 'Guest shuttles', 'Parking'] },
+  { name: 'Miscellaneous', percentage: 8, amount: 0, icon: '📦', subcategories: ['Tips', 'Emergency fund', 'Unexpected costs'] },
+];
+
+function WeddingBudgetCalculator() {
   const [totalBudget, setTotalBudget] = useState(30000);
   const [guestCount, setGuestCount] = useState(100);
   const [currency, setCurrency] = useState('$');
   const [customAllocations, setCustomAllocations] = useState<Record<string, number>>({});
-
-  const defaultCategories: BudgetCategory[] = [
-    { name: 'Venue & Catering', percentage: 45, amount: 0, icon: '🏛️', subcategories: ['Venue rental', 'Catering', 'Bar/drinks', 'Cake', 'Rentals'] },
-    { name: 'Photography & Video', percentage: 12, amount: 0, icon: '📸', subcategories: ['Photographer', 'Videographer', 'Photo booth'] },
-    { name: 'Music & Entertainment', percentage: 8, amount: 0, icon: '🎵', subcategories: ['DJ/Band', 'Ceremony music', 'Other entertainment'] },
-    { name: 'Flowers & Decor', percentage: 8, amount: 0, icon: '💐', subcategories: ['Centerpieces', 'Bouquets', 'Ceremony decor', 'Lighting'] },
-    { name: 'Attire & Beauty', percentage: 8, amount: 0, icon: '👗', subcategories: ['Wedding dress', 'Suit/tux', 'Alterations', 'Hair/makeup'] },
-    { name: 'Invitations & Stationery', percentage: 3, amount: 0, icon: '💌', subcategories: ['Save the dates', 'Invitations', 'Programs', 'Thank you cards'] },
-    { name: 'Officiant & Ceremony', percentage: 2, amount: 0, icon: '💍', subcategories: ['Officiant fee', 'Marriage license', 'Ceremony items'] },
-    { name: 'Favors & Gifts', percentage: 3, amount: 0, icon: '🎁', subcategories: ['Guest favors', 'Wedding party gifts', 'Parent gifts'] },
-    { name: 'Transportation', percentage: 3, amount: 0, icon: '🚗', subcategories: ['Limo/car service', 'Guest shuttles', 'Parking'] },
-    { name: 'Miscellaneous', percentage: 8, amount: 0, icon: '📦', subcategories: ['Tips', 'Emergency fund', 'Unexpected costs'] },
-  ];
 
   const calculateBudget = useCallback(() => {
     const categories = defaultCategories.map(cat => {
@@ -49,7 +49,7 @@ const WeddingBudgetCalculatorComponent = function WeddingBudgetCalculator() {
       perGuestCost,
       remaining: totalBudget * (100 - totalAllocated) / 100,
     };
-  }, [totalBudget, guestCount, customAllocations, defaultCategories]);
+  }, [totalBudget, guestCount, customAllocations]);
 
   const results = calculateBudget();
   const formatMoney = (amount: number) => `${currency}${amount.toLocaleString('en-US', { maximumFractionDigits: 0 })}`;
@@ -226,6 +226,6 @@ const WeddingBudgetCalculatorComponent = function WeddingBudgetCalculator() {
       </div>
     </div>
   );
-};
+}
 
-export default memo(WeddingBudgetCalculatorComponent);
+export default memo(WeddingBudgetCalculator);

@@ -3,7 +3,7 @@ title: "How to Optimize Images for Web Without Losing Quality"
 description: "A practical guide to image compression, format selection, and responsive images — using free browser-based tools for maximum performance."
 slug: optimize-images-for-web
 datePublished: "2025-02-01"
-dateModified: "2025-02-01"
+dateModified: "2026-03-10"
 author: "CodelithLabs Team"
 category: "Performance"
 tags: ["images", "web-performance", "core-web-vitals", "compression"]

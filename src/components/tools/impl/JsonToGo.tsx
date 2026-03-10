@@ -2,77 +2,79 @@
 
 import { memo, useState, useCallback } from 'react';
 
+type JsonValue = null | boolean | number | string | JsonValue[] | { [key: string]: JsonValue };
+
+function toGoType(value: JsonValue): string {
+  if (value === null) return 'interface{}';
+  if (Array.isArray(value)) {
+    if (value.length === 0) return '[]interface{}';
+    return `[]${toGoType(value[0])}`;
+  }
+  switch (typeof value) {
+    case 'string': return 'string';
+    case 'number': return Number.isInteger(value) ? 'int' : 'float64';
+    case 'boolean': return 'bool';
+    case 'object': return 'struct';
+    default: return 'interface{}';
+  }
+}
+
+function toPascalCase(str: string): string {
+  return str
+    .replace(/[-_](.)/g, (_, c: string) => c.toUpperCase())
+    .replace(/^(.)/, (_, c: string) => c.toUpperCase());
+}
+
+function generateStruct(obj: Record<string, JsonValue>, name: string, structs: Map<string, string>): string {
+  const fields: string[] = [];
+
+  for (const [key, value] of Object.entries(obj)) {
+    const fieldName = toPascalCase(key);
+    let goType: string;
+
+    if (value === null) {
+      goType = 'interface{}';
+    } else if (Array.isArray(value)) {
+      if (value.length > 0 && typeof value[0] === 'object' && value[0] !== null && !Array.isArray(value[0])) {
+        const itemName = `${fieldName}Item`;
+        generateStruct(value[0] as Record<string, JsonValue>, itemName, structs);
+        goType = `[]${itemName}`;
+      } else {
+        goType = toGoType(value);
+      }
+    } else if (typeof value === 'object') {
+      generateStruct(value as Record<string, JsonValue>, fieldName, structs);
+      goType = fieldName;
+    } else {
+      goType = toGoType(value);
+    }
+
+    fields.push(`\t${fieldName} ${goType} \`json:"${key}"\``);
+  }
+
+  const structStr = `type ${name} struct {\n${fields.join('\n')}\n}`;
+  structs.set(name, structStr);
+  return structStr;
+}
+
 function JsonToGo() {
   const [json, setJson] = useState('');
   const [structName, setStructName] = useState('Root');
   const [result, setResult] = useState('');
 
-  const toGoType = (value: any): string => {
-    if (value === null) return 'interface{}';
-    if (Array.isArray(value)) {
-      if (value.length === 0) return '[]interface{}';
-      return `[]${toGoType(value[0])}`;
-    }
-    switch (typeof value) {
-      case 'string': return 'string';
-      case 'number': return Number.isInteger(value) ? 'int' : 'float64';
-      case 'boolean': return 'bool';
-      case 'object': return 'struct';
-      default: return 'interface{}';
-    }
-  };
-
-  const toPascalCase = (str: string): string => {
-    return str
-      .replace(/[-_](.)/g, (_, c) => c.toUpperCase())
-      .replace(/^(.)/, (_, c) => c.toUpperCase());
-  };
-
-  const generateStruct = useCallback((obj: any, name: string, structs: Map<string, string>): string => {
-    const fields: string[] = [];
-
-    for (const [key, value] of Object.entries(obj)) {
-      const fieldName = toPascalCase(key);
-      let goType: string;
-
-      if (value === null) {
-        goType = 'interface{}';
-      } else if (Array.isArray(value)) {
-        if (value.length > 0 && typeof value[0] === 'object' && value[0] !== null) {
-          const itemName = fieldName + 'Item';
-          generateStruct(value[0], itemName, structs);
-          goType = `[]${itemName}`;
-        } else {
-          goType = toGoType(value);
-        }
-      } else if (typeof value === 'object') {
-        generateStruct(value, fieldName, structs);
-        goType = fieldName;
-      } else {
-        goType = toGoType(value);
-      }
-
-      fields.push(`\t${fieldName} ${goType} \`json:"${key}"\``);
-    }
-
-    const structStr = `type ${name} struct {\n${fields.join('\n')}\n}`;
-    structs.set(name, structStr);
-    return structStr;
-  }, []);
-
   const handleConvert = useCallback(() => {
     try {
-      const parsed = JSON.parse(json);
+      const parsed = JSON.parse(json) as JsonValue;
       const structs = new Map<string, string>();
 
       if (Array.isArray(parsed)) {
-        if (parsed.length > 0 && typeof parsed[0] === 'object') {
-          generateStruct(parsed[0], structName, structs);
+        if (parsed.length > 0 && typeof parsed[0] === 'object' && parsed[0] !== null && !Array.isArray(parsed[0])) {
+          generateStruct(parsed[0] as Record<string, JsonValue>, structName, structs);
         } else {
           structs.set(structName, `type ${structName} = ${toGoType(parsed)}`);
         }
       } else if (typeof parsed === 'object' && parsed !== null) {
-        generateStruct(parsed, structName, structs);
+        generateStruct(parsed as Record<string, JsonValue>, structName, structs);
       } else {
         structs.set(structName, `type ${structName} = ${toGoType(parsed)}`);
       }
@@ -81,7 +83,7 @@ function JsonToGo() {
     } catch (e) {
       setResult('Error: Invalid JSON input');
     }
-  }, [json, structName, generateStruct]);
+  }, [json, structName]);
 
   return (
     <div className="space-y-6">

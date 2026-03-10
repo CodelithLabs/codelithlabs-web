@@ -8,7 +8,7 @@ import Link from 'next/link';
 
 export const metadata: Metadata = {
   title: 'Offline — CodelithLabs',
-  description: 'You appear to be offline. CodelithLabs offers 100+ free tools that work client-side — many features remain available even without an internet connection.',
+  description: 'You appear to be offline. CodelithLabs offers 200+ free tools that work client-side — many features remain available even without an internet connection.',
 };
 
 export default function OfflinePage() {

@@ -1,0 +1,51 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                String    @id @default(cuid())
+  email             String    @unique
+  name              String?
+  image             String?
+  isPremium         Boolean   @default(false)
+  premiumActivatedAt DateTime?
+  premiumExpiresAt  DateTime?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  payments          Payment[]
+}
+
+model Payment {
+  id                String       @id @default(cuid())
+  userId            String
+  user              User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  provider          String       @default("razorpay")
+  planCode          String       @default("premium_monthly")
+
+  razorpayOrderId   String       @unique
+  razorpayPaymentId String?      @unique
+  razorpaySignature String?
+
+  amountPaise       Int
+  currency          String       @default("INR")
+  status            PaymentStatus @default(CREATED)
+
+  createdAt         DateTime     @default(now())
+  updatedAt         DateTime     @updatedAt
+  verifiedAt        DateTime?
+
+  @@index([userId, createdAt])
+}
+
+enum PaymentStatus {
+  CREATED
+  VERIFIED
+  FAILED
+}

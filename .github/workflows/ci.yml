@@ -68,7 +68,23 @@ jobs:
       - name: Unit tests
         run: npm run test:run
 
-      # ── Gate 4: Production build (static export) ─────────────────────────
+      # ── Gate 4: SEO audits (H1 + sitemap + indexing friction) ───────────
+      - name: SEO audits
+        run: npm run seo:audit
+
+      # ── Publish SEO trend snapshot for PR review ────────────────────────
+      - name: Upload SEO trend report artifact
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: seo-audit-trend-report
+          path: |
+            docs/reports/seo-audit-trend-report.md
+            docs/reports/seo-audit-trend-report.json
+          if-no-files-found: warn
+          retention-days: 7
+
+      # ── Gate 5: Production build (static export) ─────────────────────────
       - name: Build
         run: npm run build
 

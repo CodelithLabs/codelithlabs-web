@@ -1,215 +1,580 @@
-/**
- * Integration tests for Razorpay payment routes
- * CRITICAL: Tests payment verification and signature validation
- */
-
-import { describe, it, expect, beforeEach, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import { NextRequest } from "next/server";
-import crypto from "crypto";
 
-beforeEach(() => {
-  process.env.RAZORPAY_KEY_ID = "test_key_id";
-  process.env.RAZORPAY_KEY_SECRET = "test_secret";
-  vi.clearAllMocks();
+const {
+  authMock,
+  checkRateLimitMock,
+  isDatabaseConfiguredMock,
+  activatePremiumForUserMock,
+  isPremiumActiveMock,
+  verifyRazorpayPaymentSignatureMock,
+  verifyRazorpayWebhookSignatureMock,
+  prismaMock,
+} = vi.hoisted(() => {
+  const prisma = {
+    user: {
+      upsert: vi.fn(),
+      findUnique: vi.fn(),
+      update: vi.fn(),
+    },
+    payment: {
+      upsert: vi.fn(),
+      findUnique: vi.fn(),
+      update: vi.fn(),
+      updateMany: vi.fn(),
+    },
+  };
+
+  return {
+    authMock: vi.fn(),
+    checkRateLimitMock: vi.fn(),
+    isDatabaseConfiguredMock: vi.fn(),
+    activatePremiumForUserMock: vi.fn(),
+    isPremiumActiveMock: vi.fn(),
+    verifyRazorpayPaymentSignatureMock: vi.fn(),
+    verifyRazorpayWebhookSignatureMock: vi.fn(),
+    prismaMock: prisma,
+  };
 });
 
-// Mock POST /api/razorpay/create-order
-describe("POST /api/razorpay/create-order", () => {
-  it("should return 400 if amount is missing", async () => {
-    const request = new NextRequest(
-      "http://localhost:3000/api/razorpay/create-order",
-      {
-        method: "POST",
-        body: JSON.stringify({
-          planType: "monthly",
-        }),
-      }
-    );
+vi.mock("@/lib/auth", () => ({
+  auth: authMock,
+}));
 
-    // We would need to import POST from the actual route file
-    // For now, showing the test structure
-    expect(true).toBe(true);
+vi.mock("@/lib/rate-limiter", () => ({
+  checkRateLimit: checkRateLimitMock,
+}));
+
+vi.mock("@/lib/prisma", () => ({
+  prisma: prismaMock,
+  isDatabaseConfigured: isDatabaseConfiguredMock,
+}));
+
+vi.mock("@/lib/premium-membership", () => ({
+  activatePremiumForUser: activatePremiumForUserMock,
+  isPremiumActive: isPremiumActiveMock,
+}));
+
+vi.mock("@/lib/razorpay", () => ({
+  PREMIUM_PLAN_CODE: "premium_monthly",
+  PREMIUM_AMOUNT_PAISE: 29900,
+  PREMIUM_CURRENCY: "INR",
+  verifyRazorpayPaymentSignature: verifyRazorpayPaymentSignatureMock,
+  verifyRazorpayWebhookSignature: verifyRazorpayWebhookSignatureMock,
+}));
+
+import { POST as createOrderPOST } from "@/app/api/razorpay/create-order/route";
+import { POST as verifyPaymentPOST } from "@/app/api/razorpay/verify-payment/route";
+import { POST as webhookPOST } from "@/app/api/razorpay/webhook/route";
+import { GET as premiumStatusGET } from "@/app/api/premium/status/route";
+
+describe("Razorpay and premium API routes", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+    process.env.RAZORPAY_KEY_ID = "test_key_id";
+    process.env.RAZORPAY_KEY_SECRET = "test_key_secret";
+    process.env.RAZORPAY_WEBHOOK_SECRET = "test_webhook_secret";
+
+    checkRateLimitMock.mockResolvedValue({ limited: false });
+    authMock.mockResolvedValue({
+      user: {
+        id: "user_1",
+        email: "test@example.com",
+        name: "Test User",
+        image: null,
+        isPremium: false,
+      },
+    });
+    isDatabaseConfiguredMock.mockReturnValue(true);
+    verifyRazorpayPaymentSignatureMock.mockReturnValue(true);
+    verifyRazorpayWebhookSignatureMock.mockReturnValue(true);
+    activatePremiumForUserMock.mockResolvedValue(new Date("2026-04-10T00:00:00.000Z"));
+    isPremiumActiveMock.mockReturnValue(true);
+
+    prismaMock.user.upsert.mockResolvedValue({ id: "user_1" } as any);
+    prismaMock.user.findUnique.mockResolvedValue({
+      id: "user_1",
+      isPremium: true,
+      premiumExpiresAt: new Date("2026-04-10T00:00:00.000Z"),
+    } as any);
+    prismaMock.user.update.mockResolvedValue({} as any);
+    prismaMock.payment.upsert.mockResolvedValue({} as any);
+    prismaMock.payment.findUnique.mockResolvedValue({
+      userId: "user_1",
+      razorpayOrderId: "order_1",
+      amountPaise: 29900,
+      status: "CREATED",
+    } as any);
+    prismaMock.payment.update.mockResolvedValue({} as any);
+    prismaMock.payment.updateMany.mockResolvedValue({ count: 1 });
+
+    vi.stubGlobal("fetch", vi.fn());
   });
 
-  it("should return 400 if amount is not a valid number", async () => {
-    const request = new NextRequest(
-      "http://localhost:3000/api/razorpay/create-order",
-      {
-        method: "POST",
-        body: JSON.stringify({
-          amount: "invalid",
-          planType: "monthly",
-        }),
-      }
-    );
+  describe("POST /api/razorpay/create-order", () => {
+    it("returns 429 when rate limited", async () => {
+      checkRateLimitMock.mockResolvedValueOnce({ limited: true, resetAt: Date.now() + 1000 });
 
-    expect(true).toBe(true);
-  });
+      const res = await createOrderPOST(new Request("http://localhost/api/razorpay/create-order", { method: "POST" }));
 
-  it("should return 400 if amount is less than minimum (100 paise)", async () => {
-    expect(true).toBe(true);
-  });
-
-  it("should create order with valid Razorpay request", async () => {
-    // Mock Razorpay API call
-    global.fetch = vi.fn().mockResolvedValueOnce({
-      ok: true,
-      json: async () => ({
-        id: "order_123",
-        amount: 99900,
-        currency: "INR",
-      }),
+      expect(res.status).toBe(429);
     });
 
-    expect(true).toBe(true);
-  });
+    it("returns 401 when unauthenticated", async () => {
+      authMock.mockResolvedValueOnce(null);
 
-  it("should return 502 if Razorpay API fails", async () => {
-    global.fetch = vi.fn().mockResolvedValueOnce({
-      ok: false,
-      status: 400,
-      json: async () => ({ error: "Invalid request" }),
+      const res = await createOrderPOST(new Request("http://localhost/api/razorpay/create-order", { method: "POST" }));
+
+      expect(res.status).toBe(401);
     });
 
-    expect(true).toBe(true);
-  });
-});
+    it("returns 503 when payment credentials are missing", async () => {
+      delete process.env.RAZORPAY_KEY_ID;
+      delete process.env.RAZORPAY_KEY_SECRET;
 
-// Mock POST /api/razorpay/verify-payment - CRITICAL SECURITY TEST
-describe("POST /api/razorpay/verify-payment", () => {
-  /**
-   * CRITICAL: Test HMAC-SHA256 signature verification
-   * This is the core security check to prevent payment fraud
-   */
-  it("should accept valid payment signature", () => {
-    const orderId = "order_123";
-    const paymentId = "pay_456";
-    const signature = "valid_signature";
+      const res = await createOrderPOST(new Request("http://localhost/api/razorpay/create-order", { method: "POST" }));
 
-    // Create correct HMAC-SHA256 signature for comparison
-    const secret = "test_secret";
-    const data = `${orderId}|${paymentId}`;
-    const expectedSignature = crypto
-      .createHmac("sha256", secret)
-      .update(data)
-      .digest("hex");
+      expect(res.status).toBe(503);
+    });
 
-    // The payment should verify successfully with correct signature
-    expect(expectedSignature).toBeDefined();
-  });
+    it("returns 503 when DB is not configured", async () => {
+      isDatabaseConfiguredMock.mockReturnValueOnce(false);
 
-  it("should reject invalid payment signature", () => {
-    const orderId = "order_123";
-    const paymentId = "pay_456";
-    const invalidSignature = "wrong_signature_1234567890";
+      const res = await createOrderPOST(new Request("http://localhost/api/razorpay/create-order", { method: "POST" }));
 
-    // Attempt verification with wrong signature should fail
-    const secret = "test_secret";
-    const data = `${orderId}|${paymentId}`;
-    const correctSignature = crypto
-      .createHmac("sha256", secret)
-      .update(data)
-      .digest("hex");
+      expect(res.status).toBe(503);
+    });
 
-    // Wrong signature should NOT match
-    expect(invalidSignature).not.toBe(correctSignature);
-  });
+    it("returns 502 when Razorpay order API fails", async () => {
+      const fetchMock = vi.mocked(fetch);
+      fetchMock.mockResolvedValueOnce(
+        new Response("bad request", {
+          status: 400,
+        })
+      );
 
-  it("should reject signature from wrong secret", () => {
-    const orderId = "order_123";
-    const paymentId = "pay_456";
+      const res = await createOrderPOST(new Request("http://localhost/api/razorpay/create-order", { method: "POST" }));
 
-    const correctSecret = "test_secret";
-    const wrongSecret = "wrong_secret";
+      expect(res.status).toBe(502);
+    });
 
-    const data = `${orderId}|${paymentId}`;
+    it("creates order and persists CREATED payment", async () => {
+      const fetchMock = vi.mocked(fetch);
+      fetchMock.mockResolvedValueOnce(
+        new Response(
+          JSON.stringify({
+            id: "order_123",
+            entity: "order",
+            amount: 29900,
+            amount_paid: 0,
+            amount_due: 29900,
+            currency: "INR",
+            receipt: "rcpt_1",
+            status: "created",
+            created_at: Date.now(),
+          }),
+          { status: 200, headers: { "content-type": "application/json" } }
+        )
+      );
 
-    const signatureWithCorrectSecret = crypto
-      .createHmac("sha256", correctSecret)
-      .update(data)
-      .digest("hex");
+      const res = await createOrderPOST(new Request("http://localhost/api/razorpay/create-order", { method: "POST" }));
+      const json = await res.json();
 
-    const signatureWithWrongSecret = crypto
-      .createHmac("sha256", wrongSecret)
-      .update(data)
-      .digest("hex");
-
-    // Signatures should be different
-    expect(signatureWithCorrectSecret).not.toBe(signatureWithWrongSecret);
-  });
-
-  it("should prevent replay attacks with order/payment ID validation", () => {
-    // A replay attack would be re-submitting the same verified payment
-    // Prevention: Check that orderId hasn't already been processed in DB
-    expect(true).toBe(true);
+      expect(res.status).toBe(200);
+      expect(json.orderId).toBe("order_123");
+      expect(prismaMock.user.upsert).toHaveBeenCalledTimes(1);
+      expect(prismaMock.payment.upsert).toHaveBeenCalledWith(
+        expect.objectContaining({
+          create: expect.objectContaining({
+            status: "CREATED",
+            planCode: "premium_monthly",
+          }),
+        })
+      );
+    });
   });
 
-  it("should return 400 if required fields are missing", () => {
-    // Missing: orderId, paymentId, or signature
-    expect(true).toBe(true);
-  });
-
-  it("should return 400 if malformed JSON is sent", () => {
-    expect(true).toBe(true);
-  });
-
-  it("should return 403 if signature verification fails", () => {
-    expect(true).toBe(true);
-  });
-
-  it("should return 404 if orderId not found in database", () => {
-    expect(true).toBe(true);
-  });
-
-  it("should update user premium status on successful verification", () => {
-    // After successful payment verification:
-    // 1. Mark order as paid in database
-    // 2. Set user's isPremium flag to true
-    // 3. Schedule premium expiry (if applicable)
-    expect(true).toBe(true);
-  });
-
-  it("should log payment verification attempts for audit trail", () => {
-    // All payment verifications should be logged for:
-    // - Fraud detection
-    // - Reconciliation
-    // - Debugging
-    expect(true).toBe(true);
-  });
-
-  it("should handle database errors gracefully", () => {
-    // If database is down, return 503 Service Unavailable
-    // Not 500, because client can retry
-    expect(true).toBe(true);
-  });
-
-  it("should NOT trust client-sent premium status", () => {
-    // Verification ALWAYS comes from Razorpay signature
-    // Never trust client claims like "isPremium: true" in request
-    expect(true).toBe(true);
-  });
-
-  it("should use timing-safe comparison for signature", () => {
-    // Use crypto.timingSafeEqual instead of === to prevent timing attacks
-    const signature1 = "a1b2c3d4e5f6g7h8";
-    const signature2 = "a1b2c3d4e5f6g7h8";
-    const signature3 = "xxxxxxxxxxxxxxxx";
-
-    // Timing-safe equal should detect exact match
-    expect(
-      crypto.timingSafeEqual(
-        Buffer.from(signature1),
-        Buffer.from(signature2)
-      )
-    ).toBe(true);
-
-    // Timing-safe equal should detect mismatch
-    try {
-      crypto.timingSafeEqual(Buffer.from(signature1), Buffer.from(signature3));
-      expect(false).toBe(true); // Should not reach here
-    } catch (e) {
-      // Expected: timingSafeEqual throws on mismatch
-      expect(true).toBe(true);
+  describe("POST /api/razorpay/verify-payment", () => {
+    function buildVerifyRequest(body: unknown) {
+      return new NextRequest("http://localhost/api/razorpay/verify-payment", {
+        method: "POST",
+        body: JSON.stringify(body),
+        headers: { "content-type": "application/json", "x-forwarded-for": "127.0.0.1" },
+      });
     }
+
+    it("returns 400 when required fields are missing", async () => {
+      const res = await verifyPaymentPOST(
+        buildVerifyRequest({
+          razorpay_order_id: "order_1",
+          razorpay_payment_id: "",
+          razorpay_signature: "sig",
+        })
+      );
+
+      expect(res.status).toBe(400);
+    });
+
+    it("returns 400 for invalid signature", async () => {
+      verifyRazorpayPaymentSignatureMock.mockReturnValueOnce(false);
+
+      const res = await verifyPaymentPOST(
+        buildVerifyRequest({
+          razorpay_order_id: "order_1",
+          razorpay_payment_id: "pay_1",
+          razorpay_signature: "bad_sig",
+        })
+      );
+
+      expect(res.status).toBe(400);
+      expect(prismaMock.payment.upsert).not.toHaveBeenCalled();
+    });
+
+    it("returns 503 when DB is not configured", async () => {
+      isDatabaseConfiguredMock.mockReturnValueOnce(false);
+
+      const res = await verifyPaymentPOST(
+        buildVerifyRequest({
+          razorpay_order_id: "order_1",
+          razorpay_payment_id: "pay_1",
+          razorpay_signature: "sig_1",
+        })
+      );
+
+      expect(res.status).toBe(503);
+      expect(prismaMock.user.upsert).not.toHaveBeenCalled();
+      expect(prismaMock.payment.upsert).not.toHaveBeenCalled();
+    });
+
+    it("returns 503 when RAZORPAY_KEY_SECRET is missing", async () => {
+      delete process.env.RAZORPAY_KEY_SECRET;
+
+      const res = await verifyPaymentPOST(
+        buildVerifyRequest({
+          razorpay_order_id: "order_1",
+          razorpay_payment_id: "pay_1",
+          razorpay_signature: "sig_1",
+        })
+      );
+
+      expect(res.status).toBe(503);
+      expect(verifyRazorpayPaymentSignatureMock).not.toHaveBeenCalled();
+    });
+
+    it("returns 500 for malformed JSON body", async () => {
+      const malformedRequest = new NextRequest("http://localhost/api/razorpay/verify-payment", {
+        method: "POST",
+        body: "{ this is not valid json",
+        headers: { "content-type": "application/json", "x-forwarded-for": "127.0.0.1" },
+      });
+
+      const res = await verifyPaymentPOST(malformedRequest);
+
+      expect(res.status).toBe(500);
+    });
+
+    it("persists VERIFIED payment and activates premium on success", async () => {
+      const res = await verifyPaymentPOST(
+        buildVerifyRequest({
+          razorpay_order_id: "order_1",
+          razorpay_payment_id: "pay_1",
+          razorpay_signature: "sig_1",
+        })
+      );
+      const json = await res.json();
+
+      expect(res.status).toBe(200);
+      expect(json.success).toBe(true);
+      expect(json.premiumExpiresAt).toBe("2026-04-10T00:00:00.000Z");
+      expect(activatePremiumForUserMock).toHaveBeenCalledWith("user_1", expect.any(Date));
+      expect(prismaMock.payment.update).toHaveBeenCalledWith(
+        expect.objectContaining({
+          where: { razorpayOrderId: "order_1" },
+          data: expect.objectContaining({
+            status: "VERIFIED",
+            razorpayPaymentId: "pay_1",
+          }),
+        })
+      );
+    });
+
+    it("rejects verification if order creator != current user (403)", async () => {
+      // Simulate: user_2 created the order, but user_1 (current session) tries to verify
+      prismaMock.payment.findUnique.mockResolvedValueOnce({
+        userId: "user_2",
+        razorpayOrderId: "order_1",
+        amountPaise: 29900,
+        status: "CREATED",
+      } as any);
+
+      const res = await verifyPaymentPOST(
+        buildVerifyRequest({
+          razorpay_order_id: "order_1",
+          razorpay_payment_id: "pay_1",
+          razorpay_signature: "sig_1",
+        })
+      );
+
+      expect(res.status).toBe(403);
+      expect(activatePremiumForUserMock).not.toHaveBeenCalled();
+      expect(prismaMock.payment.update).not.toHaveBeenCalled();
+    });
+
+    it("rejects verification if payment amount != expected (400)", async () => {
+      // Simulate: order was created with wrong amount (e.g., ₹0 or tampered amount)
+      prismaMock.payment.findUnique.mockResolvedValueOnce({
+        userId: "user_1",
+        razorpayOrderId: "order_1",
+        amountPaise: 0, // Invalid amount
+        status: "CREATED",
+      } as any);
+
+      const res = await verifyPaymentPOST(
+        buildVerifyRequest({
+          razorpay_order_id: "order_1",
+          razorpay_payment_id: "pay_1",
+          razorpay_signature: "sig_1",
+        })
+      );
+
+      expect(res.status).toBe(400);
+      expect(activatePremiumForUserMock).not.toHaveBeenCalled();
+      expect(prismaMock.payment.update).not.toHaveBeenCalled();
+    });
+
+    it("returns 404 if payment record not found for orderId", async () => {
+      prismaMock.payment.findUnique.mockResolvedValueOnce(null);
+
+      const res = await verifyPaymentPOST(
+        buildVerifyRequest({
+          razorpay_order_id: "order_nonexistent",
+          razorpay_payment_id: "pay_1",
+          razorpay_signature: "sig_1",
+        })
+      );
+
+      expect(res.status).toBe(404);
+      expect(activatePremiumForUserMock).not.toHaveBeenCalled();
+    });
+  });
+
+  describe("POST /api/razorpay/webhook", () => {
+    function buildWebhookRequest(payload: Record<string, unknown>, signature = "webhook_sig") {
+      return new NextRequest("http://localhost/api/razorpay/webhook", {
+        method: "POST",
+        body: JSON.stringify(payload),
+        headers: {
+          "content-type": "application/json",
+          "x-razorpay-signature": signature,
+        },
+      });
+    }
+
+    it("returns 400 when webhook signature is invalid", async () => {
+      verifyRazorpayWebhookSignatureMock.mockReturnValueOnce(false);
+
+      const res = await webhookPOST(
+        buildWebhookRequest({
+          event: "payment.captured",
+          payload: { payment: { entity: { id: "pay_1", order_id: "order_1" } } },
+        })
+      );
+
+      expect(res.status).toBe(400);
+    });
+
+    it("returns 503 when DB is not configured", async () => {
+      isDatabaseConfiguredMock.mockReturnValueOnce(false);
+
+      const res = await webhookPOST(
+        buildWebhookRequest({
+          event: "payment.captured",
+          payload: { payment: { entity: { id: "pay_1", order_id: "order_1" } } },
+        })
+      );
+
+      expect(res.status).toBe(503);
+    });
+
+    it("returns 503 when RAZORPAY_WEBHOOK_SECRET is missing", async () => {
+      delete process.env.RAZORPAY_WEBHOOK_SECRET;
+
+      const res = await webhookPOST(
+        buildWebhookRequest({
+          event: "payment.captured",
+          payload: { payment: { entity: { id: "pay_1", order_id: "order_1" } } },
+        })
+      );
+
+      expect(res.status).toBe(503);
+      expect(verifyRazorpayWebhookSignatureMock).not.toHaveBeenCalled();
+    });
+
+    it("returns 400 when webhook signature header is missing", async () => {
+      const req = new NextRequest("http://localhost/api/razorpay/webhook", {
+        method: "POST",
+        body: JSON.stringify({
+          event: "payment.captured",
+          payload: { payment: { entity: { id: "pay_1", order_id: "order_1" } } },
+        }),
+        headers: {
+          "content-type": "application/json",
+        },
+      });
+
+      const res = await webhookPOST(req);
+
+      expect(res.status).toBe(400);
+      expect(verifyRazorpayWebhookSignatureMock).not.toHaveBeenCalled();
+    });
+
+    it("marks payment FAILED on payment.failed event", async () => {
+      const res = await webhookPOST(
+        buildWebhookRequest({
+          event: "payment.failed",
+          payload: { payment: { entity: { id: "pay_failed", order_id: "order_failed" } } },
+        })
+      );
+
+      expect(res.status).toBe(200);
+      expect(prismaMock.payment.updateMany).toHaveBeenCalledWith(
+        expect.objectContaining({
+          where: { razorpayOrderId: "order_failed" },
+          data: expect.objectContaining({
+            status: "FAILED",
+            razorpayPaymentId: "pay_failed",
+          }),
+        })
+      );
+    });
+
+    it("marks payment VERIFIED and extends membership on payment.captured", async () => {
+      const res = await webhookPOST(
+        buildWebhookRequest({
+          event: "payment.captured",
+          payload: { payment: { entity: { id: "pay_2", order_id: "order_2" } } },
+        })
+      );
+      const json = await res.json();
+
+      expect(res.status).toBe(200);
+      expect(json.premiumExpiresAt).toBe("2026-04-10T00:00:00.000Z");
+      expect(activatePremiumForUserMock).toHaveBeenCalledWith("user_1", expect.any(Date));
+      expect(prismaMock.payment.update).toHaveBeenCalledWith(
+        expect.objectContaining({
+          where: { razorpayOrderId: "order_2" },
+          data: expect.objectContaining({ status: "VERIFIED" }),
+        })
+      );
+    });
+
+    it("does NOT activate premium if payment amount is invalid (webhook)", async () => {
+      // Simulate: payment record exists but with wrong amount
+      prismaMock.payment.findUnique.mockResolvedValueOnce({
+        userId: "user_1",
+        razorpayOrderId: "order_tampered",
+        amountPaise: 100, // Invalid: expected 29900
+        status: "CREATED",
+      } as any);
+
+      const res = await webhookPOST(
+        buildWebhookRequest({
+          event: "payment.captured",
+          payload: { payment: { entity: { id: "pay_tampered", order_id: "order_tampered" } } },
+        })
+      );
+
+      // Webhook silently accepts (200) but doesn't activate premium
+      expect(res.status).toBe(200);
+      expect(activatePremiumForUserMock).not.toHaveBeenCalled();
+      // Payment should NOT be marked VERIFIED
+      expect(prismaMock.payment.update).not.toHaveBeenCalled();
+    });
+
+    it("handles duplicate payment.captured events idempotently", async () => {
+      // First webhook call
+      const res1 = await webhookPOST(
+        buildWebhookRequest({
+          event: "payment.captured",
+          payload: { payment: { entity: { id: "pay_3", order_id: "order_3" } } },
+        })
+      );
+
+      expect(res1.status).toBe(200);
+      expect(activatePremiumForUserMock).toHaveBeenCalledTimes(1);
+
+      // Reset mocks and simulate already-verified payment
+      vi.clearAllMocks();
+      prismaMock.payment.findUnique.mockResolvedValueOnce({
+        userId: "user_1",
+        razorpayOrderId: "order_3",
+        razorpayPaymentId: "pay_3",
+        amountPaise: 29900,
+        status: "VERIFIED", // Already verified
+      } as any);
+
+      // Second webhook call (duplicate)
+      const res2 = await webhookPOST(
+        buildWebhookRequest({
+          event: "payment.captured",
+          payload: { payment: { entity: { id: "pay_3", order_id: "order_3" } } },
+        })
+      );
+
+      expect(res2.status).toBe(200);
+      // Should not activate premium again (idempotent)
+      expect(activatePremiumForUserMock).not.toHaveBeenCalled();
+    });
+  });
+
+  describe("GET /api/premium/status", () => {
+    it("returns 401 for unauthenticated requests", async () => {
+      authMock.mockResolvedValueOnce(null);
+
+      const res = await premiumStatusGET();
+
+      expect(res.status).toBe(401);
+    });
+
+    it("returns session-backed status when DB is unavailable", async () => {
+      isDatabaseConfiguredMock.mockReturnValueOnce(false);
+      authMock.mockResolvedValueOnce({
+        user: {
+          email: "test@example.com",
+          isPremium: true,
+          premiumExpiresAt: "2026-04-10T00:00:00.000Z",
+        },
+      });
+
+      const res = await premiumStatusGET();
+      const json = await res.json();
+
+      expect(res.status).toBe(200);
+      expect(json).toEqual({
+        isPremium: true,
+        premiumExpiresAt: "2026-04-10T00:00:00.000Z",
+        source: "session",
+      });
+    });
+
+    it("auto-demotes expired premium flag when DB says inactive", async () => {
+      isPremiumActiveMock.mockReturnValueOnce(false);
+      prismaMock.user.findUnique.mockResolvedValueOnce({
+        isPremium: true,
+        premiumExpiresAt: new Date("2026-01-01T00:00:00.000Z"),
+      });
+
+      const res = await premiumStatusGET();
+      const json = await res.json();
+
+      expect(res.status).toBe(200);
+      expect(json.source).toBe("database");
+      expect(json.isPremium).toBe(false);
+      expect(prismaMock.user.update).toHaveBeenCalledWith(
+        expect.objectContaining({
+          data: { isPremium: false },
+        })
+      );
+    });
   });
 });

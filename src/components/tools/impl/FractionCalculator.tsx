@@ -7,6 +7,41 @@ interface Fraction {
   denominator: number;
 }
 
+function gcd(a: number, b: number): number {
+  const absA = Math.abs(a);
+  const absB = Math.abs(b);
+  return absB === 0 ? absA : gcd(absB, absA % absB);
+}
+
+function simplify(num: number, den: number): Fraction {
+  if (den === 0) return { numerator: NaN, denominator: NaN };
+  const divisor = gcd(num, den);
+  let n = num / divisor;
+  let d = den / divisor;
+  if (d < 0) {
+    n = -n;
+    d = -d;
+  }
+  return { numerator: n, denominator: d };
+}
+
+function toMixed(num: number, den: number): string {
+  if (den === 0) return 'undefined';
+  const whole = Math.floor(Math.abs(num) / den);
+  const remainder = Math.abs(num) % den;
+  const sign = num < 0 ? '-' : '';
+
+  if (whole === 0) {
+    return `${sign}${remainder}/${den}`;
+  }
+
+  if (remainder === 0) {
+    return `${sign}${whole}`;
+  }
+
+  return `${sign}${whole} ${remainder}/${den}`;
+}
+
 function FractionCalculator() {
   const [num1, setNum1] = useState('1');
   const [den1, setDen1] = useState('2');
@@ -14,39 +49,6 @@ function FractionCalculator() {
   const [den2, setDen2] = useState('4');
   const [operation, setOperation] = useState<'+' | '-' | '×' | '÷'>('+');
   const [result, setResult] = useState<{ fraction: Fraction; decimal: number; mixed: string } | null>(null);
-
-  const gcd = (a: number, b: number): number => {
-    a = Math.abs(a);
-    b = Math.abs(b);
-    return b === 0 ? a : gcd(b, a % b);
-  };
-
-  const simplify = (num: number, den: number): Fraction => {
-    if (den === 0) return { numerator: NaN, denominator: NaN };
-    const divisor = gcd(num, den);
-    let n = num / divisor;
-    let d = den / divisor;
-    if (d < 0) {
-      n = -n;
-      d = -d;
-    }
-    return { numerator: n, denominator: d };
-  };
-
-  const toMixed = (num: number, den: number): string => {
-    if (den === 0) return 'undefined';
-    const whole = Math.floor(Math.abs(num) / den);
-    const remainder = Math.abs(num) % den;
-    const sign = num < 0 ? '-' : '';
-    
-    if (whole === 0) {
-      return `${sign}${remainder}/${den}`;
-    } else if (remainder === 0) {
-      return `${sign}${whole}`;
-    } else {
-      return `${sign}${whole} ${remainder}/${den}`;
-    }
-  };
 
   const handleCalculate = useCallback(() => {
     const n1 = parseInt(num1) || 0;

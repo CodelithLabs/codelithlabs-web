@@ -1,0 +1,14 @@
+{
+  "generatedAt": "2026-03-10T01:33:00.588Z",
+  "totals": {
+    "registrySlugs": 203,
+    "indexableSlugs": 203,
+    "mapperMappedSlugs": 203,
+    "missingMappings": 0,
+    "missingFiles": 0,
+    "placeholderHits": 0
+  },
+  "missingMappings": [],
+  "missingFiles": [],
+  "placeholderHits": []
+}

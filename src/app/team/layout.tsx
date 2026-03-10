@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Meet the CodelithLabs Team",
     description:
-      "Meet the engineers building 100+ free online tools at CodelithLabs.",
+      "Meet the engineers building 200+ free online tools at CodelithLabs.",
     url: "https://codelithlabs.in/team/",
     type: "website",
     siteName: "CodelithLabs",

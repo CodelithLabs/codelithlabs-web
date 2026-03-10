@@ -26,6 +26,9 @@
     "plugins": [
       {
         "name": "next"
+      },
+      {
+        "name": "next-intl/plugin"
       }
     ],
     "target": "ES2017"

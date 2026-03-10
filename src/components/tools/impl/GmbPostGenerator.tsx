@@ -1,6 +1,6 @@
 'use client';
 import { useState, useCallback, memo } from 'react';
-import { MapPin, Copy, Calendar, Image, Check, Sparkles } from 'lucide-react';
+import { MapPin, Copy, Calendar, Image as ImageIcon, Sparkles } from 'lucide-react';
 
 type PostType = 'UPDATE' | 'EVENT' | 'OFFER' | 'PRODUCT';
 
@@ -27,7 +27,7 @@ const CTA_OPTIONS = [
   { value: 'GET_OFFER', label: 'Get offer' },
 ];
 
-const GmbPostGeneratorComponent = function GmbPostGenerator() {
+function GmbPostGenerator() {
   const [post, setPost] = useState<GmbPost>({
     type: 'UPDATE',
     title: '',
@@ -308,7 +308,7 @@ const GmbPostGeneratorComponent = function GmbPostGenerator() {
         <div className="flex items-center justify-between">
           <h4 className="text-sm font-medium text-zinc-400">Preview</h4>
           <div className="flex items-center gap-2 text-xs text-zinc-500">
-            <Image className="w-3 h-3" />
+            <ImageIcon className="w-3 h-3" aria-hidden="true" />
             Add a photo when posting
           </div>
         </div>
@@ -332,6 +332,6 @@ const GmbPostGeneratorComponent = function GmbPostGenerator() {
       </div>
     </div>
   );
-};
+}
 
-export default memo(GmbPostGeneratorComponent);
+export default memo(GmbPostGenerator);

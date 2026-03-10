@@ -18,6 +18,7 @@ declare module "next-auth" {
       email?: string | null;
       image?: string | null;
       isPremium: boolean;
+      premiumExpiresAt?: string | null;
     };
   }
 }
@@ -26,5 +27,6 @@ declare module "next-auth/jwt" {
   interface JWT {
     isPremium?: boolean;
     provider?: string;
+    premiumExpiresAt?: string | null;
   }
 }

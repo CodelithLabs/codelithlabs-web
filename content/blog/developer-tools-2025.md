@@ -3,7 +3,7 @@ title: "10 Free Developer Tools Every Web Developer Needs in 2025"
 description: "Discover the essential free online developer tools for JSON formatting, regex testing, JWT decoding, API testing, and more — all running in your browser."
 slug: developer-tools-2025
 datePublished: "2025-01-20"
-dateModified: "2025-01-20"
+dateModified: "2026-03-10"
 author: "CodelithLabs Team"
 category: "Developer"
 tags: ["developer-tools", "json", "regex", "jwt", "web-development"]

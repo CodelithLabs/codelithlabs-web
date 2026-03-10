@@ -2,6 +2,24 @@
 
 import { memo, useState, useCallback } from 'react';
 
+type MatrixOperation = 'add' | 'subtract' | 'multiply' | 'determinant' | 'transpose';
+
+function determinant(matrix: number[][]): number {
+  const n = matrix.length;
+  if (n === 1) return matrix[0][0];
+  if (n === 2) return matrix[0][0] * matrix[1][1] - matrix[0][1] * matrix[1][0];
+
+  let det = 0;
+  for (let j = 0; j < n; j++) {
+    const minor: number[][] = [];
+    for (let i = 1; i < n; i++) {
+      minor.push([...matrix[i].slice(0, j), ...matrix[i].slice(j + 1)]);
+    }
+    det += Math.pow(-1, j) * matrix[0][j] * determinant(minor);
+  }
+  return det;
+}
+
 function MatrixCalculator() {
   const [matrixA, setMatrixA] = useState([
     [1, 2],
@@ -13,7 +31,7 @@ function MatrixCalculator() {
   ]);
   const [rows, setRows] = useState(2);
   const [cols, setCols] = useState(2);
-  const [operation, setOperation] = useState<'add' | 'subtract' | 'multiply' | 'determinant' | 'transpose'>('add');
+  const [operation, setOperation] = useState<MatrixOperation>('add');
   const [result, setResult] = useState<number[][] | number | null>(null);
 
   const updateMatrixA = useCallback((r: number, c: number, value: string) => {
@@ -44,22 +62,6 @@ function MatrixCalculator() {
     setRows(newRows);
     setCols(newCols);
   }, [matrixA, matrixB]);
-
-  const determinant = (matrix: number[][]): number => {
-    const n = matrix.length;
-    if (n === 1) return matrix[0][0];
-    if (n === 2) return matrix[0][0] * matrix[1][1] - matrix[0][1] * matrix[1][0];
-    
-    let det = 0;
-    for (let j = 0; j < n; j++) {
-      const minor: number[][] = [];
-      for (let i = 1; i < n; i++) {
-        minor.push([...matrix[i].slice(0, j), ...matrix[i].slice(j + 1)]);
-      }
-      det += Math.pow(-1, j) * matrix[0][j] * determinant(minor);
-    }
-    return det;
-  };
 
   const handleCalculate = useCallback(() => {
     const a = matrixA.slice(0, rows).map(r => r.slice(0, cols));
@@ -151,7 +153,7 @@ function MatrixCalculator() {
               onChange={(e) => resizeMatrices(parseInt(e.target.value), cols)}
               className="px-3 py-1 bg-zinc-900 border border-zinc-700 rounded text-white"
             >
-              {[2, 3, 4].map(n => <option key={n} value={n}>{n}</option>)}
+              {[2, 3, 4].map(n => <option key={`row-${n}`} value={n}>{n}</option>)}
             </select>
           </div>
           <div>
@@ -161,14 +163,14 @@ function MatrixCalculator() {
               onChange={(e) => resizeMatrices(rows, parseInt(e.target.value))}
               className="px-3 py-1 bg-zinc-900 border border-zinc-700 rounded text-white"
             >
-              {[2, 3, 4].map(n => <option key={n} value={n}>{n}</option>)}
+              {[2, 3, 4].map(n => <option key={`col-${n}`} value={n}>{n}</option>)}
             </select>
           </div>
           <div>
             <label className="block text-sm text-zinc-400 mb-1">Operation</label>
             <select
               value={operation}
-              onChange={(e) => setOperation(e.target.value as any)}
+              onChange={(e) => setOperation(e.target.value as MatrixOperation)}
               className="px-3 py-1 bg-zinc-900 border border-zinc-700 rounded text-white"
             >
               <option value="add">A + B</option>

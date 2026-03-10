@@ -2,6 +2,10 @@
 
 import { memo, useState, useCallback } from 'react';
 
+function gcd(a: number, b: number): number {
+  return b === 0 ? a : gcd(b, a % b);
+}
+
 function AspectRatioCalculator() {
   const [width1, setWidth1] = useState('');
   const [height1, setHeight1] = useState('');
@@ -9,10 +13,6 @@ function AspectRatioCalculator() {
   const [height2, setHeight2] = useState('');
   const [mode, setMode] = useState<'width' | 'height'>('width');
   const [result, setResult] = useState<{ ratio: string; calculated: number } | null>(null);
-
-  const gcd = (a: number, b: number): number => {
-    return b === 0 ? a : gcd(b, a % b);
-  };
 
   const handleCalculate = useCallback(() => {
     const w1 = parseFloat(width1) || 0;

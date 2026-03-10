@@ -1,0 +1,34 @@
+// ═══════════════════════════════════════════════════════════════════════════
+// FILE: src/middleware.ts.backup
+// MIDDLEWARE - TO BE RE-ENABLED AFTER ALL PAGES MIGRATED TO [locale]
+// ═══════════════════════════════════════════════════════════════════════════
+
+import createMiddleware from 'next-intl/middleware';
+import { locales, defaultLocale } from './i18n/request';
+
+export default createMiddleware({
+  // A list of all locales that are supported
+  locales,
+
+  // Used when no locale matches
+  defaultLocale,
+
+  // Always show the locale in the URL
+  localePrefix: 'always',
+
+  // Locale detection from Accept-Language header
+  localeDetection: true,
+});
+
+export const config = {
+  // Match only internationalized pathnames
+  // Skip API routes, static files, and Next.js internals
+  matcher: [
+    // Match all pathnames except for specific exclusions
+    '/((?!api|_next|_vercel|.*\\..*).*)',
+    // Always match root
+    '/',
+    // Match locale-prefixed paths
+    '/(en|es|pt|fr|de|hi)/:path*',
+  ],
+};

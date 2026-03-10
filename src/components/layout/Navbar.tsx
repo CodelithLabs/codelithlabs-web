@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback, memo } from "react";
+import { useState, useEffect, useRef, useCallback, useMemo, memo } from "react";
 import {
   Terminal, ChevronDown, Menu, X, ArrowRight,
   Shield, Globe, Server, Code2, Image, Type, Lock,
@@ -12,6 +12,14 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { useSession, signIn, signOut } from "next-auth/react";
+import { defaultLocale, locales, type Locale } from "@/i18n/request";
+import { LocaleSwitcher } from "./LocaleSwitcher";
+import enMessages from "../../../messages/en.json";
+import esMessages from "../../../messages/es.json";
+import ptMessages from "../../../messages/pt.json";
+import frMessages from "../../../messages/fr.json";
+import deMessages from "../../../messages/de.json";
+import hiMessages from "../../../messages/hi.json";
 
 // ═══════════════════════════════════════════════════════════════════════════
 // MEMOIZED DROPDOWN ITEM COMPONENTS (performance optimization)
@@ -68,44 +76,57 @@ const MobileDropdownItem = memo(function MobileDropdownItem({
 
 const navSections = [
   {
-    label: "R&D Projects",
+    labelKey: "common.projects.title",
+    labelFallback: "R&D Projects",
     href: "/projects",
     items: [
-      { name: "VectorDefense", desc: "C++ Tower Defense Engine", href: "/projects/vectordefense", icon: Shield, color: "text-blue-400" },
-      { name: "CITK-Connect", desc: "Campus Connectivity Platform", href: "/projects/citk-connect", icon: Globe, color: "text-purple-400" },
-      { name: "Core-S Infrastructure", desc: "Self-hosted Linux Architecture", href: "/projects/core-s", icon: Server, color: "text-green-400" },
+      { nameKey: "common.projects.vectordefense.name", nameFallback: "VectorDefense", descKey: "common.projects.vectordefense.desc", descFallback: "C++ Tower Defense Engine", href: "/projects/vectordefense", icon: Shield, color: "text-blue-400" },
+      { nameKey: "common.projects.citkConnect.name", nameFallback: "CITK-Connect", descKey: "common.projects.citkConnect.desc", descFallback: "Campus Connectivity Platform", href: "/projects/citk-connect", icon: Globe, color: "text-purple-400" },
+      { nameKey: "common.projects.coreS.name", nameFallback: "Core-S Infrastructure", descKey: "common.projects.coreS.desc", descFallback: "Self-hosted Linux Architecture", href: "/projects/core-s", icon: Server, color: "text-green-400" },
     ],
   },
   {
-    label: "Developer Tools",
+    labelKey: "common.tools.title",
+    labelFallback: "Developer Tools",
     href: "/tools",
     items: [
-      { name: "Developer Utilities", desc: "JSON, Regex, JWT & more", href: "/tools/category/developer", icon: Code2, color: "text-violet-400" },
-      { name: "Image Processing", desc: "Compress, convert, resize", href: "/tools/category/image", icon: Image, color: "text-emerald-400" },
-      { name: "Text & Content", desc: "Word count, case convert, diff", href: "/tools/category/text", icon: Type, color: "text-blue-400" },
-      { name: "Security & Crypto", desc: "Hash, password, encoders", href: "/tools/category/security", icon: Lock, color: "text-orange-400" },
-      { name: "Calculators", desc: "Finance, math, converters", href: "/tools/category/calculator", icon: Calculator, color: "text-red-400" },
-      { name: "Generators", desc: "Password, QR, Lorem Ipsum", href: "/tools/category/generator", icon: Sparkles, color: "text-pink-400" },
+      { nameKey: "common.tools.categories.developer.name", nameFallback: "Developer Utilities", descKey: "common.tools.categories.developer.desc", descFallback: "JSON, Regex, JWT & more", href: "/tools/category/developer", icon: Code2, color: "text-violet-400" },
+      { nameKey: "common.tools.categories.image.name", nameFallback: "Image Processing", descKey: "common.tools.categories.image.desc", descFallback: "Compress, convert, resize", href: "/tools/category/image", icon: Image, color: "text-emerald-400" },
+      { nameKey: "common.tools.categories.text.name", nameFallback: "Text & Content", descKey: "common.tools.categories.text.desc", descFallback: "Word count, case convert, diff", href: "/tools/category/text", icon: Type, color: "text-blue-400" },
+      { nameKey: "common.tools.categories.security.name", nameFallback: "Security & Crypto", descKey: "common.tools.categories.security.desc", descFallback: "Hash, password, encoders", href: "/tools/category/security", icon: Lock, color: "text-orange-400" },
+      { nameKey: "common.tools.categories.calculator.name", nameFallback: "Calculators", descKey: "common.tools.categories.calculator.desc", descFallback: "Finance, math, converters", href: "/tools/category/calculator", icon: Calculator, color: "text-red-400" },
+      { nameKey: "common.tools.categories.generator.name", nameFallback: "Generators", descKey: "common.tools.categories.generator.desc", descFallback: "Password, QR, Lorem Ipsum", href: "/tools/category/generator", icon: Sparkles, color: "text-pink-400" },
     ],
-    cta: { label: "View All 90+ Tools", href: "/tools" },
+    cta: { labelKey: "common.tools.viewAll", labelFallback: "View All 200+ Tools", href: "/tools" },
   },
   {
-    label: "Transparency",
+    labelKey: "common.transparency.title",
+    labelFallback: "Transparency",
     href: "/transparency",
     items: [
-      { name: "Financial Dashboard", desc: "Complete expense breakdown", href: "/transparency", icon: BarChart3, color: "text-green-400" },
-      { name: "Tech Stack", desc: "Our infrastructure transparency", href: "/tech-stack", icon: Eye, color: "text-cyan-400" },
+      { nameKey: "common.transparency.financialDashboard.name", nameFallback: "Financial Dashboard", descKey: "common.transparency.financialDashboard.desc", descFallback: "Complete expense breakdown", href: "/transparency", icon: BarChart3, color: "text-green-400" },
+      { nameKey: "common.transparency.techStack.name", nameFallback: "Tech Stack", descKey: "common.transparency.techStack.desc", descFallback: "Our infrastructure transparency", href: "/tech-stack", icon: Eye, color: "text-cyan-400" },
     ],
   },
   {
-    label: "Research",
+    labelKey: "common.research.title",
+    labelFallback: "Research",
     href: "/research",
     items: [
-      { name: "Research Logs", desc: "Technical papers & analysis", href: "/research", icon: FlaskConical, color: "text-blue-400" },
-      { name: "Blog", desc: "Engineering articles", href: "/blog", icon: FileText, color: "text-zinc-400" },
+      { nameKey: "common.research.logs.name", nameFallback: "Research Logs", descKey: "common.research.logs.desc", descFallback: "Technical papers & analysis", href: "/research", icon: FlaskConical, color: "text-blue-400" },
+      { nameKey: "common.research.blog.name", nameFallback: "Blog", descKey: "common.research.blog.desc", descFallback: "Engineering articles", href: "/blog", icon: FileText, color: "text-zinc-400" },
     ],
   },
 ];
+
+const i18nMessages: Record<Locale, any> = {
+  en: enMessages,
+  es: esMessages,
+  pt: ptMessages,
+  fr: frMessages,
+  de: deMessages,
+  hi: hiMessages,
+};
 
 // ═══════════════════════════════════════════════════════════════════════════
 // COMPONENT
@@ -119,6 +140,47 @@ export function Navbar() {
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const navRef = useRef<HTMLElement>(null);
   const { data: session, status } = useSession();
+
+  const currentLocale = useMemo<Locale>(() => {
+    const firstSegment = pathname?.split("/")[1] as Locale | undefined;
+    return locales.includes(firstSegment as Locale) ? (firstSegment as Locale) : defaultLocale;
+  }, [pathname]);
+
+  const withLocale = useCallback((href: string) => {
+    if (!href.startsWith("/")) return href;
+    if (/^\/(en|es|pt|fr|de|hi)(\/|$)/.test(href)) return href;
+    return href === "/" ? `/${currentLocale}` : `/${currentLocale}${href}`;
+  }, [currentLocale]);
+
+  const t = useCallback((path: string, fallback: string) => {
+    const value = path
+      .split(".")
+      .reduce<any>((acc, key) => (acc && typeof acc === "object" ? acc[key] : undefined), i18nMessages[currentLocale]);
+    return typeof value === "string" ? value : fallback;
+  }, [currentLocale]);
+
+  const localizedNavSections = useMemo(
+    () =>
+      navSections.map((section) => ({
+        ...section,
+        label: t(section.labelKey, section.labelFallback),
+        href: withLocale(section.href),
+        items: section.items.map((item) => ({
+          ...item,
+          name: t(item.nameKey, item.nameFallback),
+          desc: t(item.descKey, item.descFallback),
+          href: withLocale(item.href),
+        })),
+        cta: section.cta
+          ? {
+              ...section.cta,
+              label: t(section.cta.labelKey, section.cta.labelFallback),
+              href: withLocale(section.cta.href),
+            }
+          : undefined,
+      })),
+    [t, withLocale]
+  );
 
   // Close mobile drawer on route change
   useEffect(() => {
@@ -155,7 +217,7 @@ export function Navbar() {
       >
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
           {/* ── Logo ── */}
-          <Link href="/" aria-label="CodelithLabs home" className="text-xl font-bold tracking-tighter text-white flex items-center gap-2.5 group shrink-0">
+          <Link href={withLocale("/")} aria-label="CodelithLabs home" className="text-xl font-bold tracking-tighter text-white flex items-center gap-2.5 group shrink-0">
             <div className="w-8 h-8 rounded-lg bg-glow-blue/10 border border-glow-blue/20 flex items-center justify-center group-hover:border-glow-blue/40 transition-colors">
               <Terminal className="w-4 h-4 text-glow-blue" />
             </div>
@@ -166,7 +228,7 @@ export function Navbar() {
 
           {/* ── Desktop Nav Items ── */}
           <div className="hidden lg:flex items-center gap-1">
-            {navSections.map((section) => (
+            {localizedNavSections.map((section) => (
               <div
                 key={section.label}
                 className="relative"
@@ -227,16 +289,21 @@ export function Navbar() {
             {/* Status indicator (desktop) */}
             <div className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/[0.06] bg-white/[0.02]">
               <span className="status-dot shrink-0" />
-              <span className="text-xs font-mono text-zinc-400">Operational</span>
+              <span className="text-xs font-mono text-zinc-400">{t("common.status.operational", "Operational")}</span>
             </div>
 
-            {/* Hire Us CTA */}
+            {/* Premium CTA */}
             <Link
-              href="/hire-us"
+              href={withLocale("/pricing")}
               className="hidden sm:flex px-4 py-2 bg-white text-black rounded-lg font-bold text-sm hover:bg-zinc-200 transition-colors"
             >
-              Hire Us
+              {t("common.navbar.goPremium", "Go Premium")}
             </Link>
+
+            {/* Locale Switcher */}
+            <div className="hidden sm:block">
+              <LocaleSwitcher variant="desktop" />
+            </div>
 
             {/* Auth Button */}
             {authEnabled && status === "loading" ? (
@@ -260,7 +327,7 @@ export function Navbar() {
                 <button
                   onClick={() => signOut()}
                   className="p-2 rounded-lg hover:bg-white/[0.06] transition-colors text-zinc-400 hover:text-white"
-                  title="Sign out"
+                  title={t("common.navbar.signOut", "Sign Out")}
                 >
                   <LogOut className="w-4 h-4" />
                 </button>
@@ -271,7 +338,7 @@ export function Navbar() {
                 className="hidden sm:flex items-center gap-1.5 px-3 py-2 rounded-lg border border-zinc-700 hover:border-zinc-600 text-sm text-zinc-300 hover:text-white transition-colors"
               >
                 <LogIn className="w-4 h-4" />
-                Sign In
+                {t("common.navbar.signIn", "Sign In")}
               </button>
             ) : null}
 
@@ -312,7 +379,7 @@ export function Navbar() {
             >
               {/* Drawer Header */}
               <div className="flex items-center justify-between p-6 border-b border-white/[0.06]">
-                <Link href="/" aria-label="CodelithLabs home" className="flex items-center gap-2 text-white font-bold" onClick={() => setMobileOpen(false)}>
+                <Link href={withLocale("/")} aria-label="CodelithLabs home" className="flex items-center gap-2 text-white font-bold" onClick={() => setMobileOpen(false)}>
                   <Terminal className="w-4 h-4 text-glow-blue" />
                   CodelithLabs
                 </Link>
@@ -327,12 +394,12 @@ export function Navbar() {
               {/* Status */}
               <div className="mx-6 mt-4 flex items-center gap-2 px-3 py-2 rounded-lg border border-white/[0.06] bg-white/[0.02]">
                 <span className="status-dot shrink-0" />
-                <span className="text-xs font-mono text-zinc-400">All Systems Operational</span>
+                <span className="text-xs font-mono text-zinc-400">{t("common.status.allSystemsOperational", "All Systems Operational")}</span>
               </div>
 
               {/* Nav Sections */}
               <div className="p-6 space-y-6">
-                {navSections.map((section) => (
+                {localizedNavSections.map((section) => (
                   <div key={section.label}>
                     <Link
                       href={section.href}
@@ -373,7 +440,7 @@ export function Navbar() {
                       onClick={() => { signOut(); setMobileOpen(false); }}
                       className="text-xs text-zinc-400 hover:text-white px-2 py-1"
                     >
-                      Sign Out
+                      {t("common.navbar.signOut", "Sign Out")}
                     </button>
                   </div>
                 ) : authEnabled ? (
@@ -382,25 +449,28 @@ export function Navbar() {
                     className="flex items-center justify-center gap-2 w-full py-3 rounded-lg border border-zinc-700 text-zinc-300 text-sm font-medium hover:bg-white/[0.04] transition-colors mb-3"
                   >
                     <LogIn className="w-4 h-4" />
-                    Sign In with Google
+                    {t("common.navbar.signInWithGoogle", "Sign In with Google")}
                   </button>
                 ) : null}
 
                 <Link
-                  href="/tools"
+                  href={withLocale("/tools")}
                   className="flex items-center justify-center gap-2 w-full py-3 rounded-lg border border-glow-blue/30 text-glow-blue text-sm font-medium hover:bg-glow-blue/10 transition-colors"
                   onClick={() => setMobileOpen(false)}
                 >
-                  View All Tools
+                  {t("common.tools.viewAll", "View All Tools")}
                   <ArrowRight className="w-4 h-4" />
                 </Link>
                 <Link
-                  href="/hire-us"
+                  href={withLocale("/pricing")}
                   className="flex items-center justify-center w-full py-3 rounded-lg bg-white text-black text-sm font-bold hover:bg-zinc-200 transition-colors"
                   onClick={() => setMobileOpen(false)}
                 >
-                  Hire Us
+                  {t("common.navbar.goPremium", "Go Premium")}
                 </Link>
+
+                {/* Locale Switcher Mobile */}
+                <LocaleSwitcher variant="mobile" onSwitch={() => setMobileOpen(false)} />
               </div>
             </motion.div>
           </>

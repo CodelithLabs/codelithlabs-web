@@ -1,18 +1,13 @@
 // ═══════════════════════════════════════════════════════════════════════════
 // FILE: src/app/auth/signin/page.tsx
-// Custom branded sign-in page — replaces default NextAuth generic page
+// Custom branded sign-in page — redirects to locale-aware version
 // Addresses Google Safe Browsing "deceptive page / phishing" warning
 // ═══════════════════════════════════════════════════════════════════════════
 
-import type { Metadata } from 'next';
-import SignInClient from './SignInClient';
-
-export const metadata: Metadata = {
-  title: 'Sign In',
-  description: 'Sign in to CodelithLabs to access premium tools, save your preferences, and unlock your personalized dashboard.',
-  robots: { index: false, follow: false },
-};
+import { redirect } from 'next/navigation';
+import { defaultLocale } from '@/i18n/request';
 
 export default function SignInPage() {
-  return <SignInClient />;
+  // Redirect to locale-aware sign-in page
+  redirect(`/${defaultLocale}/auth/signin`);
 }

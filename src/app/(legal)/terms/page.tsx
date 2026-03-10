@@ -9,7 +9,7 @@ import Link from 'next/link';
 
 export const metadata: Metadata = {
   title: 'Terms of Service - CodelithLabs Tools',
-  description: 'Terms of Service for CodelithLabs Tools platform. Read our usage terms and conditions for 100+ free online tools.',
+  description: 'Terms of Service for CodelithLabs Tools platform. Read our usage terms and conditions for 200+ free online tools.',
   keywords: ['terms of service', 'usage terms', 'codelithlabs terms', 'free tools terms'],
   robots: {
     index: true,
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: 'Terms of Service — CodelithLabs',
-    description: 'Terms of Service for CodelithLabs — 100+ free online tools for developers and creators.',
+    description: 'Terms of Service for CodelithLabs — 200+ free online tools for developers and creators.',
     url: 'https://codelithlabs.in/terms/',
     siteName: 'CodelithLabs',
     type: 'website',

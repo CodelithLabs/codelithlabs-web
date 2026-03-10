@@ -1,0 +1,94 @@
+{
+  "generatedAt": "2026-03-10T01:33:00.500Z",
+  "baseUrl": "https://codelithlabs.in",
+  "timeoutMs": 12000,
+  "criticalPaths": [
+    "/",
+    "/tools/",
+    "/blog/",
+    "/tools/case-converter/",
+    "/tools/age-calculator/",
+    "/tools/qr-code-generator/"
+  ],
+  "checks": [
+    {
+      "url": "https://codelithlabs.in/",
+      "expectedCanonical": "https://codelithlabs.in/",
+      "initialStatus": 200,
+      "redirectLocation": null,
+      "finalStatus": 200,
+      "finalUrl": "https://codelithlabs.in/",
+      "hasNoindexMeta": false,
+      "error": null
+    },
+    {
+      "url": "https://codelithlabs.in/tools/",
+      "expectedCanonical": "https://codelithlabs.in/tools/",
+      "initialStatus": 200,
+      "redirectLocation": null,
+      "finalStatus": 200,
+      "finalUrl": "https://codelithlabs.in/tools/",
+      "hasNoindexMeta": false,
+      "error": null
+    },
+    {
+      "url": "https://codelithlabs.in/blog/",
+      "expectedCanonical": "https://codelithlabs.in/blog/",
+      "initialStatus": 200,
+      "redirectLocation": null,
+      "finalStatus": 200,
+      "finalUrl": "https://codelithlabs.in/blog/",
+      "hasNoindexMeta": false,
+      "error": null
+    },
+    {
+      "url": "https://codelithlabs.in/tools/case-converter/",
+      "expectedCanonical": "https://codelithlabs.in/tools/case-converter/",
+      "initialStatus": 200,
+      "redirectLocation": null,
+      "finalStatus": 200,
+      "finalUrl": "https://codelithlabs.in/tools/case-converter/",
+      "hasNoindexMeta": false,
+      "error": null
+    },
+    {
+      "url": "https://codelithlabs.in/tools/age-calculator/",
+      "expectedCanonical": "https://codelithlabs.in/tools/age-calculator/",
+      "initialStatus": 200,
+      "redirectLocation": null,
+      "finalStatus": 200,
+      "finalUrl": "https://codelithlabs.in/tools/age-calculator/",
+      "hasNoindexMeta": false,
+      "error": null
+    },
+    {
+      "url": "https://codelithlabs.in/tools/qr-code-generator/",
+      "expectedCanonical": "https://codelithlabs.in/tools/qr-code-generator/",
+      "initialStatus": 200,
+      "redirectLocation": null,
+      "finalStatus": 200,
+      "finalUrl": "https://codelithlabs.in/tools/qr-code-generator/",
+      "hasNoindexMeta": false,
+      "error": null
+    }
+  ],
+  "buckets": {
+    "noindex": {
+      "rollout": [],
+      "live": []
+    },
+    "redirects": [],
+    "notFound404": [],
+    "serverErrors5xx": [],
+    "requestErrors": []
+  },
+  "canonicalMismatches": [],
+  "summary": {
+    "noindexCount": 0,
+    "redirectCount": 0,
+    "notFound404Count": 0,
+    "serverErrors5xxCount": 0,
+    "requestErrorCount": 0,
+    "canonicalMismatchCount": 0
+  }
+}

@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
 import { Wrench, Shield, IndianRupee, Infinity } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 interface StatCardProps {
   icon: React.ElementType;
@@ -62,14 +63,16 @@ interface StatsBarProps {
 }
 
 export function StatsBar({ toolCount }: StatsBarProps) {
+  const t = useTranslations("home.stats");
+
   return (
     <section className="py-16 px-6">
       <div className="max-w-5xl mx-auto">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <StatCard icon={Wrench} numericValue={toolCount} value="" label="Research Utilities" color="text-glow-blue" delay={0} />
-          <StatCard icon={Shield} value="100%" label="Client-Side Processing" color="text-glow-green" delay={0.1} />
-          <StatCard icon={IndianRupee} value="₹0" label="Zero Cost — Forever" color="text-glow-cyan" delay={0.2} />
-          <StatCard icon={Infinity} value="∞" label="Privacy Guaranteed" color="text-glow-purple" delay={0.3} />
+          <StatCard icon={Wrench} numericValue={toolCount} value="" label={t("tools")} color="text-glow-blue" delay={0} />
+          <StatCard icon={Shield} value="100%" label={t("clientSide")} color="text-glow-green" delay={0.1} />
+          <StatCard icon={IndianRupee} value="₹0" label={t("zeroCost")} color="text-glow-cyan" delay={0.2} />
+          <StatCard icon={Infinity} value="∞" label={t("privacy")} color="text-glow-purple" delay={0.3} />
         </div>
       </div>
     </section>

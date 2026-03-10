@@ -5,6 +5,7 @@
 
 'use client';
 
+import { useEffect, useState } from 'react';
 import { useUser } from '@/lib/user-context';
 import { signOut } from 'next-auth/react';
 import Link from 'next/link';
@@ -14,8 +15,38 @@ import {
   Shield, Wrench, BookOpen, Mail, ExternalLink
 } from 'lucide-react';
 
+const TOOL_ACTION_COUNT_KEY = 'cl_tool_actions_count_v1';
+const DASHBOARD_PREMIUM_BANNER_DISMISS_UNTIL_KEY = 'cl_dashboard_premium_banner_dismiss_until_v1';
+const DASHBOARD_PREMIUM_BANNER_DISMISS_COOLDOWN_MS = 7 * 24 * 60 * 60 * 1000;
+
 export function DashboardClient() {
   const { user, isPremium, isLoading, isAuthenticated } = useUser();
+  const [toolActions, setToolActions] = useState(0);
+  const [showPremiumBanner, setShowPremiumBanner] = useState(false);
+
+  useEffect(() => {
+    if (typeof window === 'undefined' || isPremium) return;
+
+    const actionCount = Number(window.localStorage.getItem(TOOL_ACTION_COUNT_KEY) || '0');
+    setToolActions(Number.isFinite(actionCount) ? actionCount : 0);
+
+    const dismissUntil = Number(window.localStorage.getItem(DASHBOARD_PREMIUM_BANNER_DISMISS_UNTIL_KEY) || '0');
+    const now = Date.now();
+    const isDismissed = Number.isFinite(dismissUntil) && dismissUntil > now;
+
+    setShowPremiumBanner(!isDismissed);
+  }, [isPremium]);
+
+  const dismissPremiumBanner = () => {
+    if (typeof window !== 'undefined') {
+      window.localStorage.setItem(
+        DASHBOARD_PREMIUM_BANNER_DISMISS_UNTIL_KEY,
+        String(Date.now() + DASHBOARD_PREMIUM_BANNER_DISMISS_COOLDOWN_MS)
+      );
+    }
+
+    setShowPremiumBanner(false);
+  };
 
   if (isLoading) {
     return (
@@ -108,7 +139,9 @@ export function DashboardClient() {
               {isPremium ? 'Premium' : 'Free'}
             </p>
             <p className="text-xs text-zinc-500 mt-1">
-              {isPremium ? 'Ad-free experience active' : 'Ads supported'}
+              {isPremium
+                ? `Active until ${user?.premiumExpiresAt ? new Date(user.premiumExpiresAt).toLocaleDateString() : 'further notice'}`
+                : 'Ads supported'}
             </p>
           </div>
 
@@ -117,7 +150,7 @@ export function DashboardClient() {
               <Wrench className="w-4 h-4" />
               <span className="text-xs font-medium uppercase tracking-wider">Tools</span>
             </div>
-            <p className="text-lg font-semibold text-white">100+</p>
+            <p className="text-lg font-semibold text-white">200+</p>
             <p className="text-xs text-zinc-500 mt-1">All tools available</p>
           </div>
 
@@ -132,19 +165,37 @@ export function DashboardClient() {
         </div>
 
         {/* Upgrade CTA (only for free users) */}
-        {!isPremium && (
-          <div className="bg-gradient-to-r from-blue-600/10 to-purple-600/10
-                          border border-blue-500/20 rounded-xl p-6 mb-6">
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-              <div>
+        {!isPremium && showPremiumBanner && (
+          <div className="bg-gradient-to-r from-blue-600/10 to-purple-600/10 border border-blue-500/25 rounded-xl p-6 mb-6">
+            <div className="flex items-start justify-between gap-4">
+              <div className="flex-1">
                 <h3 className="text-white font-semibold flex items-center gap-2">
                   <Crown className="w-5 h-5 text-amber-400" />
-                  Upgrade to Premium
+                  Upgrade when you are ready — go Premium
                 </h3>
-                <p className="text-zinc-400 text-sm mt-1">
-                  Remove ads & support CodelithLabs for just ₹299/month.
+                <p className="text-zinc-300 text-sm mt-1">
+                  {toolActions >= 5
+                    ? `You have already used ${toolActions} tool actions recently. Premium keeps your workflow ad-free and faster.`
+                    : 'Get a cleaner, ad-free workspace with priority support whenever you need it.'}
                 </p>
+
+                <ul className="mt-3 space-y-1.5 text-xs text-zinc-400">
+                  <li className="flex items-center gap-2"><span className="text-blue-400">✓</span> Zero display ads across tools</li>
+                  <li className="flex items-center gap-2"><span className="text-blue-400">✓</span> Priority support for payment and account help</li>
+                  <li className="flex items-center gap-2"><span className="text-blue-400">✓</span> Same trusted tools, smoother daily usage</li>
+                </ul>
               </div>
+
+              <button
+                type="button"
+                onClick={dismissPremiumBanner}
+                className="text-zinc-400 hover:text-zinc-200 text-xs border border-zinc-700 px-2.5 py-1 rounded-md transition-colors"
+              >
+                Hide
+              </button>
+            </div>
+
+            <div className="mt-4 flex flex-col sm:flex-row items-start sm:items-center gap-3">
               <Link
                 href="/pricing"
                 className="px-6 py-2.5 bg-blue-600 hover:bg-blue-500 text-white
@@ -152,8 +203,9 @@ export function DashboardClient() {
                            shadow-lg shadow-blue-500/20 flex items-center gap-2"
               >
                 <CreditCard className="w-4 h-4" />
-                View Plans
+                See Premium Plans
               </Link>
+              <span className="text-xs text-zinc-500">Starts at ₹299/month</span>
             </div>
           </div>
         )}
@@ -175,7 +227,7 @@ export function DashboardClient() {
                 <p className="text-sm font-medium text-white group-hover:text-blue-400 transition">
                   Browse Tools
                 </p>
-                <p className="text-xs text-zinc-500">100+ free online tools</p>
+                <p className="text-xs text-zinc-500">200+ free online tools</p>
               </div>
               <ExternalLink className="w-4 h-4 text-zinc-600 ml-auto" />
             </Link>

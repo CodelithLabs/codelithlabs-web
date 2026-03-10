@@ -1,0 +1,472 @@
+{
+  "common": {
+    "navbar": {
+      "signIn": "साइन इन करें",
+      "signOut": "साइन आउट करें",
+      "signInWithGoogle": "Google से साइन इन करें",
+      "goPremium": "प्रीमियम पाएं",
+      "dashboard": "डैशबोर्ड",
+      "profile": "प्रोफाइल"
+    },
+    "footer": {
+      "aboutUs": "हमारे बारे में",
+      "contact": "संपर्क करें",
+      "premium": "प्रीमियम",
+      "privacyPolicy": "गोपनीयता नीति",
+      "termsOfService": "सेवा की शर्तें",
+      "allRightsReserved": "सर्वाधिकार सुरक्षित",
+      "banner": "गोपनीयता-प्रथम टूल्स। सर्वर स्टोरेज नहीं। आपका डेटा कभी आपके ब्राउज़र से बाहर नहीं जाता।",
+      "sections": {
+        "company": "कंपनी",
+        "research": "रिसर्च",
+        "legal": "कानूनी",
+        "openSource": "ओपन सोर्स"
+      },
+      "links": {
+        "allTools": "सभी टूल्स",
+        "developerTools": "डेवलपर टूल्स",
+        "imageTools": "इमेज टूल्स",
+        "converters": "कन्वर्टर्स",
+        "calculators": "कैलकुलेटर्स",
+        "aiTools": "AI टूल्स",
+        "team": "हमारी टीम",
+        "pricing": "प्राइसिंग",
+        "techStack": "टेक स्टैक",
+        "transparency": "पारदर्शिता",
+        "blog": "ब्लॉग",
+        "researchLogs": "R&D लॉग्स",
+        "projects": "प्रोजेक्ट्स",
+        "refundCancellation": "रिफंड और कैंसलेशन",
+        "github": "GitHub"
+      },
+      "independentDisclaimer": "CodelithLabs.in एक स्वतंत्र प्लेटफ़ॉर्म है और codelithlab.com (पुणे स्थित आईटी कंपनी) से संबद्ध नहीं है।",
+      "systemOperational": "सभी सिस्टम सामान्य रूप से चल रहे हैं",
+      "lastDeploy": "आख़िरी डिप्लॉय",
+      "clientSideProcessing": "100% क्लाइंट-साइड प्रोसेसिंग",
+      "builtWith": "Next.js + TypeScript के साथ निर्मित",
+      "copyright": "© 2026 CodelithLabs. सर्वाधिकार सुरक्षित। Kokrajhar, Assam, India."
+    },
+    "research": {
+      "title": "रिसर्च",
+      "logs": {
+        "name": "रिसर्च लॉग्स",
+        "desc": "तकनीकी लेख और विश्लेषण"
+      },
+      "blog": {
+        "name": "ब्लॉग",
+        "desc": "इंजीनियरिंग लेख"
+      }
+    },
+    "projects": {
+      "title": "अनुसंधान और विकास परियोजनाएं",
+      "vectordefense": {
+        "name": "VectorDefense",
+        "desc": "C++ टावर डिफेंस इंजन"
+      },
+      "citkConnect": {
+        "name": "CITK-Connect",
+        "desc": "कैंपस कनेक्टिविटी प्लेटफॉर्म"
+      },
+      "coreS": {
+        "name": "Core-S इंफ्रास्ट्रक्चर",
+        "desc": "स्व-होस्टेड लिनक्स आर्किटेक्चर"
+      }
+    },
+    "tools": {
+      "title": "डेवलपर टूल्स",
+      "viewAll": "सभी 200+ टूल देखें",
+      "categories": {
+        "developer": {
+          "name": "डेवलपर यूटिलिटी",
+          "desc": "JSON, Regex, JWT और अधिक"
+        },
+        "image": {
+          "name": "इमेज प्रोसेसिंग",
+          "desc": "कंप्रेस, कन्वर्ट, रीसाइज़"
+        },
+        "text": {
+          "name": "टेक्स्ट और कंटेंट",
+          "desc": "शब्द गणना, केस कन्वर्ट, डिफ"
+        },
+        "security": {
+          "name": "सुरक्षा और क्रिप्टो",
+          "desc": "हैश, पासवर्ड, एनकोडर"
+        },
+        "calculator": {
+          "name": "कैलकुलेटर",
+          "desc": "वित्त, गणित, कनवर्टर"
+        },
+        "generator": {
+          "name": "जेनरेटर",
+          "desc": "पासवर्ड, QR, Lorem Ipsum"
+        }
+      }
+    },
+    "transparency": {
+      "title": "पारदर्शिता",
+      "financialDashboard": {
+        "name": "वित्तीय डैशबोर्ड",
+        "desc": "पूर्ण खर्च विवरण"
+      },
+      "techStack": {
+        "name": "टेक स्टैक",
+        "desc": "हमारी इंफ्रास्ट्रक्चर की पारदर्शिता"
+      }
+    },
+    "buttons": {
+      "getStarted": "शुरू करें",
+      "learnMore": "और जानें",
+      "tryNow": "अभी आज़माएं",
+      "viewDetails": "विवरण देखें",
+      "backToHome": "होम पर वापस जाएं",
+      "search": "खोजें",
+      "clear": "साफ़ करें",
+      "copy": "कॉपी करें",
+      "download": "डाउनलोड करें",
+      "upload": "अपलोड करें",
+      "reset": "रीसेट करें",
+      "submit": "सबमिट करें",
+      "cancel": "रद्द करें",
+      "close": "बंद करें",
+      "save": "सेव करें"
+    },
+    "status": {
+      "loading": "लोड हो रहा है...",
+      "processing": "प्रोसेस हो रहा है...",
+      "success": "सफल!",
+      "error": "त्रुटि",
+      "copied": "कॉपी हो गया!",
+      "noResults": "कोई परिणाम नहीं मिला",
+      "operational": "संचालित",
+      "allSystemsOperational": "सभी सिस्टम सामान्य रूप से चल रहे हैं"
+    },
+    "errors": {
+      "generic": "कुछ गलत हो गया। कृपया पुनः प्रयास करें।",
+      "invalidInput": "अमान्य इनपुट। कृपया अपना डेटा जांचें।",
+      "networkError": "नेटवर्क त्रुटि। कृपया अपना कनेक्शन जांचें।",
+      "notFound": "पृष्ठ नहीं मिला",
+      "unauthorized": "इस पृष्ठ तक पहुँचने के लिए आपको साइन इन करना होगा।",
+      "paymentRequired": "प्रीमियम सुविधा। एक्सेस के लिए अपग्रेड करें।"
+    }
+  },
+  "hero": {
+    "badges": {
+      "freeTools": "200+ मुफ्त टूल्स",
+      "clientSide": "100% क्लाइंट-साइड",
+      "openSource": "ओपन सोर्स"
+    },
+    "labActive": "रिसर्च लैब सक्रिय",
+    "title": {
+      "line1": "ओपन सोर्स इनोवेशन.",
+      "line2": "सिस्टम आर्किटेक्चर."
+    },
+    "subtitle": "हम उच्च-प्रदर्शन डेवलपर टूल्स, फिनटेक समाधान और रिसर्च इंफ्रास्ट्रक्चर बनाते हैं — सब कुछ कोकराझार से डिज़ाइन किया गया और दुनिया तक पहुँचाया गया।",
+    "cta": {
+      "exploreTools": "टूल्स एक्सप्लोर करें",
+      "viewResearch": "रिसर्च देखें"
+    }
+  },
+  "pricing": {
+    "free": {
+      "title": "Free",
+      "subtitle": "Everything you need to get started",
+      "price": "₹0",
+      "period": "/ forever",
+      "features": {
+        "accessTools": "Access to all 200+ tools",
+        "clientSide": "Client-side processing",
+        "noRegistration": "No registration required",
+        "communitySupport": "Community support",
+        "standardSpeed": "Standard processing speed"
+      },
+      "currentPlan": "Current Plan"
+    },
+    "premium": {
+      "badge": "RECOMMENDED",
+      "title": "Premium",
+      "subtitle": "Ad-free tools + faster workflows + priority support",
+      "price": "₹299",
+      "period": "/ month",
+      "features": {
+        "everythingFree": "Everything in Free",
+        "adFree": "Ad-free experience across all tools",
+        "priorityQueue": "Priority processing queue",
+        "prioritySupport": "Priority support (response within 24 hours)",
+        "earlyAccess": "Early access to upcoming tools",
+        "customRequest": "Custom tool request priority",
+        "voting": "Roadmap feature voting"
+      },
+      "activeMember": "✓ Active Member",
+      "premiumActive": "Premium status active",
+      "renewsOn": "Renews on",
+      "getPremium": "Get Premium Access",
+      "signInGetPremium": "Sign In & Get Premium"
+    }
+  },
+  "home": {
+    "hero": {
+      "title": "पेशेवर डेवलपर टूल्स",
+      "subtitle": "डेवलपर्स और क्रिएटर्स के लिए 200+ मुफ्त ऑनलाइन टूल्स",
+      "cta": "टूल्स एक्सप्लोर करें"
+    },
+    "stats": {
+      "tools": "रिसर्च यूटिलिटीज़",
+      "clientSide": "क्लाइंट-साइड प्रोसेसिंग",
+      "zeroCost": "शून्य लागत — हमेशा के लिए",
+      "privacy": "गोपनीयता की गारंटी"
+    },
+    "toolHighlights": {
+      "title": "सबसे ज़्यादा उपयोग की जाने वाली रिसर्च यूटिलिटीज़",
+      "subtitle": "उच्च-प्रदर्शन टूल्स जो पूरी तरह आपके ब्राउज़र में चलते हैं। शून्य सर्वर प्रोसेसिंग, अधिकतम गोपनीयता।",
+      "openTool": "टूल खोलें",
+      "browseAll": "सभी 200+ टूल्स देखें",
+      "items": {
+        "jsonFormatter": {
+          "name": "JSON फ़ॉर्मैटर",
+          "description": "सिंटैक्स हाइलाइटिंग और एरर डिटेक्शन के साथ JSON डेटा को फ़ॉर्मैट, सुंदर और वैलिडेट करें।"
+        },
+        "hashGenerator": {
+          "name": "हैश जनरेटर",
+          "description": "किसी भी टेक्स्ट इनपुट से MD5, SHA-1, SHA-256 और SHA-512 हैश बनाएं।"
+        },
+        "imageCompressor": {
+          "name": "इमेज कंप्रेसर",
+          "description": "गुणवत्ता बनाए रखते हुए इमेज कंप्रेस करें — WebP, PNG और JPEG सपोर्ट के साथ।"
+        },
+        "passwordGenerator": {
+          "name": "पासवर्ड जनरेटर",
+          "description": "कस्टम लंबाई और नियमों के साथ सुरक्षित, रैंडम पासवर्ड बनाएं।"
+        },
+        "qrCodeGenerator": {
+          "name": "QR कोड जनरेटर",
+          "description": "URLs, टेक्स्ट और संपर्क जानकारी के लिए QR कोड बनाएं।"
+        },
+        "base64Encoder": {
+          "name": "Base64 एन्कोडर",
+          "description": "टेक्स्ट को Base64 में एन्कोड करें या Base64 को तुरंत साधारण टेक्स्ट में डिकोड करें।"
+        }
+      }
+    },
+    "features": {
+      "title": "CodelithLabs को क्यों चुनें?",
+      "subtitle": "गोपनीयता, प्रदर्शन और इंजीनियरिंग उत्कृष्टता को ध्यान में रखकर बनाया गया",
+      "privacyFirst": {
+        "title": "100% गोपनीयता पहले",
+        "desc": "सभी टूल्स आपके ब्राउज़र में डेटा प्रोसेस करते हैं। आपकी फाइलें और डेटा कभी भी आपके डिवाइस से बाहर नहीं जाते।"
+      },
+      "lightningFast": {
+        "title": "बिजली जैसी तेज़",
+        "desc": "क्लाइंट-साइड प्रोसेसिंग बिना सर्वर देरी या अपलोड के तुरंत परिणाम देती है।"
+      },
+      "noSignup": {
+        "title": "साइन-अप की ज़रूरत नहीं",
+        "desc": "किसी भी टूल का उपयोग तुरंत शुरू करें। न रजिस्ट्रेशन, न ईमेल, न ट्रैकिंग।"
+      },
+      "alwaysGrowing": {
+        "title": "हमेशा बढ़ता हुआ",
+        "desc": "यूज़र फीडबैक और डेवलपर की बदलती ज़रूरतों के आधार पर नए टूल नियमित रूप से जोड़े जाते हैं।"
+      },
+      "worksOffline": {
+        "title": "ऑफलाइन भी काम करता है",
+        "desc": "एक बार लोड होने के बाद, टूल्स बिना इंटरनेट कनेक्शन के भी काम करते हैं। यात्रा के लिए आदर्श।"
+      },
+      "premiumOption": {
+        "title": "मुफ्त + प्रीमियम विकल्प",
+        "desc": "सभी टूल्स मुफ्त बने रहते हैं। प्रीमियम में विज्ञापन-मुक्त वर्कफ़्लो, प्राथमिकता समर्थन और तेज़ उपयोग शामिल है।"
+      }
+    },
+    "projects": {
+      "title": "इंजीनियरिंग पहल",
+      "subtitle": "गेम इंजन डिज़ाइन, फुल-स्टैक प्लेटफ़ॉर्म और इंफ्रास्ट्रक्चर सिस्टम्स तक फैले सक्रिय रिसर्च और डेवलपमेंट प्रोजेक्ट्स।",
+      "viewAll": "सभी प्रोजेक्ट्स देखें",
+      "items": {
+        "vectordefense": {
+          "description": "कस्टम Entity-Component-System आर्किटेक्चर, OpenGL रेंडरिंग और मल्टीथ्रेडेड गेम लूप्स वाला उच्च-प्रदर्शन C++ टावर डिफेंस इंजन।"
+        },
+        "citkConnect": {
+          "description": "संसाधन प्रबंधन, इवेंट शेड्यूलिंग और रियल-टाइम कम्युनिकेशन सक्षम करने वाला एक फुल-स्टैक कैंपस कनेक्टिविटी प्लेटफ़ॉर्म।"
+        },
+        "coreS": {
+          "description": "Nginx रिवर्स प्रॉक्सी, ऑटोमेटेड SSL, Docker कंटेनरीकरण और मॉनिटरिंग डैशबोर्ड्स के साथ स्व-होस्टेड Linux सर्वर आर्किटेक्चर।"
+        }
+      }
+    },
+    "categories": {
+      "title": "श्रेणी के अनुसार एक्सप्लोर करें",
+      "subtitle": "हर काम के लिए सही टूल खोजें"
+    },
+    "cta": {
+      "title": "शुरू करने के लिए तैयार हैं?",
+      "subtitle": "हजारों डेवलपर्स और क्रिएटर्स के साथ जुड़ें जो हर दिन CodelithLabs टूल्स का उपयोग करते हैं।",
+      "browseAllTools": "सभी टूल्स ब्राउज़ करें",
+      "meetTeam": "टीम से मिलें"
+    }
+  },
+  "tools": {
+    "searchPlaceholder": "200+ टूल्स में खोजें...",
+    "categories": "श्रेणियां",
+    "allTools": "सभी टूल्स",
+    "popular": "लोकप्रिय",
+    "new": "नया",
+    "trending": "ट्रेंडिंग"
+  },
+  "pages": {
+    "team": {
+      "meta": {
+        "title": "CodelithLabs टीम से मिलिए",
+        "description": "उन इंजीनियरों और ऑपरेटरों से मिलिए जो रिसर्च, इंफ्रास्ट्रक्चर और प्रोडक्ट डिलीवरी के स्तर पर CodelithLabs को बना रहे हैं।"
+      }
+    },
+    "transparency": {
+      "meta": {
+        "title": "वित्तीय पारदर्शिता — CodelithLabs",
+        "description": "CodelithLabs 100% मुख्य सदस्यों की Razorpay डोनेशन से चलती है। हमारे वास्तविक वित्तीय डेटा, इंफ्रास्ट्रक्चर लागत और लाइव GitHub योगदान मेट्रिक्स देखें।"
+      },
+      "eyebrow": "वित्तीय पारदर्शिता रिपोर्ट",
+      "title": "बूटस्ट्रैप्ड और खुला",
+      "description": "CodelithLabs 100% हमारे मुख्य सदस्यों की Razorpay डोनेशन से आंतरिक रूप से फंड होती है। हमारी कोई बाहरी आय नहीं है — हर रुपया ट्रैक किया जाता है और सार्वजनिक रूप से साझा किया जाता है।",
+      "memberMandateText": "संगठन को चलाए रखने के लिए सभी मुख्य सदस्य Razorpay के माध्यम से कम-से-कम ₹54/माह का योगदान देते हैं।",
+      "summaryCards": {
+        "externalRevenue": { "label": "बाहरी राजस्व", "sub": "AdSense अभी शुरू नहीं हुआ है" },
+        "totalMemberFunding": { "label": "कुल सदस्य फंडिंग", "sub": "100% Razorpay डोनेशन" },
+        "annualInfraCost": { "label": "वार्षिक इंफ्रास्ट्रक्चर लागत", "sub": "डोमेन + सर्वर + मेंटेनेंस" },
+        "memberMandate": { "label": "सदस्य योगदान", "sub": "प्रत्येक मुख्य सदस्य के लिए न्यूनतम" }
+      },
+      "runningCosts": {
+        "title": "संचालन लागत",
+        "subtitle": "₹3,600/वर्ष कुल",
+        "feesNote": "+ हर डोनेशन पर Razorpay की मानक ट्रांजैक्शन फीस",
+        "items": {
+          "serverElectricity": { "label": "Ubuntu टेस्ट सर्वर (बिजली)", "note": "घर पर चल रहा है" },
+          "domain": { "label": "डोमेन रजिस्ट्रेशन (.in)", "note": "codelithlabs.in" },
+          "serverMaintenance": { "label": "सर्वर मेंटेनेंस", "note": "हार्डवेयर और देखभाल" }
+        }
+      },
+      "memberFunding": {
+        "title": "Razorpay योगदान",
+        "subtitle": "₹2,775 कुल एकत्रित",
+        "totalRaised": "कुल संग्रह",
+        "externalRevenueLabel": "बाहरी राजस्व (AdSense, Sponsorships, Client Projects):",
+        "members": {
+          "prasanta": { "role": "संस्थापक और CEO" },
+          "donbil": { "role": "सह-संस्थापक और CTO" },
+          "harun": { "role": "मुख्य सदस्य" }
+        }
+      },
+      "infrastructure": {
+        "title": "इंफ्रास्ट्रक्चर स्टैक",
+        "items": {
+          "vercelHosting": { "label": "Vercel होस्टिंग", "status": "फ्री टियर" },
+          "domain": { "label": "डोमेन (.in)", "status": "सक्रिय" },
+          "ubuntuServer": { "label": "Ubuntu होम सर्वर", "status": "स्व-होस्टेड" },
+          "githubActions": { "label": "GitHub Actions CI", "status": "फ्री टियर" },
+          "maintenance": { "label": "सर्वर मेंटेनेंस", "status": "हार्डवेयर देखभाल" },
+          "razorpay": { "label": "Razorpay गेटवे", "status": "पेमेंट प्रोसेसिंग" },
+          "cloudflare": { "label": "Cloudflare CDN", "status": "फ्री टियर" },
+          "monitoring": { "label": "मॉनिटरिंग", "status": "इन-हाउस निर्मित" }
+        }
+      },
+      "team": {
+        "title": "कोर टीम — लाइव मेट्रिक्स",
+        "subtitle": "GitHub commits और PRs को build time पर GitHub Search API से प्राप्त किया जाता है",
+        "stats": {
+          "commits": "Commits",
+          "prs": "PRs",
+          "funded": "फंडिंग"
+        },
+        "roles": {
+          "founderCeo": "संस्थापक और CEO",
+          "coFounderCto": "सह-संस्थापक और CTO",
+          "coreMember": "मुख्य सदस्य"
+        },
+        "focus": {
+          "architecture": "आर्किटेक्चर",
+          "backend": "बैकएंड",
+          "devops": "DevOps",
+          "security": "सुरक्षा",
+          "financials": "वित्त",
+          "frontend": "फ्रंटएंड",
+          "infrastructure": "इंफ्रास्ट्रक्चर",
+          "openSource": "ओपन सोर्स",
+          "development": "डेवलपमेंट",
+          "testing": "टेस्टिंग",
+          "community": "समुदाय"
+        }
+      },
+      "principles": {
+        "title": "हमारी पारदर्शिता प्रतिबद्धता",
+        "items": {
+          "bootstrappedReality": { "title": "बूटस्ट्रैप्ड वास्तविकता", "desc": "CodelithLabs की बाहरी आय ₹0 है। हर रुपया हमारे मुख्य सदस्यों की जेब से ₹54/माह की अनिवार्य Razorpay डोनेशन के रूप में आता है। हम इस वास्तविकता को गर्व से स्वीकार करते हैं।" },
+          "zeroHiddenCosts": { "title": "शून्य छिपी लागत", "desc": "हमारे टूल्स 100% क्लाइंट-साइड चलते हैं। इंफ्रास्ट्रक्चर में एक होम Ubuntu सर्वर, ₹800 का डोमेन और फ्री-टियर क्लाउड सेवाएं शामिल हैं। कुल वार्षिक लागत: ₹3,600।" },
+          "communityFirst": { "title": "समुदाय पहले", "desc": "सारी फंडिंग सीधे इंफ्रास्ट्रक्चर में जाती है। कोई एग्जीक्यूटिव सैलरी नहीं, कोई ऑफिस स्पेस नहीं। जब AdSense शुरू होगा, तो वह राजस्व फिर से प्लेटफ़ॉर्म और ओपन-सोर्स काम में लगाया जाएगा।" }
+        }
+      }
+    },
+    "research": {
+      "meta": {
+        "title": "रिसर्च और इंजीनियरिंग — CodelithLabs",
+        "description": "CodelithLabs टीम के तकनीकी पेपर, आर्किटेक्चरल निर्णय और इंजीनियरिंग पोस्ट-मॉर्टम।"
+      },
+      "schemaName": "CodelithLabs रिसर्च और इंजीनियरिंग",
+      "schemaDescription": "CodelithLabs टीम के तकनीकी पेपर, आर्किटेक्चरल निर्णय और इंजीनियरिंग पोस्ट-मॉर्टम।",
+      "title": "रिसर्च और इंजीनियरिंग",
+      "subtitle": "CodelithLabs टीम के तकनीकी पेपर, आर्किटेक्चरल निर्णय और इंजीनियरिंग पोस्ट-मॉर्टम। अभ्यास द्वारा सत्यापित।",
+      "stats": {
+        "papersPublished": "पेपर प्रकाशित",
+        "topicsCovered": "विषय शामिल",
+        "openAccess": "ओपन एक्सेस"
+      },
+      "searchPlaceholder": "पेपर, विषय या टैग खोजें...",
+      "featuredResearch": "विशेष शोध",
+      "featuredBadge": "विशेष",
+      "allPapers": "सभी पेपर",
+      "results": {
+        "singular": "परिणाम",
+        "plural": "परिणाम"
+      },
+      "categories": {
+        "all": "सभी",
+        "systemsEngineering": "सिस्टम इंजीनियरिंग",
+        "devops": "DevOps",
+        "webEngineering": "वेब इंजीनियरिंग",
+        "frontendArchitecture": "फ्रंटएंड आर्किटेक्चर",
+        "systemsDesign": "सिस्टम डिज़ाइन",
+        "networking": "नेटवर्किंग"
+      },
+      "papers": {
+        "paper1": { "title": "बड़े पैमाने के ECS के लिए C++ compilation time का अनुकूलन", "abstract": "VectorDefense इंजन में header dependencies, precompiled headers और forward declarations का गहन विश्लेषण। Module-aware dependency graphs और strategic PCH boundaries का उपयोग करके 200+ translation units में incremental build time को 40% तक कम किया गया।", "date": "12 जन॰ 2026" },
+        "paper2": { "title": "सुरक्षित होम सर्वर आर्किटेक्चर: एक पोस्ट-मॉर्टम", "abstract": "Self-hosted Nginx reverse proxy, Let's Encrypt के साथ automated SSL renewal, Fail2Ban intrusion detection और Debian Linux पर Docker container isolation लागू करने से मिली सीख। इसमें पूरा threat model analysis शामिल है।", "date": "28 दिस॰ 2025" },
+        "paper3": { "title": "ब्राउज़र-साइड प्रोसेसिंग के लिए WebWorker आर्किटेक्चर", "abstract": "ब्राउज़र में CPU-intensive ऑपरेशंस के लिए scalable Web Worker pipeline का डिज़ाइन। इसमें image compression, JSON formatting और hash generation के लिए हमारा approach शामिल है — सब कुछ main thread से बाहर और structured clone transfer के साथ zero-copy data movement हेतु।", "date": "15 दिस॰ 2025" },
+        "paper4": { "title": "Next.js 16 के साथ बड़े पैमाने पर static site generation", "abstract": "CodelithLabs कैसे custom content pipeline का उपयोग कर build time पर 200+ tool pages generate करता है। इसमें हमारे markdown-driven tool registry, automatic OG image generation, Turbopack integration और static export बनाम server-side rendering के trade-offs शामिल हैं।", "date": "30 नव॰ 2025" },
+        "paper5": { "title": "वित्तीय ऑटोमेशन सिस्टम डिज़ाइन", "abstract": "Client-side rendering के साथ transparent financial dashboards बनाने के लिए architectural considerations। इसमें expense tracking के लिए data modeling, heavy charting libraries के pure CSS विकल्प और भारतीय संगठनों के लिए DPDPA compliance बनाए रखना शामिल है।", "date": "15 नव॰ 2025" },
+        "paper6": { "title": "कैंपस नेटवर्क टोपोलॉजी का अनुकूलन", "abstract": "यूनिवर्सिटी connectivity platforms के लिए network topology patterns का अध्ययन। यह real-time WebSocket communication के लिए star, mesh और hybrid topologies के latency trade-offs का विश्लेषण करता है, साथ ही concurrent load में PostgreSQL connection pooling benchmarks भी शामिल हैं।", "date": "28 अक्तू॰ 2025" }
+      }
+    },
+    "projects": {
+      "meta": {
+        "title": "हमारा काम — CodelithLabs प्रोजेक्ट्स",
+        "description": "CodelithLabs टीम द्वारा बनाए गए रिसर्च इनिशिएटिव्स, क्लाइंट डिलीवेरेबल्स और ओपन-सोर्स इंजीनियरिंग कार्य को देखें।"
+      },
+      "title": "हमारा काम",
+      "subtitle": "CodelithLabs इंजीनियरिंग टीम के रिसर्च इनिशिएटिव्स, क्लाइंट डिलीवेरेबल्स और ओपन-सोर्स योगदानों का एक संग्रह।",
+      "filters": {
+        "all": "सभी",
+        "webApp": "वेब ऐप",
+        "gameDev": "गेम डेवलपमेंट",
+        "systems": "सिस्टम्स"
+      },
+      "status": {
+        "active": "सक्रिय",
+        "completed": "पूर्ण",
+        "research": "रिसर्च"
+      },
+      "viewOnGitHub": "GitHub पर देखें",
+      "items": {
+        "vectordefense": { "description": "कस्टम Entity-Component-System और multithreaded rendering pipeline वाला high-performance C++ tower defense इंजन।", "architectureOverview": "ECS-आधारित game loop, OpenGL 4.5 renderer, collision के लिए spatial hash grid और parallel entity updates के लिए lock-free task scheduler।" },
+        "citkConnect": { "description": "यूनिवर्सिटी इंफ्रास्ट्रक्चर के लिए resource management, event scheduling और real-time communication सक्षम करने वाला full-stack campus connectivity platform।", "architectureOverview": "Next.js SSR frontend, PostgreSQL backend, JWT-based auth, WebSocket real-time updates और Zod validation के साथ REST API layer।" },
+        "coreS": { "description": "Nginx reverse proxy, automated SSL, Docker containerization और uptime monitoring वाला self-hosted Linux server architecture।", "architectureOverview": "Debian-based host पर Docker Compose orchestration, Let's Encrypt auto-renewal के साथ Nginx reverse proxy और Prometheus + Grafana monitoring stack।" },
+        "codelithWeb": { "description": "200+ browser-based utilities, static site generation और automated content pipelines वाला enterprise-grade tools platform।", "architectureOverview": "Next.js 16 static export with Turbopack, image/JSON tools के लिए Web Worker-based processing, Tailwind CSS design system और Vercel edge CDN।" }
+      }
+    }
+  }
+}

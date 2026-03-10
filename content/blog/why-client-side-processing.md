@@ -3,7 +3,7 @@ title: "Why Client-Side Processing Is the Future of Online Tools"
 description: "Learn why processing data in the browser is safer, faster, and more private than server-side alternatives — and how CodelithLabs builds every tool with this philosophy."
 slug: why-client-side-processing
 datePublished: "2025-01-15"
-dateModified: "2025-01-15"
+dateModified: "2026-03-10"
 author: "CodelithLabs Team"
 category: "Engineering"
 tags: ["privacy", "web-workers", "javascript", "security"]

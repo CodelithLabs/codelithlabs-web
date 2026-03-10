@@ -41,7 +41,7 @@ export function buildAutoReplyEmail(name: string): string {
         <tr>
           <td style="padding:8px 0;">
             <a href="https://codelithlabs.in/tools" style="color:#60a5fa;text-decoration:none;font-size:14px;">
-              🛠️ 100+ Free Online Tools
+              🛠️ 200+ Free Online Tools
             </a>
           </td>
         </tr>

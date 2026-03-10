@@ -5,6 +5,12 @@
 
 import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
+import { isDatabaseConfigured, prisma } from "@/lib/prisma";
+import {
+  PREMIUM_AMOUNT_PAISE,
+  PREMIUM_CURRENCY,
+  PREMIUM_PLAN_CODE,
+} from "@/lib/razorpay";
 import crypto from "crypto";
 import { checkRateLimit } from "@/lib/rate-limiter";
 
@@ -24,8 +30,6 @@ interface RazorpayOrderResponse {
 
 // ─── Constants ───────────────────────────────────────────────────────────
 
-const PREMIUM_AMOUNT = 29900; // ₹299 in paise
-const CURRENCY = "INR";
 const RAZORPAY_API = "https://api.razorpay.com/v1";
 
 // ─── POST handler ────────────────────────────────────────────────────────
@@ -53,13 +57,20 @@ export async function POST(request: Request) {
     }
 
     // 2. Validate Razorpay credentials exist
-    const keyId = process.env.RAZORPAY_KEY_ID ?? process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID;
+    const keyId = process.env.RAZORPAY_KEY_ID;
     const keySecret = process.env.RAZORPAY_KEY_SECRET;
 
     if (!keyId || !keySecret) {
       console.error("[Razorpay] Missing API credentials");
       return NextResponse.json(
         { error: "Payment service not configured" },
+        { status: 503 }
+      );
+    }
+
+    if (!isDatabaseConfigured()) {
+      return NextResponse.json(
+        { error: "Premium database is not configured. Please contact support." },
         { status: 503 }
       );
     }
@@ -77,13 +88,13 @@ export async function POST(request: Request) {
         Authorization: `Basic ${basicAuth}`,
       },
       body: JSON.stringify({
-        amount: PREMIUM_AMOUNT,
-        currency: CURRENCY,
+        amount: PREMIUM_AMOUNT_PAISE,
+        currency: PREMIUM_CURRENCY,
         receipt,
         notes: {
           email: session.user.email,
           userId: session.user.id ?? "",
-          plan: "premium_monthly",
+          plan: PREMIUM_PLAN_CODE,
         },
       }),
     });
@@ -98,6 +109,41 @@ export async function POST(request: Request) {
     }
 
     const order: RazorpayOrderResponse = await orderResponse.json();
+
+    const dbUser = await prisma.user.upsert({
+      where: { email: session.user.email },
+      update: {
+        name: session.user.name ?? undefined,
+        image: session.user.image ?? undefined,
+      },
+      create: {
+        email: session.user.email,
+        name: session.user.name ?? undefined,
+        image: session.user.image ?? undefined,
+      },
+      select: { id: true },
+    });
+
+    await prisma.payment.upsert({
+      where: { razorpayOrderId: order.id },
+      update: {
+        userId: dbUser.id,
+        amountPaise: order.amount,
+        currency: order.currency,
+        status: "CREATED",
+        provider: "razorpay",
+        planCode: PREMIUM_PLAN_CODE,
+      },
+      create: {
+        userId: dbUser.id,
+        razorpayOrderId: order.id,
+        amountPaise: order.amount,
+        currency: order.currency,
+        status: "CREATED",
+        provider: "razorpay",
+        planCode: PREMIUM_PLAN_CODE,
+      },
+    });
 
     // 5. Return order details to the client
     return NextResponse.json({

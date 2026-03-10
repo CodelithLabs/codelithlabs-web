@@ -1,78 +1,86 @@
 "use client";
 
 import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
+import { useMemo, useRef } from "react";
 import {
   ArrowRight, Code2, Hash, ImageDown, KeyRound, QrCode, FileCode2
 } from "lucide-react";
 import Link from "next/link";
-
-const tools = [
-  {
-    slug: "json-formatter",
-    name: "JSON Formatter",
-    description: "Format, beautify, and validate JSON data with syntax highlighting and error detection.",
-    icon: Code2,
-    color: "text-violet-400",
-    bgColor: "bg-violet-500/10",
-    span: "md:col-span-2 md:row-span-2",
-    large: true,
-  },
-  {
-    slug: "hash-generator",
-    name: "Hash Generator",
-    description: "Generate MD5, SHA-1, SHA-256, and SHA-512 hashes from any text input.",
-    icon: Hash,
-    color: "text-orange-400",
-    bgColor: "bg-orange-500/10",
-    span: "md:col-span-1",
-    large: false,
-  },
-  {
-    slug: "image-compressor",
-    name: "Image Compressor",
-    description: "Compress images while maintaining quality — WebP, PNG, JPEG support.",
-    icon: ImageDown,
-    color: "text-emerald-400",
-    bgColor: "bg-emerald-500/10",
-    span: "md:col-span-1",
-    large: false,
-  },
-  {
-    slug: "password-generator",
-    name: "Password Generator",
-    description: "Create secure, random passwords with custom length and character rules.",
-    icon: KeyRound,
-    color: "text-pink-400",
-    bgColor: "bg-pink-500/10",
-    span: "md:col-span-1",
-    large: false,
-  },
-  {
-    slug: "qr-code-generator",
-    name: "QR Code Generator",
-    description: "Generate QR codes for URLs, text, and contact information.",
-    icon: QrCode,
-    color: "text-cyan-400",
-    bgColor: "bg-cyan-500/10",
-    span: "md:col-span-1",
-    large: false,
-  },
-  {
-    slug: "base64-encoder",
-    name: "Base64 Encoder",
-    description: "Encode text to Base64 or decode Base64 to plain text instantly.",
-    icon: FileCode2,
-    color: "text-lime-400",
-    bgColor: "bg-lime-500/10",
-    span: "md:col-span-2",
-    large: false,
-  },
-];
+import { useLocale, useTranslations } from "next-intl";
 
 export function ToolHighlights() {
   const sectionRef = useRef<HTMLElement>(null);
   const isInView = useInView(sectionRef, { once: true, margin: "-100px" });
+  const t = useTranslations("home.toolHighlights");
+  const locale = useLocale();
+
+  const tools = useMemo(
+    () => [
+      {
+        slug: "json-formatter",
+        name: t("items.jsonFormatter.name"),
+        description: t("items.jsonFormatter.description"),
+        icon: Code2,
+        color: "text-violet-400",
+        bgColor: "bg-violet-500/10",
+        span: "md:col-span-2 md:row-span-2",
+        large: true,
+      },
+      {
+        slug: "hash-generator",
+        name: t("items.hashGenerator.name"),
+        description: t("items.hashGenerator.description"),
+        icon: Hash,
+        color: "text-orange-400",
+        bgColor: "bg-orange-500/10",
+        span: "md:col-span-1",
+        large: false,
+      },
+      {
+        slug: "image-compressor",
+        name: t("items.imageCompressor.name"),
+        description: t("items.imageCompressor.description"),
+        icon: ImageDown,
+        color: "text-emerald-400",
+        bgColor: "bg-emerald-500/10",
+        span: "md:col-span-1",
+        large: false,
+      },
+      {
+        slug: "password-generator",
+        name: t("items.passwordGenerator.name"),
+        description: t("items.passwordGenerator.description"),
+        icon: KeyRound,
+        color: "text-pink-400",
+        bgColor: "bg-pink-500/10",
+        span: "md:col-span-1",
+        large: false,
+      },
+      {
+        slug: "qr-code-generator",
+        name: t("items.qrCodeGenerator.name"),
+        description: t("items.qrCodeGenerator.description"),
+        icon: QrCode,
+        color: "text-cyan-400",
+        bgColor: "bg-cyan-500/10",
+        span: "md:col-span-1",
+        large: false,
+      },
+      {
+        slug: "base64-encoder",
+        name: t("items.base64Encoder.name"),
+        description: t("items.base64Encoder.description"),
+        icon: FileCode2,
+        color: "text-lime-400",
+        bgColor: "bg-lime-500/10",
+        span: "md:col-span-2",
+        large: false,
+      },
+    ],
+    [t]
+  );
+
+  const withLocale = (href: string) => `/${locale}${href}`;
 
   return (
     <section ref={sectionRef} className="py-24 px-6 bg-zinc-950/30">
@@ -86,10 +94,10 @@ export function ToolHighlights() {
         >
           <div className="accent-bar mb-4" />
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-3">
-            Most Used Research Utilities
+            {t("title")}
           </h2>
           <p className="text-zinc-400 text-lg max-w-xl">
-            High-performance tools running entirely in your browser. Zero server processing, maximum privacy.
+            {t("subtitle")}
           </p>
         </motion.div>
 
@@ -106,7 +114,7 @@ export function ToolHighlights() {
                 className={tool.span}
               >
                 <Link
-                  href={`/tools/${tool.slug}`}
+                  href={withLocale(`/tools/${tool.slug}`)}
                   className="group relative flex flex-col h-full p-6 rounded-2xl border border-white/[0.08] bg-white/[0.02] hover:bg-white/[0.04] hover:border-white/[0.15] transition-all overflow-hidden"
                 >
                   {/* Subtle hover gradient */}
@@ -128,7 +136,7 @@ export function ToolHighlights() {
 
                     {/* Arrow */}
                     <div className="mt-4 flex items-center gap-1 text-sm text-glow-blue font-medium opacity-0 group-hover:opacity-100 transition-opacity">
-                      Open Tool
+                      {t("openTool")}
                       <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                     </div>
                   </div>
@@ -146,10 +154,10 @@ export function ToolHighlights() {
           className="mt-10 text-center"
         >
           <Link
-            href="/tools"
+            href={withLocale("/tools")}
             className="inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-white/[0.08] bg-white/[0.02] text-white text-sm font-medium hover:bg-white/[0.06] hover:border-white/[0.15] transition-all"
           >
-            Browse All 90+ Tools
+            {t("browseAll")}
             <ArrowRight className="w-4 h-4" />
           </Link>
         </motion.div>

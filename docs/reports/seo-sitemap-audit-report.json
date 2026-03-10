@@ -1,0 +1,48 @@
+{
+  "generatedAt": "2026-03-10T01:32:58.800Z",
+  "checks": {
+    "hasDynamicToolPages": true,
+    "hasDynamicBlogPages": true,
+    "hasCategoryPages": true
+  },
+  "importantStaticRoutes": {
+    "expected": [
+      "/",
+      "/tools",
+      "/about",
+      "/contact",
+      "/privacy",
+      "/terms",
+      "/refund",
+      "/blog",
+      "/pricing",
+      "/premium",
+      "/research",
+      "/team",
+      "/projects",
+      "/tech-stack",
+      "/transparency"
+    ],
+    "missing": []
+  },
+  "projects": {
+    "expectedSlugs": [
+      "vectordefense",
+      "citk-connect"
+    ],
+    "configuredSlugs": [
+      "vectordefense",
+      "citk-connect"
+    ],
+    "missing": []
+  },
+  "flaggedToolSlugs": {
+    "expected": [
+      "case-converter",
+      "age-calculator",
+      "qr-code-generator"
+    ],
+    "missingInRegistry": [],
+    "currentlyNoindexed": []
+  }
+}

@@ -6,6 +6,8 @@
 
 import { useUser } from "@/lib/user-context";
 import { useSession } from "next-auth/react";
+import { useTranslations } from "next-intl";
+import { usePathname } from "next/navigation";
 
 // ─── Razorpay type shim ──────────────────────────────────────────────────
 
@@ -34,26 +36,7 @@ declare global {
   }
 }
 
-// ─── Feature list ────────────────────────────────────────────────────────
-
-const FREE_FEATURES = [
-  "Access to all 90+ tools",
-  "Client-side processing",
-  "No registration required",
-  "Community support",
-  "Standard processing speed",
-] as const;
-
-const PREMIUM_FEATURES = [
-  "Everything in Free",
-  "Ad-free experience",
-  "Priority processing speed",
-  "Early access to new tools",
-  "Premium support channel",
-  "Custom tool requests",
-] as const;
-
-// ─── Razorpay checkout placeholder ──────────────────────────────────────
+// ─── Razorpay checkout ───────────────────────────────────────────────────
 
 function loadRazorpayScript(): Promise<boolean> {
   return new Promise((resolve) => {
@@ -142,23 +125,47 @@ async function handleRazorpayCheckout(user?: { name?: string | null; email?: str
 export function PricingCard() {
   const { user, isPremium, isAuthenticated } = useUser();
   const { data: session } = useSession();
+  const t = useTranslations();
+  const pathname = usePathname();
+  
+  // Extract current locale from pathname
+  const currentLocale = pathname.split("/")[1] || "en";
+  
+  // Feature lists with translations
+  const freeFeatures = [
+    t("pricing.free.features.accessTools"),
+    t("pricing.free.features.clientSide"),
+    t("pricing.free.features.noRegistration"),
+    t("pricing.free.features.communitySupport"),
+    t("pricing.free.features.standardSpeed"),
+  ];
+  
+  const premiumFeatures = [
+    t("pricing.premium.features.everythingFree"),
+    t("pricing.premium.features.adFree"),
+    t("pricing.premium.features.priorityQueue"),
+    t("pricing.premium.features.prioritySupport"),
+    t("pricing.premium.features.earlyAccess"),
+    t("pricing.premium.features.customRequest"),
+    t("pricing.premium.features.voting"),
+  ];
 
   return (
     <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
       {/* ── Free Tier ── */}
       <div className="relative rounded-2xl border border-zinc-800 bg-zinc-900/50 p-8 flex flex-col">
         <div className="mb-6">
-          <h3 className="text-lg font-semibold text-white mb-1">Free</h3>
-          <p className="text-zinc-400 text-sm">Everything you need to get started</p>
+          <h3 className="text-lg font-semibold text-white mb-1">{t("pricing.free.title")}</h3>
+          <p className="text-zinc-400 text-sm">{t("pricing.free.subtitle")}</p>
         </div>
 
         <div className="mb-6">
-          <span className="text-4xl font-bold text-white">₹0</span>
-          <span className="text-zinc-500 text-sm ml-2">/ forever</span>
+          <span className="text-4xl font-bold text-white">{t("pricing.free.price")}</span>
+          <span className="text-zinc-500 text-sm ml-2">{t("pricing.free.period")}</span>
         </div>
 
         <ul className="space-y-3 mb-8 flex-1">
-          {FREE_FEATURES.map((feature) => (
+          {freeFeatures.map((feature) => (
             <li key={feature} className="flex items-center gap-3 text-sm text-zinc-300">
               <svg className="w-4 h-4 text-green-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
@@ -172,7 +179,7 @@ export function PricingCard() {
           disabled
           className="w-full py-3 rounded-xl border border-zinc-700 text-zinc-400 text-sm font-semibold cursor-default"
         >
-          Current Plan
+          {t("pricing.free.currentPlan")}
         </button>
       </div>
 
@@ -181,22 +188,22 @@ export function PricingCard() {
         {/* Badge */}
         <div className="absolute -top-3 left-1/2 -translate-x-1/2">
           <span className="bg-gradient-to-r from-blue-600 to-purple-600 text-white text-xs font-bold px-4 py-1 rounded-full shadow-lg shadow-blue-500/20">
-            RECOMMENDED
+            {t("pricing.premium.badge")}
           </span>
         </div>
 
         <div className="mb-6 mt-2">
-          <h3 className="text-lg font-semibold text-white mb-1">Premium</h3>
-          <p className="text-zinc-400 text-sm">Ad-free experience with priority access</p>
+          <h3 className="text-lg font-semibold text-white mb-1">{t("pricing.premium.title")}</h3>
+          <p className="text-zinc-400 text-sm">{t("pricing.premium.subtitle")}</p>
         </div>
 
         <div className="mb-6">
-          <span className="text-4xl font-bold text-white">₹299</span>
-          <span className="text-zinc-500 text-sm ml-2">/ month</span>
+          <span className="text-4xl font-bold text-white">{t("pricing.premium.price")}</span>
+          <span className="text-zinc-500 text-sm ml-2">{t("pricing.premium.period")}</span>
         </div>
 
         <ul className="space-y-3 mb-8 flex-1">
-          {PREMIUM_FEATURES.map((feature) => (
+          {premiumFeatures.map((feature) => (
             <li key={feature} className="flex items-center gap-3 text-sm text-zinc-300">
               <svg className="w-4 h-4 text-blue-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
@@ -207,18 +214,25 @@ export function PricingCard() {
         </ul>
 
         {isPremium ? (
-          <button
-            disabled
-            className="w-full py-3 rounded-xl bg-green-600/20 border border-green-500/40 text-green-400 text-sm font-semibold cursor-default"
-          >
-            ✓ Active Member
-          </button>
+          <div className="space-y-2">
+            <button
+              disabled
+              className="w-full py-3 rounded-xl bg-green-600/20 border border-green-500/40 text-green-400 text-sm font-semibold cursor-default"
+            >
+              {t("pricing.premium.activeMember")}
+            </button>
+            <p className="text-center text-xs text-zinc-500">
+              {user?.premiumExpiresAt
+                ? `${t("pricing.premium.renewsOn")} ${new Date(user.premiumExpiresAt).toLocaleDateString()}`
+                : t("pricing.premium.premiumActive")}
+            </p>
+          </div>
         ) : (
           <button
             onClick={() => {
               if (!isAuthenticated) {
                 // Redirect to sign-in first
-                window.location.href = "/api/auth/signin?callbackUrl=/pricing";
+                window.location.href = `/${currentLocale}/auth/signin`;
                 return;
               }
               handleRazorpayCheckout(session?.user);
@@ -228,7 +242,7 @@ export function PricingCard() {
                        text-white text-sm font-bold transition-all duration-300
                        shadow-lg shadow-blue-500/20 hover:shadow-blue-500/40 hover:scale-[1.02]"
           >
-            {isAuthenticated ? "Upgrade Now" : "Sign In & Upgrade"}
+            {isAuthenticated ? t("pricing.premium.getPremium") : t("pricing.premium.signInGetPremium")}
           </button>
         )}
       </div>

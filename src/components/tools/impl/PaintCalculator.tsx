@@ -1,6 +1,6 @@
 'use client';
 import { useState, useCallback, memo } from 'react';
-import { PaintBucket, Calculator, Plus, Trash2 } from 'lucide-react';
+import { PaintBucket, Plus, Trash2 } from 'lucide-react';
 
 interface Room {
   name: string;
@@ -11,7 +11,7 @@ interface Room {
   windows: number;
 }
 
-const PaintCalculatorComponent = function PaintCalculator() {
+function PaintCalculator() {
   const [rooms, setRooms] = useState<Room[]>([
     { name: 'Living Room', length: 15, width: 12, height: 9, doors: 2, windows: 2 },
   ]);
@@ -46,7 +46,7 @@ const PaintCalculatorComponent = function PaintCalculator() {
     ));
   }, []);
 
-  const calculateRoom = (room: Room) => {
+  const calculateRoom = useCallback((room: Room) => {
     // Calculate wall area (perimeter × height)
     const perimeter = 2 * (room.length + room.width);
     const wallArea = perimeter * room.height;
@@ -56,7 +56,7 @@ const PaintCalculatorComponent = function PaintCalculator() {
     const paintableArea = Math.max(0, wallArea - deductions);
     
     return paintableArea;
-  };
+  }, [DOOR_AREA, WINDOW_AREA]);
 
   const calculate = useCallback(() => {
     let totalArea = 0;
@@ -87,7 +87,7 @@ const PaintCalculatorComponent = function PaintCalculator() {
       gallonsRounded,
       totalCost,
     };
-  }, [rooms, coats, paintCoverage, unit, pricePerGallon]);
+  }, [rooms, coats, paintCoverage, unit, pricePerGallon, calculateRoom]);
 
   const results = calculate();
   const unitLabel = unit === 'feet' ? 'sq ft' : 'sq m';
@@ -281,6 +281,6 @@ const PaintCalculatorComponent = function PaintCalculator() {
       </div>
     </div>
   );
-};
+}
 
-export default memo(PaintCalculatorComponent);
+export default memo(PaintCalculator);

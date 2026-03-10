@@ -6,6 +6,14 @@ type Gender = 'male' | 'female';
 type ActivityLevel = 'sedentary' | 'light' | 'moderate' | 'active' | 'very_active';
 type Goal = 'lose' | 'maintain' | 'gain';
 
+const activityMultipliers: Record<ActivityLevel, number> = {
+  sedentary: 1.2,
+  light: 1.375,
+  moderate: 1.55,
+  active: 1.725,
+  very_active: 1.9,
+};
+
 function MacroCalculator() {
   const [weight, setWeight] = useState('');
   const [height, setHeight] = useState('');
@@ -19,14 +27,6 @@ function MacroCalculator() {
     carbs: { grams: number; calories: number; percentage: number };
     fat: { grams: number; calories: number; percentage: number };
   } | null>(null);
-
-  const activityMultipliers: { [key: string]: number } = {
-    sedentary: 1.2,
-    light: 1.375,
-    moderate: 1.55,
-    active: 1.725,
-    very_active: 1.9,
-  };
 
   const handleCalculate = useCallback(() => {
     const w = parseFloat(weight) || 0;

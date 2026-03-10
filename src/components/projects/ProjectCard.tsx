@@ -1,8 +1,17 @@
 "use client";
 
 import Link from "next/link";
+import { useMemo } from "react";
 import { motion } from "framer-motion";
 import { ArrowUpRight, ExternalLink } from "lucide-react";
+import { usePathname } from "next/navigation";
+import { defaultLocale, locales, type Locale } from "@/i18n/request";
+import enMessages from "../../../messages/en.json";
+import esMessages from "../../../messages/es.json";
+import ptMessages from "../../../messages/pt.json";
+import frMessages from "../../../messages/fr.json";
+import deMessages from "../../../messages/de.json";
+import hiMessages from "../../../messages/hi.json";
 
 export interface ProjectData {
   id: string;
@@ -17,10 +26,19 @@ export interface ProjectData {
   icon: React.ReactNode;
 }
 
+const i18nMessages: Record<Locale, any> = {
+  en: enMessages,
+  es: esMessages,
+  pt: ptMessages,
+  fr: frMessages,
+  de: deMessages,
+  hi: hiMessages,
+};
+
 const statusConfig = {
-  active: { label: "Active", bg: "bg-green-500/10", text: "text-green-400", border: "border-green-500/20" },
-  completed: { label: "Completed", bg: "bg-blue-500/10", text: "text-blue-400", border: "border-blue-500/20" },
-  research: { label: "Research", bg: "bg-purple-500/10", text: "text-purple-400", border: "border-purple-500/20" },
+  active: { labelKey: "pages.projects.status.active", fallback: "Active", bg: "bg-green-500/10", text: "text-green-400", border: "border-green-500/20" },
+  completed: { labelKey: "pages.projects.status.completed", fallback: "Completed", bg: "bg-blue-500/10", text: "text-blue-400", border: "border-blue-500/20" },
+  research: { labelKey: "pages.projects.status.research", fallback: "Research", bg: "bg-purple-500/10", text: "text-purple-400", border: "border-purple-500/20" },
 };
 
 const colorMap: Record<string, { border: string; gradient: string; tag: string }> = {
@@ -52,7 +70,34 @@ interface ProjectCardProps {
 
 export function ProjectCard({ project }: ProjectCardProps) {
   const colors = colorMap[project.color] || colorMap.blue;
+  const pathname = usePathname();
+
+  const currentLocale = useMemo<Locale>(() => {
+    const firstSegment = pathname?.split("/")[1] as Locale | undefined;
+    return locales.includes(firstSegment as Locale)
+      ? (firstSegment as Locale)
+      : defaultLocale;
+  }, [pathname]);
+
+  const t = useMemo(
+    () =>
+      (path: string, fallback: string) => {
+        const value = path
+          .split(".")
+          .reduce<any>(
+            (acc, key) =>
+              acc && typeof acc === "object" ? acc[key] : undefined,
+            i18nMessages[currentLocale],
+          );
+        return typeof value === "string" ? value : fallback;
+      },
+    [currentLocale],
+  );
+
   const status = statusConfig[project.status];
+  const href = /^\/(en|es|pt|fr|de|hi)(\/|$)/.test(pathname ?? "")
+    ? `/${currentLocale}/projects/${project.id}`
+    : `/projects/${project.id}`;
 
   return (
     <motion.div
@@ -64,7 +109,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
       whileHover={{ y: -4 }}
     >
       <Link
-        href={`/projects/${project.id}`}
+        href={href}
         className={`group relative block h-full p-7 rounded-2xl border border-white/[0.08] bg-white/[0.02] ${colors.border} transition-all overflow-hidden`}
       >
         {/* Hover gradient */}
@@ -78,7 +123,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
                 {project.icon}
               </div>
               <span className={`text-[10px] font-mono uppercase tracking-wider px-2 py-1 rounded-md border ${status.bg} ${status.text} ${status.border}`}>
-                {status.label}
+                {t(status.labelKey, status.fallback)}
               </span>
             </div>
             <ArrowUpRight className="w-5 h-5 text-zinc-600 opacity-0 group-hover:opacity-100 group-hover:text-white transition-all" />
@@ -118,7 +163,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
               }}
             >
               <ExternalLink className="w-3 h-3" />
-              View on GitHub
+              {t("pages.projects.viewOnGitHub", "View on GitHub")}
             </div>
           )}
         </div>

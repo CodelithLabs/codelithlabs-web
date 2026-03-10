@@ -4,7 +4,7 @@
 // ═══════════════════════════════════════════════════════════════════════════
 'use client';
 
-import { ReactNode } from 'react';
+import { ReactNode, useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { ToolMeta, TOOL_CATEGORIES } from '@/types/tool';
 import { useUser } from '@/lib/user-context';
@@ -24,6 +24,42 @@ interface ToolLayoutProps {
   slug?: string;
 }
 
+const TOOL_ACTION_COUNT_KEY = 'cl_tool_actions_count_v1';
+const TOOL_ACTION_DAILY_COUNT_KEY = 'cl_tool_actions_daily_count_v1';
+const PREMIUM_INTERSTITIAL_LAST_SHOWN_KEY = 'cl_premium_interstitial_last_shown_v1';
+const PREMIUM_INTERSTITIAL_DISMISS_UNTIL_KEY = 'cl_premium_interstitial_dismiss_until_v1';
+
+type UserSegment = 'guest' | 'signed-in';
+
+const PREMIUM_INTERSTITIAL_RULES: Record<
+  UserSegment,
+  { threshold: number; showCooldownMs: number; dismissCooldownMs: number }
+> = {
+  guest: {
+    threshold: 8,
+    showCooldownMs: 48 * 60 * 60 * 1000,
+    dismissCooldownMs: 7 * 24 * 60 * 60 * 1000,
+  },
+  'signed-in': {
+    threshold: 5,
+    showCooldownMs: 24 * 60 * 60 * 1000,
+    dismissCooldownMs: 3 * 24 * 60 * 60 * 1000,
+  },
+};
+
+const getSegmentedKey = (baseKey: string, segment: UserSegment) => `${baseKey}_${segment}`;
+
+const getLocalDayKey = () => {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, '0');
+  const day = String(now.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+};
+
+const getDailySegmentedKey = (baseKey: string, segment: UserSegment, dayKey: string) =>
+  `${baseKey}_${segment}_${dayKey}`;
+
 // ═══════════════════════════════════════════════════════════════════════════
 // ADSENSE COMPONENTS
 // AdBanner is now imported from @/components/ads/AdBanner
@@ -34,13 +70,13 @@ function PremiumCTA() {
     <div className="bg-zinc-900/60 border border-blue-500/30 rounded-xl p-4 sm:p-5 mb-6">
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
         <p className="text-sm text-zinc-300">
-          Process faster and ad-free? <span className="text-blue-400 font-medium">Support CodelithLabs.</span>
+          Remove ads and work faster? <span className="text-blue-400 font-medium">Go Premium.</span>
         </p>
         <a
-          href="/contact"
+          href="/pricing"
           className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-sm font-semibold transition-colors"
         >
-          Upgrade Support
+          Unlock Premium
         </a>
       </div>
     </div>
@@ -66,7 +102,17 @@ function SidebarAds({ position }: { position: 'left' | 'right' }) {
 
 export function ToolLayout({ tool, children, content, slug }: ToolLayoutProps) {
   const category = TOOL_CATEGORIES[tool.category];
-  const { isPremium } = useUser();
+  const { isPremium, isAuthenticated, isLoading } = useUser();
+  const userSegment: UserSegment = isAuthenticated ? 'signed-in' : 'guest';
+  const interstitialRules = PREMIUM_INTERSTITIAL_RULES[userSegment];
+
+  const actionCountKey = getSegmentedKey(TOOL_ACTION_COUNT_KEY, userSegment);
+  const interstitialLastShownKey = getSegmentedKey(PREMIUM_INTERSTITIAL_LAST_SHOWN_KEY, userSegment);
+  const interstitialDismissUntilKey = getSegmentedKey(PREMIUM_INTERSTITIAL_DISMISS_UNTIL_KEY, userSegment);
+
+  const toolInterfaceRef = useRef<HTMLElement | null>(null);
+  const [showPremiumInterstitial, setShowPremiumInterstitial] = useState(false);
+  const [actionCount, setActionCount] = useState(0);
 
   /** Safely render HTML from markdown through DOMPurify */
   const safeHtml = (html: string) => {
@@ -74,8 +120,106 @@ export function ToolLayout({ tool, children, content, slug }: ToolLayoutProps) {
     return { __html: DOMPurify.sanitize(html) };
   };
 
+  useEffect(() => {
+    if (isPremium || isLoading || typeof window === 'undefined') return;
+
+    const storedCount = Number(window.localStorage.getItem(actionCountKey) || '0');
+    setActionCount(Number.isFinite(storedCount) ? storedCount : 0);
+  }, [actionCountKey, isLoading, isPremium]);
+
+  useEffect(() => {
+    if (isPremium || isLoading || typeof window === 'undefined') return;
+
+    const interfaceNode = toolInterfaceRef.current;
+    if (!interfaceNode) return;
+
+    const onToolAction = (event: MouseEvent) => {
+      const target = event.target as HTMLElement | null;
+      if (!target) return;
+
+      const actionableElement = target.closest(
+        'button, [role="button"], input[type="submit"], input[type="button"], .tool-action-trigger, a[data-tool-action="true"]'
+      );
+
+      if (!actionableElement) return;
+
+      const currentCount = Number(window.localStorage.getItem(actionCountKey) || '0');
+      const nextCount = (Number.isFinite(currentCount) ? currentCount : 0) + 1;
+      window.localStorage.setItem(actionCountKey, String(nextCount));
+      setActionCount(nextCount);
+
+      const dayKey = getLocalDayKey();
+      const dailyActionCountKey = getDailySegmentedKey(TOOL_ACTION_DAILY_COUNT_KEY, userSegment, dayKey);
+      const currentDailyCount = Number(window.localStorage.getItem(dailyActionCountKey) || '0');
+      const nextDailyCount = (Number.isFinite(currentDailyCount) ? currentDailyCount : 0) + 1;
+      window.localStorage.setItem(dailyActionCountKey, String(nextDailyCount));
+
+      const now = Date.now();
+      const dismissUntil = Number(window.localStorage.getItem(interstitialDismissUntilKey) || '0');
+      const lastShown = Number(window.localStorage.getItem(interstitialLastShownKey) || '0');
+
+      const isDismissCooldownOver = !Number.isFinite(dismissUntil) || now > dismissUntil;
+      const isShowCooldownOver = !Number.isFinite(lastShown) || now - lastShown > interstitialRules.showCooldownMs;
+      const boostedThreshold = nextDailyCount >= 10
+        ? Math.max(2, interstitialRules.threshold - 1)
+        : interstitialRules.threshold;
+
+      if (nextCount >= boostedThreshold && isDismissCooldownOver && isShowCooldownOver) {
+        setShowPremiumInterstitial(true);
+        window.localStorage.setItem(interstitialLastShownKey, String(now));
+      }
+    };
+
+    interfaceNode.addEventListener('click', onToolAction);
+
+    return () => {
+      interfaceNode.removeEventListener('click', onToolAction);
+    };
+  }, [actionCountKey, interstitialDismissUntilKey, interstitialLastShownKey, interstitialRules, isLoading, isPremium]);
+
+  const dismissInterstitial = () => {
+    if (typeof window !== 'undefined') {
+      window.localStorage.setItem(
+        interstitialDismissUntilKey,
+        String(Date.now() + interstitialRules.dismissCooldownMs)
+      );
+    }
+
+    setShowPremiumInterstitial(false);
+  };
+
   return (
     <div className="min-h-screen bg-[#0a0a0a]">
+      {!isPremium && showPremiumInterstitial && (
+        <div className="fixed inset-0 z-[70] flex items-end sm:items-center justify-center bg-black/70 backdrop-blur-sm p-4">
+          <div className="w-full max-w-md rounded-2xl border border-blue-500/30 bg-zinc-950 shadow-2xl shadow-black/60 overflow-hidden">
+            <div className="p-5 border-b border-zinc-800">
+              <p className="text-xs uppercase tracking-wider text-blue-300">Quick upgrade</p>
+              <h3 className="mt-1 text-lg font-semibold text-white">You are on a roll. Go ad-free?</h3>
+              <p className="mt-2 text-sm text-zinc-400">
+                You have already used <span className="text-zinc-200 font-medium">{actionCount}</span> tool actions.
+                Premium removes ads and keeps your workflow distraction-free.
+              </p>
+            </div>
+
+            <div className="p-5 space-y-3">
+              <a
+                href="/pricing"
+                className="inline-flex w-full items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-sm font-semibold transition-colors"
+              >
+                Upgrade to Premium
+              </a>
+              <button
+                type="button"
+                onClick={dismissInterstitial}
+                className="w-full px-4 py-2.5 rounded-lg border border-zinc-700 hover:border-zinc-600 text-zinc-300 text-sm transition-colors"
+              >
+                Not now
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* ═══════════════════════════════════════════════════════════════════
           PREMIUM UPSELL BAR - Revenue Conversion Bridge
@@ -97,9 +241,9 @@ export function ToolLayout({ tool, children, content, slug }: ToolLayoutProps) {
               </a>
             </div>
 
-            {/* Professional CTA */}
+            {/* Premium Purchase CTA */}
             <a
-              href="/contact"
+              href="/pricing"
               className="group flex items-center gap-2 px-4 py-2 rounded-lg
                        bg-gradient-to-r from-blue-600 to-purple-600
                        hover:from-blue-500 hover:to-purple-500
@@ -111,8 +255,8 @@ export function ToolLayout({ tool, children, content, slug }: ToolLayoutProps) {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
                       d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
               </svg>
-              Need Custom Infrastructure?
-              <span className="hidden sm:inline">Hire Us</span>
+              Remove Ads + Priority Support
+              <span className="hidden sm:inline">Go Premium</span>
               <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>
@@ -223,6 +367,7 @@ export function ToolLayout({ tool, children, content, slug }: ToolLayoutProps) {
               THE TOOL INTERFACE - Primary Focus Area
           ═══════════════════════════════════════════════════════════ */}
           <section 
+            ref={toolInterfaceRef}
             className="bg-gradient-to-b from-zinc-900/80 to-zinc-900/40 
                        border border-zinc-800 rounded-xl p-4 sm:p-6 mb-6
                        shadow-xl shadow-black/20"

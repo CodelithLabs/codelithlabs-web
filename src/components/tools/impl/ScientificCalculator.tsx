@@ -2,6 +2,151 @@
 
 import { memo, useState, useCallback } from 'react';
 
+function tokenizeExpression(expression: string): string[] {
+  const tokens = expression.match(/\d*\.\d+|\d+|[()+\-*/]|π|e/g);
+  if (!tokens) {
+    throw new Error('Invalid expression');
+  }
+  return tokens;
+}
+
+function toRpn(tokens: string[]): string[] {
+  const output: string[] = [];
+  const ops: string[] = [];
+  const precedence: Record<string, number> = { '+': 1, '-': 1, '*': 2, '/': 2, 'u-': 3 };
+
+  let prev: string | null = null;
+
+  for (const token of tokens) {
+    const isNumber = /^\d*\.?\d+$/.test(token);
+    const isConstant = token === 'π' || token === 'e';
+
+    if (isNumber || isConstant) {
+      output.push(token);
+      prev = token;
+      continue;
+    }
+
+    if (token === '(') {
+      ops.push(token);
+      prev = token;
+      continue;
+    }
+
+    if (token === ')') {
+      while (ops.length && ops[ops.length - 1] !== '(') {
+        output.push(ops.pop()!);
+      }
+      if (!ops.length) throw new Error('Mismatched parentheses');
+      ops.pop();
+      prev = token;
+      continue;
+    }
+
+    let op = token;
+    if (token === '-' && (prev === null || ['+', '-', '*', '/', '('].includes(prev))) {
+      op = 'u-';
+    }
+
+    while (
+      ops.length
+      && ops[ops.length - 1] !== '('
+      && precedence[ops[ops.length - 1]] >= precedence[op]
+    ) {
+      output.push(ops.pop()!);
+    }
+    ops.push(op);
+    prev = token;
+  }
+
+  while (ops.length) {
+    const op = ops.pop()!;
+    if (op === '(') throw new Error('Mismatched parentheses');
+    output.push(op);
+  }
+
+  return output;
+}
+
+function evalRpn(rpn: string[]): number {
+  const stack: number[] = [];
+
+  for (const token of rpn) {
+    if (/^\d*\.?\d+$/.test(token)) {
+      stack.push(parseFloat(token));
+      continue;
+    }
+
+    if (token === 'π') {
+      stack.push(Math.PI);
+      continue;
+    }
+
+    if (token === 'e') {
+      stack.push(Math.E);
+      continue;
+    }
+
+    if (token === 'u-') {
+      const value = stack.pop();
+      if (value === undefined) throw new Error('Invalid unary operation');
+      stack.push(-value);
+      continue;
+    }
+
+    const b = stack.pop();
+    const a = stack.pop();
+    if (a === undefined || b === undefined) throw new Error('Invalid binary operation');
+
+    switch (token) {
+      case '+': stack.push(a + b); break;
+      case '-': stack.push(a - b); break;
+      case '*': stack.push(a * b); break;
+      case '/':
+        if (b === 0) throw new Error('Division by zero');
+        stack.push(a / b);
+        break;
+      default:
+        throw new Error(`Unsupported token: ${token}`);
+    }
+  }
+
+  if (stack.length !== 1) throw new Error('Invalid expression result');
+  return stack[0];
+}
+
+function evaluateExpression(expression: string): number {
+  const normalized = expression.replace(/×/g, '*').replace(/÷/g, '/').replace(/\s+/g, '');
+  const tokens = tokenizeExpression(normalized);
+  const rpn = toRpn(tokens);
+  return evalRpn(rpn);
+}
+
+function factorial(n: number): number {
+  if (n < 0 || !Number.isInteger(n)) return NaN;
+  if (n === 0 || n === 1) return 1;
+  let result = 1;
+  for (let i = 2; i <= n; i++) result *= i;
+  return result;
+}
+
+interface CalcButtonProps {
+  value: string;
+  onClick: () => void;
+  className?: string;
+}
+
+function CalcButton({ value, onClick, className = '' }: CalcButtonProps) {
+  return (
+    <button
+      onClick={onClick}
+      className={`p-3 rounded-lg font-mono text-sm transition-colors ${className}`}
+    >
+      {value}
+    </button>
+  );
+}
+
 function ScientificCalculator() {
   const [display, setDisplay] = useState('0');
   const [memory, setMemory] = useState(0);
@@ -54,25 +199,9 @@ function ScientificCalculator() {
     }
   }, [display, isRadian]);
 
-  const factorial = (n: number): number => {
-    if (n < 0 || !Number.isInteger(n)) return NaN;
-    if (n === 0 || n === 1) return 1;
-    let result = 1;
-    for (let i = 2; i <= n; i++) result *= i;
-    return result;
-  };
-
   const handleCalculate = useCallback(() => {
     try {
-      // Replace display symbols with JS operators
-      let expression = display
-        .replace(/×/g, '*')
-        .replace(/÷/g, '/')
-        .replace(/π/g, Math.PI.toString())
-        .replace(/e(?![x])/g, Math.E.toString());
-      
-      // eslint-disable-next-line no-eval
-      const result = eval(expression);
+      const result = evaluateExpression(display);
       setDisplay(result.toString());
     } catch {
       setDisplay('Error');
@@ -89,15 +218,6 @@ function ScientificCalculator() {
       case 'MS': setMemory(value); break;
     }
   }, [display, memory]);
-
-  const Button = ({ value, onClick, className = '' }: { value: string; onClick: () => void; className?: string }) => (
-    <button
-      onClick={onClick}
-      className={`p-3 rounded-lg font-mono text-sm transition-colors ${className}`}
-    >
-      {value}
-    </button>
-  );
 
   return (
     <div className="space-y-6">
@@ -116,53 +236,53 @@ function ScientificCalculator() {
 
         <div className="grid grid-cols-5 gap-2">
           {/* Row 1 - Memory & Mode */}
-          <Button value="MC" onClick={() => handleMemory('MC')} className="bg-zinc-700 text-zinc-300 hover:bg-zinc-600" />
-          <Button value="MR" onClick={() => handleMemory('MR')} className="bg-zinc-700 text-zinc-300 hover:bg-zinc-600" />
-          <Button value="M+" onClick={() => handleMemory('M+')} className="bg-zinc-700 text-zinc-300 hover:bg-zinc-600" />
-          <Button value="M-" onClick={() => handleMemory('M-')} className="bg-zinc-700 text-zinc-300 hover:bg-zinc-600" />
-          <Button value={isRadian ? 'RAD' : 'DEG'} onClick={() => setIsRadian(!isRadian)} className="bg-blue-600 text-white hover:bg-blue-700" />
+          <CalcButton value="MC" onClick={() => handleMemory('MC')} className="bg-zinc-700 text-zinc-300 hover:bg-zinc-600" />
+          <CalcButton value="MR" onClick={() => handleMemory('MR')} className="bg-zinc-700 text-zinc-300 hover:bg-zinc-600" />
+          <CalcButton value="M+" onClick={() => handleMemory('M+')} className="bg-zinc-700 text-zinc-300 hover:bg-zinc-600" />
+          <CalcButton value="M-" onClick={() => handleMemory('M-')} className="bg-zinc-700 text-zinc-300 hover:bg-zinc-600" />
+          <CalcButton value={isRadian ? 'RAD' : 'DEG'} onClick={() => setIsRadian(!isRadian)} className="bg-blue-600 text-white hover:bg-blue-700" />
 
           {/* Row 2 - Functions */}
-          <Button value="sin" onClick={() => handleFunction('sin')} className="bg-zinc-700 text-zinc-300 hover:bg-zinc-600" />
-          <Button value="cos" onClick={() => handleFunction('cos')} className="bg-zinc-700 text-zinc-300 hover:bg-zinc-600" />
-          <Button value="tan" onClick={() => handleFunction('tan')} className="bg-zinc-700 text-zinc-300 hover:bg-zinc-600" />
-          <Button value="log" onClick={() => handleFunction('log')} className="bg-zinc-700 text-zinc-300 hover:bg-zinc-600" />
-          <Button value="ln" onClick={() => handleFunction('ln')} className="bg-zinc-700 text-zinc-300 hover:bg-zinc-600" />
+          <CalcButton value="sin" onClick={() => handleFunction('sin')} className="bg-zinc-700 text-zinc-300 hover:bg-zinc-600" />
+          <CalcButton value="cos" onClick={() => handleFunction('cos')} className="bg-zinc-700 text-zinc-300 hover:bg-zinc-600" />
+          <CalcButton value="tan" onClick={() => handleFunction('tan')} className="bg-zinc-700 text-zinc-300 hover:bg-zinc-600" />
+          <CalcButton value="log" onClick={() => handleFunction('log')} className="bg-zinc-700 text-zinc-300 hover:bg-zinc-600" />
+          <CalcButton value="ln" onClick={() => handleFunction('ln')} className="bg-zinc-700 text-zinc-300 hover:bg-zinc-600" />
 
           {/* Row 3 - Functions */}
-          <Button value="x²" onClick={() => handleFunction('x2')} className="bg-zinc-700 text-zinc-300 hover:bg-zinc-600" />
-          <Button value="x³" onClick={() => handleFunction('x3')} className="bg-zinc-700 text-zinc-300 hover:bg-zinc-600" />
-          <Button value="√" onClick={() => handleFunction('sqrt')} className="bg-zinc-700 text-zinc-300 hover:bg-zinc-600" />
-          <Button value="∛" onClick={() => handleFunction('cbrt')} className="bg-zinc-700 text-zinc-300 hover:bg-zinc-600" />
-          <Button value="n!" onClick={() => handleFunction('fact')} className="bg-zinc-700 text-zinc-300 hover:bg-zinc-600" />
+          <CalcButton value="x²" onClick={() => handleFunction('x2')} className="bg-zinc-700 text-zinc-300 hover:bg-zinc-600" />
+          <CalcButton value="x³" onClick={() => handleFunction('x3')} className="bg-zinc-700 text-zinc-300 hover:bg-zinc-600" />
+          <CalcButton value="√" onClick={() => handleFunction('sqrt')} className="bg-zinc-700 text-zinc-300 hover:bg-zinc-600" />
+          <CalcButton value="∛" onClick={() => handleFunction('cbrt')} className="bg-zinc-700 text-zinc-300 hover:bg-zinc-600" />
+          <CalcButton value="n!" onClick={() => handleFunction('fact')} className="bg-zinc-700 text-zinc-300 hover:bg-zinc-600" />
 
           {/* Row 4 - Numbers */}
-          <Button value="7" onClick={() => handleNumber('7')} className="bg-zinc-600 text-white hover:bg-zinc-500" />
-          <Button value="8" onClick={() => handleNumber('8')} className="bg-zinc-600 text-white hover:bg-zinc-500" />
-          <Button value="9" onClick={() => handleNumber('9')} className="bg-zinc-600 text-white hover:bg-zinc-500" />
-          <Button value="÷" onClick={() => handleOperator('/')} className="bg-yellow-600 text-white hover:bg-yellow-700" />
-          <Button value="π" onClick={() => handleOperator('π')} className="bg-zinc-700 text-zinc-300 hover:bg-zinc-600" />
+          <CalcButton value="7" onClick={() => handleNumber('7')} className="bg-zinc-600 text-white hover:bg-zinc-500" />
+          <CalcButton value="8" onClick={() => handleNumber('8')} className="bg-zinc-600 text-white hover:bg-zinc-500" />
+          <CalcButton value="9" onClick={() => handleNumber('9')} className="bg-zinc-600 text-white hover:bg-zinc-500" />
+          <CalcButton value="÷" onClick={() => handleOperator('/')} className="bg-yellow-600 text-white hover:bg-yellow-700" />
+          <CalcButton value="π" onClick={() => handleOperator('π')} className="bg-zinc-700 text-zinc-300 hover:bg-zinc-600" />
 
           {/* Row 5 - Numbers */}
-          <Button value="4" onClick={() => handleNumber('4')} className="bg-zinc-600 text-white hover:bg-zinc-500" />
-          <Button value="5" onClick={() => handleNumber('5')} className="bg-zinc-600 text-white hover:bg-zinc-500" />
-          <Button value="6" onClick={() => handleNumber('6')} className="bg-zinc-600 text-white hover:bg-zinc-500" />
-          <Button value="×" onClick={() => handleOperator('*')} className="bg-yellow-600 text-white hover:bg-yellow-700" />
-          <Button value="e" onClick={() => handleOperator('e')} className="bg-zinc-700 text-zinc-300 hover:bg-zinc-600" />
+          <CalcButton value="4" onClick={() => handleNumber('4')} className="bg-zinc-600 text-white hover:bg-zinc-500" />
+          <CalcButton value="5" onClick={() => handleNumber('5')} className="bg-zinc-600 text-white hover:bg-zinc-500" />
+          <CalcButton value="6" onClick={() => handleNumber('6')} className="bg-zinc-600 text-white hover:bg-zinc-500" />
+          <CalcButton value="×" onClick={() => handleOperator('*')} className="bg-yellow-600 text-white hover:bg-yellow-700" />
+          <CalcButton value="e" onClick={() => handleOperator('e')} className="bg-zinc-700 text-zinc-300 hover:bg-zinc-600" />
 
           {/* Row 6 - Numbers */}
-          <Button value="1" onClick={() => handleNumber('1')} className="bg-zinc-600 text-white hover:bg-zinc-500" />
-          <Button value="2" onClick={() => handleNumber('2')} className="bg-zinc-600 text-white hover:bg-zinc-500" />
-          <Button value="3" onClick={() => handleNumber('3')} className="bg-zinc-600 text-white hover:bg-zinc-500" />
-          <Button value="-" onClick={() => handleOperator('-')} className="bg-yellow-600 text-white hover:bg-yellow-700" />
-          <Button value="1/x" onClick={() => handleFunction('1/x')} className="bg-zinc-700 text-zinc-300 hover:bg-zinc-600" />
+          <CalcButton value="1" onClick={() => handleNumber('1')} className="bg-zinc-600 text-white hover:bg-zinc-500" />
+          <CalcButton value="2" onClick={() => handleNumber('2')} className="bg-zinc-600 text-white hover:bg-zinc-500" />
+          <CalcButton value="3" onClick={() => handleNumber('3')} className="bg-zinc-600 text-white hover:bg-zinc-500" />
+          <CalcButton value="-" onClick={() => handleOperator('-')} className="bg-yellow-600 text-white hover:bg-yellow-700" />
+          <CalcButton value="1/x" onClick={() => handleFunction('1/x')} className="bg-zinc-700 text-zinc-300 hover:bg-zinc-600" />
 
           {/* Row 7 - Numbers */}
-          <Button value="0" onClick={() => handleNumber('0')} className="bg-zinc-600 text-white hover:bg-zinc-500" />
-          <Button value="." onClick={() => handleNumber('.')} className="bg-zinc-600 text-white hover:bg-zinc-500" />
-          <Button value="C" onClick={handleClear} className="bg-red-600 text-white hover:bg-red-700" />
-          <Button value="+" onClick={() => handleOperator('+')} className="bg-yellow-600 text-white hover:bg-yellow-700" />
-          <Button value="=" onClick={handleCalculate} className="bg-green-600 text-white hover:bg-green-700" />
+          <CalcButton value="0" onClick={() => handleNumber('0')} className="bg-zinc-600 text-white hover:bg-zinc-500" />
+          <CalcButton value="." onClick={() => handleNumber('.')} className="bg-zinc-600 text-white hover:bg-zinc-500" />
+          <CalcButton value="C" onClick={handleClear} className="bg-red-600 text-white hover:bg-red-700" />
+          <CalcButton value="+" onClick={() => handleOperator('+')} className="bg-yellow-600 text-white hover:bg-yellow-700" />
+          <CalcButton value="=" onClick={handleCalculate} className="bg-green-600 text-white hover:bg-green-700" />
         </div>
       </div>
     </div>

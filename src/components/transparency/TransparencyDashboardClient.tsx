@@ -1,6 +1,7 @@
 "use client";
 
-import { useRef } from "react";
+import { useCallback, useMemo, useRef } from "react";
+import { usePathname } from "next/navigation";
 import { motion, useInView } from "framer-motion";
 import {
   TrendingDown,
@@ -18,6 +19,13 @@ import {
   Heart,
   IndianRupee,
 } from "lucide-react";
+import { defaultLocale, locales, type Locale } from "@/i18n/request";
+import enMessages from "../../../messages/en.json";
+import esMessages from "../../../messages/es.json";
+import ptMessages from "../../../messages/pt.json";
+import frMessages from "../../../messages/fr.json";
+import deMessages from "../../../messages/de.json";
+import hiMessages from "../../../messages/hi.json";
 
 // ═══════════════════════════════════════════════════════════════════════════
 // TYPES
@@ -32,6 +40,15 @@ export interface MemberStats {
   contribution: string;
   focus: string[];
 }
+
+const i18nMessages: Record<Locale, any> = {
+  en: enMessages,
+  es: esMessages,
+  pt: ptMessages,
+  fr: frMessages,
+  de: deMessages,
+  hi: hiMessages,
+};
 
 // ═══════════════════════════════════════════════════════════════════════════
 // ANIMATED PROGRESS BAR
@@ -69,86 +86,122 @@ function AnimatedBar({
 // REAL FINANCIAL DATA — CodelithLabs (Bootstrapped)
 // ═══════════════════════════════════════════════════════════════════════════
 
-const summaryCards = [
+const summaryCardConfigs = [
   {
-    label: "External Revenue",
+    key: "externalRevenue",
     value: "₹0",
-    sub: "AdSense not started yet",
     color: "text-zinc-500",
     borderColor: "border-zinc-500/20",
     icon: IndianRupee,
   },
   {
-    label: "Total Member Funding",
+    key: "totalMemberFunding",
     value: "₹2,775",
-    sub: "100% Razorpay donations",
     color: "text-glow-blue",
     borderColor: "border-glow-blue/20",
     icon: Heart,
   },
   {
-    label: "Annual Infra Cost",
+    key: "annualInfraCost",
     value: "₹3,600",
-    sub: "Domain + Server + Maintenance",
     color: "text-amber-400",
     borderColor: "border-amber-500/20",
     icon: Server,
   },
   {
-    label: "Member Mandate",
+    key: "memberMandate",
     value: "₹54/mo",
-    sub: "Minimum per core member",
     color: "text-glow-cyan",
     borderColor: "border-glow-cyan/20",
     icon: Wallet,
   },
 ];
 
-const costBreakdown = [
+const costBreakdownConfigs = [
   {
-    label: "Ubuntu Test Server (Electricity)",
+    key: "serverElectricity",
     amount: "₹2,200/yr",
     percentage: 61,
     color: "#2979FF",
-    note: "Running at home",
   },
   {
-    label: "Domain Registration (.in)",
+    key: "domain",
     amount: "₹800/yr",
     percentage: 22,
     color: "#00E5FF",
-    note: "codelithlabs.in",
   },
   {
-    label: "Server Maintenance",
+    key: "serverMaintenance",
     amount: "₹600/yr",
     percentage: 17,
     color: "#BB86FC",
-    note: "Hardware & upkeep",
   },
 ];
 
-const memberFunding = [
+const memberFundingConfigs = [
   {
+    key: "prasanta",
     name: "Prasanta Ray",
-    role: "Founder & CEO",
     amount: "₹2,431",
     percentage: 88,
     color: "#2979FF",
   },
   {
+    key: "donbil",
     name: "Donbil Mwshary",
-    role: "Co-Founder & CTO",
     amount: "₹244",
     percentage: 9,
     color: "#00E5FF",
   },
   {
+    key: "harun",
     name: "MD Harun Mollah",
-    role: "Core Member",
     amount: "₹100",
     percentage: 3,
     color: "#00E676",
+  },
+];
+
+const infrastructureConfigs = [
+  {
+    key: "vercelHosting",
+    cost: "₹0",
+    icon: Globe,
+  },
+  {
+    key: "domain",
+    cost: "₹800/yr",
+    icon: Globe,
+  },
+  {
+    key: "ubuntuServer",
+    cost: "₹2,200/yr",
+    icon: Server,
+  },
+  {
+    key: "githubActions",
+    cost: "₹0",
+    icon: Code2,
+  },
+  {
+    key: "maintenance",
+    cost: "₹600/yr",
+    icon: Shield,
+  },
+  {
+    key: "razorpay",
+    cost: "Txn %",
+    icon: Wallet,
+  },
+  {
+    key: "cloudflare",
+    cost: "₹0",
+    icon: Shield,
+  },
+  {
+    key: "monitoring",
+    cost: "₹0",
+    icon: Zap,
   },
 ];
 
@@ -163,6 +216,177 @@ export function TransparencyDashboardClient({
 }) {
   const sectionRef = useRef<HTMLElement>(null);
   const isInView = useInView(sectionRef, { once: true, margin: "-50px" });
+  const pathname = usePathname();
+
+  const currentLocale = useMemo<Locale>(() => {
+    const firstSegment = pathname?.split("/")[1] as Locale | undefined;
+    return locales.includes(firstSegment as Locale)
+      ? (firstSegment as Locale)
+      : defaultLocale;
+  }, [pathname]);
+
+  const t = useCallback(
+    (path: string, fallback: string) => {
+      const value = path
+        .split(".")
+        .reduce<any>(
+          (acc, key) =>
+            acc && typeof acc === "object" ? acc[key] : undefined,
+          i18nMessages[currentLocale],
+        );
+      return typeof value === "string" ? value : fallback;
+    },
+    [currentLocale],
+  );
+
+  const roleLabels = useMemo(
+    () => ({
+      "Founder & CEO": t(
+        "pages.transparency.team.roles.founderCeo",
+        "Founder & CEO",
+      ),
+      "Co-Founder & CTO": t(
+        "pages.transparency.team.roles.coFounderCto",
+        "Co-Founder & CTO",
+      ),
+      "Core Member": t(
+        "pages.transparency.team.roles.coreMember",
+        "Core Member",
+      ),
+    }),
+    [t],
+  );
+
+  const focusLabels = useMemo(
+    () => ({
+      Architecture: t("pages.transparency.team.focus.architecture", "Architecture"),
+      Backend: t("pages.transparency.team.focus.backend", "Backend"),
+      DevOps: t("pages.transparency.team.focus.devops", "DevOps"),
+      Security: t("pages.transparency.team.focus.security", "Security"),
+      Financials: t("pages.transparency.team.focus.financials", "Financials"),
+      Frontend: t("pages.transparency.team.focus.frontend", "Frontend"),
+      Infrastructure: t(
+        "pages.transparency.team.focus.infrastructure",
+        "Infrastructure",
+      ),
+      "Open Source": t(
+        "pages.transparency.team.focus.openSource",
+        "Open Source",
+      ),
+      Development: t(
+        "pages.transparency.team.focus.development",
+        "Development",
+      ),
+      Testing: t("pages.transparency.team.focus.testing", "Testing"),
+      Community: t("pages.transparency.team.focus.community", "Community"),
+    }),
+    [t],
+  );
+
+  const summaryCards = useMemo(
+    () =>
+      summaryCardConfigs.map((card) => ({
+        ...card,
+        label: t(
+          `pages.transparency.summaryCards.${card.key}.label`,
+          card.key,
+        ),
+        sub: t(`pages.transparency.summaryCards.${card.key}.sub`, ""),
+      })),
+    [t],
+  );
+
+  const costBreakdown = useMemo(
+    () =>
+      costBreakdownConfigs.map((item) => ({
+        ...item,
+        label: t(
+          `pages.transparency.runningCosts.items.${item.key}.label`,
+          item.key,
+        ),
+        note: t(`pages.transparency.runningCosts.items.${item.key}.note`, ""),
+      })),
+    [t],
+  );
+
+  const memberFunding = useMemo(
+    () =>
+      memberFundingConfigs.map((item) => ({
+        ...item,
+        role: t(
+          `pages.transparency.memberFunding.members.${item.key}.role`,
+          item.name,
+        ),
+      })),
+    [t],
+  );
+
+  const infrastructureItems = useMemo(
+    () =>
+      infrastructureConfigs.map((item) => ({
+        ...item,
+        label: t(
+          `pages.transparency.infrastructure.items.${item.key}.label`,
+          item.key,
+        ),
+        status: t(
+          `pages.transparency.infrastructure.items.${item.key}.status`,
+          "",
+        ),
+      })),
+    [t],
+  );
+
+  const principles = useMemo(
+    () => [
+      {
+        key: "bootstrappedReality",
+        title: t(
+          "pages.transparency.principles.items.bootstrappedReality.title",
+          "Bootstrapped Reality",
+        ),
+        desc: t(
+          "pages.transparency.principles.items.bootstrappedReality.desc",
+          "",
+        ),
+      },
+      {
+        key: "zeroHiddenCosts",
+        title: t(
+          "pages.transparency.principles.items.zeroHiddenCosts.title",
+          "Zero Hidden Costs",
+        ),
+        desc: t(
+          "pages.transparency.principles.items.zeroHiddenCosts.desc",
+          "",
+        ),
+      },
+      {
+        key: "communityFirst",
+        title: t(
+          "pages.transparency.principles.items.communityFirst.title",
+          "Community First",
+        ),
+        desc: t(
+          "pages.transparency.principles.items.communityFirst.desc",
+          "",
+        ),
+      },
+    ],
+    [t],
+  );
+
+  const localizedMembers = useMemo(
+    () =>
+      members.map((member) => ({
+        ...member,
+        role: roleLabels[member.role as keyof typeof roleLabels] ?? member.role,
+        focus: member.focus.map(
+          (area) => focusLabels[area as keyof typeof focusLabels] ?? area,
+        ),
+      })),
+    [focusLabels, members, roleLabels],
+  );
 
   return (
     <main ref={sectionRef} className="min-h-screen bg-[#0a0a0a] text-white">
@@ -174,22 +398,28 @@ export function TransparencyDashboardClient({
           <div className="flex items-center gap-2 mb-4">
             <Eye className="w-5 h-5 text-glow-blue" />
             <span className="text-xs font-mono text-zinc-500 uppercase tracking-widest">
-              Financial Transparency Report
+              {t(
+                "pages.transparency.eyebrow",
+                "Financial Transparency Report",
+              )}
             </span>
           </div>
           <h1 className="text-4xl md:text-5xl font-bold text-white mb-3">
-            Bootstrapped &amp; Open
+            {t("pages.transparency.title", "Bootstrapped & Open")}
           </h1>
           <p className="text-zinc-400 text-lg max-w-2xl">
-            CodelithLabs is 100% internally funded through Razorpay donations
-            from our core members. We have zero external revenue — every rupee
-            is tracked and publicly disclosed.
+            {t(
+              "pages.transparency.description",
+              "CodelithLabs is 100% internally funded through Razorpay donations from our core members. We have zero external revenue — every rupee is tracked and publicly disclosed.",
+            )}
           </p>
           <div className="flex items-center gap-2 mt-4 text-xs font-mono text-zinc-600">
             <Zap className="w-3 h-3 text-glow-blue" />
             <span>
-              All core members contribute a minimum of ₹54/month via Razorpay to
-              keep the org alive.
+              {t(
+                "pages.transparency.memberMandateText",
+                "All core members contribute a minimum of ₹54/month via Razorpay to keep the org alive.",
+              )}
             </span>
           </div>
         </div>
@@ -239,8 +469,15 @@ export function TransparencyDashboardClient({
                   <TrendingDown className="w-4 h-4 text-amber-400" />
                 </div>
                 <div>
-                  <h2 className="text-lg font-bold">Running Costs</h2>
-                  <p className="text-xs text-zinc-600">₹3,600/year total</p>
+                  <h2 className="text-lg font-bold">
+                    {t("pages.transparency.runningCosts.title", "Running Costs")}
+                  </h2>
+                  <p className="text-xs text-zinc-600">
+                    {t(
+                      "pages.transparency.runningCosts.subtitle",
+                      "₹3,600/year total",
+                    )}
+                  </p>
                 </div>
               </div>
               <div className="space-y-5">
@@ -269,7 +506,10 @@ export function TransparencyDashboardClient({
                 ))}
               </div>
               <div className="mt-5 pt-4 border-t border-white/[0.06] text-[11px] text-zinc-600">
-                + Razorpay gateway standard transaction fees on each donation
+                {t(
+                  "pages.transparency.runningCosts.feesNote",
+                  "+ Razorpay gateway standard transaction fees on each donation",
+                )}
               </div>
             </div>
 
@@ -280,8 +520,18 @@ export function TransparencyDashboardClient({
                   <Heart className="w-4 h-4 text-glow-blue" />
                 </div>
                 <div>
-                  <h2 className="text-lg font-bold">Razorpay Contributions</h2>
-                  <p className="text-xs text-zinc-600">₹2,775 raised total</p>
+                  <h2 className="text-lg font-bold">
+                    {t(
+                      "pages.transparency.memberFunding.title",
+                      "Razorpay Contributions",
+                    )}
+                  </h2>
+                  <p className="text-xs text-zinc-600">
+                    {t(
+                      "pages.transparency.memberFunding.subtitle",
+                      "₹2,775 raised total",
+                    )}
+                  </p>
                 </div>
               </div>
               <div className="space-y-5">
@@ -316,14 +566,20 @@ export function TransparencyDashboardClient({
               <div className="mt-6 pt-5 border-t border-white/[0.06]">
                 <div className="flex items-center justify-between">
                   <span className="text-sm text-zinc-400 font-medium">
-                    Total Raised
+                    {t(
+                      "pages.transparency.memberFunding.totalRaised",
+                      "Total Raised",
+                    )}
                   </span>
                   <span className="text-lg font-bold font-mono text-glow-blue">
                     ₹2,775
                   </span>
                 </div>
                 <p className="text-[11px] text-zinc-600 mt-2">
-                  External revenue (AdSense, Sponsorships, Client Projects):{" "}
+                  {t(
+                    "pages.transparency.memberFunding.externalRevenueLabel",
+                    "External revenue (AdSense, Sponsorships, Client Projects):",
+                  )}{" "}
                   <span className="text-amber-400">₹0</span>
                 </p>
               </div>
@@ -337,59 +593,13 @@ export function TransparencyDashboardClient({
         <div className="max-w-5xl mx-auto">
           <h2 className="text-xl font-bold mb-6 flex items-center gap-2">
             <Server className="w-5 h-5 text-glow-blue" />
-            Infrastructure Stack
+            {t(
+              "pages.transparency.infrastructure.title",
+              "Infrastructure Stack",
+            )}
           </h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {[
-              {
-                label: "Vercel Hosting",
-                cost: "₹0",
-                status: "Free Tier",
-                icon: Globe,
-              },
-              {
-                label: "Domain (.in)",
-                cost: "₹800/yr",
-                status: "Active",
-                icon: Globe,
-              },
-              {
-                label: "Ubuntu Home Server",
-                cost: "₹2,200/yr",
-                status: "Self-Hosted",
-                icon: Server,
-              },
-              {
-                label: "GitHub Actions CI",
-                cost: "₹0",
-                status: "Free Tier",
-                icon: Code2,
-              },
-              {
-                label: "Server Maintenance",
-                cost: "₹600/yr",
-                status: "Hardware Upkeep",
-                icon: Shield,
-              },
-              {
-                label: "Razorpay Gateway",
-                cost: "Txn %",
-                status: "Payment Processing",
-                icon: Wallet,
-              },
-              {
-                label: "Cloudflare CDN",
-                cost: "₹0",
-                status: "Free Tier",
-                icon: Shield,
-              },
-              {
-                label: "Monitoring",
-                cost: "₹0",
-                status: "Self-Built",
-                icon: Zap,
-              },
-            ].map((item) => {
+            {infrastructureItems.map((item) => {
               const Icon = item.icon;
               return (
                 <div
@@ -416,14 +626,19 @@ export function TransparencyDashboardClient({
         <div className="max-w-5xl mx-auto">
           <h2 className="text-xl font-bold mb-2 flex items-center gap-2">
             <Users className="w-5 h-5 text-glow-purple" />
-            Core Team — Live Metrics
+            {t(
+              "pages.transparency.team.title",
+              "Core Team — Live Metrics",
+            )}
           </h2>
           <p className="text-xs text-zinc-600 mb-6 font-mono">
-            GitHub commits &amp; PRs fetched at build time via the GitHub Search
-            API
+            {t(
+              "pages.transparency.team.subtitle",
+              "GitHub commits & PRs fetched at build time via the GitHub Search API",
+            )}
           </p>
           <div className="grid md:grid-cols-3 gap-6">
-            {members.map((member) => (
+            {localizedMembers.map((member) => (
               <div
                 key={member.github}
                 className="p-6 rounded-2xl border border-white/[0.06] bg-white/[0.02]"
@@ -450,25 +665,31 @@ export function TransparencyDashboardClient({
                   <div>
                     <div className="flex items-center gap-1 mb-1">
                       <GitCommit className="w-3 h-3 text-glow-blue" />
-                      <span className="text-[10px] text-zinc-500">Commits</span>
+                      <span className="text-[10px] text-zinc-500">
+                        {t("pages.transparency.team.stats.commits", "Commits")}
+                      </span>
                     </div>
                     <p className="text-xl font-bold font-mono text-white">
-                      {member.commits.toLocaleString()}
+                      {member.commits.toLocaleString(currentLocale)}
                     </p>
                   </div>
                   <div>
                     <div className="flex items-center gap-1 mb-1">
                       <GitPullRequest className="w-3 h-3 text-glow-green" />
-                      <span className="text-[10px] text-zinc-500">PRs</span>
+                      <span className="text-[10px] text-zinc-500">
+                        {t("pages.transparency.team.stats.prs", "PRs")}
+                      </span>
                     </div>
                     <p className="text-xl font-bold font-mono text-white">
-                      {member.pullRequests.toLocaleString()}
+                      {member.pullRequests.toLocaleString(currentLocale)}
                     </p>
                   </div>
                   <div>
                     <div className="flex items-center gap-1 mb-1">
                       <IndianRupee className="w-3 h-3 text-amber-400" />
-                      <span className="text-[10px] text-zinc-500">Funded</span>
+                      <span className="text-[10px] text-zinc-500">
+                        {t("pages.transparency.team.stats.funded", "Funded")}
+                      </span>
                     </div>
                     <p className="text-xl font-bold font-mono text-amber-400">
                       {member.contribution}
@@ -499,23 +720,13 @@ export function TransparencyDashboardClient({
           <div className="p-8 rounded-2xl border border-white/[0.06] bg-white/[0.02]">
             <h2 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
               <Trophy className="w-5 h-5 text-glow-blue" />
-              Our Transparency Commitment
+              {t(
+                "pages.transparency.principles.title",
+                "Our Transparency Commitment",
+              )}
             </h2>
             <div className="grid md:grid-cols-3 gap-6">
-              {[
-                {
-                  title: "Bootstrapped Reality",
-                  desc: "CodelithLabs has ₹0 in external revenue. Every rupee comes from our core members\u2019 pockets via mandatory Razorpay contributions of ₹54/month. We own this reality proudly.",
-                },
-                {
-                  title: "Zero Hidden Costs",
-                  desc: "Our tools run 100% client-side. Infrastructure is a home Ubuntu server, a ₹800 domain, and free-tier cloud services. Total annual cost: ₹3,600.",
-                },
-                {
-                  title: "Community First",
-                  desc: "All funding goes directly to infrastructure. No executive salaries, no office space. When AdSense starts, that revenue goes back into the platform and open-source work.",
-                },
-              ].map((principle) => (
+              {principles.map((principle) => (
                 <div key={principle.title}>
                   <h3 className="text-sm font-semibold text-white mb-2">
                     {principle.title}

@@ -9,65 +9,65 @@ const scales = ['', 'Thousand', 'Million', 'Billion', 'Trillion', 'Quadrillion',
 const indianOnes = ['', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten', 'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen'];
 const indianScales = ['', 'Thousand', 'Lakh', 'Crore', 'Arab', 'Kharab'];
 
+function convertHundreds(num: number): string {
+  if (num === 0) return '';
+  if (num < 20) return ones[num];
+  if (num < 100) {
+    return tens[Math.floor(num / 10)] + (num % 10 !== 0 ? ` ${ones[num % 10]}` : '');
+  }
+  return ones[Math.floor(num / 100)] + ' Hundred' + (num % 100 !== 0 ? ` ${convertHundreds(num % 100)}` : '');
+}
+
+function convertWestern(num: number): string {
+  if (num === 0) return 'Zero';
+  if (num < 0) return `Negative ${convertWestern(Math.abs(num))}`;
+
+  let result = '';
+  let scaleIndex = 0;
+
+  while (num > 0) {
+    const chunk = num % 1000;
+    if (chunk !== 0) {
+      const chunkWords = convertHundreds(chunk);
+      result = chunkWords + (scales[scaleIndex] ? ` ${scales[scaleIndex]}` : '') + (result ? ` ${result}` : '');
+    }
+    num = Math.floor(num / 1000);
+    scaleIndex++;
+  }
+
+  return result.trim();
+}
+
+function convertIndian(num: number): string {
+  if (num === 0) return 'Zero';
+  if (num < 0) return `Negative ${convertIndian(Math.abs(num))}`;
+
+  if (num < 20) return indianOnes[num];
+  if (num < 100) {
+    return tens[Math.floor(num / 10)] + (num % 10 !== 0 ? ` ${indianOnes[num % 10]}` : '');
+  }
+  if (num < 1000) {
+    return indianOnes[Math.floor(num / 100)] + ' Hundred' + (num % 100 !== 0 ? ` ${convertIndian(num % 100)}` : '');
+  }
+  if (num < 100000) {
+    return convertIndian(Math.floor(num / 1000)) + ' Thousand' + (num % 1000 !== 0 ? ` ${convertIndian(num % 1000)}` : '');
+  }
+  if (num < 10000000) {
+    return convertIndian(Math.floor(num / 100000)) + ' Lakh' + (num % 100000 !== 0 ? ` ${convertIndian(num % 100000)}` : '');
+  }
+  if (num < 1000000000) {
+    return convertIndian(Math.floor(num / 10000000)) + ' Crore' + (num % 10000000 !== 0 ? ` ${convertIndian(num % 10000000)}` : '');
+  }
+  if (num < 100000000000) {
+    return convertIndian(Math.floor(num / 1000000000)) + ' Arab' + (num % 1000000000 !== 0 ? ` ${convertIndian(num % 1000000000)}` : '');
+  }
+  return convertIndian(Math.floor(num / 100000000000)) + ' Kharab' + (num % 100000000000 !== 0 ? ` ${convertIndian(num % 100000000000)}` : '');
+}
+
 function NumberToWords() {
   const [number, setNumber] = useState('');
   const [system, setSystem] = useState<'western' | 'indian'>('western');
   const [result, setResult] = useState<string | null>(null);
-
-  const convertHundreds = (num: number): string => {
-    if (num === 0) return '';
-    if (num < 20) return ones[num];
-    if (num < 100) {
-      return tens[Math.floor(num / 10)] + (num % 10 !== 0 ? ' ' + ones[num % 10] : '');
-    }
-    return ones[Math.floor(num / 100)] + ' Hundred' + (num % 100 !== 0 ? ' ' + convertHundreds(num % 100) : '');
-  };
-
-  const convertWestern = (num: number): string => {
-    if (num === 0) return 'Zero';
-    if (num < 0) return 'Negative ' + convertWestern(Math.abs(num));
-
-    let result = '';
-    let scaleIndex = 0;
-
-    while (num > 0) {
-      const chunk = num % 1000;
-      if (chunk !== 0) {
-        const chunkWords = convertHundreds(chunk);
-        result = chunkWords + (scales[scaleIndex] ? ' ' + scales[scaleIndex] : '') + (result ? ' ' + result : '');
-      }
-      num = Math.floor(num / 1000);
-      scaleIndex++;
-    }
-
-    return result.trim();
-  };
-
-  const convertIndian = (num: number): string => {
-    if (num === 0) return 'Zero';
-    if (num < 0) return 'Negative ' + convertIndian(Math.abs(num));
-
-    if (num < 20) return indianOnes[num];
-    if (num < 100) {
-      return tens[Math.floor(num / 10)] + (num % 10 !== 0 ? ' ' + indianOnes[num % 10] : '');
-    }
-    if (num < 1000) {
-      return indianOnes[Math.floor(num / 100)] + ' Hundred' + (num % 100 !== 0 ? ' ' + convertIndian(num % 100) : '');
-    }
-    if (num < 100000) {
-      return convertIndian(Math.floor(num / 1000)) + ' Thousand' + (num % 1000 !== 0 ? ' ' + convertIndian(num % 1000) : '');
-    }
-    if (num < 10000000) {
-      return convertIndian(Math.floor(num / 100000)) + ' Lakh' + (num % 100000 !== 0 ? ' ' + convertIndian(num % 100000) : '');
-    }
-    if (num < 1000000000) {
-      return convertIndian(Math.floor(num / 10000000)) + ' Crore' + (num % 10000000 !== 0 ? ' ' + convertIndian(num % 10000000) : '');
-    }
-    if (num < 100000000000) {
-      return convertIndian(Math.floor(num / 1000000000)) + ' Arab' + (num % 1000000000 !== 0 ? ' ' + convertIndian(num % 1000000000) : '');
-    }
-    return convertIndian(Math.floor(num / 100000000000)) + ' Kharab' + (num % 100000000000 !== 0 ? ' ' + convertIndian(num % 100000000000) : '');
-  };
 
   const handleConvert = useCallback(() => {
     const num = parseInt(number.replace(/,/g, ''));

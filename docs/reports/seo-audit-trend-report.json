@@ -1,0 +1,188 @@
+{
+  "generatedAt": "2026-03-10T01:33:00.607Z",
+  "hasBaseline": true,
+  "audits": [
+    {
+      "id": "h1",
+      "label": "H1 Coverage",
+      "hasPrevious": true,
+      "metricDiffs": [
+        {
+          "metric": "checked",
+          "previous": 20,
+          "current": 20,
+          "delta": 0,
+          "rule": "higher-better",
+          "status": "unchanged"
+        },
+        {
+          "metric": "missing",
+          "previous": 2,
+          "current": 2,
+          "delta": 0,
+          "rule": "lower-better",
+          "status": "unchanged"
+        },
+        {
+          "metric": "skipped",
+          "previous": 3,
+          "current": 3,
+          "delta": 0,
+          "rule": "equal-preferred",
+          "status": "unchanged"
+        }
+      ]
+    },
+    {
+      "id": "sitemap",
+      "label": "Sitemap Completeness",
+      "hasPrevious": true,
+      "metricDiffs": [
+        {
+          "metric": "missingStaticRoutes",
+          "previous": 0,
+          "current": 0,
+          "delta": 0,
+          "rule": "lower-better",
+          "status": "unchanged"
+        },
+        {
+          "metric": "missingProjectSlugs",
+          "previous": 0,
+          "current": 0,
+          "delta": 0,
+          "rule": "lower-better",
+          "status": "unchanged"
+        },
+        {
+          "metric": "flaggedMissingInRegistry",
+          "previous": 0,
+          "current": 0,
+          "delta": 0,
+          "rule": "lower-better",
+          "status": "unchanged"
+        },
+        {
+          "metric": "flaggedNoindexed",
+          "previous": 0,
+          "current": 0,
+          "delta": 0,
+          "rule": "lower-better",
+          "status": "unchanged"
+        },
+        {
+          "metric": "hasDynamicToolPages",
+          "previous": 1,
+          "current": 1,
+          "delta": 0,
+          "rule": "boolean-true",
+          "status": "unchanged"
+        },
+        {
+          "metric": "hasDynamicBlogPages",
+          "previous": 1,
+          "current": 1,
+          "delta": 0,
+          "rule": "boolean-true",
+          "status": "unchanged"
+        },
+        {
+          "metric": "hasCategoryPages",
+          "previous": 1,
+          "current": 1,
+          "delta": 0,
+          "rule": "boolean-true",
+          "status": "unchanged"
+        }
+      ]
+    },
+    {
+      "id": "indexing",
+      "label": "Indexing Friction",
+      "hasPrevious": true,
+      "metricDiffs": [
+        {
+          "metric": "noindexCount",
+          "previous": 0,
+          "current": 0,
+          "delta": 0,
+          "rule": "lower-better",
+          "status": "unchanged"
+        },
+        {
+          "metric": "redirectCount",
+          "previous": 0,
+          "current": 0,
+          "delta": 0,
+          "rule": "lower-better",
+          "status": "unchanged"
+        },
+        {
+          "metric": "notFound404Count",
+          "previous": 0,
+          "current": 0,
+          "delta": 0,
+          "rule": "lower-better",
+          "status": "unchanged"
+        },
+        {
+          "metric": "serverErrors5xxCount",
+          "previous": 0,
+          "current": 0,
+          "delta": 0,
+          "rule": "lower-better",
+          "status": "unchanged"
+        },
+        {
+          "metric": "requestErrorCount",
+          "previous": 0,
+          "current": 0,
+          "delta": 0,
+          "rule": "lower-better",
+          "status": "unchanged"
+        },
+        {
+          "metric": "canonicalMismatchCount",
+          "previous": 0,
+          "current": 0,
+          "delta": 0,
+          "rule": "lower-better",
+          "status": "unchanged"
+        }
+      ]
+    },
+    {
+      "id": "tool-health",
+      "label": "Tool Health",
+      "hasPrevious": true,
+      "metricDiffs": [
+        {
+          "metric": "missingMappings",
+          "previous": 0,
+          "current": 0,
+          "delta": 0,
+          "rule": "lower-better",
+          "status": "unchanged"
+        },
+        {
+          "metric": "missingFiles",
+          "previous": 0,
+          "current": 0,
+          "delta": 0,
+          "rule": "lower-better",
+          "status": "unchanged"
+        },
+        {
+          "metric": "placeholderHits",
+          "previous": 0,
+          "current": 0,
+          "delta": 0,
+          "rule": "lower-better",
+          "status": "unchanged"
+        }
+      ]
+    }
+  ],
+  "regressions": [],
+  "exitCode": 1
+}

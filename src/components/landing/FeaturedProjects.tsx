@@ -1,46 +1,55 @@
 "use client";
 
 import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
+import { useMemo, useRef } from "react";
 import { Shield, Globe, Server, ArrowUpRight } from "lucide-react";
 import Link from "next/link";
-
-const projects = [
-  {
-    slug: "vectordefense",
-    title: "VectorDefense",
-    description: "A high-performance C++ Tower Defense Engine featuring a custom Entity-Component-System architecture, OpenGL rendering, and multithreaded game loops.",
-    tags: ["C++", "OpenGL", "ECS", "Game Engine"],
-    icon: Shield,
-    color: "from-blue-500/20 to-blue-600/5",
-    borderColor: "hover:border-blue-500/30",
-    tagColor: "bg-blue-500/10 text-blue-400 border-blue-500/20",
-  },
-  {
-    slug: "citk-connect",
-    title: "CITK-Connect",
-    description: "A full-stack campus connectivity platform enabling resource management, event scheduling, and real-time communication for university infrastructure.",
-    tags: ["Next.js", "PostgreSQL", "REST API", "Auth"],
-    icon: Globe,
-    color: "from-purple-500/20 to-purple-600/5",
-    borderColor: "hover:border-purple-500/30",
-    tagColor: "bg-purple-500/10 text-purple-400 border-purple-500/20",
-  },
-  {
-    slug: "core-s",
-    title: "Core-S Infrastructure",
-    description: "Self-hosted Linux server architecture with Nginx reverse proxy, automated SSL, Docker containerization, and monitoring dashboards.",
-    tags: ["Linux", "Docker", "Nginx", "DevOps"],
-    icon: Server,
-    color: "from-green-500/20 to-green-600/5",
-    borderColor: "hover:border-green-500/30",
-    tagColor: "bg-green-500/10 text-green-400 border-green-500/20",
-  },
-];
+import { useLocale, useTranslations } from "next-intl";
 
 export function FeaturedProjects() {
   const sectionRef = useRef<HTMLElement>(null);
   const isInView = useInView(sectionRef, { once: true, margin: "-100px" });
+  const locale = useLocale();
+  const tHome = useTranslations("home.projects");
+  const tCommon = useTranslations("common.projects");
+
+  const projects = useMemo(
+    () => [
+      {
+        slug: "vectordefense",
+        title: tCommon("vectordefense.name"),
+        description: tHome("items.vectordefense.description"),
+        tags: ["C++", "OpenGL", "ECS", "Game Engine"],
+        icon: Shield,
+        color: "from-blue-500/20 to-blue-600/5",
+        borderColor: "hover:border-blue-500/30",
+        tagColor: "bg-blue-500/10 text-blue-400 border-blue-500/20",
+      },
+      {
+        slug: "citk-connect",
+        title: tCommon("citkConnect.name"),
+        description: tHome("items.citkConnect.description"),
+        tags: ["Next.js", "PostgreSQL", "REST API", "Auth"],
+        icon: Globe,
+        color: "from-purple-500/20 to-purple-600/5",
+        borderColor: "hover:border-purple-500/30",
+        tagColor: "bg-purple-500/10 text-purple-400 border-purple-500/20",
+      },
+      {
+        slug: "core-s",
+        title: tCommon("coreS.name"),
+        description: tHome("items.coreS.description"),
+        tags: ["Linux", "Docker", "Nginx", "DevOps"],
+        icon: Server,
+        color: "from-green-500/20 to-green-600/5",
+        borderColor: "hover:border-green-500/30",
+        tagColor: "bg-green-500/10 text-green-400 border-green-500/20",
+      },
+    ],
+    [tCommon, tHome]
+  );
+
+  const withLocale = (href: string) => `/${locale}${href}`;
 
   return (
     <section ref={sectionRef} className="py-24 px-6">
@@ -54,10 +63,10 @@ export function FeaturedProjects() {
         >
           <div className="accent-bar mb-4" />
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-3">
-            Engineering Initiatives
+            {tHome("title")}
           </h2>
           <p className="text-zinc-400 text-lg max-w-xl">
-            Active research and development projects spanning game engine design, full-stack platforms, and infrastructure systems.
+            {tHome("subtitle")}
           </p>
         </motion.div>
 
@@ -73,7 +82,7 @@ export function FeaturedProjects() {
                 transition={{ duration: 0.5, delay: i * 0.12 }}
               >
                 <Link
-                  href={`/projects/${project.slug}`}
+                  href={withLocale(`/projects/${project.slug}`)}
                   className={`group relative block h-full p-7 rounded-2xl border border-white/[0.08] bg-white/[0.02] ${project.borderColor} transition-all overflow-hidden`}
                 >
                   {/* Gradient overlay */}
@@ -119,10 +128,10 @@ export function FeaturedProjects() {
           className="mt-10 text-center"
         >
           <Link
-            href="/projects"
+            href={withLocale("/projects")}
             className="inline-flex items-center gap-2 text-sm text-zinc-400 hover:text-white font-medium transition-colors"
           >
-            View all projects
+            {tHome("viewAll")}
             <ArrowUpRight className="w-4 h-4" />
           </Link>
         </motion.div>

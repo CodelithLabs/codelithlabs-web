@@ -41,11 +41,11 @@ const FAQ = [
   },
   {
     q: "What types of inquiries do you handle?",
-    a: "We handle general questions, partnership proposals, support requests, career inquiries, and feedback. For project-specific quotes, visit our Hire Us page.",
+    a: "We handle general questions, partnership proposals, support requests, career inquiries, and feedback. For ad-free access and priority support, visit our Premium page.",
   },
   {
     q: "Can I hire your team for a project?",
-    a: "Absolutely! We build custom web apps, browser-based tools, APIs, and cloud infrastructure. Check out our Hire Us page for detailed service offerings and our process.",
+    a: "For custom development or partnership inquiries, share your project details in the form above. We review each request and respond with next steps.",
   },
   {
     q: "Do you offer support for existing projects?",
@@ -280,21 +280,21 @@ export default function ContactPage() {
         <section className="max-w-3xl mx-auto px-4 pb-20 text-center">
           <div className="bg-gradient-to-r from-blue-600/10 to-purple-600/10 border border-blue-500/20 rounded-2xl p-10">
             <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4">
-              Looking to Start a Project?
+              Want an Ad-Free Experience?
             </h2>
             <p className="text-zinc-400 mb-8 max-w-lg mx-auto">
-              Check out our services, process, and past work. We build
-              production-grade software for startups and enterprises.
+              Upgrade to CodelithLabs Premium for ad-free tools, priority
+              support, and early access to new features.
             </p>
             <Link
-              href="/hire-us"
+              href="/pricing"
               className="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl
                          bg-gradient-to-r from-blue-600 to-purple-600
                          hover:from-blue-500 hover:to-purple-500 text-white font-semibold
                          shadow-lg shadow-blue-500/20 hover:shadow-blue-500/40
                          transition-all duration-300 hover:scale-105"
             >
-              Explore Our Services →
+              View Premium Plans →
             </Link>
           </div>
         </section>

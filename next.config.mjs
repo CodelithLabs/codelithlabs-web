@@ -1,5 +1,8 @@
 import withBundleAnalyzer from '@next/bundle-analyzer';
 import withPWAInit from '@ducanh2912/next-pwa';
+import createNextIntlPlugin from 'next-intl/plugin';
+
+const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts');
 
 const withAnalyzer = withBundleAnalyzer({
   enabled: process.env.ANALYZE === 'true',
@@ -45,11 +48,7 @@ const nextConfig = {
     ],
   },
 
-  // Build performance caps
-  experimental: {
-    workerThreads: false,
-    cpus: 2,
-  },
+  experimental: {},
 
   // Allow webpack-based PWA plugin alongside Turbopack
   turbopack: {},
@@ -61,4 +60,4 @@ const nextConfig = {
   },
 };
 
-export default withAnalyzer(withPWA(nextConfig));
+export default withNextIntl(withAnalyzer(withPWA(nextConfig)));

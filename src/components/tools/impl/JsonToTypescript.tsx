@@ -2,85 +2,92 @@
 
 import { memo, useState, useCallback } from 'react';
 
+type JsonValue = null | boolean | number | string | JsonValue[] | { [key: string]: JsonValue };
+
+function getType(value: JsonValue): string {
+  if (value === null) return 'null';
+  if (Array.isArray(value)) {
+    if (value.length === 0) return 'any[]';
+    const types = [...new Set(value.map(getType))];
+    if (types.length === 1) return `${types[0]}[]`;
+    return `(${types.join(' | ')})[]`;
+  }
+  switch (typeof value) {
+    case 'string': return 'string';
+    case 'number': return 'number';
+    case 'boolean': return 'boolean';
+    case 'object': return 'object';
+    default: return 'any';
+  }
+}
+
+function toPascalCase(str: string): string {
+  return str
+    .replace(/[-_](.)/g, (_, c: string) => c.toUpperCase())
+    .replace(/^(.)/, (_, c: string) => c.toUpperCase());
+}
+
+function generateInterface(
+  obj: Record<string, JsonValue>,
+  name: string,
+  interfaces: Map<string, string>,
+  useInterface: boolean,
+): string {
+  const keyword = useInterface ? 'interface' : 'type';
+  const equals = useInterface ? '' : ' =';
+  const lines: string[] = [];
+
+  for (const [key, value] of Object.entries(obj)) {
+    let type: string;
+
+    if (value === null) {
+      type = 'null';
+    } else if (Array.isArray(value)) {
+      if (value.length > 0 && typeof value[0] === 'object' && value[0] !== null && !Array.isArray(value[0])) {
+        const itemName = `${toPascalCase(key)}Item`;
+        generateInterface(value[0] as Record<string, JsonValue>, itemName, interfaces, useInterface);
+        type = `${itemName}[]`;
+      } else {
+        type = getType(value);
+      }
+    } else if (typeof value === 'object') {
+      const nestedName = toPascalCase(key);
+      generateInterface(value as Record<string, JsonValue>, nestedName, interfaces, useInterface);
+      type = nestedName;
+    } else {
+      type = getType(value);
+    }
+
+    const safeKey = /^[a-zA-Z_$][a-zA-Z0-9_$]*$/.test(key) ? key : `"${key}"`;
+    lines.push(`  ${safeKey}: ${type};`);
+  }
+
+  const interfaceStr = `${keyword} ${name}${equals} {\n${lines.join('\n')}\n}`;
+  interfaces.set(name, interfaceStr);
+  return interfaceStr;
+}
+
 function JsonToTypescript() {
   const [json, setJson] = useState('');
   const [rootName, setRootName] = useState('Root');
   const [useInterface, setUseInterface] = useState(true);
   const [result, setResult] = useState('');
 
-  const getType = (value: any): string => {
-    if (value === null) return 'null';
-    if (Array.isArray(value)) {
-      if (value.length === 0) return 'any[]';
-      const types = [...new Set(value.map(getType))];
-      if (types.length === 1) return `${types[0]}[]`;
-      return `(${types.join(' | ')})[]`;
-    }
-    switch (typeof value) {
-      case 'string': return 'string';
-      case 'number': return 'number';
-      case 'boolean': return 'boolean';
-      case 'object': return 'object';
-      default: return 'any';
-    }
-  };
-
-  const toPascalCase = (str: string): string => {
-    return str
-      .replace(/[-_](.)/g, (_, c) => c.toUpperCase())
-      .replace(/^(.)/, (_, c) => c.toUpperCase());
-  };
-
-  const generateInterface = useCallback((obj: any, name: string, interfaces: Map<string, string>): string => {
-    const keyword = useInterface ? 'interface' : 'type';
-    const equals = useInterface ? '' : ' =';
-    const lines: string[] = [];
-
-    for (const [key, value] of Object.entries(obj)) {
-      let type: string;
-
-      if (value === null) {
-        type = 'null';
-      } else if (Array.isArray(value)) {
-        if (value.length > 0 && typeof value[0] === 'object' && value[0] !== null) {
-          const itemName = toPascalCase(key) + 'Item';
-          generateInterface(value[0], itemName, interfaces);
-          type = `${itemName}[]`;
-        } else {
-          type = getType(value);
-        }
-      } else if (typeof value === 'object') {
-        const nestedName = toPascalCase(key);
-        generateInterface(value, nestedName, interfaces);
-        type = nestedName;
-      } else {
-        type = getType(value);
-      }
-
-      const safeKey = /^[a-zA-Z_$][a-zA-Z0-9_$]*$/.test(key) ? key : `"${key}"`;
-      lines.push(`  ${safeKey}: ${type};`);
-    }
-
-    const interfaceStr = `${keyword} ${name}${equals} {\n${lines.join('\n')}\n}`;
-    interfaces.set(name, interfaceStr);
-    return interfaceStr;
-  }, [useInterface]);
-
   const handleConvert = useCallback(() => {
     try {
-      const parsed = JSON.parse(json);
+      const parsed = JSON.parse(json) as JsonValue;
       const interfaces = new Map<string, string>();
 
       if (Array.isArray(parsed)) {
-        if (parsed.length > 0 && typeof parsed[0] === 'object') {
-          generateInterface(parsed[0], rootName, interfaces);
+        if (parsed.length > 0 && typeof parsed[0] === 'object' && parsed[0] !== null && !Array.isArray(parsed[0])) {
+          generateInterface(parsed[0] as Record<string, JsonValue>, rootName, interfaces, useInterface);
           const mainType = `type ${rootName}Array = ${rootName}[];`;
           interfaces.set(rootName + 'Array', mainType);
         } else {
           interfaces.set(rootName, `type ${rootName} = ${getType(parsed)};`);
         }
       } else if (typeof parsed === 'object' && parsed !== null) {
-        generateInterface(parsed, rootName, interfaces);
+        generateInterface(parsed as Record<string, JsonValue>, rootName, interfaces, useInterface);
       } else {
         interfaces.set(rootName, `type ${rootName} = ${getType(parsed)};`);
       }
@@ -89,7 +96,7 @@ function JsonToTypescript() {
     } catch (e) {
       setResult('Error: Invalid JSON input');
     }
-  }, [json, rootName, generateInterface]);
+  }, [json, rootName, useInterface]);
 
   return (
     <div className="space-y-6">

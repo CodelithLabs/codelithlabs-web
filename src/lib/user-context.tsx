@@ -22,6 +22,7 @@ interface UserContextValue {
     email?: string | null;
     image?: string | null;
     isPremium: boolean;
+    premiumExpiresAt?: string | null;
   } | null;
   /** Whether the user has an active premium (ad-free) membership */
   isPremium: boolean;

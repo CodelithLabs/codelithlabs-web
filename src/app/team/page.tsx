@@ -4,13 +4,8 @@ import { motion, useScroll, useTransform, useSpring, useMotionValue, useInView }
 import { Github, Linkedin, Mail, Shield, Server, Code2, Globe, ArrowUpRight, Sparkles, Terminal, Cpu, Zap } from "lucide-react";
 import { useRef, useState, useEffect, useCallback } from "react";
 
-// ─── SEO Metadata (add to layout.tsx or use generateMetadata in server component) ───
-// export const metadata = {
-//   title: "Meet the Team | CodeLithLabs – Software Engineering Leadership",
-//   description: "Meet the expert team behind CodeLithLabs — founders and engineers driving innovation in cloud infrastructure, system architecture, and full-stack development.",
-//   keywords: ["CodeLithLabs team", "Prasanta Ray", "Donbil Mwshahary", "Harun Al Roshid", "software engineering", "cloud infrastructure"],
-//   openGraph: { title: "CodeLithLabs Team", description: "Meet the engineers building the future.", url: "https://codelithlabs.in/team", siteName: "CodeLithLabs" },
-// };
+// ─── SEO Metadata ───
+// Metadata is exported from team/layout.tsx (this is a client component)
 
 // ─── Team Data ───────────────────────────────────────────────────────────────────
 const team = [

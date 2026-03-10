@@ -1,6 +1,6 @@
 // ═══════════════════════════════════════════════════════════════════════════
 // FILE: src/types/tool.ts
-// Tool type definitions for the 199+ tools platform
+// Tool type definitions for the 205-tool platform
 // ═══════════════════════════════════════════════════════════════════════════
 
 export interface ToolMeta {

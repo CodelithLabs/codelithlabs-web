@@ -1,6 +1,6 @@
 // ═══════════════════════════════════════════════════════════════════════════
 // FILE: src/lib/tools-registry.ts
-// Central registry for all 199+ tools
+// Central registry for all 205 tools
 // Add new tools here - they auto-generate routes via dynamic routing
 // ═══════════════════════════════════════════════════════════════════════════
 

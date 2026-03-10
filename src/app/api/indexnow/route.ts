@@ -6,6 +6,7 @@
 // ═══════════════════════════════════════════════════════════════════════════
 
 import { NextRequest, NextResponse } from 'next/server';
+import { timingSafeEqual } from 'crypto';
 import { getIndexableTools } from '@/lib/tools-registry';
 
 const INDEXNOW_KEY = '44a3630285764b5cad4c0d104f0e4d6b';
@@ -21,7 +22,7 @@ function buildUrlList(): string[] {
   // Static pages
   const staticPaths = [
     '', '/tools', '/about', '/contact', '/privacy', '/terms',
-    '/blog', '/hire-us', '/pricing', '/research', '/team',
+    '/blog', '/pricing', '/premium', '/research', '/team',
     '/projects', '/tech-stack', '/transparency',
   ];
   for (const path of staticPaths) {
@@ -64,7 +65,13 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  if (authHeader !== `Bearer ${secret}`) {
+  const expected = `Bearer ${secret}`;
+  const provided = authHeader ?? '';
+  // Use timing-safe comparison to prevent timing oracle attacks
+  const isAuthorized =
+    provided.length === expected.length &&
+    timingSafeEqual(Buffer.from(provided), Buffer.from(expected));
+  if (!isAuthorized) {
     return NextResponse.json(
       { error: 'Unauthorized' },
       { status: 401 }

@@ -1,0 +1,160 @@
+{
+  "generatedAt": "2026-03-10T01:32:58.752Z",
+  "totals": {
+    "checked": 20,
+    "missing": 2,
+    "skipped": 3
+  },
+  "missing": [
+    "src/app/hire-us/page.tsx",
+    "src/app/premium/page.tsx"
+  ],
+  "checked": [
+    {
+      "page": "src/app/(legal)/privacy/page.tsx",
+      "foundInPage": true,
+      "proxyFiles": [],
+      "foundInProxy": false,
+      "hasHeading": true
+    },
+    {
+      "page": "src/app/(legal)/refund/page.tsx",
+      "foundInPage": true,
+      "proxyFiles": [],
+      "foundInProxy": false,
+      "hasHeading": true
+    },
+    {
+      "page": "src/app/(legal)/terms/page.tsx",
+      "foundInPage": true,
+      "proxyFiles": [],
+      "foundInProxy": false,
+      "hasHeading": true
+    },
+    {
+      "page": "src/app/about/page.tsx",
+      "foundInPage": true,
+      "proxyFiles": [],
+      "foundInProxy": false,
+      "hasHeading": true
+    },
+    {
+      "page": "src/app/blog/page.tsx",
+      "foundInPage": true,
+      "proxyFiles": [],
+      "foundInProxy": false,
+      "hasHeading": true
+    },
+    {
+      "page": "src/app/blog/[slug]/page.tsx",
+      "foundInPage": true,
+      "proxyFiles": [],
+      "foundInProxy": false,
+      "hasHeading": true
+    },
+    {
+      "page": "src/app/contact/page.tsx",
+      "foundInPage": true,
+      "proxyFiles": [],
+      "foundInProxy": false,
+      "hasHeading": true
+    },
+    {
+      "page": "src/app/hire-us/page.tsx",
+      "foundInPage": false,
+      "proxyFiles": [],
+      "foundInProxy": false,
+      "hasHeading": false
+    },
+    {
+      "page": "src/app/page.tsx",
+      "foundInPage": false,
+      "proxyFiles": [
+        "src/components/landing/HeroSection.tsx"
+      ],
+      "foundInProxy": true,
+      "hasHeading": true
+    },
+    {
+      "page": "src/app/premium/page.tsx",
+      "foundInPage": false,
+      "proxyFiles": [],
+      "foundInProxy": false,
+      "hasHeading": false
+    },
+    {
+      "page": "src/app/pricing/page.tsx",
+      "foundInPage": true,
+      "proxyFiles": [],
+      "foundInProxy": false,
+      "hasHeading": true
+    },
+    {
+      "page": "src/app/projects/page.tsx",
+      "foundInPage": true,
+      "proxyFiles": [],
+      "foundInProxy": false,
+      "hasHeading": true
+    },
+    {
+      "page": "src/app/projects/[slug]/page.tsx",
+      "foundInPage": true,
+      "proxyFiles": [],
+      "foundInProxy": false,
+      "hasHeading": true
+    },
+    {
+      "page": "src/app/research/page.tsx",
+      "foundInPage": true,
+      "proxyFiles": [],
+      "foundInProxy": false,
+      "hasHeading": true
+    },
+    {
+      "page": "src/app/team/page.tsx",
+      "foundInPage": true,
+      "proxyFiles": [],
+      "foundInProxy": false,
+      "hasHeading": true
+    },
+    {
+      "page": "src/app/tech-stack/page.tsx",
+      "foundInPage": true,
+      "proxyFiles": [],
+      "foundInProxy": false,
+      "hasHeading": true
+    },
+    {
+      "page": "src/app/tools/category/[category]/page.tsx",
+      "foundInPage": true,
+      "proxyFiles": [],
+      "foundInProxy": false,
+      "hasHeading": true
+    },
+    {
+      "page": "src/app/tools/page.tsx",
+      "foundInPage": true,
+      "proxyFiles": [],
+      "foundInProxy": false,
+      "hasHeading": true
+    },
+    {
+      "page": "src/app/tools/[slug]/page.tsx",
+      "foundInPage": false,
+      "proxyFiles": [
+        "src/components/tools/ToolLayout.tsx"
+      ],
+      "foundInProxy": true,
+      "hasHeading": true
+    },
+    {
+      "page": "src/app/transparency/page.tsx",
+      "foundInPage": false,
+      "proxyFiles": [
+        "src/components/transparency/TransparencyDashboardClient.tsx"
+      ],
+      "foundInProxy": true,
+      "hasHeading": true
+    }
+  ]
+}
