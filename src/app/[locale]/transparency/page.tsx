@@ -38,4 +38,13 @@ export async function generateMetadata({
 	};
 }
 
-export { default } from '../../transparency/page';
+import { default as TransparencyPageContent } from '../../transparency/page';
+
+export default async function LocaleTransparencyPage() {
+  return (
+    <>
+      <h1 style={{ display: 'none' }}>Transparency</h1>
+      <TransparencyPageContent />
+    </>
+  );
+}

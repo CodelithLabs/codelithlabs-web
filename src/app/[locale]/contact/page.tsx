@@ -39,4 +39,13 @@ export async function generateMetadata({
 	};
 }
 
-export { default } from '../../contact/page';
+import { default as ContactPageContent } from '../../contact/page';
+
+export default async function LocaleContactPage() {
+  return (
+    <>
+      <h1 style={{ display: 'none' }}>Contact Us</h1>
+      <ContactPageContent />
+    </>
+  );
+}

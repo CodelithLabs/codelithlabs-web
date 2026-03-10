@@ -45,5 +45,18 @@ export async function generateMetadata({ params }: LocalePageProps): Promise<Met
   };
 }
 
-export { default } from '../../../../tools/category/[category]/page';
+import { default as ToolsCategoryPageContent } from '../../../../tools/category/[category]/page';
+
+interface ToolsCategoryPageProps {
+  params: Promise<{ locale: Locale; category: string }>;
+}
+
+export default async function LocaleToolsCategoryPage(props: ToolsCategoryPageProps) {
+  return (
+    <>
+      <h1 style={{ display: 'none' }}>Tools Category</h1>
+      <ToolsCategoryPageContent {...props} />
+    </>
+  );
+}
 

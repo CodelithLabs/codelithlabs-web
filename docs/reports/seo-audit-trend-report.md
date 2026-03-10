@@ -1,6 +1,6 @@
 # SEO Audit Trend Snapshot
 
-Generated: 2026-03-10T21:02:10.779Z
+Generated: 2026-03-10T21:47:15.069Z
 Baseline available: yes
 
 ## H1 Coverage
@@ -8,20 +8,20 @@ Baseline available: yes
 | Metric | Previous | Current | Δ | Status |
 |---|---:|---:|---:|---|
 | checked | 40 | 40 | 0 | ⚪ unchanged |
-| missing | 22 | 22 | 0 | ⚪ unchanged |
+| missing | 5 | 0 | -5 | 🟢 improved |
 | skipped | 3 | 3 | 0 | ⚪ unchanged |
 
 ## Sitemap Completeness
 
 | Metric | Previous | Current | Δ | Status |
 |---|---:|---:|---:|---|
-| missingStaticRoutes | 15 | 15 | 0 | ⚪ unchanged |
+| missingStaticRoutes | 0 | 0 | 0 | ⚪ unchanged |
 | missingProjectSlugs | 0 | 0 | 0 | ⚪ unchanged |
 | flaggedMissingInRegistry | 0 | 0 | 0 | ⚪ unchanged |
 | flaggedNoindexed | 0 | 0 | 0 | ⚪ unchanged |
-| hasDynamicToolPages | 0 | 0 | 0 | ⚪ unchanged |
-| hasDynamicBlogPages | 0 | 0 | 0 | ⚪ unchanged |
-| hasCategoryPages | 0 | 0 | 0 | ⚪ unchanged |
+| hasDynamicToolPages | 1 | 1 | 0 | ⚪ unchanged |
+| hasDynamicBlogPages | 1 | 1 | 0 | ⚪ unchanged |
+| hasCategoryPages | 1 | 1 | 0 | ⚪ unchanged |
 
 ## Indexing Friction
 

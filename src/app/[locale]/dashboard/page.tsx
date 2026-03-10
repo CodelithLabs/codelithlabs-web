@@ -14,5 +14,10 @@ export const metadata: Metadata = {
 };
 
 export default function DashboardPage() {
-  return <DashboardClient />;
+  return (
+    <>
+      <h1 style={{ display: 'none' }}>Dashboard</h1>
+      <DashboardClient />
+    </>
+  );
 }

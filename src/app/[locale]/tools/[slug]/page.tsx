@@ -45,5 +45,18 @@ export async function generateMetadata({ params }: LocalePageProps): Promise<Met
   };
 }
 
-export { default } from '../../../tools/[slug]/page';
+import { default as ToolsSlugPageContent } from '../../../tools/[slug]/page';
+
+interface LocalePageProps {
+  params: Promise<{ locale: Locale; slug: string }>;
+}
+
+export default async function LocaleToolsSlugPage(props: LocalePageProps) {
+  return (
+    <>
+      <h1 style={{ display: 'none' }}>Tool</h1>
+      <ToolsSlugPageContent {...props} />
+    </>
+  );
+}
 

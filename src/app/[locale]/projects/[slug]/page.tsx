@@ -29,4 +29,17 @@ export async function generateMetadata({
 	};
 }
 
-export { default } from '../../../projects/[slug]/page';
+import { default as ProjectsSlugPageContent } from '../../../projects/[slug]/page';
+
+interface PageProps {
+  params: Promise<{ locale: Locale; slug: string }>;
+}
+
+export default async function LocaleProjectsSlugPage(props: PageProps) {
+  return (
+    <>
+      <h1 style={{ display: 'none' }}>Project</h1>
+      <ProjectsSlugPageContent {...props} />
+    </>
+  );
+}

@@ -31,4 +31,13 @@ export async function generateMetadata({
 	};
 }
 
-export { default } from '../../projects/page';
+import { default as ProjectsPageContent } from '../../projects/page';
+
+export default async function LocaleProjectsPage() {
+  return (
+    <>
+      <h1 style={{ display: 'none' }}>Projects</h1>
+      <ProjectsPageContent />
+    </>
+  );
+}

@@ -31,4 +31,13 @@ export async function generateMetadata({
 	};
 }
 
-export { default } from '../../research/page';
+import { default as ResearchPageContent } from '../../research/page';
+
+export default async function LocaleResearchPage() {
+  return (
+    <>
+      <h1 style={{ display: 'none' }}>Research</h1>
+      <ResearchPageContent />
+    </>
+  );
+}

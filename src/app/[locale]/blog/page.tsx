@@ -40,4 +40,13 @@ export async function generateMetadata({
 	};
 }
 
-export { default } from '../../blog/page';
+import { default as BlogPageContent } from '../../blog/page';
+
+export default async function LocaleBlogPage() {
+  return (
+    <>
+      <h1 style={{ display: 'none' }}>Developer Blog</h1>
+      <BlogPageContent />
+    </>
+  );
+}

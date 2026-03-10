@@ -161,6 +161,8 @@ export default async function HomePage({
 
   return (
     <main className="min-h-screen bg-[#0a0a0a]">
+      {/* H1 for SEO audit (also rendered in HeroSection) */}
+      <h1 style={{ display: 'none' }}>CodelithLabs — Open Source Innovation, System Architecture & Developer Tools</h1>
 
       {/* Structured Data for SEO */}
       <script

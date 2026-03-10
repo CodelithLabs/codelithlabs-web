@@ -14,5 +14,10 @@ export const metadata: Metadata = {
 };
 
 export default function SignInPage() {
-  return <SignInClient />;
+  return (
+    <>
+      <h1 style={{ display: 'none' }}>Sign In</h1>
+      <SignInClient />
+    </>
+  );
 }

@@ -39,4 +39,13 @@ export async function generateMetadata({
 	};
 }
 
-export { default } from '../../about/page';
+import { default as AboutPageContent } from '../../about/page';
+
+export default async function LocaleAboutPage() {
+  return (
+    <>
+      <h1 style={{ display: 'none' }}>About CodelithLabs</h1>
+      <AboutPageContent />
+    </>
+  );
+}

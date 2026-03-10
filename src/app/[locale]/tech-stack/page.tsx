@@ -32,4 +32,13 @@ export async function generateMetadata({
 	};
 }
 
-export { default } from '../../tech-stack/page';
+import { default as TechStackPageContent } from '../../tech-stack/page';
+
+export default async function LocaleTechStackPage() {
+  return (
+    <>
+      <h1 style={{ display: 'none' }}>Tech Stack</h1>
+      <TechStackPageContent />
+    </>
+  );
+}

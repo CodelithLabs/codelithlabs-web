@@ -31,4 +31,13 @@ export async function generateMetadata({
 	};
 }
 
-export { default } from '../../team/page';
+import { default as TeamPageContent } from '../../team/page';
+
+export default async function LocaleTeamPage() {
+  return (
+    <>
+      <h1 style={{ display: 'none' }}>Our Team</h1>
+      <TeamPageContent />
+    </>
+  );
+}
