@@ -627,5 +627,50 @@
         "codelithWeb": { "description": "Enterprise-Toolplattform mit mehr als 200 Browser-Utilities, statischer Seitengenerierung und automatisierten Content-Pipelines.", "architectureOverview": "Next.js-16-Static-Export mit Turbopack, Web-Worker-basierter Verarbeitung für Bild-/JSON-Tools, Tailwind-CSS-Design-System und Vercel-Edge-CDN." }
       }
     }
+  },
+  "Games": {
+    "hub": {
+      "breadcrumb": "CodelithLabs",
+      "section": "Kostenlose Spiele",
+      "title": "Kostenlose Browser-Spiele",
+      "subtitle": "Keine Anmeldung. Kein Tracking. Einfach spielen. Alle Spiele laufen in deinem Browser.",
+      "empty": "Spiele starten bald. Bleib dran.",
+      "badge_privacy": "Datenschutz zuerst",
+      "badge_free": "Für immer kostenlos",
+      "badge_noAccount": "Kein Konto nötig",
+      "badge_offline": "Funktioniert offline"
+    },
+    "void": {
+      "meta_title": "VOID — 3D-Horror-Tunnel-Runner | Kostenloses Browser-Spiel | CodelithLabs",
+      "meta_description": "Überlebe die unendliche Dunkelheit in VOID. Kostenloses 3D-Horror-Browser-Spiel. Kein Download, keine Anmeldung. Wie weit kommst du?",
+      "title": "VOID",
+      "description": "Überlebe die unendliche Dunkelheit. Ein 3D-Horror-Tunnel-Runner.",
+      "tagline": "ÜBERLEBE DAS UNENDLICHE",
+      "tagline_dead": "DU BIST VERSCHWUNDEN",
+      "cta_play": "Betritt das Void",
+      "cta_restart": "Nochmal versuchen",
+      "score_label": "PUNKTZAHL",
+      "best_label": "BESTE",
+      "your_score": "Deine Punktzahl",
+      "new_best": "★ NEUER REKORD ★",
+      "controls_move": "WASD / Pfeiltasten — Bewegen",
+      "controls_mouse": "Maus — Zielen",
+      "controls_touch": "Touch — Zum Steuern wischen",
+      "loading": "VOID WIRD INITIALISIERT...",
+      "back_games": "← Spiele",
+      "hollowmind_teaser": "Inspiriert von unserem kommenden Horror-Spiel",
+      "hollowmind_link": "PROJECT HOLLOWMIND →"
+    },
+    "card": {
+      "badge_featured": "Empfohlen",
+      "badge_multiplayer": "Mehrspieler",
+      "badge_new": "Neu",
+      "cta": "Kostenlos spielen →"
+    },
+    "layout": {
+      "meta_title_template": "%s | Spiele | CodelithLabs",
+      "meta_title_default": "Kostenlose Browser-Spiele | CodelithLabs",
+      "meta_description": "Kostenlose datenschutzfreundliche Browser-Spiele. Keine Anmeldung, kein Tracking, einfach spielen."
+    }
   }
 }

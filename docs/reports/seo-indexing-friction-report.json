@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-10T01:33:00.500Z",
+  "generatedAt": "2026-03-10T21:02:10.668Z",
   "baseUrl": "https://codelithlabs.in",
   "timeoutMs": 12000,
   "criticalPaths": [
@@ -14,60 +14,60 @@
     {
       "url": "https://codelithlabs.in/",
       "expectedCanonical": "https://codelithlabs.in/",
-      "initialStatus": 200,
-      "redirectLocation": null,
+      "initialStatus": 307,
+      "redirectLocation": "/en/",
       "finalStatus": 200,
-      "finalUrl": "https://codelithlabs.in/",
+      "finalUrl": "https://codelithlabs.in/en/",
       "hasNoindexMeta": false,
       "error": null
     },
     {
       "url": "https://codelithlabs.in/tools/",
       "expectedCanonical": "https://codelithlabs.in/tools/",
-      "initialStatus": 200,
-      "redirectLocation": null,
+      "initialStatus": 307,
+      "redirectLocation": "/en/tools/",
       "finalStatus": 200,
-      "finalUrl": "https://codelithlabs.in/tools/",
+      "finalUrl": "https://codelithlabs.in/en/tools/",
       "hasNoindexMeta": false,
       "error": null
     },
     {
       "url": "https://codelithlabs.in/blog/",
       "expectedCanonical": "https://codelithlabs.in/blog/",
-      "initialStatus": 200,
-      "redirectLocation": null,
+      "initialStatus": 307,
+      "redirectLocation": "/en/blog/",
       "finalStatus": 200,
-      "finalUrl": "https://codelithlabs.in/blog/",
+      "finalUrl": "https://codelithlabs.in/en/blog/",
       "hasNoindexMeta": false,
       "error": null
     },
     {
       "url": "https://codelithlabs.in/tools/case-converter/",
       "expectedCanonical": "https://codelithlabs.in/tools/case-converter/",
-      "initialStatus": 200,
-      "redirectLocation": null,
+      "initialStatus": 307,
+      "redirectLocation": "/en/tools/case-converter/",
       "finalStatus": 200,
-      "finalUrl": "https://codelithlabs.in/tools/case-converter/",
+      "finalUrl": "https://codelithlabs.in/en/tools/case-converter/",
       "hasNoindexMeta": false,
       "error": null
     },
     {
       "url": "https://codelithlabs.in/tools/age-calculator/",
       "expectedCanonical": "https://codelithlabs.in/tools/age-calculator/",
-      "initialStatus": 200,
-      "redirectLocation": null,
+      "initialStatus": 307,
+      "redirectLocation": "/en/tools/age-calculator/",
       "finalStatus": 200,
-      "finalUrl": "https://codelithlabs.in/tools/age-calculator/",
+      "finalUrl": "https://codelithlabs.in/en/tools/age-calculator/",
       "hasNoindexMeta": false,
       "error": null
     },
     {
       "url": "https://codelithlabs.in/tools/qr-code-generator/",
       "expectedCanonical": "https://codelithlabs.in/tools/qr-code-generator/",
-      "initialStatus": 200,
-      "redirectLocation": null,
+      "initialStatus": 307,
+      "redirectLocation": "/en/tools/qr-code-generator/",
       "finalStatus": 200,
-      "finalUrl": "https://codelithlabs.in/tools/qr-code-generator/",
+      "finalUrl": "https://codelithlabs.in/en/tools/qr-code-generator/",
       "hasNoindexMeta": false,
       "error": null
     }
@@ -77,18 +77,80 @@
       "rollout": [],
       "live": []
     },
-    "redirects": [],
+    "redirects": [
+      {
+        "url": "https://codelithlabs.in/",
+        "status": 307,
+        "location": "/en/"
+      },
+      {
+        "url": "https://codelithlabs.in/tools/",
+        "status": 307,
+        "location": "/en/tools/"
+      },
+      {
+        "url": "https://codelithlabs.in/blog/",
+        "status": 307,
+        "location": "/en/blog/"
+      },
+      {
+        "url": "https://codelithlabs.in/tools/case-converter/",
+        "status": 307,
+        "location": "/en/tools/case-converter/"
+      },
+      {
+        "url": "https://codelithlabs.in/tools/age-calculator/",
+        "status": 307,
+        "location": "/en/tools/age-calculator/"
+      },
+      {
+        "url": "https://codelithlabs.in/tools/qr-code-generator/",
+        "status": 307,
+        "location": "/en/tools/qr-code-generator/"
+      }
+    ],
     "notFound404": [],
     "serverErrors5xx": [],
     "requestErrors": []
   },
-  "canonicalMismatches": [],
+  "canonicalMismatches": [
+    {
+      "url": "https://codelithlabs.in/",
+      "expected": "https://codelithlabs.in/",
+      "actual": "https://codelithlabs.in/en/"
+    },
+    {
+      "url": "https://codelithlabs.in/tools/",
+      "expected": "https://codelithlabs.in/tools/",
+      "actual": "https://codelithlabs.in/en/tools/"
+    },
+    {
+      "url": "https://codelithlabs.in/blog/",
+      "expected": "https://codelithlabs.in/blog/",
+      "actual": "https://codelithlabs.in/en/blog/"
+    },
+    {
+      "url": "https://codelithlabs.in/tools/case-converter/",
+      "expected": "https://codelithlabs.in/tools/case-converter/",
+      "actual": "https://codelithlabs.in/en/tools/case-converter/"
+    },
+    {
+      "url": "https://codelithlabs.in/tools/age-calculator/",
+      "expected": "https://codelithlabs.in/tools/age-calculator/",
+      "actual": "https://codelithlabs.in/en/tools/age-calculator/"
+    },
+    {
+      "url": "https://codelithlabs.in/tools/qr-code-generator/",
+      "expected": "https://codelithlabs.in/tools/qr-code-generator/",
+      "actual": "https://codelithlabs.in/en/tools/qr-code-generator/"
+    }
+  ],
   "summary": {
     "noindexCount": 0,
-    "redirectCount": 0,
+    "redirectCount": 6,
     "notFound404Count": 0,
     "serverErrors5xxCount": 0,
     "requestErrorCount": 0,
-    "canonicalMismatchCount": 0
+    "canonicalMismatchCount": 6
   }
 }

@@ -42,6 +42,7 @@
     "@next/third-parties": "^16.1.6",
     "@prisma/client": "^6.19.2",
     "@sendgrid/mail": "^8.1.6",
+    "@swc/helpers": "0.5.19",
     "dompurify": "^3.3.1",
     "framer-motion": "^11.0.0",
     "gray-matter": "^4.0.3",
@@ -56,6 +57,7 @@
     "react-turnstile": "^1.1.5",
     "remark": "^15.0.1",
     "remark-html": "^16.0.1",
+    "three": "^0.183.2",
     "zod": "^3.23.8"
   },
   "devDependencies": {
@@ -68,6 +70,7 @@
     "@types/node": "^20.11.0",
     "@types/react": "^18.2.0",
     "@types/react-dom": "^18.2.0",
+    "@types/three": "^0.183.1",
     "@vitejs/plugin-react": "^5.1.4",
     "autoprefixer": "^10.4.17",
     "eslint": "^9.17.0",

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-10T01:33:00.607Z",
+  "generatedAt": "2026-03-10T21:02:10.779Z",
   "hasBaseline": true,
   "audits": [
     {
@@ -9,16 +9,16 @@
       "metricDiffs": [
         {
           "metric": "checked",
-          "previous": 20,
-          "current": 20,
+          "previous": 40,
+          "current": 40,
           "delta": 0,
           "rule": "higher-better",
           "status": "unchanged"
         },
         {
           "metric": "missing",
-          "previous": 2,
-          "current": 2,
+          "previous": 22,
+          "current": 22,
           "delta": 0,
           "rule": "lower-better",
           "status": "unchanged"
@@ -40,8 +40,8 @@
       "metricDiffs": [
         {
           "metric": "missingStaticRoutes",
-          "previous": 0,
-          "current": 0,
+          "previous": 15,
+          "current": 15,
           "delta": 0,
           "rule": "lower-better",
           "status": "unchanged"
@@ -72,24 +72,24 @@
         },
         {
           "metric": "hasDynamicToolPages",
-          "previous": 1,
-          "current": 1,
+          "previous": 0,
+          "current": 0,
           "delta": 0,
           "rule": "boolean-true",
           "status": "unchanged"
         },
         {
           "metric": "hasDynamicBlogPages",
-          "previous": 1,
-          "current": 1,
+          "previous": 0,
+          "current": 0,
           "delta": 0,
           "rule": "boolean-true",
           "status": "unchanged"
         },
         {
           "metric": "hasCategoryPages",
-          "previous": 1,
-          "current": 1,
+          "previous": 0,
+          "current": 0,
           "delta": 0,
           "rule": "boolean-true",
           "status": "unchanged"
@@ -111,8 +111,8 @@
         },
         {
           "metric": "redirectCount",
-          "previous": 0,
-          "current": 0,
+          "previous": 6,
+          "current": 6,
           "delta": 0,
           "rule": "lower-better",
           "status": "unchanged"
@@ -143,8 +143,8 @@
         },
         {
           "metric": "canonicalMismatchCount",
-          "previous": 0,
-          "current": 0,
+          "previous": 6,
+          "current": 6,
           "delta": 0,
           "rule": "lower-better",
           "status": "unchanged"

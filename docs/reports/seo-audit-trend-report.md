@@ -1,38 +1,38 @@
 # SEO Audit Trend Snapshot
 
-Generated: 2026-03-10T01:33:00.607Z
+Generated: 2026-03-10T21:02:10.779Z
 Baseline available: yes
 
 ## H1 Coverage
 
 | Metric | Previous | Current | Δ | Status |
 |---|---:|---:|---:|---|
-| checked | 20 | 20 | 0 | ⚪ unchanged |
-| missing | 2 | 2 | 0 | ⚪ unchanged |
+| checked | 40 | 40 | 0 | ⚪ unchanged |
+| missing | 22 | 22 | 0 | ⚪ unchanged |
 | skipped | 3 | 3 | 0 | ⚪ unchanged |
 
 ## Sitemap Completeness
 
 | Metric | Previous | Current | Δ | Status |
 |---|---:|---:|---:|---|
-| missingStaticRoutes | 0 | 0 | 0 | ⚪ unchanged |
+| missingStaticRoutes | 15 | 15 | 0 | ⚪ unchanged |
 | missingProjectSlugs | 0 | 0 | 0 | ⚪ unchanged |
 | flaggedMissingInRegistry | 0 | 0 | 0 | ⚪ unchanged |
 | flaggedNoindexed | 0 | 0 | 0 | ⚪ unchanged |
-| hasDynamicToolPages | 1 | 1 | 0 | ⚪ unchanged |
-| hasDynamicBlogPages | 1 | 1 | 0 | ⚪ unchanged |
-| hasCategoryPages | 1 | 1 | 0 | ⚪ unchanged |
+| hasDynamicToolPages | 0 | 0 | 0 | ⚪ unchanged |
+| hasDynamicBlogPages | 0 | 0 | 0 | ⚪ unchanged |
+| hasCategoryPages | 0 | 0 | 0 | ⚪ unchanged |
 
 ## Indexing Friction
 
 | Metric | Previous | Current | Δ | Status |
 |---|---:|---:|---:|---|
 | noindexCount | 0 | 0 | 0 | ⚪ unchanged |
-| redirectCount | 0 | 0 | 0 | ⚪ unchanged |
+| redirectCount | 6 | 6 | 0 | ⚪ unchanged |
 | notFound404Count | 0 | 0 | 0 | ⚪ unchanged |
 | serverErrors5xxCount | 0 | 0 | 0 | ⚪ unchanged |
 | requestErrorCount | 0 | 0 | 0 | ⚪ unchanged |
-| canonicalMismatchCount | 0 | 0 | 0 | ⚪ unchanged |
+| canonicalMismatchCount | 6 | 6 | 0 | ⚪ unchanged |
 
 ## Tool Health
 

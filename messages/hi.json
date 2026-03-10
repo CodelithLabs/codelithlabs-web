@@ -468,5 +468,50 @@
         "codelithWeb": { "description": "200+ browser-based utilities, static site generation और automated content pipelines वाला enterprise-grade tools platform।", "architectureOverview": "Next.js 16 static export with Turbopack, image/JSON tools के लिए Web Worker-based processing, Tailwind CSS design system और Vercel edge CDN।" }
       }
     }
+  },
+  "Games": {
+    "hub": {
+      "breadcrumb": "CodelithLabs",
+      "section": "मुफ़्त गेम्स",
+      "title": "मुफ़्त ब्राउज़र गेम्स",
+      "subtitle": "कोई साइनअप नहीं। कोई ट्रैकिंग नहीं। बस खेलें। सभी गेम आपके ब्राउज़र में चलते हैं।",
+      "empty": "गेम्स जल्द आ रहे हैं। बने रहें।",
+      "badge_privacy": "गोपनीयता-प्रथम",
+      "badge_free": "हमेशा के लिए मुफ़्त",
+      "badge_noAccount": "कोई अकाउंट नहीं चाहिए",
+      "badge_offline": "ऑफ़लाइन काम करता है"
+    },
+    "void": {
+      "meta_title": "VOID — 3D हॉरर टनल गेम | मुफ़्त ब्राउज़र गेम | CodelithLabs",
+      "meta_description": "VOID में अनंत अंधेरे में जीवित रहें। मुफ़्त 3D हॉरर ब्राउज़र गेम। बिना डाउनलोड, बिना साइनअप। आप कितनी दूर जा सकते हैं?",
+      "title": "VOID",
+      "description": "अनंत अंधेरे में जीवित रहें। एक 3D हॉरर टनल रनर।",
+      "tagline": "अनंत में जीवित रहें",
+      "tagline_dead": "आप गए",
+      "cta_play": "शून्य में प्रवेश करें",
+      "cta_restart": "फिर कोशिश करें",
+      "score_label": "स्कोर",
+      "best_label": "सर्वश्रेष्ठ",
+      "your_score": "आपका स्कोर",
+      "new_best": "★ नया सर्वश्रेष्ठ ★",
+      "controls_move": "WASD / तीर कुंजियाँ — चलें",
+      "controls_mouse": "माउस — निशाना लगाएं",
+      "controls_touch": "टच — स्वाइप करें",
+      "loading": "VOID शुरू हो रहा है...",
+      "back_games": "← गेम्स",
+      "hollowmind_teaser": "हमारे आगामी हॉरर गेम से प्रेरित",
+      "hollowmind_link": "PROJECT HOLLOWMIND →"
+    },
+    "card": {
+      "badge_featured": "फीचर्ड",
+      "badge_multiplayer": "मल्टीप्लेयर",
+      "badge_new": "नया",
+      "cta": "मुफ़्त खेलें →"
+    },
+    "layout": {
+      "meta_title_template": "%s | गेम्स | CodelithLabs",
+      "meta_title_default": "मुफ़्त ब्राउज़र गेम्स | CodelithLabs",
+      "meta_description": "मुफ़्त गोपनीयता-प्रथम ब्राउज़र गेम्स। कोई साइनअप नहीं, कोई ट्रैकिंग नहीं, बस खेलें।"
+    }
   }
 }

@@ -477,5 +477,50 @@
         "codelithWeb": { "description": "Plataforma de herramientas de nivel empresarial con más de 200 utilidades para navegador, generación estática y canalizaciones de contenido automatizadas.", "architectureOverview": "Exportación estática con Next.js 16 y Turbopack, procesamiento con Web Workers para herramientas de imagen/JSON, sistema de diseño con Tailwind CSS y CDN edge de Vercel." }
       }
     }
+  },
+  "Games": {
+    "hub": {
+      "breadcrumb": "CodelithLabs",
+      "section": "Juegos gratis",
+      "title": "Juegos de navegador gratis",
+      "subtitle": "Sin registro. Sin rastreo. Solo juega. Todos los juegos se ejecutan en tu navegador.",
+      "empty": "Los juegos llegarán pronto. Mantente atento.",
+      "badge_privacy": "Privacidad primero",
+      "badge_free": "Gratis para siempre",
+      "badge_noAccount": "Sin cuenta",
+      "badge_offline": "Funciona sin conexión"
+    },
+    "void": {
+      "meta_title": "VOID — Runner de túnel de terror 3D | Juego de navegador gratis | CodelithLabs",
+      "meta_description": "Sobrevive a la oscuridad infinita en VOID. Juego de terror 3D gratis en el navegador. Sin descarga, sin registro. ¿Hasta dónde puedes llegar?",
+      "title": "VOID",
+      "description": "Sobrevive a la oscuridad infinita. Un runner de túnel de terror 3D.",
+      "tagline": "SOBREVIVE LO INFINITO",
+      "tagline_dead": "HAS CAÍDO",
+      "cta_play": "Entrar al Void",
+      "cta_restart": "Intentar de nuevo",
+      "score_label": "PUNTUACIÓN",
+      "best_label": "MEJOR",
+      "your_score": "Tu puntuación",
+      "new_best": "★ NUEVO RÉCORD ★",
+      "controls_move": "WASD / Flechas — Mover",
+      "controls_mouse": "Ratón — Apuntar",
+      "controls_touch": "Toque — Desliza para dirigir",
+      "loading": "INICIALIZANDO VOID...",
+      "back_games": "← Juegos",
+      "hollowmind_teaser": "Inspirado en nuestro próximo juego de terror",
+      "hollowmind_link": "PROJECT HOLLOWMIND →"
+    },
+    "card": {
+      "badge_featured": "Destacado",
+      "badge_multiplayer": "Multijugador",
+      "badge_new": "Nuevo",
+      "cta": "Jugar gratis →"
+    },
+    "layout": {
+      "meta_title_template": "%s | Juegos | CodelithLabs",
+      "meta_title_default": "Juegos de navegador gratis | CodelithLabs",
+      "meta_description": "Juegos de navegador gratis y con privacidad primero. Sin registro, sin rastreo, solo jugar."
+    }
   }
 }

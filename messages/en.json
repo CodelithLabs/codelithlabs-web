@@ -513,5 +513,50 @@
         }
       }
     }
+  },
+  "Games": {
+    "hub": {
+      "breadcrumb": "CodelithLabs",
+      "section": "Free Games",
+      "title": "Free Browser Games",
+      "subtitle": "No signup. No tracking. Just play. All games run in your browser.",
+      "empty": "Games launching soon. Stay tuned.",
+      "badge_privacy": "Privacy-first",
+      "badge_free": "Free forever",
+      "badge_noAccount": "No account needed",
+      "badge_offline": "Works offline"
+    },
+    "void": {
+      "meta_title": "VOID — 3D Horror Tunnel Runner | Free Browser Game | CodelithLabs",
+      "meta_description": "Survive the infinite darkness in VOID. Free 3D horror browser game. No download, no signup. How far can you go?",
+      "title": "VOID",
+      "description": "Survive the infinite darkness. A 3D horror tunnel runner.",
+      "tagline": "SURVIVE THE INFINITE",
+      "tagline_dead": "YOU ARE GONE",
+      "cta_play": "Enter the Void",
+      "cta_restart": "Try Again",
+      "score_label": "SCORE",
+      "best_label": "BEST",
+      "your_score": "Your Score",
+      "new_best": "★ NEW BEST ★",
+      "controls_move": "WASD / Arrow Keys — Move",
+      "controls_mouse": "Mouse — Aim",
+      "controls_touch": "Touch — Swipe to steer",
+      "loading": "INITIALIZING VOID...",
+      "back_games": "← Games",
+      "hollowmind_teaser": "Inspired by our upcoming horror game",
+      "hollowmind_link": "PROJECT HOLLOWMIND →"
+    },
+    "card": {
+      "badge_featured": "Featured",
+      "badge_multiplayer": "Multiplayer",
+      "badge_new": "New",
+      "cta": "Play Free →"
+    },
+    "layout": {
+      "meta_title_template": "%s | Games | CodelithLabs",
+      "meta_title_default": "Free Browser Games | CodelithLabs",
+      "meta_description": "Free privacy-first browser games. No signup, no tracking, just play."
+    }
   }
 }
