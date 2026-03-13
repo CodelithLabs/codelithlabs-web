@@ -9,8 +9,17 @@ import { getToolBySlug, getAllSlugs, getRelatedTools, isToolIndexable } from '@/
 import { TOOL_CATEGORIES } from '@/types/tool';
 import { ToolLayout } from '@/components/tools/ToolLayout';
 import { getToolContent } from '@/lib/content-loader';
+import {
+  getLocaleUrl,
+  getLocaleAlternates,
+  getOgAlternateLocales,
+  getOgLocale,
+  getPrimaryLocaleCanonical,
+} from '@/lib/locale-meta';
+import { defaultLocale, type Locale } from '@/i18n/request';
 import ToolMapper from './tool-mapper';
 import Link from 'next/link';
+import { JsonLdScript } from '@/components/security/JsonLdScript';
 
 const TOOL_SEO_OVERRIDES: Record<string, { description: string }> = {
   // ─── Text Tools ───────────────────────────────────────────────────────────
@@ -660,11 +669,12 @@ const INDIA_SPECIFIC_TOOLS = [
   'sip-calculator-india',
 ] as const;
 
-function buildToolOgUrl(name: string, categoryKey: string): string {
+function buildToolOgUrl(name: string, categoryKey: string, locale: Locale = defaultLocale): string {
   const cat = TOOL_CATEGORIES[categoryKey as keyof typeof TOOL_CATEGORIES];
   const params = new URLSearchParams({ name, category: categoryKey });
   if (cat?.name) params.set('label', cat.name);
   if (cat?.color) params.set('color', cat.color);
+  params.set('locale', locale);
   return `https://codelithlabs.in/api/og?${params.toString()}`;
 }
 
@@ -681,7 +691,7 @@ export async function generateStaticParams() {
 // ═══════════════════════════════════════════════════════════════════════════
 
 interface PageProps {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ slug: string; locale?: Locale }>;
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
@@ -698,8 +708,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const category = TOOL_CATEGORIES[tool.category];
   const shouldIndex = isToolIndexable(tool);
   const seoDescription = TOOL_SEO_OVERRIDES[tool.slug]?.description ?? tool.description;
-  const canonicalUrl = `https://codelithlabs.in/tools/${tool.slug}/`;
-  const ogImageUrl = buildToolOgUrl(tool.name, tool.category);
+  const canonicalPath = `/tools/${tool.slug}/`;
+  const { languages } = getLocaleAlternates(canonicalPath, 'en');
+  const canonicalUrl = getPrimaryLocaleCanonical(canonicalPath);
+  const ogImageUrl = buildToolOgUrl(tool.name, tool.category, defaultLocale);
 
   return {
     title: `${tool.name} - Free Online Tool | CodelithLabs`,
@@ -711,6 +723,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       url: canonicalUrl,
       type: 'website',
       siteName: 'CodelithLabs',
+      locale: getOgLocale('en'),
+      alternateLocale: getOgAlternateLocales('en'),
       images: [
         {
           url: ogImageUrl,
@@ -728,6 +742,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     },
     alternates: {
       canonical: canonicalUrl,
+      languages,
     },
     robots: {
       index: shouldIndex,
@@ -741,7 +756,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 // ═══════════════════════════════════════════════════════════════════════════
 
 export default async function ToolPage({ params }: PageProps) {
-  const { slug } = await params;
+  const { slug, locale } = await params;
   const tool = getToolBySlug(slug);
 
   // Show 404 if tool doesn't exist
@@ -753,8 +768,9 @@ export default async function ToolPage({ params }: PageProps) {
   const relatedTools = getRelatedTools(slug, 4);
   const content = await getToolContent(slug);
   const seoDescription = TOOL_SEO_OVERRIDES[tool.slug]?.description ?? tool.description;
-  const canonicalUrl = `https://codelithlabs.in/tools/${tool.slug}/`;
-  const ogImageUrl = buildToolOgUrl(tool.name, tool.category);
+  const activeLocale = locale ?? defaultLocale;
+  const entityUrl = getLocaleUrl(`/tools/${tool.slug}/`, activeLocale);
+  const ogImageUrl = buildToolOgUrl(tool.name, tool.category, activeLocale);
   const isIndiaSpecific = INDIA_SPECIFIC_TOOLS.includes(slug as any);
 
   const softwareSchema = {
@@ -765,13 +781,14 @@ export default async function ToolPage({ params }: PageProps) {
     applicationCategory: category.name,
     operatingSystem: "Any",
     image: ogImageUrl,
+    inLanguage: activeLocale,
     offers: {
       "@type": "Offer",
       price: "0",
       priceCurrency: "USD"
     },
     isAccessibleForFree: true,
-    url: canonicalUrl,
+    url: entityUrl,
     ...(content?.frontmatter.datePublished && { datePublished: content.frontmatter.datePublished }),
     ...(content?.frontmatter.dateModified && { dateModified: content.frontmatter.dateModified }),
     ...(isIndiaSpecific && { availableInCountry: "IN" }),
@@ -791,6 +808,7 @@ export default async function ToolPage({ params }: PageProps) {
   const faqSchema = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
+    inLanguage: activeLocale,
     mainEntity: faqEntries.map(({ question, answer }) => ({
       "@type": "Question",
       name: question,
@@ -802,30 +820,21 @@ export default async function ToolPage({ params }: PageProps) {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Home", item: "https://codelithlabs.in" },
-      { "@type": "ListItem", position: 2, name: "Tools", item: "https://codelithlabs.in/tools/" },
-      { "@type": "ListItem", position: 3, name: category.name, item: `https://codelithlabs.in/tools/category/${tool.category}/` },
-      { "@type": "ListItem", position: 4, name: tool.name, item: `https://codelithlabs.in/tools/${tool.slug}/` }
+      { "@type": "ListItem", position: 1, name: "Home", item: getLocaleUrl('/', activeLocale) },
+      { "@type": "ListItem", position: 2, name: "Tools", item: getLocaleUrl('/tools/', activeLocale) },
+      { "@type": "ListItem", position: 3, name: category.name, item: getLocaleUrl(`/tools/category/${tool.category}/`, activeLocale) },
+      { "@type": "ListItem", position: 4, name: tool.name, item: entityUrl }
     ]
   };
 
   return (
     <>
       {/* Software Application schema for rich results */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }}
-      />
+      <JsonLdScript id="tool-software-schema" data={softwareSchema} />
       {/* FAQ schema for rich results and CTR */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
-      />
+      <JsonLdScript id="tool-faq-schema" data={faqSchema} />
       {/* Breadcrumb schema for structured navigation */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
-      />
+      <JsonLdScript id="tool-breadcrumb-schema" data={breadcrumbSchema} />
       <ToolLayout tool={tool} content={content} slug={slug}>
         <ToolMapper slug={slug} toolName={tool.name} />
       </ToolLayout>

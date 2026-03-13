@@ -6,6 +6,27 @@
 import { Metadata } from "next";
 import Link from "next/link";
 import { getAllBlogPosts } from "@/lib/blog-loader";
+import {
+  getLocaleUrl,
+  getLocaleAlternates,
+  getOgAlternateLocales,
+  getOgLocale,
+  getPrimaryLocaleCanonical,
+} from "@/lib/locale-meta";
+import { defaultLocale, type Locale } from "@/i18n/request";
+import { JsonLdScript } from "@/components/security/JsonLdScript";
+
+const BLOG_PATH = "/blog/";
+const BLOG_CANONICAL_URL = getPrimaryLocaleCanonical(BLOG_PATH);
+const BLOG_ALTERNATES = getLocaleAlternates(BLOG_PATH, "en");
+const BLOG_OG_IMAGE_URL = `https://codelithlabs.in/api/og?${new URLSearchParams({
+  name: 'Developer Blog',
+  category: 'developer',
+  label: 'Blog',
+  locale: defaultLocale,
+  path: '/en/blog',
+  subtitle: 'Technical tutorials and developer insights',
+}).toString()}`;
 
 export const metadata: Metadata = {
   title: "Blog — Developer Insights & Tool Guides | CodelithLabs",
@@ -19,14 +40,33 @@ export const metadata: Metadata = {
     "regex tutorial",
     "web performance",
   ],
-  alternates: { canonical: "https://codelithlabs.in/blog/" },
+  alternates: {
+    canonical: BLOG_CANONICAL_URL,
+    languages: BLOG_ALTERNATES.languages,
+  },
   openGraph: {
     title: "Blog — CodelithLabs Developer Insights",
     description:
       "Technical tutorials, tool guides, and developer tips from the CodelithLabs engineering team.",
-    url: "https://codelithlabs.in/blog/",
+    url: BLOG_CANONICAL_URL,
     type: "website",
     siteName: "CodelithLabs",
+    locale: getOgLocale("en"),
+    alternateLocale: getOgAlternateLocales("en"),
+    images: [
+      {
+        url: BLOG_OG_IMAGE_URL,
+        width: 1200,
+        height: 630,
+        alt: 'CodelithLabs Developer Blog',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Blog — CodelithLabs Developer Insights',
+    description: 'Technical tutorials, tool guides, and developer tips from the CodelithLabs engineering team.',
+    images: [BLOG_OG_IMAGE_URL],
   },
   robots: { index: true, follow: true },
 };
@@ -49,16 +89,23 @@ const CATEGORY_COLORS: Record<string, string> = {
 // PAGE COMPONENT
 // ═══════════════════════════════════════════════════════════════════════════
 
-export default async function BlogPage() {
+interface PageProps {
+  params?: Promise<{ locale?: Locale }>;
+}
+
+export default async function BlogPage({ params }: PageProps = {}) {
+  const locale = (await params)?.locale ?? defaultLocale;
   const posts = await getAllBlogPosts();
+  const blogUrl = getLocaleUrl('/blog/', locale);
 
   const blogSchema = {
     "@context": "https://schema.org",
     "@type": "Blog",
     name: "CodelithLabs Developer Blog",
+    inLanguage: locale,
     description:
       "Technical tutorials and developer insights from CodelithLabs.",
-    url: "https://codelithlabs.in/blog/",
+    url: blogUrl,
     publisher: {
       "@type": "Organization",
       name: "CodelithLabs",
@@ -70,17 +117,15 @@ export default async function BlogPage() {
       description: p.frontmatter.description,
       datePublished: p.frontmatter.datePublished,
       dateModified: p.frontmatter.dateModified,
+      inLanguage: locale,
       author: { "@type": "Person", name: p.frontmatter.author },
-      url: `https://codelithlabs.in/blog/${p.frontmatter.slug}/`,
+      url: getLocaleUrl(`/blog/${p.frontmatter.slug}/`, locale),
     })),
   };
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(blogSchema) }}
-      />
+      <JsonLdScript id="blog-schema" data={blogSchema} />
 
       <div className="min-h-screen bg-[#0a0a0a] py-12 sm:py-16 px-4 sm:px-6">
         <div className="max-w-4xl mx-auto">

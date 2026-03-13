@@ -12,6 +12,15 @@ import { NewsletterSignup } from "@/components/newsletter/NewsletterSignup";
 import { BlogAdTop, BlogAdMid, BlogAdBottom } from "@/components/ads/BlogAds";
 import { BlogShareButtons } from "@/components/blog/BlogShareButtons";
 import { PopularTools } from "@/components/blog/PopularTools";
+import { JsonLdScript } from "@/components/security/JsonLdScript";
+import {
+  getLocaleUrl,
+  getLocaleAlternates,
+  getOgAlternateLocales,
+  getOgLocale,
+  getPrimaryLocaleCanonical,
+} from "@/lib/locale-meta";
+import { defaultLocale, type Locale } from "@/i18n/request";
 
 // ─── Static Params ───────────────────────────────────────────────────────
 
@@ -23,7 +32,7 @@ export async function generateStaticParams() {
 // ─── Metadata ────────────────────────────────────────────────────────────
 
 interface PageProps {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ slug: string; locale?: Locale }>;
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
@@ -32,6 +41,18 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (!post) return { title: "Post Not Found — CodelithLabs" };
 
   const fm = post.frontmatter;
+  const canonicalPath = `/blog/${fm.slug}/`;
+  const canonicalUrl = getPrimaryLocaleCanonical(canonicalPath);
+  const { languages } = getLocaleAlternates(canonicalPath, "en");
+  const ogImage = `https://codelithlabs.in/api/og?${new URLSearchParams({
+    name: fm.title,
+    category: 'developer',
+    label: fm.category || 'Blog',
+    locale: defaultLocale,
+    path: '/en/blog',
+    subtitle: fm.description.slice(0, 70),
+  }).toString()}`;
+
   return {
     title: `${fm.title} | CodelithLabs Blog`,
     description: fm.description,
@@ -39,19 +60,35 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     openGraph: {
       title: fm.title,
       description: fm.description,
-      url: `https://codelithlabs.in/blog/${fm.slug}/`,
+      url: canonicalUrl,
       type: "article",
       siteName: "CodelithLabs",
       publishedTime: fm.datePublished,
       modifiedTime: fm.dateModified,
       authors: [fm.author],
+      tags: fm.tags,
+      section: fm.category,
+      locale: getOgLocale("en"),
+      alternateLocale: getOgAlternateLocales("en"),
+      images: [
+        {
+          url: ogImage,
+          width: 1200,
+          height: 630,
+          alt: `${fm.title} — CodelithLabs Blog`,
+        },
+      ],
     },
     twitter: {
       card: "summary_large_image",
       title: fm.title,
       description: fm.description,
+      images: [ogImage],
     },
-    alternates: { canonical: `https://codelithlabs.in/blog/${fm.slug}/` },
+    alternates: {
+      canonical: canonicalUrl,
+      languages,
+    },
     robots: { index: true, follow: true },
   };
 }
@@ -59,11 +96,21 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 // ─── Page Component ──────────────────────────────────────────────────────
 
 export default async function BlogPostPage({ params }: PageProps) {
-  const { slug } = await params;
+  const { slug, locale } = await params;
   const post = await getBlogPost(slug);
   if (!post) notFound();
 
   const fm = post.frontmatter;
+  const activeLocale = locale ?? defaultLocale;
+  const entityUrl = getLocaleUrl(`/blog/${fm.slug}/`, activeLocale);
+  const ogImage = `https://codelithlabs.in/api/og?${new URLSearchParams({
+    name: fm.title,
+    category: 'developer',
+    label: fm.category || 'Blog',
+    locale: activeLocale,
+    path: `/${activeLocale}/blog`,
+    subtitle: fm.description.slice(0, 70),
+  }).toString()}`;
 
   const articleSchema = {
     "@context": "https://schema.org",
@@ -73,35 +120,31 @@ export default async function BlogPostPage({ params }: PageProps) {
     datePublished: fm.datePublished,
     dateModified: fm.dateModified,
     author: { "@type": "Person", name: fm.author },
+    image: ogImage,
+    inLanguage: activeLocale,
     publisher: {
       "@type": "Organization",
       name: "CodelithLabs",
       url: "https://codelithlabs.in",
     },
-    mainEntityOfPage: `https://codelithlabs.in/blog/${fm.slug}/`,
-    url: `https://codelithlabs.in/blog/${fm.slug}/`,
+    mainEntityOfPage: entityUrl,
+    url: entityUrl,
   };
 
   const breadcrumbSchema = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Home", item: "https://codelithlabs.in" },
-      { "@type": "ListItem", position: 2, name: "Blog", item: "https://codelithlabs.in/blog/" },
-      { "@type": "ListItem", position: 3, name: fm.title, item: `https://codelithlabs.in/blog/${fm.slug}/` },
+      { "@type": "ListItem", position: 1, name: "Home", item: getLocaleUrl('/', activeLocale) },
+      { "@type": "ListItem", position: 2, name: "Blog", item: getLocaleUrl('/blog/', activeLocale) },
+      { "@type": "ListItem", position: 3, name: fm.title, item: entityUrl },
     ],
   };
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
-      />
+      <JsonLdScript id="blog-post-schema" data={articleSchema} />
+      <JsonLdScript id="blog-breadcrumb-schema" data={breadcrumbSchema} />
 
       <div className="min-h-screen bg-[#0a0a0a] py-12 sm:py-16 px-4 sm:px-6">
         <article className="max-w-3xl mx-auto">
@@ -138,7 +181,7 @@ export default async function BlogPostPage({ params }: PageProps) {
             {/* Social share buttons */}
             <div className="mt-6">
               <BlogShareButtons
-                url={`https://codelithlabs.in/blog/${fm.slug}/`}
+                url={entityUrl}
                 title={fm.title}
                 description={fm.description}
               />

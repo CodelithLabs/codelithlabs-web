@@ -8,10 +8,19 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { TOOLS_REGISTRY, getAllCategories, getToolsByCategory } from '@/lib/tools-registry';
 import { TOOL_CATEGORIES, ToolCategory } from '@/types/tool';
+import {
+  getLocaleUrl,
+  getLocaleAlternates,
+  getOgAlternateLocales,
+  getOgLocale,
+  getPrimaryLocaleCanonical,
+} from '@/lib/locale-meta';
+import { defaultLocale, type Locale } from '@/i18n/request';
 import { ToolsLeaderboard } from '@/components/ads/ToolsIndexAd';
+import { JsonLdScript } from '@/components/security/JsonLdScript';
 
 interface PageProps {
-  params: Promise<{ category: string }>;
+  params: Promise<{ category: string; locale?: Locale }>;
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -32,6 +41,17 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (!categoryInfo) return {};
 
   const tools = TOOLS_REGISTRY.filter(t => t.category === category);
+  const canonicalPath = `/tools/category/${category}/`;
+  const canonicalUrl = getPrimaryLocaleCanonical(canonicalPath);
+  const { languages } = getLocaleAlternates(canonicalPath, 'en');
+  const ogImageUrl = `https://codelithlabs.in/api/og?${new URLSearchParams({
+    name: `${categoryInfo.name} Tools`,
+    category,
+    label: categoryInfo.name,
+    color: categoryInfo.color,
+    locale: defaultLocale,
+    path: '/en/tools/category',
+  }).toString()}`;
 
   return {
     title: `Free ${categoryInfo.name} — ${tools.length}+ Online Tools | CodelithLabs`,
@@ -46,17 +66,29 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     openGraph: {
       title: `Free ${categoryInfo.name} — ${tools.length}+ Online Tools`,
       description: `${categoryInfo.description}. ${tools.length}+ free tools with client-side processing.`,
-      url: `https://codelithlabs.in/tools/category/${category}/`,
+      url: canonicalUrl,
       type: 'website',
       siteName: 'CodelithLabs',
+      locale: getOgLocale('en'),
+      alternateLocale: getOgAlternateLocales('en'),
+      images: [
+        {
+          url: ogImageUrl,
+          width: 1200,
+          height: 630,
+          alt: `${categoryInfo.name} Tools — CodelithLabs`,
+        },
+      ],
     },
     twitter: {
       card: 'summary_large_image',
       title: `Free ${categoryInfo.name} | CodelithLabs`,
       description: `${tools.length}+ free ${categoryInfo.name.toLowerCase()} with privacy-first client-side processing.`,
+      images: [ogImageUrl],
     },
     alternates: {
-      canonical: `https://codelithlabs.in/tools/category/${category}/`,
+      canonical: canonicalUrl,
+      languages,
     },
     robots: { index: true, follow: true },
   };
@@ -227,9 +259,10 @@ As this category expands, it strengthens internal discovery and long-tail organi
 // ═══════════════════════════════════════════════════════════════════════════
 
 export default async function CategoryPage({ params }: PageProps) {
-  const { category } = await params;
+  const { category, locale } = await params;
   const categoryInfo = TOOL_CATEGORIES[category as ToolCategory];
   if (!categoryInfo) notFound();
+  const activeLocale = locale ?? defaultLocale;
 
   const tools = getToolsByCategory(category);
   const content = CATEGORY_CONTENT[category];
@@ -239,9 +272,9 @@ export default async function CategoryPage({ params }: PageProps) {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Home", item: "https://codelithlabs.in" },
-      { "@type": "ListItem", position: 2, name: "Tools", item: "https://codelithlabs.in/tools/" },
-      { "@type": "ListItem", position: 3, name: categoryInfo.name, item: `https://codelithlabs.in/tools/category/${category}/` },
+      { "@type": "ListItem", position: 1, name: "Home", item: getLocaleUrl('/', activeLocale) },
+      { "@type": "ListItem", position: 2, name: "Tools", item: getLocaleUrl('/tools/', activeLocale) },
+      { "@type": "ListItem", position: 3, name: categoryInfo.name, item: getLocaleUrl(`/tools/category/${category}/`, activeLocale) },
     ]
   };
 
@@ -251,7 +284,8 @@ export default async function CategoryPage({ params }: PageProps) {
     "@type": "CollectionPage",
     name: `Free ${categoryInfo.name}`,
     description: categoryInfo.description,
-    url: `https://codelithlabs.in/tools/category/${category}/`,
+    url: getLocaleUrl(`/tools/category/${category}/`, activeLocale),
+    inLanguage: activeLocale,
     numberOfItems: tools.length,
     provider: {
       "@type": "Organization",
@@ -265,14 +299,29 @@ export default async function CategoryPage({ params }: PageProps) {
     "@context": "https://schema.org",
     "@type": "ItemList",
     name: `${categoryInfo.name} on CodelithLabs`,
+    inLanguage: activeLocale,
     numberOfItems: tools.length,
     itemListElement: tools.map((t, i) => ({
       "@type": "ListItem",
       position: i + 1,
       name: t.name,
-      url: `https://codelithlabs.in/tools/${t.slug}/`,
+      url: getLocaleUrl(`/tools/${t.slug}/`, activeLocale),
       description: t.description
     }))
+  };
+
+  const webPageSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    name: `${categoryInfo.name} Tools`,
+    url: getLocaleUrl(`/tools/category/${category}/`, activeLocale),
+    inLanguage: activeLocale,
+    isPartOf: {
+      "@type": "WebSite",
+      name: 'CodelithLabs',
+      url: getLocaleUrl('/', activeLocale),
+      inLanguage: activeLocale,
+    },
   };
 
   const categoryDirectory = Object.entries(TOOL_CATEGORIES)
@@ -287,18 +336,10 @@ export default async function CategoryPage({ params }: PageProps) {
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionSchema) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema) }}
-      />
+      <JsonLdScript id="tool-category-breadcrumb-schema" data={breadcrumbSchema} />
+      <JsonLdScript id="tool-category-collection-schema" data={collectionSchema} />
+      <JsonLdScript id="tool-category-item-list-schema" data={itemListSchema} />
+      <JsonLdScript id="tool-category-page-schema" data={webPageSchema} />
 
       <div className="min-h-screen bg-[#0a0a0a] py-12 sm:py-16 px-4 sm:px-6">
         <div className="max-w-5xl mx-auto">

@@ -36,6 +36,8 @@ function getAuthSecret(): string {
 }
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
+  trustHost: true,
+
   providers: googleClientId && googleClientSecret
     ? [
         Google({
@@ -55,7 +57,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   // Pages — customise sign-in UI later
   pages: {
     signIn: "/auth/signin",
-    // error: "/auth/error",
+    error: "/auth/signin",
   },
 
   callbacks: {

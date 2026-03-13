@@ -7,13 +7,19 @@
 
 const WINDOW_MS = 15 * 60 * 1000; // 15 minutes
 const DEFAULT_LIMIT = 5;
+const REDIS_RETRY_COOLDOWN_MS = 60 * 1000;
 
 // ─── Redis-backed implementation ─────────────────────────────────────────
 
 let redisClient: import('ioredis').default | null = null;
+let redisDisabledUntil = 0;
 
 async function getRedis() {
   if (redisClient) return redisClient;
+
+  if (Date.now() < redisDisabledUntil) {
+    return null;
+  }
 
   const url = process.env.REDIS_URL;
   if (!url) return null;
@@ -24,12 +30,29 @@ async function getRedis() {
       maxRetriesPerRequest: 1,
       connectTimeout: 3000,
       lazyConnect: true,
+      enableOfflineQueue: false,
+      retryStrategy: () => null,
+      reconnectOnError: () => false,
     });
+
+    redisClient.on('error', (error: unknown) => {
+      const message = error instanceof Error ? error.message : String(error);
+      console.warn('[RateLimiter] Redis client error, using in-memory fallback:', message);
+      redisDisabledUntil = Date.now() + REDIS_RETRY_COOLDOWN_MS;
+    });
+
+    redisClient.on('end', () => {
+      redisClient = null;
+      redisDisabledUntil = Date.now() + REDIS_RETRY_COOLDOWN_MS;
+    });
+
     await redisClient.connect();
     return redisClient;
   } catch (e: unknown) {
     const msg = e instanceof Error ? e.message : 'Unknown error';
     console.warn('[RateLimiter] Redis unavailable, using in-memory fallback:', msg);
+    redisClient = null;
+    redisDisabledUntil = Date.now() + REDIS_RETRY_COOLDOWN_MS;
     return null;
   }
 }
@@ -102,6 +125,18 @@ async function checkRedisRateLimit(
   } catch (e: unknown) {
     const msg = e instanceof Error ? e.message : 'Unknown error';
     console.warn('[RateLimiter] Redis error, falling back to memory:', msg);
+
+    redisDisabledUntil = Date.now() + REDIS_RETRY_COOLDOWN_MS;
+
+    if (redis.status !== 'end') {
+      try {
+        redis.disconnect(false);
+      } catch {
+        // Ignore disconnect failures; fallback path continues.
+      }
+    }
+    redisClient = null;
+
     return checkMemoryRateLimit(key, limit);
   }
 }

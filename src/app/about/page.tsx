@@ -5,6 +5,7 @@
 
 import { Metadata } from 'next';
 import { Users, Target, Shield, Code2, Heart, Globe, Zap, Lock } from 'lucide-react';
+import { JsonLdScript } from '@/components/security/JsonLdScript';
 
 export const metadata: Metadata = {
   title: 'About Us - Meet the CodelithLabs Team',
@@ -32,41 +33,39 @@ export default function AboutPage() {
   return (
     <main className="min-h-screen bg-[#0a0a0a] text-white">
       {/* Person Schema for Founders */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify([
-            {
-              "@context": "https://schema.org",
-              "@type": "Person",
-              "name": "Prasanta Ray",
-              "jobTitle": "Founder & CEO",
-              "worksFor": {
-                "@type": "Organization",
-                "name": "CodelithLabs"
-              },
-              "alumniOf": "Technology Education",
-              "knowsAbout": ["Web Development", "JavaScript", "React", "Next.js", "Software Architecture"],
-              "sameAs": [
-                "https://github.com/prasanta-ray"
-              ]
+      <JsonLdScript
+        id="about-founders-schema"
+        data={[
+          {
+            "@context": "https://schema.org",
+            "@type": "Person",
+            "name": "Prasanta Ray",
+            "jobTitle": "Founder & CEO",
+            "worksFor": {
+              "@type": "Organization",
+              "name": "CodelithLabs"
             },
-            {
-              "@context": "https://schema.org",
-              "@type": "Person",
-              "name": "Donbil Mwshary",
-              "jobTitle": "Co-Founder & CTO",
-              "worksFor": {
-                "@type": "Organization",
-                "name": "CodelithLabs"
-              },
-              "knowsAbout": ["Software Engineering", "Cloud Infrastructure", "DevOps", "System Design"],
-              "sameAs": [
-                "https://github.com/donbili69"
-              ]
-            }
-          ])
-        }}
+            "alumniOf": "Technology Education",
+            "knowsAbout": ["Web Development", "JavaScript", "React", "Next.js", "Software Architecture"],
+            "sameAs": [
+              "https://github.com/prasanta-ray"
+            ]
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "Person",
+            "name": "Donbil Mwshary",
+            "jobTitle": "Co-Founder & CTO",
+            "worksFor": {
+              "@type": "Organization",
+              "name": "CodelithLabs"
+            },
+            "knowsAbout": ["Software Engineering", "Cloud Infrastructure", "DevOps", "System Design"],
+            "sameAs": [
+              "https://github.com/donbili69"
+            ]
+          }
+        ]}
       />
 
       {/* Hero Section */}

@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import { JsonLdScript } from "@/components/security/JsonLdScript";
 
 export const metadata: Metadata = {
   title: "Research & Engineering — Technical Papers | CodelithLabs",
@@ -29,45 +30,41 @@ export default function ResearchLayout({
 }) {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "CollectionPage",
-            name: "CodelithLabs Research & Engineering",
-            description:
-              "Technical papers and engineering insights from the CodelithLabs team.",
-            url: "https://codelithlabs.in/research/",
-            provider: {
-              "@type": "Organization",
-              name: "CodelithLabs",
-              url: "https://codelithlabs.in",
-            },
-          }),
+      <JsonLdScript
+        id="research-collection-schema"
+        data={{
+          "@context": "https://schema.org",
+          "@type": "CollectionPage",
+          name: "CodelithLabs Research & Engineering",
+          description:
+            "Technical papers and engineering insights from the CodelithLabs team.",
+          url: "https://codelithlabs.in/research/",
+          provider: {
+            "@type": "Organization",
+            name: "CodelithLabs",
+            url: "https://codelithlabs.in",
+          },
         }}
       />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "BreadcrumbList",
-            itemListElement: [
-              {
-                "@type": "ListItem",
-                position: 1,
-                name: "Home",
-                item: "https://codelithlabs.in",
-              },
-              {
-                "@type": "ListItem",
-                position: 2,
-                name: "Research",
-                item: "https://codelithlabs.in/research/",
-              },
-            ],
-          }),
+      <JsonLdScript
+        id="research-breadcrumb-schema"
+        data={{
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          itemListElement: [
+            {
+              "@type": "ListItem",
+              position: 1,
+              name: "Home",
+              item: "https://codelithlabs.in",
+            },
+            {
+              "@type": "ListItem",
+              position: 2,
+              name: "Research",
+              item: "https://codelithlabs.in/research/",
+            },
+          ],
         }}
       />
       {children}

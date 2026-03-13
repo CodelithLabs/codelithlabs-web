@@ -12,6 +12,7 @@ import Link from 'next/link';
 
 // ─── Error Messages ──────────────────────────────────────────────────────
 const ERROR_MESSAGES: Record<string, string> = {
+  Configuration: 'Sign-in session verification failed. This is usually caused by opening the site on a different host than NEXTAUTH_URL (for example 172.x.x.x vs localhost).',
   OAuthSignin: 'Could not start the sign-in flow. Please try again.',
   OAuthCallback: 'Authentication callback failed. Please try again.',
   OAuthAccountNotLinked: 'This email is already linked to another account.',
@@ -19,18 +20,38 @@ const ERROR_MESSAGES: Record<string, string> = {
   Default: 'Something went wrong. Please try again.',
 };
 
+type SignInClientProps = {
+  googleAuthEnabled: boolean;
+};
+
+function getSafeCallbackUrl(rawCallbackUrl: string | null): string {
+  if (!rawCallbackUrl) return '/';
+
+  if (!rawCallbackUrl.startsWith('/') || rawCallbackUrl.startsWith('//')) {
+    return '/';
+  }
+
+  return rawCallbackUrl;
+}
+
 // ─── Inner Component (uses useSearchParams) ──────────────────────────────
-function SignInForm() {
+function SignInForm({ googleAuthEnabled }: SignInClientProps) {
   const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get('callbackUrl') || '/';
+  const callbackUrl = getSafeCallbackUrl(searchParams.get('callbackUrl'));
   const errorCode = searchParams.get('error');
   const [loading, setLoading] = useState(false);
 
   const errorMessage = errorCode
-    ? ERROR_MESSAGES[errorCode] || ERROR_MESSAGES.Default
+    ? errorCode === 'Configuration' && !googleAuthEnabled
+      ? 'Google sign-in is not configured on this environment yet.'
+      : ERROR_MESSAGES[errorCode] || ERROR_MESSAGES.Default
     : null;
 
   const handleSignIn = () => {
+    if (!googleAuthEnabled) {
+      return;
+    }
+
     setLoading(true);
     signIn('google', { callbackUrl });
   };
@@ -63,10 +84,16 @@ function SignInForm() {
             </div>
           )}
 
+          {!googleAuthEnabled && (
+            <div className="mb-6 p-3 rounded-lg bg-amber-500/10 border border-amber-500/20 text-amber-400 text-sm text-center">
+              Google OAuth credentials are missing in this environment. Add <code className="font-mono">GOOGLE_CLIENT_ID</code> and <code className="font-mono">GOOGLE_CLIENT_SECRET</code> to enable login.
+            </div>
+          )}
+
           {/* Google Sign-In Button */}
           <button
             onClick={handleSignIn}
-            disabled={loading}
+            disabled={loading || !googleAuthEnabled}
             className="w-full flex items-center justify-center gap-3 px-6 py-3.5
                        bg-white hover:bg-gray-100 text-gray-900 font-medium rounded-xl
                        transition-all duration-200 shadow-sm hover:shadow-md
@@ -91,7 +118,7 @@ function SignInForm() {
                 fill="#EA4335"
               />
             </svg>
-            {loading ? 'Redirecting…' : 'Continue with Google'}
+            {loading ? 'Redirecting…' : googleAuthEnabled ? 'Continue with Google' : 'Google Sign-In Unavailable'}
           </button>
 
           {/* Divider */}
@@ -114,7 +141,7 @@ function SignInForm() {
 }
 
 // ─── Exported Component with Suspense boundary ──────────────────────────
-export default function SignInClient() {
+export default function SignInClient({ googleAuthEnabled }: SignInClientProps) {
   return (
     <Suspense
       fallback={
@@ -123,7 +150,7 @@ export default function SignInClient() {
         </div>
       }
     >
-      <SignInForm />
+      <SignInForm googleAuthEnabled={googleAuthEnabled} />
     </Suspense>
   );
 }

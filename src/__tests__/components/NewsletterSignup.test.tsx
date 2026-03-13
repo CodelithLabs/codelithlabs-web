@@ -31,7 +31,7 @@ describe('NewsletterSignup', () => {
   it('submits email and shows success message', async () => {
     mockFetch.mockResolvedValueOnce({
       ok: true,
-      json: () => Promise.resolve({ success: true }),
+      json: () => Promise.resolve({ success: true, pendingConfirmation: true }),
     });
 
     render(<NewsletterSignup />);
@@ -41,7 +41,7 @@ describe('NewsletterSignup', () => {
     await user.click(screen.getByRole('button', { name: /subscribe/i }));
 
     await waitFor(() => {
-      expect(screen.getByText(/subscribed/i)).toBeInTheDocument();
+      expect(screen.getByText(/confirm your subscription/i)).toBeInTheDocument();
     });
 
     expect(mockFetch).toHaveBeenCalledWith('/api/newsletter/', {
@@ -88,5 +88,10 @@ describe('NewsletterSignup', () => {
     fireEvent.submit(screen.getByRole('button', { name: /subscribe/i }).closest('form')!);
 
     expect(mockFetch).not.toHaveBeenCalled();
+  });
+
+  it('renders a stable test id for e2e selectors', () => {
+    render(<NewsletterSignup />);
+    expect(screen.getByTestId('newsletter-signup')).toBeInTheDocument();
   });
 });

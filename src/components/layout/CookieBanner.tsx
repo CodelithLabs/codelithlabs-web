@@ -5,6 +5,7 @@
 
 'use client';
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { Cookie, X } from 'lucide-react';
 
 export default function CookieBanner() {
@@ -58,19 +59,19 @@ export default function CookieBanner() {
                 <strong className="text-zinc-300">analytics cookies</strong> (Google Analytics) to understand usage, and{' '}
                 <strong className="text-zinc-300">advertising cookies</strong> (Google AdSense) to serve relevant ads.
                 Your tool data is <em>never</em> stored — all processing happens in your browser.{' '}
-                <a
+                <Link
                   href="/privacy"
                   className="text-blue-400 hover:text-blue-300 underline transition-colors"
                 >
                   Privacy Policy
-                </a>
+                </Link>
                 {' '}·{' '}
-                <a
+                <Link
                   href="/terms"
                   className="text-blue-400 hover:text-blue-300 underline transition-colors"
                 >
                   Terms
-                </a>.
+                </Link>.
               </p>
             </div>
           </div>

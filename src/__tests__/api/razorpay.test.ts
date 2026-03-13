@@ -9,6 +9,10 @@ const {
   isPremiumActiveMock,
   verifyRazorpayPaymentSignatureMock,
   verifyRazorpayWebhookSignatureMock,
+  fetchRazorpayPaymentDetailsMock,
+  isRazorpayPaymentCapturedMock,
+  canAccessPremiumAuditMock,
+  isPremiumAuditConfiguredMock,
   prismaMock,
 } = vi.hoisted(() => {
   const prisma = {
@@ -18,10 +22,17 @@ const {
       update: vi.fn(),
     },
     payment: {
+      count: vi.fn(),
       upsert: vi.fn(),
       findUnique: vi.fn(),
+      findMany: vi.fn(),
       update: vi.fn(),
       updateMany: vi.fn(),
+    },
+    webhookEvent: {
+      create: vi.fn(),
+      update: vi.fn(),
+      findMany: vi.fn(),
     },
   };
 
@@ -33,6 +44,10 @@ const {
     isPremiumActiveMock: vi.fn(),
     verifyRazorpayPaymentSignatureMock: vi.fn(),
     verifyRazorpayWebhookSignatureMock: vi.fn(),
+    fetchRazorpayPaymentDetailsMock: vi.fn(),
+    isRazorpayPaymentCapturedMock: vi.fn(),
+    canAccessPremiumAuditMock: vi.fn(),
+    isPremiumAuditConfiguredMock: vi.fn(),
     prismaMock: prisma,
   };
 });
@@ -55,10 +70,17 @@ vi.mock("@/lib/premium-membership", () => ({
   isPremiumActive: isPremiumActiveMock,
 }));
 
+vi.mock("@/lib/admin-access", () => ({
+  canAccessPremiumAudit: canAccessPremiumAuditMock,
+  isPremiumAuditConfigured: isPremiumAuditConfiguredMock,
+}));
+
 vi.mock("@/lib/razorpay", () => ({
   PREMIUM_PLAN_CODE: "premium_monthly",
   PREMIUM_AMOUNT_PAISE: 29900,
   PREMIUM_CURRENCY: "INR",
+  fetchRazorpayPaymentDetails: fetchRazorpayPaymentDetailsMock,
+  isRazorpayPaymentCaptured: isRazorpayPaymentCapturedMock,
   verifyRazorpayPaymentSignature: verifyRazorpayPaymentSignatureMock,
   verifyRazorpayWebhookSignature: verifyRazorpayWebhookSignatureMock,
 }));
@@ -66,6 +88,7 @@ vi.mock("@/lib/razorpay", () => ({
 import { POST as createOrderPOST } from "@/app/api/razorpay/create-order/route";
 import { POST as verifyPaymentPOST } from "@/app/api/razorpay/verify-payment/route";
 import { POST as webhookPOST } from "@/app/api/razorpay/webhook/route";
+import { GET as premiumAuditGET } from "@/app/api/admin/premium-audit/route";
 import { GET as premiumStatusGET } from "@/app/api/premium/status/route";
 
 describe("Razorpay and premium API routes", () => {
@@ -88,8 +111,19 @@ describe("Razorpay and premium API routes", () => {
     isDatabaseConfiguredMock.mockReturnValue(true);
     verifyRazorpayPaymentSignatureMock.mockReturnValue(true);
     verifyRazorpayWebhookSignatureMock.mockReturnValue(true);
+    fetchRazorpayPaymentDetailsMock.mockResolvedValue({
+      id: "pay_1",
+      order_id: "order_1",
+      amount: 29900,
+      currency: "INR",
+      status: "captured",
+      captured: true,
+    });
+    isRazorpayPaymentCapturedMock.mockReturnValue(true);
     activatePremiumForUserMock.mockResolvedValue(new Date("2026-04-10T00:00:00.000Z"));
     isPremiumActiveMock.mockReturnValue(true);
+    isPremiumAuditConfiguredMock.mockReturnValue(true);
+    canAccessPremiumAuditMock.mockReturnValue(true);
 
     prismaMock.user.upsert.mockResolvedValue({ id: "user_1" } as any);
     prismaMock.user.findUnique.mockResolvedValue({
@@ -98,15 +132,21 @@ describe("Razorpay and premium API routes", () => {
       premiumExpiresAt: new Date("2026-04-10T00:00:00.000Z"),
     } as any);
     prismaMock.user.update.mockResolvedValue({} as any);
+    prismaMock.payment.count.mockResolvedValue(0);
     prismaMock.payment.upsert.mockResolvedValue({} as any);
     prismaMock.payment.findUnique.mockResolvedValue({
       userId: "user_1",
       razorpayOrderId: "order_1",
       amountPaise: 29900,
+      currency: "INR",
       status: "CREATED",
     } as any);
+    prismaMock.payment.findMany.mockResolvedValue([] as any);
     prismaMock.payment.update.mockResolvedValue({} as any);
     prismaMock.payment.updateMany.mockResolvedValue({ count: 1 });
+    prismaMock.webhookEvent.create.mockResolvedValue({ id: "wh_1" } as any);
+    prismaMock.webhookEvent.update.mockResolvedValue({ status: "PROCESSED" } as any);
+    prismaMock.webhookEvent.findMany.mockResolvedValue([] as any);
 
     vi.stubGlobal("fetch", vi.fn());
   });
@@ -304,6 +344,7 @@ describe("Razorpay and premium API routes", () => {
         userId: "user_2",
         razorpayOrderId: "order_1",
         amountPaise: 29900,
+        currency: "INR",
         status: "CREATED",
       } as any);
 
@@ -326,6 +367,7 @@ describe("Razorpay and premium API routes", () => {
         userId: "user_1",
         razorpayOrderId: "order_1",
         amountPaise: 0, // Invalid amount
+        currency: "INR",
         status: "CREATED",
       } as any);
 
@@ -354,6 +396,81 @@ describe("Razorpay and premium API routes", () => {
       );
 
       expect(res.status).toBe(404);
+      expect(activatePremiumForUserMock).not.toHaveBeenCalled();
+    });
+
+    it("does not extend premium again when the same order is replay-verified", async () => {
+      prismaMock.payment.findUnique.mockResolvedValueOnce({
+        userId: "user_1",
+        razorpayOrderId: "order_1",
+        amountPaise: 29900,
+        currency: "INR",
+        status: "VERIFIED",
+      } as any);
+      prismaMock.user.findUnique.mockResolvedValueOnce({
+        id: "user_1",
+        premiumExpiresAt: new Date("2026-04-10T00:00:00.000Z"),
+      } as any);
+
+      const res = await verifyPaymentPOST(
+        buildVerifyRequest({
+          razorpay_order_id: "order_1",
+          razorpay_payment_id: "pay_1",
+          razorpay_signature: "sig_1",
+        })
+      );
+      const json = await res.json();
+
+      expect(res.status).toBe(200);
+      expect(json.success).toBe(true);
+      expect(json.message).toBe("Premium access is already active.");
+      expect(json.premiumExpiresAt).toBe("2026-04-10T00:00:00.000Z");
+      expect(activatePremiumForUserMock).not.toHaveBeenCalled();
+      expect(prismaMock.payment.update).not.toHaveBeenCalled();
+    });
+
+    it("rejects verification when Razorpay reconciliation shows an order mismatch", async () => {
+      fetchRazorpayPaymentDetailsMock.mockResolvedValueOnce({
+        id: "pay_1",
+        order_id: "order_other",
+        amount: 29900,
+        currency: "INR",
+        status: "captured",
+        captured: true,
+      });
+
+      const res = await verifyPaymentPOST(
+        buildVerifyRequest({
+          razorpay_order_id: "order_1",
+          razorpay_payment_id: "pay_1",
+          razorpay_signature: "sig_1",
+        })
+      );
+
+      expect(res.status).toBe(400);
+      expect(activatePremiumForUserMock).not.toHaveBeenCalled();
+    });
+
+    it("rejects verification when Razorpay says the payment is not captured", async () => {
+      isRazorpayPaymentCapturedMock.mockReturnValueOnce(false);
+      fetchRazorpayPaymentDetailsMock.mockResolvedValueOnce({
+        id: "pay_1",
+        order_id: "order_1",
+        amount: 29900,
+        currency: "INR",
+        status: "authorized",
+        captured: false,
+      });
+
+      const res = await verifyPaymentPOST(
+        buildVerifyRequest({
+          razorpay_order_id: "order_1",
+          razorpay_payment_id: "pay_1",
+          razorpay_signature: "sig_1",
+        })
+      );
+
+      expect(res.status).toBe(400);
       expect(activatePremiumForUserMock).not.toHaveBeenCalled();
     });
   });
@@ -474,6 +591,7 @@ describe("Razorpay and premium API routes", () => {
         userId: "user_1",
         razorpayOrderId: "order_tampered",
         amountPaise: 100, // Invalid: expected 29900
+        currency: "INR",
         status: "CREATED",
       } as any);
 
@@ -510,6 +628,7 @@ describe("Razorpay and premium API routes", () => {
         razorpayOrderId: "order_3",
         razorpayPaymentId: "pay_3",
         amountPaise: 29900,
+        currency: "INR",
         status: "VERIFIED", // Already verified
       } as any);
 
@@ -523,6 +642,41 @@ describe("Razorpay and premium API routes", () => {
 
       expect(res2.status).toBe(200);
       // Should not activate premium again (idempotent)
+      expect(activatePremiumForUserMock).not.toHaveBeenCalled();
+    });
+
+    it("ignores captured webhook events with mismatched provider currency", async () => {
+      const res = await webhookPOST(
+        buildWebhookRequest({
+          event: "payment.captured",
+          payload: { payment: { entity: { id: "pay_bad_currency", order_id: "order_2", amount: 29900, currency: "USD" } } },
+        })
+      );
+      const json = await res.json();
+
+      expect(res.status).toBe(200);
+      expect(json.ignored).toBe(true);
+      expect(json.reason).toBe("amount-or-currency-mismatch");
+      expect(activatePremiumForUserMock).not.toHaveBeenCalled();
+    });
+
+    it("short-circuits duplicate webhook deliveries using persisted event ids", async () => {
+      prismaMock.webhookEvent.create.mockRejectedValueOnce({ code: "P2002" });
+      prismaMock.webhookEvent.update.mockResolvedValueOnce({ status: "PROCESSED" } as any);
+
+      const res = await webhookPOST(
+        buildWebhookRequest(
+          {
+            event: "payment.captured",
+            payload: { payment: { entity: { id: "pay_dup", order_id: "order_1" } } },
+          },
+          "webhook_sig"
+        )
+      );
+      const json = await res.json();
+
+      expect(res.status).toBe(200);
+      expect(json.duplicate).toBe(true);
       expect(activatePremiumForUserMock).not.toHaveBeenCalled();
     });
   });
@@ -575,6 +729,76 @@ describe("Razorpay and premium API routes", () => {
           data: { isPremium: false },
         })
       );
+    });
+  });
+
+  describe("GET /api/admin/premium-audit", () => {
+    it("returns 401 for unauthenticated requests", async () => {
+      authMock.mockResolvedValueOnce(null);
+
+      const res = await premiumAuditGET();
+
+      expect(res.status).toBe(401);
+    });
+
+    it("returns 403 for non-admin users", async () => {
+      canAccessPremiumAuditMock.mockReturnValueOnce(false);
+
+      const res = await premiumAuditGET();
+
+      expect(res.status).toBe(403);
+    });
+
+    it("returns recent payment and webhook summaries for admins", async () => {
+      prismaMock.payment.count
+        .mockResolvedValueOnce(4)
+        .mockResolvedValueOnce(2)
+        .mockResolvedValueOnce(1)
+        .mockResolvedValueOnce(1);
+      prismaMock.payment.findMany
+        .mockResolvedValueOnce([
+          {
+            id: "payment_1",
+            razorpayOrderId: "order_1",
+            razorpayPaymentId: "pay_1",
+            amountPaise: 29900,
+            currency: "INR",
+            status: "VERIFIED",
+            createdAt: new Date("2026-03-13T00:00:00.000Z"),
+            verifiedAt: new Date("2026-03-13T00:10:00.000Z"),
+            user: {
+              email: "test@example.com",
+              isPremium: true,
+              premiumExpiresAt: new Date("2026-04-13T00:00:00.000Z"),
+            },
+          },
+        ] as any)
+        .mockResolvedValueOnce([] as any);
+      prismaMock.webhookEvent.findMany
+        .mockResolvedValueOnce([
+          {
+            eventId: "payment.captured:abc",
+            eventName: "payment.captured",
+            orderId: "order_1",
+            paymentId: "pay_1",
+            status: "PROCESSED",
+            deliveryCount: 1,
+            note: "payment-verified",
+            errorMessage: null,
+            createdAt: new Date("2026-03-13T00:00:00.000Z"),
+            processedAt: new Date("2026-03-13T00:00:02.000Z"),
+            lastSeenAt: new Date("2026-03-13T00:00:02.000Z"),
+          },
+        ] as any)
+        .mockResolvedValueOnce([] as any);
+
+      const res = await premiumAuditGET();
+      const json = await res.json();
+
+      expect(res.status).toBe(200);
+      expect(json.summary.totalPayments).toBe(4);
+      expect(json.recentPayments).toHaveLength(1);
+      expect(json.recentWebhookEvents).toHaveLength(1);
     });
   });
 });

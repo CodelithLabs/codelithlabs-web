@@ -425,6 +425,7 @@ export default function TeamPage() {
         className="min-h-screen overflow-x-hidden"
         style={{ background: "#050507", color: "#fff", fontFamily: "'DM Sans', 'Inter', sans-serif" }}
       >
+        <h1 style={{ display: 'none' }}>Our Team</h1>
         <ParticleField />
 
         {/* ── Grid Overlay ── */}

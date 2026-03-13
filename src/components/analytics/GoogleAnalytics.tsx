@@ -7,9 +7,18 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { GoogleAnalytics as GA4 } from '@next/third-parties/google';
+import Script from 'next/script';
+import { useNonce } from '@/app/nonce-context';
+
+declare global {
+  interface Window {
+    dataLayer?: unknown[];
+    gtag?: (...args: unknown[]) => void;
+  }
+}
 
 export default function GoogleAnalytics() {
+  const nonce = useNonce();
   const [hasConsent, setHasConsent] = useState(() => {
     if (typeof window !== 'undefined') {
       return localStorage.getItem('codelith_cookie_consent') === 'accepted';
@@ -32,5 +41,28 @@ export default function GoogleAnalytics() {
 
   if (!hasConsent || !gaId) return null;
 
-  return <GA4 gaId={gaId} />;
+  return (
+    <>
+      <Script
+        id="ga-loader"
+        src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}
+        strategy="afterInteractive"
+        nonce={nonce || undefined}
+      />
+      <Script
+        id="ga-config"
+        strategy="afterInteractive"
+        nonce={nonce || undefined}
+        dangerouslySetInnerHTML={{
+          __html: `
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){window.dataLayer.push(arguments);}
+            window.gtag = window.gtag || gtag;
+            gtag('js', new Date());
+            gtag('config', '${gaId}', { anonymize_ip: true });
+          `,
+        }}
+      />
+    </>
+  );
 }

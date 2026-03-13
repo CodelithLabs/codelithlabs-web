@@ -1,19 +1,19 @@
 import type { Metadata } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
-import { Navbar } from "@/components/layout/Navbar";
-import { Footer } from "@/components/layout/Footer";
-import CookieBanner from "@/components/layout/CookieBanner";
 import GoogleAnalytics from "@/components/analytics/GoogleAnalytics";
 import MicrosoftClarity from "@/components/analytics/MicrosoftClarity";
 import WebVitals from "@/components/analytics/WebVitals";
 import AdSense from "@/components/analytics/AdSense";
+import { JsonLdScript } from "@/components/security/JsonLdScript";
 import { AuthProvider } from "@/components/providers/AuthProvider";
+import { AppChrome } from "@/components/layout/AppChrome";
+import { ImmersiveModeProvider } from "@/components/layout/immersive-mode";
 import { UserProvider } from "@/lib/user-context";
-import crypto from 'crypto';
 import { NonceProvider } from "@/app/nonce-context";
 import { headers } from 'next/headers';
 import { defaultLocale, locales, type Locale } from '@/i18n/request';
+import { CSP_NONCE_HEADER } from '@/lib/csp';
 
 const inter = Inter({ subsets: ["latin"] });
 const jetbrainsMono = JetBrains_Mono({
@@ -23,6 +23,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
+    metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://codelithlabs.in'),
     title: {
         default: "CodelithLabs - Free Online Tools Platform | 200+ Developer & Productivity Tools",
         template: "%s | CodelithLabs"
@@ -99,12 +100,10 @@ export default async function RootLayout({
 }: Readonly<{
     children: React.ReactNode;
 }>) {
-    // Generate a cryptographically secure nonce for CSP inline scripts
-    const nonce = crypto.randomBytes(16).toString('base64');
-
     // Resolve the active locale from the next-intl middleware request header.
     // Falls back to defaultLocale for API routes and other non-locale paths.
     const requestHeaders = await headers();
+    const nonce = requestHeaders.get(CSP_NONCE_HEADER) ?? '';
     const localeFromHeader = requestHeaders.get('x-next-intl-locale') as Locale | null;
     const locale = localeFromHeader && locales.includes(localeFromHeader as Locale)
         ? localeFromHeader
@@ -120,6 +119,7 @@ export default async function RootLayout({
                 <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com" />
                 {/* P2: Inline critical above-the-fold CSS for home hero */}
                 <style
+                    suppressHydrationWarning
                     nonce={nonce}
                     dangerouslySetInnerHTML={{
                         __html: `
@@ -148,81 +148,74 @@ export default async function RootLayout({
                 <UserProvider>
 
                 {/* Organization Schema Markup for SEO */}
-                <script
-                    type="application/ld+json"
-                    dangerouslySetInnerHTML={{
-                        __html: JSON.stringify({
-                            "@context": "https://schema.org",
-                            "@type": "Organization",
-                            "name": "CodelithLabs",
-                            "url": "https://codelithlabs.in",
-                            "logo": "https://codelithlabs.in/icon.png",
-                            "description": "Free online tools platform with 200+ utilities for developers, designers, and content creators",
-                            "founders": [
-                                {
-                                    "@type": "Person",
-                                    "name": "Prasanta Ray",
-                                    "jobTitle": "Founder & CEO"
-                                },
-                                {
-                                    "@type": "Person",
-                                    "name": "Donbil Mwshary",
-                                    "jobTitle": "Co-Founder & CTO"
-                                }
-                            ],
-                            "address": {
-                                "@type": "PostalAddress",
-                                "addressLocality": "Kokrajhar",
-                                "addressRegion": "Assam",
-                                "addressCountry": "IN"
+                <JsonLdScript
+                    id="organization-schema"
+                    data={{
+                        "@context": "https://schema.org",
+                        "@type": "Organization",
+                        "name": "CodelithLabs",
+                        "url": "https://codelithlabs.in",
+                        "logo": "https://codelithlabs.in/icon.png",
+                        "description": "Free online tools platform with 200+ utilities for developers, designers, and content creators",
+                        "founders": [
+                            {
+                                "@type": "Person",
+                                "name": "Prasanta Ray",
+                                "jobTitle": "Founder & CEO"
                             },
-                            "contactPoint": {
-                                "@type": "ContactPoint",
-                                "email": "contact@codelithlabs.in",
-                                "contactType": "Customer Service"
-                            },
-                            "sameAs": [
-                                "https://github.com/codelithlabs",
-                                "https://x.com/codelithlabs",
-                                "https://linkedin.com/company/codelithlabs"
-                            ]
-                        })
+                            {
+                                "@type": "Person",
+                                "name": "Donbil Mwshary",
+                                "jobTitle": "Co-Founder & CTO"
+                            }
+                        ],
+                        "address": {
+                            "@type": "PostalAddress",
+                            "addressLocality": "Kokrajhar",
+                            "addressRegion": "Assam",
+                            "addressCountry": "IN"
+                        },
+                        "contactPoint": {
+                            "@type": "ContactPoint",
+                            "email": "contact@codelithlabs.in",
+                            "contactType": "Customer Service"
+                        },
+                        "sameAs": [
+                            "https://github.com/codelithlabs",
+                            "https://x.com/codelithlabs",
+                            "https://linkedin.com/company/codelithlabs"
+                        ]
                     }}
                 />
 
                 {/* WebSite Schema with SearchAction for Google Sitelinks Search Box */}
-                <script
-                    type="application/ld+json"
-                    dangerouslySetInnerHTML={{
-                        __html: JSON.stringify({
-                            "@context": "https://schema.org",
-                            "@type": "WebSite",
-                            "name": "CodelithLabs",
-                            "url": "https://codelithlabs.in",
-                            "description": "Free online tools platform with 200+ utilities for developers, designers, and content creators",
-                            "potentialAction": {
-                                "@type": "SearchAction",
-                                "target": {
-                                    "@type": "EntryPoint",
-                                    "urlTemplate": "https://codelithlabs.in/tools/?q={search_term_string}"
-                                },
-                                "query-input": "required name=search_term_string"
+                <JsonLdScript
+                    id="website-schema"
+                    data={{
+                        "@context": "https://schema.org",
+                        "@type": "WebSite",
+                        "name": "CodelithLabs",
+                        "url": "https://codelithlabs.in",
+                        "description": "Free online tools platform with 200+ utilities for developers, designers, and content creators",
+                        "potentialAction": {
+                            "@type": "SearchAction",
+                            "target": {
+                                "@type": "EntryPoint",
+                                "urlTemplate": "https://codelithlabs.in/tools/?q={search_term_string}"
                             },
-                            "publisher": {
-                                "@type": "Organization",
-                                "name": "CodelithLabs",
-                                "url": "https://codelithlabs.in"
-                            }
-                        })
+                            "query-input": "required name=search_term_string"
+                        },
+                        "publisher": {
+                            "@type": "Organization",
+                            "name": "CodelithLabs",
+                            "url": "https://codelithlabs.in"
+                        }
                     }}
                 />
 
-                <Navbar />
-                <main id="main-content" className="pt-16"> {/* Add padding so content doesn't hide behind Navbar */}
-                    {children}
-                </main>
-                <Footer />
-                <CookieBanner />
+                <ImmersiveModeProvider>
+                    <AppChrome>{children}</AppChrome>
+                </ImmersiveModeProvider>
                 <GoogleAnalytics />
                 <WebVitals />
                 <MicrosoftClarity />

@@ -11,9 +11,12 @@ import {
   PREMIUM_AMOUNT_PAISE,
   PREMIUM_CURRENCY,
   PREMIUM_PLAN_CODE,
+  fetchRazorpayPaymentDetails,
+  isRazorpayPaymentCaptured,
   verifyRazorpayPaymentSignature,
 } from "@/lib/razorpay";
 import { checkRateLimit } from "@/lib/rate-limiter";
+import { getClientIp } from "@/lib/request-security";
 
 interface VerifyPaymentBody {
   razorpay_order_id: string;
@@ -23,8 +26,7 @@ interface VerifyPaymentBody {
 
 export async function POST(request: NextRequest) {
   try {
-    const forwarded = request.headers.get("x-forwarded-for");
-    const ip = forwarded?.split(",")[0]?.trim() ?? "unknown";
+    const ip = getClientIp(request);
     const rateResult = await checkRateLimit(ip, 10, "razorpay-verify");
     if (rateResult.limited) {
       return NextResponse.json(
@@ -51,9 +53,10 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    const keyId = process.env.RAZORPAY_KEY_ID;
     const keySecret = process.env.RAZORPAY_KEY_SECRET;
-    if (!keySecret) {
-      console.error("[Razorpay] Missing KEY_SECRET for verification");
+    if (!keyId || !keySecret) {
+      console.error("[Razorpay] Missing credentials for verification");
       return NextResponse.json(
         { error: "Payment verification not configured" },
         { status: 503 }
@@ -85,7 +88,7 @@ export async function POST(request: NextRequest) {
     // Verify order ownership and amount BEFORE activating premium
     const existingPayment = await prisma.payment.findUnique({
       where: { razorpayOrderId: razorpay_order_id },
-      select: { userId: true, amountPaise: true, status: true },
+      select: { userId: true, amountPaise: true, currency: true, status: true },
     });
 
     if (!existingPayment) {
@@ -99,7 +102,7 @@ export async function POST(request: NextRequest) {
     // Verify current user matches order creator
     const currentDbUser = await prisma.user.findUnique({
       where: { email: session.user.email },
-      select: { id: true },
+      select: { id: true, premiumExpiresAt: true },
     });
 
     if (!currentDbUser) {
@@ -121,6 +124,47 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    if (existingPayment.status === "VERIFIED") {
+      return NextResponse.json({
+        success: true,
+        paymentId: razorpay_payment_id,
+        premiumExpiresAt: currentDbUser.premiumExpiresAt?.toISOString() ?? null,
+        message: "Premium access is already active.",
+      });
+    }
+
+    let providerPayment;
+
+    try {
+      providerPayment = await fetchRazorpayPaymentDetails(
+        razorpay_payment_id,
+        keyId,
+        keySecret
+      );
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "Unknown error";
+      console.error("[Razorpay] Failed payment reconciliation:", message);
+      return NextResponse.json(
+        { error: "Unable to reconcile payment with Razorpay" },
+        { status: 502 }
+      );
+    }
+
+    if (providerPayment.order_id !== razorpay_order_id) {
+      console.error(
+        "[Razorpay] Provider order mismatch for payment:",
+        razorpay_payment_id,
+        "expected:",
+        razorpay_order_id,
+        "found:",
+        providerPayment.order_id
+      );
+      return NextResponse.json(
+        { error: "Payment reconciliation failed — order mismatch" },
+        { status: 400 }
+      );
+    }
+
     // Validate payment amount matches expected
     if (existingPayment.amountPaise !== PREMIUM_AMOUNT_PAISE) {
       console.error(
@@ -130,6 +174,48 @@ export async function POST(request: NextRequest) {
       );
       return NextResponse.json(
         { error: "Payment amount mismatch" },
+        { status: 400 }
+      );
+    }
+
+    if (providerPayment.amount !== existingPayment.amountPaise) {
+      console.error(
+        "[Razorpay] Provider amount mismatch for payment:",
+        razorpay_payment_id,
+        "expected:",
+        existingPayment.amountPaise,
+        "found:",
+        providerPayment.amount
+      );
+      return NextResponse.json(
+        { error: "Payment reconciliation failed — amount mismatch" },
+        { status: 400 }
+      );
+    }
+
+    if (providerPayment.currency !== existingPayment.currency) {
+      console.error(
+        "[Razorpay] Provider currency mismatch for payment:",
+        razorpay_payment_id,
+        "expected:",
+        existingPayment.currency,
+        "found:",
+        providerPayment.currency
+      );
+      return NextResponse.json(
+        { error: "Payment reconciliation failed — currency mismatch" },
+        { status: 400 }
+      );
+    }
+
+    if (!isRazorpayPaymentCaptured(providerPayment)) {
+      console.warn(
+        "[Razorpay] Payment not captured during reconciliation:",
+        razorpay_payment_id,
+        providerPayment.status
+      );
+      return NextResponse.json(
+        { error: "Payment has not been captured yet" },
         { status: 400 }
       );
     }

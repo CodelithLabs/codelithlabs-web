@@ -5,6 +5,7 @@
 
 import { Metadata } from "next";
 import { TOOLS_REGISTRY } from "@/lib/tools-registry";
+import { JsonLdScript } from "@/components/security/JsonLdScript";
 
 // ── SEO Metadata ────────────────────────────────────────────────────────
 
@@ -115,10 +116,7 @@ export default function ToolsLayout({
 }) {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(buildJsonLd()) }}
-      />
+      <JsonLdScript id="tools-hub-schema" data={buildJsonLd()} />
       {children}
     </>
   );

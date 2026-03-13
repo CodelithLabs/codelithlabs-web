@@ -14,10 +14,20 @@ export const metadata: Metadata = {
 };
 
 export default function SignInPage() {
+  const googleClientId = process.env.GOOGLE_CLIENT_ID;
+  const googleClientSecret = process.env.GOOGLE_CLIENT_SECRET;
+
+  const googleAuthEnabled = Boolean(
+    googleClientId &&
+      googleClientSecret &&
+      !googleClientId.startsWith('your-') &&
+      !googleClientSecret.startsWith('your-')
+  );
+
   return (
     <>
       <h1 style={{ display: 'none' }}>Sign In</h1>
-      <SignInClient />
+      <SignInClient googleAuthEnabled={googleAuthEnabled} />
     </>
   );
 }

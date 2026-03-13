@@ -17,6 +17,7 @@ import { type Locale } from '@/i18n/request';
 import { HeroSection } from '@/components/landing/HeroSection';
 import { StatsBar } from '@/components/landing/StatsBar';
 import { HomeAdBelowHero, HomeAdMid, HomeAdBottom } from '@/components/ads/HomeAds';
+import { JsonLdScript } from '@/components/security/JsonLdScript';
 
 // Lazy-load below-fold components to reduce initial JS bundle
 const ToolHighlights = lazy(() => import('@/components/landing/ToolHighlights').then(m => ({ default: m.ToolHighlights })));
@@ -165,24 +166,22 @@ export default async function HomePage({
       <h1 style={{ display: 'none' }}>CodelithLabs — Open Source Innovation, System Architecture & Developer Tools</h1>
 
       {/* Structured Data for SEO */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            '@context': 'https://schema.org',
-            '@type': 'WebApplication',
-            name: 'CodelithLabs Tools',
-            description: t('hero.subtitle'),
-            url: `https://codelithlabs.in/${locale}`,
-            applicationCategory: 'UtilitiesApplication',
-            operatingSystem: 'Any (Web-based)',
-            inLanguage: locale,
-            offers: {
-              '@type': 'Offer',
-              price: '0',
-              priceCurrency: 'USD',
-            },
-          }),
+      <JsonLdScript
+        id="locale-home-schema"
+        data={{
+          '@context': 'https://schema.org',
+          '@type': 'WebApplication',
+          name: 'CodelithLabs Tools',
+          description: t('hero.subtitle'),
+          url: `https://codelithlabs.in/${locale}`,
+          applicationCategory: 'UtilitiesApplication',
+          operatingSystem: 'Any (Web-based)',
+          inLanguage: locale,
+          offers: {
+            '@type': 'Offer',
+            price: '0',
+            priceCurrency: 'USD',
+          },
         }}
       />
 

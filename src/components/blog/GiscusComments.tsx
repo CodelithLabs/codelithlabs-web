@@ -8,19 +8,18 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+import { useNonce } from '@/app/nonce-context';
 
 interface GiscusCommentsProps {
-  /** Maps to a specific discussion (typically the blog post slug) */
   term: string;
 }
 
 export function GiscusComments({ term }: GiscusCommentsProps) {
   const ref = useRef<HTMLDivElement>(null);
+  const nonce = useNonce();
 
   useEffect(() => {
     if (!ref.current) return;
-
-    // Don't double-mount
     if (ref.current.querySelector('.giscus')) return;
 
     const repo = process.env.NEXT_PUBLIC_GISCUS_REPO || 'CodelithLabs/codelithlabs-web';
@@ -46,22 +45,31 @@ export function GiscusComments({ term }: GiscusCommentsProps) {
     script.crossOrigin = 'anonymous';
     script.async = true;
 
+    if (nonce) {
+      script.nonce = nonce;
+    }
+
     const container = ref.current;
     container.appendChild(script);
 
     return () => {
-      // Cleanup on unmount - use captured container ref
       const giscusFrame = container?.querySelector('.giscus');
-      if (giscusFrame) giscusFrame.remove();
+      if (giscusFrame) {
+        giscusFrame.remove();
+      }
     };
-  }, [term]);
+  }, [nonce, term]);
 
   return (
     <div className="mt-12 pt-8 border-t border-zinc-800">
       <h2 className="text-xl font-semibold text-white mb-6 flex items-center gap-2">
         <svg className="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-            d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"
+          />
         </svg>
         Comments
       </h2>

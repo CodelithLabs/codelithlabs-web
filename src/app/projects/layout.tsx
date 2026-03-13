@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import { JsonLdScript } from "@/components/security/JsonLdScript";
 
 export const metadata: Metadata = {
   title: "Projects & Portfolio — Open-Source Engineering",
@@ -31,45 +32,41 @@ export default function ProjectsLayout({
 }) {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "CollectionPage",
-            name: "CodelithLabs Projects",
-            description:
-              "Open-source engineering projects by CodelithLabs.",
-            url: "https://codelithlabs.in/projects/",
-            provider: {
-              "@type": "Organization",
-              name: "CodelithLabs",
-              url: "https://codelithlabs.in",
-            },
-          }),
+      <JsonLdScript
+        id="projects-schema"
+        data={{
+          "@context": "https://schema.org",
+          "@type": "CollectionPage",
+          name: "CodelithLabs Projects",
+          description:
+            "Open-source engineering projects by CodelithLabs.",
+          url: "https://codelithlabs.in/projects/",
+          provider: {
+            "@type": "Organization",
+            name: "CodelithLabs",
+            url: "https://codelithlabs.in",
+          },
         }}
       />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "BreadcrumbList",
-            itemListElement: [
-              {
-                "@type": "ListItem",
-                position: 1,
-                name: "Home",
-                item: "https://codelithlabs.in",
-              },
-              {
-                "@type": "ListItem",
-                position: 2,
-                name: "Projects",
-                item: "https://codelithlabs.in/projects/",
-              },
-            ],
-          }),
+      <JsonLdScript
+        id="projects-breadcrumb-schema"
+        data={{
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          itemListElement: [
+            {
+              "@type": "ListItem",
+              position: 1,
+              name: "Home",
+              item: "https://codelithlabs.in",
+            },
+            {
+              "@type": "ListItem",
+              position: 2,
+              name: "Projects",
+              item: "https://codelithlabs.in/projects/",
+            },
+          ],
         }}
       />
       {children}

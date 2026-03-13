@@ -5,11 +5,7 @@ import type { NextWebVitalsMetric } from 'next/app';
 
 declare global {
   interface Window {
-    gtag?: (
-      command: 'event',
-      action: string,
-      params: Record<string, string | number>
-    ) => void;
+    gtag?: (...args: unknown[]) => void;
   }
 }
 

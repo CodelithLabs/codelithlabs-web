@@ -4,12 +4,11 @@
 // ═══════════════════════════════════════════════════════════════════════════
 "use client";
 
+import { useNonce } from "@/app/nonce-context";
 import { useUser } from "@/lib/user-context";
 import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import { usePathname } from "next/navigation";
-
-// ─── Razorpay type shim ──────────────────────────────────────────────────
 
 interface RazorpayResponse {
   razorpay_payment_id: string;
@@ -36,32 +35,37 @@ declare global {
   }
 }
 
-// ─── Razorpay checkout ───────────────────────────────────────────────────
-
-function loadRazorpayScript(): Promise<boolean> {
+function loadRazorpayScript(nonce?: string): Promise<boolean> {
   return new Promise((resolve) => {
     if (typeof window !== "undefined" && window.Razorpay) {
       resolve(true);
       return;
     }
+
     const script = document.createElement("script");
     script.src = "https://checkout.razorpay.com/v1/checkout.js";
+    if (nonce) {
+      script.nonce = nonce;
+    }
     script.onload = () => resolve(true);
     script.onerror = () => resolve(false);
     document.body.appendChild(script);
   });
 }
 
-async function handleRazorpayCheckout(user?: { name?: string | null; email?: string | null }) {
-  const loaded = await loadRazorpayScript();
+async function handleRazorpayCheckout(
+  user?: { name?: string | null; email?: string | null },
+  nonce?: string
+) {
+  const loaded = await loadRazorpayScript(nonce);
   if (!loaded) {
     alert("Payment gateway failed to load. Please try again.");
     return;
   }
 
-  // 1. Create order via server-side API
   let orderId: string;
   let keyId: string;
+
   try {
     const res = await fetch("/api/razorpay/create-order", { method: "POST" });
     if (!res.ok) {
@@ -69,6 +73,7 @@ async function handleRazorpayCheckout(user?: { name?: string | null; email?: str
       alert(err.error ?? "Failed to create payment order. Please try again.");
       return;
     }
+
     const data = await res.json();
     orderId = data.orderId;
     keyId = data.keyId;
@@ -77,10 +82,9 @@ async function handleRazorpayCheckout(user?: { name?: string | null; email?: str
     return;
   }
 
-  // 2. Open Razorpay checkout with the server-created order
   const options: RazorpayOptions = {
     key: keyId,
-    amount: 29900, // ₹299 in paise — monthly
+    amount: 29900,
     currency: "INR",
     name: "CodelithLabs Premium",
     description: "Ad-Free Membership — Monthly",
@@ -92,7 +96,6 @@ async function handleRazorpayCheckout(user?: { name?: string | null; email?: str
     },
     theme: { color: "#2979FF" },
     handler: async (response) => {
-      // 3. Verify payment signature server-side
       try {
         const verifyRes = await fetch("/api/razorpay/verify-payment", {
           method: "POST",
@@ -104,6 +107,7 @@ async function handleRazorpayCheckout(user?: { name?: string | null; email?: str
           }),
         });
         const result = await verifyRes.json();
+
         if (result.success) {
           alert("Payment successful! Your premium access is now active. Please refresh the page.");
           window.location.reload();
@@ -120,18 +124,14 @@ async function handleRazorpayCheckout(user?: { name?: string | null; email?: str
   rzp.open();
 }
 
-// ─── Component ───────────────────────────────────────────────────────────
-
 export function PricingCard() {
   const { user, isPremium, isAuthenticated } = useUser();
   const { data: session } = useSession();
+  const nonce = useNonce();
   const t = useTranslations();
   const pathname = usePathname();
-  
-  // Extract current locale from pathname
   const currentLocale = pathname.split("/")[1] || "en";
-  
-  // Feature lists with translations
+
   const freeFeatures = [
     t("pricing.free.features.accessTools"),
     t("pricing.free.features.clientSide"),
@@ -139,7 +139,7 @@ export function PricingCard() {
     t("pricing.free.features.communitySupport"),
     t("pricing.free.features.standardSpeed"),
   ];
-  
+
   const premiumFeatures = [
     t("pricing.premium.features.everythingFree"),
     t("pricing.premium.features.adFree"),
@@ -152,7 +152,6 @@ export function PricingCard() {
 
   return (
     <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-      {/* ── Free Tier ── */}
       <div className="relative rounded-2xl border border-zinc-800 bg-zinc-900/50 p-8 flex flex-col">
         <div className="mb-6">
           <h3 className="text-lg font-semibold text-white mb-1">{t("pricing.free.title")}</h3>
@@ -183,9 +182,7 @@ export function PricingCard() {
         </button>
       </div>
 
-      {/* ── Premium Tier ── */}
       <div className="relative rounded-2xl border border-blue-500/40 bg-gradient-to-b from-blue-500/10 to-zinc-900/50 p-8 flex flex-col shadow-lg shadow-blue-500/5">
-        {/* Badge */}
         <div className="absolute -top-3 left-1/2 -translate-x-1/2">
           <span className="bg-gradient-to-r from-blue-600 to-purple-600 text-white text-xs font-bold px-4 py-1 rounded-full shadow-lg shadow-blue-500/20">
             {t("pricing.premium.badge")}
@@ -231,11 +228,11 @@ export function PricingCard() {
           <button
             onClick={() => {
               if (!isAuthenticated) {
-                // Redirect to sign-in first
                 window.location.href = `/${currentLocale}/auth/signin`;
                 return;
               }
-              handleRazorpayCheckout(session?.user);
+
+              handleRazorpayCheckout(session?.user, nonce || undefined);
             }}
             className="w-full py-3 rounded-xl bg-gradient-to-r from-blue-600 to-purple-600 
                        hover:from-blue-500 hover:to-purple-500 

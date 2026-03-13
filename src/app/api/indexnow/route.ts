@@ -8,6 +8,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { timingSafeEqual } from 'crypto';
 import { getIndexableTools } from '@/lib/tools-registry';
+import { locales } from '@/i18n/request';
 
 const INDEXNOW_KEY = '44a3630285764b5cad4c0d104f0e4d6b';
 const BASE_URL = 'https://codelithlabs.in';
@@ -16,37 +17,46 @@ const BASE_URL = 'https://codelithlabs.in';
  * Build the full list of public URLs for the site.
  */
 function buildUrlList(): string[] {
-  const urls: string[] = [];
+  const urls = new Set<string>();
   const indexableTools = getIndexableTools();
 
-  // Static pages
+  // Static pages (locale-prefix aligned with middleware localePrefix=always)
   const staticPaths = [
-    '', '/tools', '/about', '/contact', '/privacy', '/terms',
+    '/', '/tools', '/about', '/contact', '/privacy', '/terms', '/refund',
     '/blog', '/pricing', '/premium', '/research', '/team',
     '/projects', '/tech-stack', '/transparency',
   ];
-  for (const path of staticPaths) {
-    urls.push(`${BASE_URL}${path}`);
+  for (const locale of locales) {
+    for (const routePath of staticPaths) {
+      const localizedPath = routePath === '/' ? `/${locale}` : `/${locale}${routePath}`;
+      urls.add(`${BASE_URL}${localizedPath}`);
+    }
   }
 
   // Category pages
   const categories = Array.from(new Set(indexableTools.map(t => t.category)));
-  for (const cat of categories) {
-    urls.push(`${BASE_URL}/tools/category/${cat}`);
+  for (const locale of locales) {
+    for (const cat of categories) {
+      urls.add(`${BASE_URL}/${locale}/tools/category/${cat}`);
+    }
   }
 
   // Tool pages
-  for (const tool of indexableTools) {
-    urls.push(`${BASE_URL}/tools/${tool.slug}`);
+  for (const locale of locales) {
+    for (const tool of indexableTools) {
+      urls.add(`${BASE_URL}/${locale}/tools/${tool.slug}`);
+    }
   }
 
   // Project pages
   const projectSlugs = ['vectordefense', 'citk-connect'];
-  for (const slug of projectSlugs) {
-    urls.push(`${BASE_URL}/projects/${slug}`);
+  for (const locale of locales) {
+    for (const slug of projectSlugs) {
+      urls.add(`${BASE_URL}/${locale}/projects/${slug}`);
+    }
   }
 
-  return urls;
+  return Array.from(urls);
 }
 
 /**

@@ -3,7 +3,7 @@
 // Helper functions for generating locale-aware metadata (hreflang, canonical, OG locale)
 // ═══════════════════════════════════════════════════════════════════════════
 
-import { locales, type Locale } from "@/i18n/request";
+import { defaultLocale, locales, type Locale } from "@/i18n/request";
 
 const SITE_URL = "https://codelithlabs.in";
 
@@ -55,6 +55,33 @@ export function getLocaleAlternates(path: string, currentLocale: Locale) {
  */
 export function getOgLocale(locale: Locale): string {
   return BCP47_LOCALE_MAP[locale] || BCP47_LOCALE_MAP.en;
+}
+
+/**
+ * Get OpenGraph alternate locale tags (og:locale:alternate)
+ * excluding the current locale.
+ */
+export function getOgAlternateLocales(currentLocale: Locale): string[] {
+  return locales
+    .filter((locale) => locale !== currentLocale)
+    .map((locale) => getOgLocale(locale));
+}
+
+/**
+ * Build canonical URL pinned to the primary locale path.
+ * Useful for non-locale routes that should canonicalize to /en/...
+ */
+export function getPrimaryLocaleCanonical(path: string): string {
+  const cleanPath = path.startsWith("/") ? path : `/${path}`;
+  return `${SITE_URL}/${defaultLocale}${cleanPath}`;
+}
+
+/**
+ * Build an absolute URL for a specific locale route.
+ */
+export function getLocaleUrl(path: string, locale: Locale): string {
+  const cleanPath = path.startsWith("/") ? path : `/${path}`;
+  return `${SITE_URL}/${locale}${cleanPath}`;
 }
 
 /**

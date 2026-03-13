@@ -13,6 +13,7 @@ interface GameHubProps {
 
 export function GameHub({ games, locale }: GameHubProps) {
   const t = useTranslations('Games.hub');
+  const featuredGame = games.find((game) => game.isFeatured) ?? games[0];
 
   return (
     <div className="min-h-screen bg-black text-white">
@@ -36,6 +37,22 @@ export function GameHub({ games, locale }: GameHubProps) {
           {t('title')}
         </h1>
         <p className="text-zinc-500 text-lg max-w-xl">{t('subtitle')}</p>
+        <div className="flex flex-wrap gap-3 mt-8">
+          <Link
+            href={`/${locale}`}
+            className="inline-flex items-center gap-2 rounded-xl border border-zinc-800 px-4 py-3 text-sm font-mono uppercase tracking-widest text-zinc-300 transition-colors hover:border-zinc-700 hover:text-white"
+          >
+            ← {t('breadcrumb')}
+          </Link>
+          {featuredGame && (
+            <Link
+              href={`/${locale}/games/${featuredGame.slug}`}
+              className="inline-flex items-center gap-2 rounded-xl border border-red-900/70 bg-red-950/40 px-4 py-3 text-sm font-mono uppercase tracking-widest text-red-300 transition-colors hover:border-red-700 hover:text-white"
+            >
+              ▶ Play {featuredGame.title}
+            </Link>
+          )}
+        </div>
         <div className="flex gap-2 mt-6 flex-wrap">
           {(
             ['badge_privacy', 'badge_free', 'badge_noAccount', 'badge_offline'] as const

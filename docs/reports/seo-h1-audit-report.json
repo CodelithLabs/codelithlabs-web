@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-03-10T21:47:09.468Z",
+  "generatedAt": "2026-03-13T00:53:13.476Z",
   "totals": {
-    "checked": 40,
+    "checked": 44,
     "missing": 0,
     "skipped": 3
   },
@@ -224,7 +224,21 @@
       "hasHeading": true
     },
     {
+      "page": "src/app/[locale]/premium/page.tsx",
+      "foundInPage": true,
+      "proxyFiles": [],
+      "foundInProxy": false,
+      "hasHeading": true
+    },
+    {
       "page": "src/app/[locale]/pricing/page.tsx",
+      "foundInPage": true,
+      "proxyFiles": [],
+      "foundInProxy": false,
+      "hasHeading": true
+    },
+    {
+      "page": "src/app/[locale]/privacy/page.tsx",
       "foundInPage": true,
       "proxyFiles": [],
       "foundInProxy": false,
@@ -239,6 +253,13 @@
     },
     {
       "page": "src/app/[locale]/projects/[slug]/page.tsx",
+      "foundInPage": true,
+      "proxyFiles": [],
+      "foundInProxy": false,
+      "hasHeading": true
+    },
+    {
+      "page": "src/app/[locale]/refund/page.tsx",
       "foundInPage": true,
       "proxyFiles": [],
       "foundInProxy": false,
@@ -260,6 +281,13 @@
     },
     {
       "page": "src/app/[locale]/tech-stack/page.tsx",
+      "foundInPage": true,
+      "proxyFiles": [],
+      "foundInProxy": false,
+      "hasHeading": true
+    },
+    {
+      "page": "src/app/[locale]/terms/page.tsx",
       "foundInPage": true,
       "proxyFiles": [],
       "foundInProxy": false,

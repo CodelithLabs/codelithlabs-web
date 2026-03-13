@@ -6,14 +6,32 @@
 
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
+import { checkRateLimit } from '@/lib/rate-limiter';
+import {
+  getClientIp,
+  isTurnstileConfigured,
+  verifyTurnstileToken,
+} from '@/lib/request-security';
 
 const subscribeSchema = z.object({
   email: z.string().email('Invalid email address'),
   firstName: z.string().min(1).max(100).optional(),
+  turnstileToken: z.string().min(1).optional(),
+  website: z.string().max(0).optional(),
 });
 
 export async function POST(request: Request) {
   try {
+    const ip = getClientIp(request);
+    const rateResult = await checkRateLimit(ip, 5, 'newsletter');
+
+    if (rateResult.limited) {
+      return NextResponse.json(
+        { error: 'Too many requests. Please try again later.' },
+        { status: 429 }
+      );
+    }
+
     const body = await request.json();
     const parsed = subscribeSchema.safeParse(body);
 
@@ -22,6 +40,27 @@ export async function POST(request: Request) {
         { error: 'Invalid email address.' },
         { status: 400 }
       );
+    }
+
+    if (parsed.data.website) {
+      return NextResponse.json({ success: true, pendingConfirmation: true });
+    }
+
+    if (isTurnstileConfigured()) {
+      if (!parsed.data.turnstileToken) {
+        return NextResponse.json(
+          { error: 'Please complete the verification challenge.' },
+          { status: 400 }
+        );
+      }
+
+      const turnstileValid = await verifyTurnstileToken(parsed.data.turnstileToken, ip);
+      if (!turnstileValid) {
+        return NextResponse.json(
+          { error: 'Verification failed. Please try again.' },
+          { status: 400 }
+        );
+      }
     }
 
     const apiKey = process.env.CONVERTKIT_API_KEY;
@@ -56,7 +95,7 @@ export async function POST(request: Request) {
       );
     }
 
-    return NextResponse.json({ success: true });
+    return NextResponse.json({ success: true, pendingConfirmation: true });
   } catch (e: unknown) {
     const message = e instanceof Error ? e.message : 'Unknown error';
     console.error('[Newsletter] API error:', message);

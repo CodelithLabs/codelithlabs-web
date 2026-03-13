@@ -19,6 +19,8 @@ model User {
   updatedAt         DateTime  @updatedAt
 
   payments          Payment[]
+  webhookEvents     WebhookEvent[]
+  analyticsEvents   AnalyticsEvent[]
 }
 
 model Payment {
@@ -44,8 +46,85 @@ model Payment {
   @@index([userId, createdAt])
 }
 
+model WebhookEvent {
+  id            String             @id @default(cuid())
+  userId        String?
+  user          User?              @relation(fields: [userId], references: [id], onDelete: SetNull)
+  provider      String             @default("razorpay")
+  eventId       String             @unique
+  eventName     String
+  orderId       String?
+  paymentId     String?
+  payloadHash   String
+  status        WebhookEventStatus @default(PROCESSING)
+  deliveryCount Int                @default(1)
+  note          String?
+  errorMessage  String?
+  processedAt   DateTime?
+  lastSeenAt    DateTime           @default(now())
+  createdAt     DateTime           @default(now())
+  updatedAt     DateTime           @updatedAt
+
+  @@index([provider, eventName, createdAt])
+  @@index([orderId, createdAt])
+  @@index([paymentId, createdAt])
+}
+
+model AnalyticsEvent {
+  id         String             @id @default(cuid())
+  userId     String?
+  user       User?              @relation(fields: [userId], references: [id], onDelete: SetNull)
+  eventName  String
+  eventType  AnalyticsEventType
+  source     String?
+  path       String
+  locale     String?
+  toolSlug   String?
+  gameSlug   String?
+  sessionId  String?
+  ipHash     String?
+  userAgent  String?
+  metadata   Json?
+  occurredAt DateTime           @default(now())
+  createdAt  DateTime           @default(now())
+
+  @@index([eventType, occurredAt])
+  @@index([path, occurredAt])
+  @@index([toolSlug, occurredAt])
+  @@index([gameSlug, occurredAt])
+  @@index([userId, occurredAt])
+}
+
+model AnalyticsPageViewDaily {
+  id        String   @id @default(cuid())
+  date      DateTime
+  path      String
+  locale    String?
+  views     Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([date, path, locale])
+  @@index([date])
+}
+
 enum PaymentStatus {
   CREATED
   VERIFIED
   FAILED
+}
+
+enum WebhookEventStatus {
+  PROCESSING
+  PROCESSED
+  IGNORED
+  FAILED
+}
+
+enum AnalyticsEventType {
+  PAGE_VIEW
+  NAV_INTERACTION
+  TOOL_USAGE
+  GAME_USAGE
+  CUSTOM
 }

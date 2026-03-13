@@ -21,6 +21,7 @@ const REPORT_PATH = path.join(REPORT_DIR, 'seo-indexing-friction-report.json');
 
 const SITE_URL = (process.env.SEO_AUDIT_BASE_URL || 'https://codelithlabs.in').replace(/\/$/, '');
 const REQUEST_TIMEOUT_MS = Number(process.env.SEO_AUDIT_TIMEOUT_MS || 12000);
+const PRIMARY_LOCALE = process.env.SEO_AUDIT_PRIMARY_LOCALE || 'en';
 
 const FLAGGED_TOOL_SLUGS = ['case-converter', 'age-calculator', 'qr-code-generator'];
 
@@ -32,6 +33,19 @@ const CRITICAL_PATHS = [
   '/tools/age-calculator/',
   '/tools/qr-code-generator/',
 ];
+
+function getExpectedCanonical(pathname) {
+  if (pathname.startsWith(`/${PRIMARY_LOCALE}/`)) {
+    return `${SITE_URL}${pathname}`;
+  }
+
+  if (pathname === '/') {
+    return `${SITE_URL}/${PRIMARY_LOCALE}/`;
+  }
+
+  const trimmed = pathname.replace(/^\//, '');
+  return `${SITE_URL}/${PRIMARY_LOCALE}/${trimmed}`;
+}
 
 function parseRolloutNoindexSlugs(source) {
   const setMatch = source.match(/NOINDEX_UNTIL_READY_SLUGS\s*=\s*new Set<string>\(\[([\s\S]*?)\]\)/m);
@@ -66,7 +80,7 @@ async function fetchWithTimeout(url, options = {}) {
 
 async function checkUrl(pathname) {
   const url = `${SITE_URL}${pathname}`;
-  const expectedCanonical = `${SITE_URL}${pathname === '/' ? '/' : pathname}`;
+  const expectedCanonical = getExpectedCanonical(pathname);
 
   const entry = {
     url,

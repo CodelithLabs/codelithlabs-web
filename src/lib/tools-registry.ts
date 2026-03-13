@@ -14,7 +14,7 @@ export const TOOLS_REGISTRY: ToolMeta[] = [
   {
     slug: 'word-counter',
     name: 'Word Counter',
-    description: 'Count words, characters, sentences, and paragraphs in your text instantly.',
+    description: 'Count words, characters, sentences, paragraphs, and reading time instantly with a fast browser-based Word Counter that keeps your text private.',
     category: 'text',
     keywords: ['word count', 'character count', 'text analysis'],
     processingType: 'client'
@@ -22,7 +22,7 @@ export const TOOLS_REGISTRY: ToolMeta[] = [
   {
     slug: 'case-converter',
     name: 'Case Converter',
-    description: 'Convert text to uppercase, lowercase, title case, sentence case, and more.',
+    description: 'Convert text to uppercase, lowercase, title case, sentence case, camelCase, and more instantly with a privacy-first Case Converter.',
     category: 'text',
     keywords: ['uppercase', 'lowercase', 'title case', 'text transform'],
     processingType: 'client'
@@ -170,7 +170,7 @@ export const TOOLS_REGISTRY: ToolMeta[] = [
   {
     slug: 'qr-code-generator',
     name: 'QR Code Generator',
-    description: 'Create QR codes for URLs, text, or contact information.',
+    description: 'Generate scan-reliable QR codes for URLs, text, Wi-Fi, contact cards, email, and phone with customizable size, colors, and error correction.',
     category: 'generator',
     keywords: ['qr code', 'barcode', 'generate'],
     processingType: 'client'
@@ -198,7 +198,7 @@ export const TOOLS_REGISTRY: ToolMeta[] = [
   {
     slug: 'age-calculator',
     name: 'Age Calculator',
-    description: 'Calculate exact age in years, months, and days from birthdate.',
+    description: 'Calculate exact age in years, months, and days from your birthdate instantly, with privacy-first client-side processing and no data upload.',
     category: 'calculator',
     keywords: ['age', 'birthday', 'date', 'calculate'],
     processingType: 'client'
@@ -322,7 +322,7 @@ export const TOOLS_REGISTRY: ToolMeta[] = [
   {
     slug: 'sitemap-generator',
     name: 'Sitemap XML Generator',
-    description: 'Create XML sitemaps for better search engine indexing.',
+    description: 'Generate valid XML sitemaps from URL lists with change frequency, priority, and last modified fields to improve search engine crawling.',
     category: 'seo',
     keywords: ['sitemap', 'xml', 'seo', 'google'],
     processingType: 'client'
@@ -358,7 +358,7 @@ export const TOOLS_REGISTRY: ToolMeta[] = [
   {
     slug: 'image-cropper',
     name: 'Image Cropper',
-    description: 'Crop images to custom dimensions directly in browser.',
+    description: 'Crop images to custom dimensions or fixed aspect ratios directly in your browser with live preview and zero file upload.',
     category: 'image',
     keywords: ['image', 'crop', 'trim', 'cut'],
     processingType: 'client'

@@ -51,6 +51,10 @@ const config: Config = {
           "0%, 100%": { transform: "translateY(0)" },
           "50%": { transform: "translateY(-6px)" },
         },
+        "void-flash": {
+          "0%": { opacity: "0.45" },
+          "100%": { opacity: "0" },
+        },
       },
       animation: {
         "pulse-glow": "pulse-glow 2s ease-in-out infinite",
@@ -59,6 +63,7 @@ const config: Config = {
         "shimmer": "shimmer 3s ease-in-out infinite",
         "border-glow": "border-glow 2s ease-in-out infinite",
         "float": "float 3s ease-in-out infinite",
+        "void-flash": "void-flash 0.5s ease-out forwards",
       },
       backgroundImage: {
         "grid-dot": "radial-gradient(circle, rgba(255,255,255,0.04) 1px, transparent 1px)",

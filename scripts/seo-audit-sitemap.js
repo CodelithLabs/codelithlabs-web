@@ -38,6 +38,12 @@ const IMPORTANT_STATIC_ROUTES = [
 
 const IMPORTANT_PROJECT_SLUGS = ['vectordefense', 'citk-connect'];
 const FLAGGED_TOOL_SLUGS = ['case-converter', 'age-calculator', 'qr-code-generator'];
+const REQUIRED_LOCALE_WRAPPERS = [
+  'src/app/[locale]/privacy/page.tsx',
+  'src/app/[locale]/terms/page.tsx',
+  'src/app/[locale]/refund/page.tsx',
+  'src/app/[locale]/premium/page.tsx',
+];
 
 function parseQuotedListFromArrayLiteral(source, arrayName) {
   const arrayMatch = source.match(new RegExp(`${arrayName}\\s*=\\s*\\[([\\s\\S]*?)\\]`, 'm'));
@@ -99,6 +105,9 @@ function main() {
   const hasDynamicToolPages = /const toolPages: MetadataRoute\.Sitemap\s*=\s*indexableTools\.map/.test(sitemapSource);
   const hasDynamicBlogPages = /const blogPages: MetadataRoute\.Sitemap\s*=\s*blogPosts\.map/.test(sitemapSource);
   const hasCategoryPages = /const categoryPages: MetadataRoute\.Sitemap\s*=\s*categories\.map/.test(sitemapSource);
+  const missingLocaleWrappers = REQUIRED_LOCALE_WRAPPERS.filter(
+    (relativePath) => !fs.existsSync(path.join(ROOT, relativePath))
+  );
 
   const report = {
     generatedAt: new Date().toISOString(),
@@ -121,6 +130,10 @@ function main() {
       missingInRegistry: missingFlaggedRegistrySlugs,
       currentlyNoindexed: flaggedSlugsNoindexed,
     },
+    localeWrappers: {
+      expected: REQUIRED_LOCALE_WRAPPERS,
+      missing: missingLocaleWrappers,
+    },
   };
 
   fs.mkdirSync(REPORT_DIR, { recursive: true });
@@ -131,6 +144,7 @@ function main() {
     ...missingProjectSlugs.map((slug) => `Missing project slug in sitemap.ts: ${slug}`),
     ...missingFlaggedRegistrySlugs.map((slug) => `Flagged tool missing in registry: ${slug}`),
     ...flaggedSlugsNoindexed.map((slug) => `Flagged tool still in noindex rollout set: ${slug}`),
+    ...missingLocaleWrappers.map((filePath) => `Missing localized route wrapper: ${filePath}`),
     ...(hasDynamicToolPages ? [] : ['Dynamic toolPages mapping is missing in sitemap.ts']),
     ...(hasDynamicBlogPages ? [] : ['Dynamic blogPages mapping is missing in sitemap.ts']),
     ...(hasCategoryPages ? [] : ['Dynamic categoryPages mapping is missing in sitemap.ts']),
@@ -140,6 +154,7 @@ function main() {
   console.log(`   Missing static routes: ${missingStaticRoutes.length}`);
   console.log(`   Missing project slugs: ${missingProjectSlugs.length}`);
   console.log(`   Flagged tool issues:   ${missingFlaggedRegistrySlugs.length + flaggedSlugsNoindexed.length}`);
+  console.log(`   Missing locale wraps:  ${missingLocaleWrappers.length}`);
   console.log(`   Report:                ${path.relative(ROOT, REPORT_PATH)}`);
 
   if (failures.length > 0) {

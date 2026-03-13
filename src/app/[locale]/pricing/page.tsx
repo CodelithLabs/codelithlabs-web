@@ -5,6 +5,7 @@
 
 import type { Metadata } from "next";
 import { PricingCard } from "@/components/monetization/PricingCard";
+import { JsonLdScript } from "@/components/security/JsonLdScript";
 
 export const metadata: Metadata = {
   title: "Pricing — Free & Premium Plans",
@@ -76,10 +77,7 @@ export default function PricingPage() {
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(pricingSchema) }}
-      />
+      <JsonLdScript id="pricing-schema" data={pricingSchema} />
 
       <div className="min-h-screen bg-[#0a0a0a]">
         {/* Hero */}

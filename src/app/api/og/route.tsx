@@ -12,6 +12,24 @@ export const runtime = 'edge';
 
 const SITE_URL = 'https://codelithlabs.in';
 
+const LOCALE_TAGLINE: Record<string, string> = {
+  en: 'Free Online Tool — No sign-up required',
+  es: 'Herramienta online gratis — Sin registro',
+  pt: 'Ferramenta online grátis — Sem cadastro',
+  fr: 'Outil gratuit en ligne — Sans inscription',
+  de: 'Kostenloses Online-Tool — Ohne Anmeldung',
+  hi: 'फ्री ऑनलाइन टूल — साइन-अप नहीं चाहिए',
+};
+
+const LOCALE_PRIVACY_BADGE: Record<string, string> = {
+  en: '100% Client-Side',
+  es: '100% en cliente',
+  pt: '100% no navegador',
+  fr: '100% côté client',
+  de: '100% clientseitig',
+  hi: '100% क्लाइंट-साइड',
+};
+
 // Fallback category colors matching TOOL_CATEGORIES
 const CATEGORY_COLORS: Record<string, string> = {
   text: '#3B82F6',
@@ -45,6 +63,10 @@ export async function GET(request: NextRequest) {
   const category = searchParams.get('category') ?? 'developer';
   const categoryLabel = searchParams.get('label') ?? category;
   const accentColor = searchParams.get('color') ?? CATEGORY_COLORS[category] ?? '#3B82F6';
+  const locale = searchParams.get('locale') ?? 'en';
+  const subtitle = searchParams.get('subtitle') ?? LOCALE_TAGLINE[locale] ?? LOCALE_TAGLINE.en;
+  const pathLabel = searchParams.get('path') ?? `/${locale}/tools`;
+  const privacyBadge = LOCALE_PRIVACY_BADGE[locale] ?? LOCALE_PRIVACY_BADGE.en;
 
   return new ImageResponse(
     (
@@ -171,7 +193,7 @@ export async function GET(request: NextRequest) {
                 }}
               />
               <span style={{ color: '#a1a1aa', fontSize: '15px', fontWeight: 500 }}>
-                100% Client-Side
+                {privacyBadge}
               </span>
             </div>
           </div>
@@ -224,14 +246,14 @@ export async function GET(request: NextRequest) {
                   fontWeight: 400,
                 }}
               >
-                Free Online Tool — No sign-up required
+                {subtitle}
               </span>
             </div>
           </div>
 
           {/* Bottom row: URL */}
           <div style={{ display: 'flex', alignItems: 'center' }}>
-            <span style={{ color: '#52525b', fontSize: '16px' }}>codelithlabs.in/tools</span>
+            <span style={{ color: '#52525b', fontSize: '16px' }}>{SITE_URL.replace('https://', '')}{pathLabel}</span>
           </div>
         </div>
       </div>

@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
 import type { Locale } from '@/i18n/request';
 import VoidGame from '@/components/games/void/VoidGame';
+import { JsonLdScript } from '@/components/security/JsonLdScript';
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://codelithlabs.com';
 const LOCALES = ['en', 'hi', 'de', 'es', 'fr', 'pt'] as const;
@@ -32,7 +33,7 @@ export async function generateMetadata({
       url: `${BASE_URL}/${locale}/games/void`,
       images: [
         {
-          url: '/og/games/void.jpg',
+          url: '/og/games/void.jpeg',
           width: 1200,
           height: 630,
           alt: 'VOID - 3D Horror Tunnel Game',
@@ -45,7 +46,7 @@ export async function generateMetadata({
       card: 'summary_large_image',
       title: t('meta_title'),
       description: t('meta_description'),
-      images: ['/og/games/void.jpg'],
+      images: ['/og/games/void.jpeg'],
     },
     alternates: {
       canonical: `${BASE_URL}/en/games/void`,
@@ -64,7 +65,7 @@ function buildJsonLd(locale: Locale) {
     description:
       'A free 3D horror tunnel runner browser game. Survive procedurally generated obstacles in infinite darkness.',
     url: `${BASE_URL}/${locale}/games/void`,
-    image: `${BASE_URL}/og/games/void.jpg`,
+    image: `${BASE_URL}/og/games/void.jpeg`,
     genre: ['Horror', 'Arcade', 'Endless Runner'],
     gamePlatform: 'Web Browser',
     operatingSystem: 'Any',
@@ -100,10 +101,7 @@ export default async function VoidGamePage({
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(buildJsonLd(locale)) }}
-      />
+      <JsonLdScript id="void-game-schema" data={buildJsonLd(locale)} />
       <h1 className="sr-only">VOID — 3D Horror Tunnel Runner</h1>
       <main className="fixed inset-0 bg-black overflow-hidden" aria-label="VOID Game">
         <VoidGame locale={locale} />

@@ -5,7 +5,7 @@
 
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useUser } from '@/lib/user-context';
 import { signOut } from 'next-auth/react';
 import Link from 'next/link';
@@ -21,21 +21,18 @@ const DASHBOARD_PREMIUM_BANNER_DISMISS_COOLDOWN_MS = 7 * 24 * 60 * 60 * 1000;
 
 export function DashboardClient() {
   const { user, isPremium, isLoading, isAuthenticated } = useUser();
-  const [toolActions, setToolActions] = useState(0);
-  const [showPremiumBanner, setShowPremiumBanner] = useState(false);
-
-  useEffect(() => {
-    if (typeof window === 'undefined' || isPremium) return;
-
+  const [toolActions] = useState(() => {
+    if (typeof window === 'undefined') return 0;
     const actionCount = Number(window.localStorage.getItem(TOOL_ACTION_COUNT_KEY) || '0');
-    setToolActions(Number.isFinite(actionCount) ? actionCount : 0);
-
+    return Number.isFinite(actionCount) ? actionCount : 0;
+  });
+  const [showPremiumBanner, setShowPremiumBanner] = useState(() => {
+    if (typeof window === 'undefined') return false;
     const dismissUntil = Number(window.localStorage.getItem(DASHBOARD_PREMIUM_BANNER_DISMISS_UNTIL_KEY) || '0');
     const now = Date.now();
     const isDismissed = Number.isFinite(dismissUntil) && dismissUntil > now;
-
-    setShowPremiumBanner(!isDismissed);
-  }, [isPremium]);
+    return !isDismissed;
+  });
 
   const dismissPremiumBanner = () => {
     if (typeof window !== 'undefined') {

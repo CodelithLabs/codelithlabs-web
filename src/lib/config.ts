@@ -29,11 +29,16 @@ const envSchema = z.object({
 
   // Newsletter - ConvertKit
   CONVERTKIT_API_KEY: z.string().min(1, "CONVERTKIT_API_KEY is required for newsletter"),
+  CONVERTKIT_FORM_ID: z.string().min(1, "CONVERTKIT_FORM_ID is required for newsletter").optional(),
   CONVERTKIT_API_SECRET: z.string().min(1, "CONVERTKIT_API_SECRET is required for newsletter").optional(),
 
   // Payment - Razorpay
   RAZORPAY_KEY_ID: z.string().min(1, "RAZORPAY_KEY_ID is required for payments"),
   RAZORPAY_KEY_SECRET: z.string().min(1, "RAZORPAY_KEY_SECRET is required for payments"),
+  RAZORPAY_WEBHOOK_SECRET: z.string().min(1, "RAZORPAY_WEBHOOK_SECRET is required for webhook verification").optional(),
+
+  // Ops / admin endpoints
+  PREMIUM_AUDIT_ADMIN_EMAILS: z.string().optional(),
 
   // Cache - Redis (optional, with in-memory fallback)
   REDIS_URL: z.string().url("REDIS_URL must be a valid URL").optional(),
@@ -95,9 +100,12 @@ export function getMockEnvConfig(overrides: Partial<EnvConfig> = {}): EnvConfig 
     TURNSTILE_SECRET_KEY: "test-turnstile-secret",
     NEXT_PUBLIC_TURNSTILE_SITE_KEY: "test-turnstile-site-key",
     CONVERTKIT_API_KEY: "test-convertkit-key",
+    CONVERTKIT_FORM_ID: "12345",
     CONVERTKIT_API_SECRET: "test-convertkit-secret",
     RAZORPAY_KEY_ID: "test-razorpay-id",
     RAZORPAY_KEY_SECRET: "test-razorpay-secret",
+    RAZORPAY_WEBHOOK_SECRET: "test-razorpay-webhook-secret",
+    PREMIUM_AUDIT_ADMIN_EMAILS: "admin@example.com",
     REDIS_URL: undefined,
     NEXT_PUBLIC_CLARITY_ID: undefined,
     NEXT_PUBLIC_GA_ID: undefined,

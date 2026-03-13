@@ -1,0 +1,56 @@
+name: IndexNow Post-Deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: indexnow-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  submit-indexnow:
+    name: Submit IndexNow URLs
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Validate required secret
+        env:
+          INDEXNOW_SECRET: ${{ secrets.INDEXNOW_SECRET }}
+        run: |
+          if [ -z "$INDEXNOW_SECRET" ]; then
+            echo "INDEXNOW_SECRET is not configured in repository secrets."
+            echo "Set INDEXNOW_SECRET to enable automatic post-deploy URL submission."
+            exit 1
+          fi
+
+      - name: Wait for Vercel deployment to become reachable
+        run: |
+          echo "Waiting 120 seconds for production deployment propagation..."
+          sleep 120
+
+      - name: Trigger IndexNow submission endpoint
+        env:
+          INDEXNOW_SECRET: ${{ secrets.INDEXNOW_SECRET }}
+        run: |
+          SITE_URL="https://codelithlabs.in"
+
+          ENDPOINT="${SITE_URL%/}/api/indexnow"
+          echo "Calling $ENDPOINT"
+          HTTP_CODE=$(curl --silent --show-error --location --retry 4 --retry-delay 10 \
+            --request POST "$ENDPOINT" \
+            --header "Authorization: Bearer $INDEXNOW_SECRET" \
+            --header "Content-Type: application/json" \
+            --output response.json \
+            --write-out "%{http_code}")
+
+          cat response.json
+
+          if [ "$HTTP_CODE" -lt 200 ] || [ "$HTTP_CODE" -ge 300 ]; then
+            echo "IndexNow submission failed with HTTP $HTTP_CODE"
+            exit 1
+          fi
+
+          echo "IndexNow submission succeeded with HTTP $HTTP_CODE"

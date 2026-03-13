@@ -13,6 +13,7 @@ import { SocialProof } from './SocialProof';
 import { ShareButtons } from './ShareButtons';
 import { FeedbackWidget } from './FeedbackWidget';
 import { AdBanner } from '@/components/ads/AdBanner';
+import { trackClientAnalytics } from '@/lib/analytics/client';
 import DOMPurify from 'dompurify';
 
 interface ToolLayoutProps {
@@ -72,12 +73,12 @@ function PremiumCTA() {
         <p className="text-sm text-zinc-300">
           Remove ads and work faster? <span className="text-blue-400 font-medium">Go Premium.</span>
         </p>
-        <a
+        <Link
           href="/pricing"
           className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-sm font-semibold transition-colors"
         >
           Unlock Premium
-        </a>
+        </Link>
       </div>
     </div>
   );
@@ -112,20 +113,17 @@ export function ToolLayout({ tool, children, content, slug }: ToolLayoutProps) {
 
   const toolInterfaceRef = useRef<HTMLElement | null>(null);
   const [showPremiumInterstitial, setShowPremiumInterstitial] = useState(false);
-  const [actionCount, setActionCount] = useState(0);
+  const [actionCount, setActionCount] = useState(() => {
+    if (typeof window === 'undefined') return 0;
+    const storedCount = Number(window.localStorage.getItem(actionCountKey) || '0');
+    return Number.isFinite(storedCount) ? storedCount : 0;
+  });
 
   /** Safely render HTML from markdown through DOMPurify */
   const safeHtml = (html: string) => {
     if (typeof window === 'undefined') return { __html: '' };
     return { __html: DOMPurify.sanitize(html) };
   };
-
-  useEffect(() => {
-    if (isPremium || isLoading || typeof window === 'undefined') return;
-
-    const storedCount = Number(window.localStorage.getItem(actionCountKey) || '0');
-    setActionCount(Number.isFinite(storedCount) ? storedCount : 0);
-  }, [actionCountKey, isLoading, isPremium]);
 
   useEffect(() => {
     if (isPremium || isLoading || typeof window === 'undefined') return;
@@ -154,6 +152,22 @@ export function ToolLayout({ tool, children, content, slug }: ToolLayoutProps) {
       const nextDailyCount = (Number.isFinite(currentDailyCount) ? currentDailyCount : 0) + 1;
       window.localStorage.setItem(dailyActionCountKey, String(nextDailyCount));
 
+      if (nextCount === 1 || nextCount % 5 === 0) {
+        void trackClientAnalytics({
+          eventName: 'tool_action',
+          eventType: 'TOOL_USAGE',
+          path: window.location.pathname,
+          source: 'tool_layout',
+          toolSlug: slug,
+          metadata: {
+            tool_name: tool.name,
+            action_count: nextCount,
+            daily_action_count: nextDailyCount,
+            user_segment: userSegment,
+          },
+        });
+      }
+
       const now = Date.now();
       const dismissUntil = Number(window.localStorage.getItem(interstitialDismissUntilKey) || '0');
       const lastShown = Number(window.localStorage.getItem(interstitialLastShownKey) || '0');
@@ -175,7 +189,7 @@ export function ToolLayout({ tool, children, content, slug }: ToolLayoutProps) {
     return () => {
       interfaceNode.removeEventListener('click', onToolAction);
     };
-  }, [actionCountKey, interstitialDismissUntilKey, interstitialLastShownKey, interstitialRules, isLoading, isPremium]);
+  }, [actionCountKey, interstitialDismissUntilKey, interstitialLastShownKey, interstitialRules, isLoading, isPremium, slug, tool.name, userSegment]);
 
   const dismissInterstitial = () => {
     if (typeof window !== 'undefined') {
@@ -203,12 +217,12 @@ export function ToolLayout({ tool, children, content, slug }: ToolLayoutProps) {
             </div>
 
             <div className="p-5 space-y-3">
-              <a
+              <Link
                 href="/pricing"
                 className="inline-flex w-full items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-sm font-semibold transition-colors"
               >
                 Upgrade to Premium
-              </a>
+              </Link>
               <button
                 type="button"
                 onClick={dismissInterstitial}
@@ -233,16 +247,16 @@ export function ToolLayout({ tool, children, content, slug }: ToolLayoutProps) {
               <span className="text-zinc-400">Built with</span>
               <span className="text-red-500">❤️</span>
               <span className="text-zinc-400">by the</span>
-              <a
+              <Link
                 href="/team"
                 className="font-semibold text-white hover:text-blue-400 transition-colors"
               >
                 CodelithLabs Engineering Team
-              </a>
+              </Link>
             </div>
 
             {/* Premium Purchase CTA */}
-            <a
+            <Link
               href="/pricing"
               className="group flex items-center gap-2 px-4 py-2 rounded-lg
                        bg-gradient-to-r from-blue-600 to-purple-600
@@ -260,7 +274,7 @@ export function ToolLayout({ tool, children, content, slug }: ToolLayoutProps) {
               <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>
-            </a>
+            </Link>
 
           </div>
         </div>

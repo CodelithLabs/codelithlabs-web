@@ -6,6 +6,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ContactForm } from "@/components/contact/ContactForm";
+import { JsonLdScript } from "@/components/security/JsonLdScript";
 
 // ─── SEO Metadata ────────────────────────────────────────────────────────
 
@@ -90,10 +91,7 @@ export default function ContactPage() {
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(contactSchema) }}
-      />
+      <JsonLdScript id="contact-schema" data={contactSchema} />
 
       <div className="min-h-screen bg-[#0a0a0a]">
         {/* ── Hero Section ─────────────────────────────────────────── */}

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-10T21:47:15.069Z",
+  "generatedAt": "2026-03-13T00:53:21.492Z",
   "hasBaseline": true,
   "audits": [
     {
@@ -10,18 +10,18 @@
         {
           "metric": "checked",
           "previous": 40,
-          "current": 40,
-          "delta": 0,
+          "current": 44,
+          "delta": 4,
           "rule": "higher-better",
-          "status": "unchanged"
+          "status": "improved"
         },
         {
           "metric": "missing",
-          "previous": 5,
+          "previous": 0,
           "current": 0,
-          "delta": -5,
+          "delta": 0,
           "rule": "lower-better",
-          "status": "improved"
+          "status": "unchanged"
         },
         {
           "metric": "skipped",
@@ -143,8 +143,8 @@
         },
         {
           "metric": "canonicalMismatchCount",
-          "previous": 6,
-          "current": 6,
+          "previous": 0,
+          "current": 0,
           "delta": 0,
           "rule": "lower-better",
           "status": "unchanged"
@@ -184,5 +184,5 @@
     }
   ],
   "regressions": [],
-  "exitCode": 1
+  "exitCode": 0
 }

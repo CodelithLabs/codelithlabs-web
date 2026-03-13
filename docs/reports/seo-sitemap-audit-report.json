@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-10T21:47:09.524Z",
+  "generatedAt": "2026-03-13T00:53:14.164Z",
   "checks": {
     "hasDynamicToolPages": true,
     "hasDynamicBlogPages": true,
@@ -44,5 +44,14 @@
     ],
     "missingInRegistry": [],
     "currentlyNoindexed": []
+  },
+  "localeWrappers": {
+    "expected": [
+      "src/app/[locale]/privacy/page.tsx",
+      "src/app/[locale]/terms/page.tsx",
+      "src/app/[locale]/refund/page.tsx",
+      "src/app/[locale]/premium/page.tsx"
+    ],
+    "missing": []
   }
 }

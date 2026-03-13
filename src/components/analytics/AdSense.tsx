@@ -8,8 +8,10 @@
 
 import { useEffect, useState } from 'react';
 import Script from 'next/script';
+import { useNonce } from '@/app/nonce-context';
 
 export default function AdSense() {
+  const nonce = useNonce();
   const [hasConsent, setHasConsent] = useState(() => {
     if (typeof window !== 'undefined') {
       return localStorage.getItem('codelith_cookie_consent') === 'accepted';
@@ -33,6 +35,7 @@ export default function AdSense() {
     <Script
       src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6839552407587904"
       strategy="lazyOnload"
+      nonce={nonce || undefined}
       crossOrigin="anonymous"
     />
   );

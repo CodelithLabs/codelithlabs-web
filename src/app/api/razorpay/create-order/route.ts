@@ -13,6 +13,7 @@ import {
 } from "@/lib/razorpay";
 import crypto from "crypto";
 import { checkRateLimit } from "@/lib/rate-limiter";
+import { getClientIp } from "@/lib/request-security";
 
 // ─── Types ───────────────────────────────────────────────────────────────
 
@@ -37,8 +38,7 @@ const RAZORPAY_API = "https://api.razorpay.com/v1";
 export async function POST(request: Request) {
   try {
     // 0. Rate limiting (10 requests per 15 min per IP)
-    const forwarded = request.headers.get("x-forwarded-for");
-    const ip = forwarded?.split(",")[0]?.trim() ?? "unknown";
+    const ip = getClientIp(request);
     const rateResult = await checkRateLimit(ip, 10, 'razorpay');
     if (rateResult.limited) {
       return NextResponse.json(

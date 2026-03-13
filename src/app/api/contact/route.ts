@@ -16,41 +16,14 @@ import { contactSubmissionSchema } from "@/lib/schemas/contact";
 import { buildNotificationEmail } from "@/lib/email-templates/contact-notification";
 import { buildAutoReplyEmail } from "@/lib/email-templates/contact-auto-reply";
 import { checkRateLimit } from "@/lib/rate-limiter";
-
-// ─── Turnstile verification ─────────────────────────────────────────────
-
-async function verifyTurnstile(token: string, ip: string): Promise<boolean> {
-  const secret = process.env.TURNSTILE_SECRET_KEY;
-  if (!secret) {
-    console.error("[Contact] TURNSTILE_SECRET_KEY not configured");
-    return false;
-  }
-
-  try {
-    const res = await fetch(
-      "https://challenges.cloudflare.com/turnstile/v0/siteverify",
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: new URLSearchParams({ secret, response: token, remoteip: ip }),
-      }
-    );
-    const data = await res.json();
-    return data.success === true;
-  } catch (e: unknown) {
-    const msg = e instanceof Error ? e.message : "Unknown error";
-    console.error("[Contact] Turnstile verification failed:", msg);
-    return false;
-  }
-}
+import { getClientIp, verifyTurnstileToken } from "@/lib/request-security";
 
 // ─── POST handler ────────────────────────────────────────────────────────
 
 export async function POST(request: Request) {
   try {
     // 1. Rate limiting (Redis-backed with in-memory fallback)
-    const forwarded = request.headers.get("x-forwarded-for");
-    const ip = forwarded?.split(",")[0]?.trim() ?? "unknown";
+    const ip = getClientIp(request);
 
     const rateResult = await checkRateLimit(ip, 5, 'contact');
     if (rateResult.limited) {
@@ -75,7 +48,7 @@ export async function POST(request: Request) {
     const { turnstileToken, ...formData } = parsed.data;
 
     // 3. Verify Turnstile
-    const turnstileValid = await verifyTurnstile(turnstileToken, ip);
+    const turnstileValid = await verifyTurnstileToken(turnstileToken, ip);
     if (!turnstileValid) {
       return NextResponse.json(
         { error: "Verification failed. Please try again." },

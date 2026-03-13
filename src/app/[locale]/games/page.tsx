@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { GameHub } from '@/components/games/GameHub';
 import { getAllGames } from '@/lib/games-registry';
 import type { Locale } from '@/i18n/request';
+import { JsonLdScript } from '@/components/security/JsonLdScript';
 
 const LOCALES = ['en', 'hi', 'de', 'es', 'fr', 'pt'] as const;
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://codelithlabs.com';
@@ -61,10 +62,7 @@ export default async function GamesPage({
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
+      <JsonLdScript id="games-hub-schema" data={jsonLd} />
       <h1 className="sr-only">Free Browser Games</h1>
       <GameHub games={games} locale={locale} />
     </>

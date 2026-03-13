@@ -14,6 +14,7 @@ import {
   FileText,
 } from "lucide-react";
 import { defaultLocale, locales, type Locale } from "@/i18n/request";
+import { JsonLdScript } from "@/components/security/JsonLdScript";
 import enMessages from "../../../messages/en.json";
 import esMessages from "../../../messages/es.json";
 import ptMessages from "../../../messages/pt.json";
@@ -193,28 +194,26 @@ export default function ResearchPage() {
   return (
     <main className="min-h-screen bg-[#0a0a0a] pt-28 pb-20 px-6">
       {/* JSON-LD Schema */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "CollectionPage",
-            name: t(
-              "pages.research.schemaName",
-              "CodelithLabs Research & Engineering",
-            ),
-            description: t(
-              "pages.research.schemaDescription",
-              "Technical papers, architectural decisions, and engineering post-mortems from the CodelithLabs team.",
-            ),
-            url: "https://codelithlabs.in/research/",
-            numberOfItems: papers.length,
-            provider: {
-              "@type": "Organization",
-              name: "CodelithLabs",
-              url: "https://codelithlabs.in",
-            },
-          }),
+      <JsonLdScript
+        id="research-page-schema"
+        data={{
+          "@context": "https://schema.org",
+          "@type": "CollectionPage",
+          name: t(
+            "pages.research.schemaName",
+            "CodelithLabs Research & Engineering",
+          ),
+          description: t(
+            "pages.research.schemaDescription",
+            "Technical papers, architectural decisions, and engineering post-mortems from the CodelithLabs team.",
+          ),
+          url: "https://codelithlabs.in/research/",
+          numberOfItems: papers.length,
+          provider: {
+            "@type": "Organization",
+            name: "CodelithLabs",
+            url: "https://codelithlabs.in",
+          },
         }}
       />
 

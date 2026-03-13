@@ -1,14 +1,14 @@
 # SEO Audit Trend Snapshot
 
-Generated: 2026-03-10T21:47:15.069Z
+Generated: 2026-03-13T00:53:21.492Z
 Baseline available: yes
 
 ## H1 Coverage
 
 | Metric | Previous | Current | Δ | Status |
 |---|---:|---:|---:|---|
-| checked | 40 | 40 | 0 | ⚪ unchanged |
-| missing | 5 | 0 | -5 | 🟢 improved |
+| checked | 40 | 44 | +4 | 🟢 improved |
+| missing | 0 | 0 | 0 | ⚪ unchanged |
 | skipped | 3 | 3 | 0 | ⚪ unchanged |
 
 ## Sitemap Completeness
@@ -32,7 +32,7 @@ Baseline available: yes
 | notFound404Count | 0 | 0 | 0 | ⚪ unchanged |
 | serverErrors5xxCount | 0 | 0 | 0 | ⚪ unchanged |
 | requestErrorCount | 0 | 0 | 0 | ⚪ unchanged |
-| canonicalMismatchCount | 6 | 6 | 0 | ⚪ unchanged |
+| canonicalMismatchCount | 0 | 0 | 0 | ⚪ unchanged |
 
 ## Tool Health
 

@@ -10,6 +10,7 @@ import { useState, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Turnstile, type BoundTurnstileObject } from "react-turnstile";
 import { Send, CheckCircle2, AlertCircle, Loader2 } from "lucide-react";
+import Link from "next/link";
 import {
   contactFormSchema,
   INQUIRY_TYPES,
@@ -333,13 +334,13 @@ export function ContactForm() {
       {/* Legal note */}
       <p className="text-xs text-center text-zinc-500">
         By submitting, you agree to our{" "}
-        <a href="/privacy" className="underline hover:text-zinc-300 transition-colors">
+        <Link href="/privacy" className="underline hover:text-zinc-300 transition-colors">
           Privacy Policy
-        </a>{" "}
+        </Link>{" "}
         and{" "}
-        <a href="/terms" className="underline hover:text-zinc-300 transition-colors">
+        <Link href="/terms" className="underline hover:text-zinc-300 transition-colors">
           Terms of Service
-        </a>
+        </Link>
         .
       </p>
     </form>
