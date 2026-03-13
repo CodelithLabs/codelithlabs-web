@@ -26,6 +26,7 @@ const H1_PROXY_FILES = {
   'src/app/page.tsx': ['src/components/landing/HeroSection.tsx'],
   'src/app/transparency/page.tsx': ['src/components/transparency/TransparencyDashboardClient.tsx'],
   'src/app/tools/[slug]/page.tsx': ['src/components/tools/ToolLayout.tsx'],
+  'src/app/[locale]/admin/page.tsx': ['src/app/[locale]/admin/analytics/page.tsx'],
 };
 
 function toPosix(filePath) {

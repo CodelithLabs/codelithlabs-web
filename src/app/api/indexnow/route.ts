@@ -66,11 +66,11 @@ function buildUrlList(): string[] {
 export async function POST(request: NextRequest) {
   // Validate secret
   const authHeader = request.headers.get('authorization');
-  const secret = process.env.INDEXNOW_SECRET;
+  const secret = process.env.INDEXNOW_SECRET ?? process.env.INDEXNOW_API_KEY;
 
   if (!secret) {
     return NextResponse.json(
-      { error: 'INDEXNOW_SECRET not configured' },
+      { error: 'INDEXNOW secret not configured (set INDEXNOW_SECRET or INDEXNOW_API_KEY)' },
       { status: 500 }
     );
   }

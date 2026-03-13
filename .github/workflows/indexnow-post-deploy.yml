@@ -18,11 +18,11 @@ jobs:
     steps:
       - name: Validate required secret
         env:
-          INDEXNOW_SECRET: ${{ secrets.INDEXNOW_SECRET }}
+          AUTH_TOKEN: ${{ secrets['INDEXNOW_SECRET'] || secrets['INDEXNOW_API_KEY'] }}
         run: |
-          if [ -z "$INDEXNOW_SECRET" ]; then
-            echo "INDEXNOW_SECRET is not configured in repository secrets."
-            echo "Set INDEXNOW_SECRET to enable automatic post-deploy URL submission."
+          if [ -z "$AUTH_TOKEN" ]; then
+            echo "Neither INDEXNOW_SECRET nor INDEXNOW_API_KEY is configured in repository secrets."
+            echo "Set one of them to enable automatic post-deploy URL submission."
             exit 1
           fi
 
@@ -33,7 +33,7 @@ jobs:
 
       - name: Trigger IndexNow submission endpoint
         env:
-          INDEXNOW_SECRET: ${{ secrets.INDEXNOW_SECRET }}
+          AUTH_TOKEN: ${{ secrets['INDEXNOW_SECRET'] || secrets['INDEXNOW_API_KEY'] }}
         run: |
           SITE_URL="https://codelithlabs.in"
 
@@ -41,7 +41,7 @@ jobs:
           echo "Calling $ENDPOINT"
           HTTP_CODE=$(curl --silent --show-error --location --retry 4 --retry-delay 10 \
             --request POST "$ENDPOINT" \
-            --header "Authorization: Bearer $INDEXNOW_SECRET" \
+            --header "Authorization: Bearer $AUTH_TOKEN" \
             --header "Content-Type: application/json" \
             --output response.json \
             --write-out "%{http_code}")

@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-03-13T00:53:13.476Z",
+  "generatedAt": "2026-03-13T11:24:10.897Z",
   "totals": {
-    "checked": 44,
+    "checked": 46,
     "missing": 0,
     "skipped": 3
   },
@@ -158,6 +158,22 @@
       "foundInPage": true,
       "proxyFiles": [],
       "foundInProxy": false,
+      "hasHeading": true
+    },
+    {
+      "page": "src/app/[locale]/admin/analytics/page.tsx",
+      "foundInPage": true,
+      "proxyFiles": [],
+      "foundInProxy": false,
+      "hasHeading": true
+    },
+    {
+      "page": "src/app/[locale]/admin/page.tsx",
+      "foundInPage": false,
+      "proxyFiles": [
+        "src/app/[locale]/admin/analytics/page.tsx"
+      ],
+      "foundInProxy": true,
       "hasHeading": true
     },
     {

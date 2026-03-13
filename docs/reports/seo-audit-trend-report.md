@@ -1,13 +1,13 @@
 # SEO Audit Trend Snapshot
 
-Generated: 2026-03-13T00:53:21.492Z
+Generated: 2026-03-13T11:24:19.683Z
 Baseline available: yes
 
 ## H1 Coverage
 
 | Metric | Previous | Current | Δ | Status |
 |---|---:|---:|---:|---|
-| checked | 40 | 44 | +4 | 🟢 improved |
+| checked | 44 | 46 | +2 | 🟢 improved |
 | missing | 0 | 0 | 0 | ⚪ unchanged |
 | skipped | 3 | 3 | 0 | ⚪ unchanged |
 
