@@ -4,8 +4,8 @@ description: "Find the geographic location, ISP, timezone, and details for any I
 keywords: ["ip","geolocation","location","isp","address","lookup"]
 category: "geo"
 slug: "ip-geolocation"
-datePublished: "2026-02-28T22:33:40.336Z"
-dateModified: "2026-02-28T22:33:40.336Z"
+datePublished: "2026-03-15T19:33:33.868Z"
+dateModified: "2026-03-15T19:33:33.868Z"
 author: "CodelithLabs Team"
 ---
 
@@ -148,7 +148,7 @@ Help others discover IP Geolocation Lookup:
 
 ---
 
-**Last Updated**: March 1, 2026
+**Last Updated**: March 15, 2026
 
 **Author**: CodelithLabs Engineering Team
 

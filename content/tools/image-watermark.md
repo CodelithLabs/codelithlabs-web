@@ -4,8 +4,8 @@ description: "Add text watermarks to images with customizable position, opacity,
 keywords: ["watermark","image","protect","copyright","text overlay"]
 category: "image"
 slug: "image-watermark"
-datePublished: "2026-02-28T22:33:40.341Z"
-dateModified: "2026-02-28T22:33:40.341Z"
+datePublished: "2026-03-15T19:33:33.870Z"
+dateModified: "2026-03-15T19:33:33.870Z"
 author: "CodelithLabs Team"
 ---
 
@@ -149,7 +149,7 @@ Help others discover Image Watermark:
 
 ---
 
-**Last Updated**: March 1, 2026
+**Last Updated**: March 15, 2026
 
 **Author**: CodelithLabs Engineering Team
 

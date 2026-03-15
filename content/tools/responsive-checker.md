@@ -4,8 +4,8 @@ description: "Preview any URL at different device sizes — mobile, tablet, and 
 keywords: ["responsive","mobile","tablet","desktop","viewport","preview"]
 category: "seo"
 slug: "responsive-checker"
-datePublished: "2026-02-28T22:33:40.344Z"
-dateModified: "2026-02-28T22:33:40.344Z"
+datePublished: "2026-03-15T19:33:33.872Z"
+dateModified: "2026-03-15T19:33:33.872Z"
 author: "CodelithLabs Team"
 ---
 
@@ -148,7 +148,7 @@ Help others discover Responsive Design Checker:
 
 ---
 
-**Last Updated**: March 1, 2026
+**Last Updated**: March 15, 2026
 
 **Author**: CodelithLabs Engineering Team
 

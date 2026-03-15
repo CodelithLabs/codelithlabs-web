@@ -4,8 +4,8 @@ description: "Generate placeholder text for your designs and mockups."
 keywords: ["lorem ipsum","placeholder text","dummy text"]
 category: "text"
 slug: "lorem-ipsum-generator"
-datePublished: "2026-02-28T22:33:40.286Z"
-dateModified: "2026-02-28T22:33:40.286Z"
+datePublished: "2026-03-15T19:33:33.840Z"
+dateModified: "2026-03-15T19:33:33.840Z"
 author: "CodelithLabs Team"
 ---
 
@@ -148,7 +148,7 @@ Help others discover Lorem Ipsum Generator:
 
 ---
 
-**Last Updated**: March 1, 2026
+**Last Updated**: March 15, 2026
 
 **Author**: CodelithLabs Engineering Team
 

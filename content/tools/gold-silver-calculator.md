@@ -4,8 +4,8 @@ description: "Calculate jewelry cost with making charges, GST, and purity for go
 keywords: ["gold","silver","jewelry","price","making charge","gst","karat"]
 category: "finance"
 slug: "gold-silver-calculator"
-datePublished: "2026-02-28T22:33:40.330Z"
-dateModified: "2026-02-28T22:33:40.330Z"
+datePublished: "2026-03-15T19:33:33.865Z"
+dateModified: "2026-03-15T19:33:33.865Z"
 author: "CodelithLabs Team"
 ---
 
@@ -148,7 +148,7 @@ Help others discover Gold & Silver Price Calculator:
 
 ---
 
-**Last Updated**: March 1, 2026
+**Last Updated**: March 15, 2026
 
 **Author**: CodelithLabs Engineering Team
 

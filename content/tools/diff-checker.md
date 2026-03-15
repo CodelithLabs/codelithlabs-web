@@ -4,8 +4,8 @@ description: "Compare two texts side by side and see additions, removals using L
 keywords: ["diff","compare","merge","git","changes","code review"]
 category: "developer"
 slug: "diff-checker"
-datePublished: "2026-02-28T22:33:40.340Z"
-dateModified: "2026-02-28T22:33:40.340Z"
+datePublished: "2026-03-15T19:33:33.870Z"
+dateModified: "2026-03-15T19:33:33.870Z"
 author: "CodelithLabs Team"
 ---
 
@@ -148,7 +148,7 @@ Help others discover Diff Checker:
 
 ---
 
-**Last Updated**: March 1, 2026
+**Last Updated**: March 15, 2026
 
 **Author**: CodelithLabs Engineering Team
 

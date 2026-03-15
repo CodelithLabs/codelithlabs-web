@@ -4,8 +4,8 @@ description: "Generate robots.txt files for search engine crawlers."
 keywords: ["robots.txt","seo","crawlers","sitemap"]
 category: "seo"
 slug: "robots-txt-generator"
-datePublished: "2026-02-28T22:33:40.303Z"
-dateModified: "2026-02-28T22:33:40.303Z"
+datePublished: "2026-03-15T19:33:33.852Z"
+dateModified: "2026-03-15T19:33:33.852Z"
 author: "CodelithLabs Team"
 ---
 
@@ -148,7 +148,7 @@ Help others discover Robots.txt Generator:
 
 ---
 
-**Last Updated**: March 1, 2026
+**Last Updated**: March 15, 2026
 
 **Author**: CodelithLabs Engineering Team
 

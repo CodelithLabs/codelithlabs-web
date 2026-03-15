@@ -4,8 +4,8 @@ description: "Discover beautiful Google Font pairings for your website with live
 keywords: ["font","typography","pairing","google fonts","design","web"]
 category: "seo"
 slug: "font-pair-suggester"
-datePublished: "2026-02-28T22:33:40.343Z"
-dateModified: "2026-02-28T22:33:40.343Z"
+datePublished: "2026-03-15T19:33:33.872Z"
+dateModified: "2026-03-15T19:33:33.872Z"
 author: "CodelithLabs Team"
 ---
 
@@ -148,7 +148,7 @@ Help others discover Font Pair Suggester:
 
 ---
 
-**Last Updated**: March 1, 2026
+**Last Updated**: March 15, 2026
 
 **Author**: CodelithLabs Engineering Team
 

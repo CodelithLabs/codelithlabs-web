@@ -4,8 +4,8 @@ description: "Analyze word frequency, find most-used words, and get detailed tex
 keywords: ["word frequency","text analysis","statistics","count"]
 category: "ai"
 slug: "word-frequency-counter"
-datePublished: "2026-02-28T22:33:40.326Z"
-dateModified: "2026-02-28T22:33:40.326Z"
+datePublished: "2026-03-15T19:33:33.862Z"
+dateModified: "2026-03-15T19:33:33.862Z"
 author: "CodelithLabs Team"
 ---
 
@@ -148,7 +148,7 @@ Help others discover Word Frequency Counter:
 
 ---
 
-**Last Updated**: March 1, 2026
+**Last Updated**: March 15, 2026
 
 **Author**: CodelithLabs Engineering Team
 

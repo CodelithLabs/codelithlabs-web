@@ -1,17 +1,17 @@
 ---
 title: "Free Unit Converter - Convert Online Instantly"
-description: "Convert between length, weight, temperature, and other measurement units."
+description: "Convert between length, weight, temperature, area, volume, speed, and data units instantly. Covers metric, imperial, and scientific systems with real-time results."
 keywords: ["unit","convert","length","weight","temperature","measurement"]
 category: "converter"
 slug: "unit-converter"
-datePublished: "2026-02-28T22:33:40.308Z"
-dateModified: "2026-02-28T22:33:40.308Z"
+datePublished: "2026-03-15T19:33:33.856Z"
+dateModified: "2026-03-15T19:33:33.856Z"
 author: "CodelithLabs Team"
 ---
 
 # Unit Converter
 
-Convert between length, weight, temperature, and other measurement units.
+Convert between length, weight, temperature, area, volume, speed, and data units instantly. Covers metric, imperial, and scientific systems with real-time results.
 
 ## 🚀 Features
 
@@ -149,7 +149,7 @@ Help others discover Unit Converter:
 
 ---
 
-**Last Updated**: March 1, 2026
+**Last Updated**: March 15, 2026
 
 **Author**: CodelithLabs Engineering Team
 

@@ -4,8 +4,8 @@ description: "Quick reference for country details including capital, population,
 keywords: ["country","information","capital","population","currency","flag"]
 category: "geo"
 slug: "country-info"
-datePublished: "2026-02-28T22:33:40.337Z"
-dateModified: "2026-02-28T22:33:40.337Z"
+datePublished: "2026-03-15T19:33:33.868Z"
+dateModified: "2026-03-15T19:33:33.868Z"
 author: "CodelithLabs Team"
 ---
 
@@ -148,7 +148,7 @@ Help others discover Country Information:
 
 ---
 
-**Last Updated**: March 1, 2026
+**Last Updated**: March 15, 2026
 
 **Author**: CodelithLabs Engineering Team
 

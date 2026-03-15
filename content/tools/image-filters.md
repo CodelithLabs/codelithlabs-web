@@ -4,8 +4,8 @@ description: "Apply filters to images: grayscale, sepia, invert, brightness, con
 keywords: ["image","filter","grayscale","sepia","effects"]
 category: "image"
 slug: "image-filters"
-datePublished: "2026-02-28T22:33:40.310Z"
-dateModified: "2026-02-28T22:33:40.310Z"
+datePublished: "2026-03-15T19:33:33.857Z"
+dateModified: "2026-03-15T19:33:33.857Z"
 author: "CodelithLabs Team"
 ---
 
@@ -149,7 +149,7 @@ Help others discover Image Filters:
 
 ---
 
-**Last Updated**: March 1, 2026
+**Last Updated**: March 15, 2026
 
 **Author**: CodelithLabs Engineering Team
 

@@ -4,8 +4,8 @@ description: "Remove solid-color backgrounds from images using color-matching al
 keywords: ["background","remove","transparent","cutout","image"]
 category: "image"
 slug: "background-remover"
-datePublished: "2026-02-28T22:33:40.341Z"
-dateModified: "2026-02-28T22:33:40.341Z"
+datePublished: "2026-03-15T19:33:33.871Z"
+dateModified: "2026-03-15T19:33:33.871Z"
 author: "CodelithLabs Team"
 ---
 
@@ -149,7 +149,7 @@ Help others discover Background Remover:
 
 ---
 
-**Last Updated**: March 1, 2026
+**Last Updated**: March 15, 2026
 
 **Author**: CodelithLabs Engineering Team
 

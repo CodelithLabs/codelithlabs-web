@@ -1,17 +1,17 @@
 ---
 title: "BMI Calculator - Calculate Free Online"
-description: "Calculate your Body Mass Index based on height and weight."
+description: "Calculate your Body Mass Index (BMI) using height and weight in metric or imperial units. Understand healthy weight ranges with WHO category explanations."
 keywords: ["bmi","body mass index","health","weight"]
 category: "calculator"
 slug: "bmi-calculator"
-datePublished: "2026-02-28T22:33:40.297Z"
-dateModified: "2026-02-28T22:33:40.297Z"
+datePublished: "2026-03-15T19:33:33.847Z"
+dateModified: "2026-03-15T19:33:33.847Z"
 author: "CodelithLabs Team"
 ---
 
 # BMI Calculator
 
-Calculate your Body Mass Index based on height and weight.
+Calculate your Body Mass Index (BMI) using height and weight in metric or imperial units. Understand healthy weight ranges with WHO category explanations.
 
 ## 🚀 Features
 
@@ -147,7 +147,7 @@ Help others discover BMI Calculator:
 
 ---
 
-**Last Updated**: March 1, 2026
+**Last Updated**: March 15, 2026
 
 **Author**: CodelithLabs Engineering Team
 

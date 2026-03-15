@@ -4,8 +4,8 @@ description: "Calculate trading profit/loss after brokerage and STT, or find ave
 keywords: ["stock","trading","profit","loss","brokerage","stt","average price"]
 category: "finance"
 slug: "stock-calculator"
-datePublished: "2026-02-28T22:33:40.334Z"
-dateModified: "2026-02-28T22:33:40.334Z"
+datePublished: "2026-03-15T19:33:33.866Z"
+dateModified: "2026-03-15T19:33:33.866Z"
 author: "CodelithLabs Team"
 ---
 
@@ -148,7 +148,7 @@ Help others discover Stock Profit/Loss Calculator:
 
 ---
 
-**Last Updated**: March 1, 2026
+**Last Updated**: March 15, 2026
 
 **Author**: CodelithLabs Engineering Team
 

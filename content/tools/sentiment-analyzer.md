@@ -4,8 +4,8 @@ description: "Analyze the emotional tone and sentiment of any text using AI algo
 keywords: ["sentiment","emotion","analysis","nlp","text analysis"]
 category: "ai"
 slug: "sentiment-analyzer"
-datePublished: "2026-02-28T22:33:40.313Z"
-dateModified: "2026-02-28T22:33:40.313Z"
+datePublished: "2026-03-15T19:33:33.859Z"
+dateModified: "2026-03-15T19:33:33.859Z"
 author: "CodelithLabs Team"
 ---
 
@@ -148,7 +148,7 @@ Help others discover Sentiment Analyzer:
 
 ---
 
-**Last Updated**: March 1, 2026
+**Last Updated**: March 15, 2026
 
 **Author**: CodelithLabs Engineering Team
 

@@ -4,8 +4,8 @@ description: "Convert Unix timestamps to human-readable dates and vice versa."
 keywords: ["unix","timestamp","date","time"]
 category: "converter"
 slug: "unix-timestamp-converter"
-datePublished: "2026-02-28T22:33:40.293Z"
-dateModified: "2026-02-28T22:33:40.293Z"
+datePublished: "2026-03-15T19:33:33.845Z"
+dateModified: "2026-03-15T19:33:33.845Z"
 author: "CodelithLabs Team"
 ---
 
@@ -149,7 +149,7 @@ Help others discover Unix Timestamp Converter:
 
 ---
 
-**Last Updated**: March 1, 2026
+**Last Updated**: March 15, 2026
 
 **Author**: CodelithLabs Engineering Team
 

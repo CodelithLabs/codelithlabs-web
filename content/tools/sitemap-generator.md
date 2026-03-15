@@ -1,17 +1,17 @@
 ---
 title: "Sitemap XML Generator - Free Online Tool"
-description: "Create XML sitemaps for better search engine indexing."
+description: "Generate valid XML sitemaps from your URL list with changefreq, priority, and lastmod fields — download and submit to Google, Bing, or any search engine."
 keywords: ["sitemap","xml","seo","google"]
 category: "seo"
 slug: "sitemap-generator"
-datePublished: "2026-02-28T22:33:40.303Z"
-dateModified: "2026-02-28T22:33:40.303Z"
+datePublished: "2026-03-15T19:33:33.852Z"
+dateModified: "2026-03-15T19:33:33.852Z"
 author: "CodelithLabs Team"
 ---
 
 # Sitemap XML Generator
 
-Create XML sitemaps for better search engine indexing.
+Generate valid XML sitemaps from your URL list with changefreq, priority, and lastmod fields — download and submit to Google, Bing, or any search engine.
 
 ## 🚀 Features
 
@@ -148,7 +148,7 @@ Help others discover Sitemap XML Generator:
 
 ---
 
-**Last Updated**: March 1, 2026
+**Last Updated**: March 15, 2026
 
 **Author**: CodelithLabs Engineering Team
 

@@ -4,8 +4,8 @@ description: "Convert images to modern WebP format for better web performance."
 keywords: ["webp","image","convert","optimize","compression"]
 category: "image"
 slug: "webp-converter"
-datePublished: "2026-02-28T22:33:40.309Z"
-dateModified: "2026-02-28T22:33:40.309Z"
+datePublished: "2026-03-15T19:33:33.856Z"
+dateModified: "2026-03-15T19:33:33.856Z"
 author: "CodelithLabs Team"
 ---
 
@@ -148,7 +148,7 @@ Help others discover WebP Converter:
 
 ---
 
-**Last Updated**: March 1, 2026
+**Last Updated**: March 15, 2026
 
 **Author**: CodelithLabs Engineering Team
 

@@ -4,8 +4,8 @@ description: "Convert YAML configuration to JSON format."
 keywords: ["yaml","json","convert","config"]
 category: "converter"
 slug: "yaml-to-json"
-datePublished: "2026-02-28T22:33:40.293Z"
-dateModified: "2026-02-28T22:33:40.293Z"
+datePublished: "2026-03-15T19:33:33.845Z"
+dateModified: "2026-03-15T19:33:33.845Z"
 author: "CodelithLabs Team"
 ---
 
@@ -148,7 +148,7 @@ Help others discover YAML to JSON Converter:
 
 ---
 
-**Last Updated**: March 1, 2026
+**Last Updated**: March 15, 2026
 
 **Author**: CodelithLabs Engineering Team
 

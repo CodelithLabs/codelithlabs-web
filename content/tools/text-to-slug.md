@@ -4,8 +4,8 @@ description: "Convert text to URL-friendly slugs for permalinks and SEO."
 keywords: ["slug","url","permalink","seo","convert"]
 category: "text"
 slug: "text-to-slug"
-datePublished: "2026-02-28T22:33:40.310Z"
-dateModified: "2026-02-28T22:33:40.310Z"
+datePublished: "2026-03-15T19:33:33.857Z"
+dateModified: "2026-03-15T19:33:33.857Z"
 author: "CodelithLabs Team"
 ---
 
@@ -148,7 +148,7 @@ Help others discover Text to Slug Converter:
 
 ---
 
-**Last Updated**: March 1, 2026
+**Last Updated**: March 15, 2026
 
 **Author**: CodelithLabs Engineering Team
 

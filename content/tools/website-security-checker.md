@@ -4,8 +4,8 @@ description: "Quick security analysis — checks HTTPS, domain trust, phishing p
 keywords: ["security","https","ssl","phishing","website","check","safe"]
 category: "seo"
 slug: "website-security-checker"
-datePublished: "2026-02-28T22:33:40.345Z"
-dateModified: "2026-02-28T22:33:40.345Z"
+datePublished: "2026-03-15T19:33:33.873Z"
+dateModified: "2026-03-15T19:33:33.873Z"
 author: "CodelithLabs Team"
 ---
 
@@ -148,7 +148,7 @@ Help others discover Website Security Checker:
 
 ---
 
-**Last Updated**: March 1, 2026
+**Last Updated**: March 15, 2026
 
 **Author**: CodelithLabs Engineering Team
 

@@ -4,8 +4,8 @@ description: "Calculate monthly in-hand salary from annual CTC including PF, HRA
 keywords: ["salary","ctc","in-hand","pf","hra","india","take home"]
 category: "finance"
 slug: "salary-calculator"
-datePublished: "2026-02-28T22:33:40.329Z"
-dateModified: "2026-02-28T22:33:40.329Z"
+datePublished: "2026-03-15T19:33:33.864Z"
+dateModified: "2026-03-15T19:33:33.864Z"
 author: "CodelithLabs Team"
 ---
 
@@ -148,7 +148,7 @@ Help others discover CTC to In-Hand Salary Calculator:
 
 ---
 
-**Last Updated**: March 1, 2026
+**Last Updated**: March 15, 2026
 
 **Author**: CodelithLabs Engineering Team
 

@@ -4,8 +4,8 @@ description: "Check your text for common grammar mistakes, passive voice, and st
 keywords: ["grammar","spell check","writing","proofread","ai"]
 category: "ai"
 slug: "grammar-checker"
-datePublished: "2026-02-28T22:33:40.325Z"
-dateModified: "2026-02-28T22:33:40.325Z"
+datePublished: "2026-03-15T19:33:33.861Z"
+dateModified: "2026-03-15T19:33:33.861Z"
 author: "CodelithLabs Team"
 ---
 
@@ -148,7 +148,7 @@ Help others discover Grammar Checker:
 
 ---
 
-**Last Updated**: March 1, 2026
+**Last Updated**: March 15, 2026
 
 **Author**: CodelithLabs Engineering Team
 

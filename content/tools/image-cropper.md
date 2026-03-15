@@ -1,17 +1,17 @@
 ---
 title: "Image Cropper - Free Online Tool"
-description: "Crop images to custom dimensions directly in browser."
+description: "Crop images to custom dimensions or fixed aspect ratios (1:1, 16:9, 4:3) directly in your browser. Live preview, instant download, and zero file upload needed."
 keywords: ["image","crop","trim","cut"]
 category: "image"
 slug: "image-cropper"
-datePublished: "2026-02-28T22:33:40.305Z"
-dateModified: "2026-02-28T22:33:40.305Z"
+datePublished: "2026-03-15T19:33:33.853Z"
+dateModified: "2026-03-15T19:33:33.853Z"
 author: "CodelithLabs Team"
 ---
 
 # Image Cropper
 
-Crop images to custom dimensions directly in browser.
+Crop images to custom dimensions or fixed aspect ratios (1:1, 16:9, 4:3) directly in your browser. Live preview, instant download, and zero file upload needed.
 
 ## 🚀 Features
 
@@ -148,7 +148,7 @@ Help others discover Image Cropper:
 
 ---
 
-**Last Updated**: March 1, 2026
+**Last Updated**: March 15, 2026
 
 **Author**: CodelithLabs Engineering Team
 
