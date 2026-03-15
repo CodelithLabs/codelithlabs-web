@@ -14,7 +14,7 @@ export const TOOLS_REGISTRY: ToolMeta[] = [
   {
     slug: 'word-counter',
     name: 'Word Counter',
-    description: 'Count words, characters, sentences, paragraphs, and reading time instantly with a fast browser-based Word Counter that keeps your text private.',
+    description: 'Count words, characters, sentences, paragraphs, and reading time instantly. Privacy-first Word Counter with keyword density — text never leaves your browser.',
     category: 'text',
     keywords: ['word count', 'character count', 'text analysis'],
     processingType: 'client'
@@ -58,7 +58,7 @@ export const TOOLS_REGISTRY: ToolMeta[] = [
   {
     slug: 'base64-encoder',
     name: 'Base64 Encoder/Decoder',
-    description: 'Encode text to Base64 or decode Base64 to plain text.',
+    description: 'Encode plain text or binary data to Base64 or decode Base64 strings back to text instantly. 100% client-side — your data never leaves the browser.',
     category: 'encoder',
     keywords: ['base64', 'encode', 'decode'],
     processingType: 'client'
@@ -74,7 +74,7 @@ export const TOOLS_REGISTRY: ToolMeta[] = [
   {
     slug: 'regex-tester',
     name: 'Regex Tester',
-    description: 'Test and debug regular expressions with real-time matching.',
+    description: 'Test and debug regular expressions with real-time match highlighting, capture groups, and flags support — all processed client-side in your browser.',
     category: 'developer',
     keywords: ['regex', 'regular expression', 'pattern matching'],
     processingType: 'client'
@@ -98,7 +98,7 @@ export const TOOLS_REGISTRY: ToolMeta[] = [
   {
     slug: 'color-converter',
     name: 'Color Converter',
-    description: 'Convert colors between HEX, RGB, HSL, and other formats.',
+    description: 'Convert colors between HEX, RGB, HSL, HSV, and CMYK formats instantly. Visual color picker with live preview and one-click copy for designers and developers.',
     category: 'developer',
     keywords: ['color', 'hex', 'rgb', 'hsl', 'convert'],
     processingType: 'client'
@@ -110,7 +110,7 @@ export const TOOLS_REGISTRY: ToolMeta[] = [
   {
     slug: 'markdown-to-html',
     name: 'Markdown to HTML',
-    description: 'Convert Markdown text to clean HTML code.',
+    description: 'Convert Markdown text to clean, ready-to-use HTML code instantly. Supports headings, links, lists, code blocks, and inline formatting — no server required.',
     category: 'converter',
     keywords: ['markdown', 'html', 'convert', 'md'],
     processingType: 'client'
@@ -154,7 +154,7 @@ export const TOOLS_REGISTRY: ToolMeta[] = [
   {
     slug: 'uuid-generator',
     name: 'UUID Generator',
-    description: 'Generate random UUIDs (v4) for your applications.',
+    description: 'Generate cryptographically random UUIDs (v4) in bulk for databases, APIs, and distributed systems. One-click copy, batch generation — entirely client-side.',
     category: 'generator',
     keywords: ['uuid', 'guid', 'unique id', 'random'],
     processingType: 'client'
@@ -182,7 +182,7 @@ export const TOOLS_REGISTRY: ToolMeta[] = [
   {
     slug: 'percentage-calculator',
     name: 'Percentage Calculator',
-    description: 'Calculate percentages, percentage change, and more.',
+    description: 'Calculate percentages, percentage change, increase/decrease, and what percent X is of Y. Free online calculator with instant results and no sign-up.',
     category: 'calculator',
     keywords: ['percentage', 'percent', 'calculate', 'math'],
     processingType: 'client'
@@ -190,7 +190,7 @@ export const TOOLS_REGISTRY: ToolMeta[] = [
   {
     slug: 'bmi-calculator',
     name: 'BMI Calculator',
-    description: 'Calculate your Body Mass Index based on height and weight.',
+    description: 'Calculate your Body Mass Index (BMI) using height and weight in metric or imperial units. Understand healthy weight ranges with WHO category explanations.',
     category: 'calculator',
     keywords: ['bmi', 'body mass index', 'health', 'weight'],
     processingType: 'client'
@@ -206,7 +206,7 @@ export const TOOLS_REGISTRY: ToolMeta[] = [
   {
     slug: 'loan-calculator',
     name: 'Loan EMI Calculator',
-    description: 'Calculate monthly EMI payments for loans with interest.',
+    description: 'Calculate monthly EMI, total interest payable, and amortization schedule for home, car, or personal loans. Supports any loan amount, rate, and tenure.',
     category: 'calculator',
     keywords: ['loan', 'emi', 'interest', 'mortgage'],
     processingType: 'client'
@@ -270,7 +270,7 @@ export const TOOLS_REGISTRY: ToolMeta[] = [
   {
     slug: 'html-formatter',
     name: 'HTML Formatter',
-    description: 'Beautify and indent HTML code for better readability.',
+    description: 'Beautify and auto-indent messy HTML code for better readability and debugging. Paste your HTML and get clean, properly nested output instantly in your browser.',
     category: 'formatter',
     keywords: ['html', 'format', 'beautify', 'indent'],
     processingType: 'client'
@@ -278,7 +278,7 @@ export const TOOLS_REGISTRY: ToolMeta[] = [
   {
     slug: 'css-minifier',
     name: 'CSS Minifier',
-    description: 'Minify CSS code to reduce file size for production.',
+    description: 'Minify CSS code by removing whitespace, comments, and redundant rules to reduce file size for faster page loads. Instant results, no upload needed.',
     category: 'formatter',
     keywords: ['css', 'minify', 'compress', 'optimize'],
     processingType: 'client'
@@ -286,7 +286,7 @@ export const TOOLS_REGISTRY: ToolMeta[] = [
   {
     slug: 'js-minifier',
     name: 'JavaScript Minifier',
-    description: 'Minify JavaScript code to reduce file size.',
+    description: 'Minify JavaScript by stripping whitespace and comments to cut file size and speed up page loads. Processed entirely in your browser — no upload required.',
     category: 'formatter',
     keywords: ['javascript', 'js', 'minify', 'compress'],
     processingType: 'client'
@@ -298,7 +298,7 @@ export const TOOLS_REGISTRY: ToolMeta[] = [
   {
     slug: 'meta-tag-generator',
     name: 'Meta Tag Generator',
-    description: 'Generate SEO-optimized meta tags for your web pages.',
+    description: 'Generate SEO-optimized meta tags, Open Graph, and Twitter Card markup for any web page. Copy the complete HTML snippet and boost your search visibility instantly.',
     category: 'seo',
     keywords: ['meta tags', 'seo', 'html', 'optimization'],
     processingType: 'client'
@@ -322,7 +322,7 @@ export const TOOLS_REGISTRY: ToolMeta[] = [
   {
     slug: 'sitemap-generator',
     name: 'Sitemap XML Generator',
-    description: 'Generate valid XML sitemaps from URL lists with change frequency, priority, and last modified fields to improve search engine crawling.',
+    description: 'Generate valid XML sitemaps from your URL list with changefreq, priority, and lastmod fields — download and submit to Google, Bing, or any search engine.',
     category: 'seo',
     keywords: ['sitemap', 'xml', 'seo', 'google'],
     processingType: 'client'
@@ -358,7 +358,7 @@ export const TOOLS_REGISTRY: ToolMeta[] = [
   {
     slug: 'image-cropper',
     name: 'Image Cropper',
-    description: 'Crop images to custom dimensions or fixed aspect ratios directly in your browser with live preview and zero file upload.',
+    description: 'Crop images to custom dimensions or fixed aspect ratios (1:1, 16:9, 4:3) directly in your browser. Live preview, instant download, and zero file upload needed.',
     category: 'image',
     keywords: ['image', 'crop', 'trim', 'cut'],
     processingType: 'client'
@@ -374,7 +374,7 @@ export const TOOLS_REGISTRY: ToolMeta[] = [
   {
     slug: 'jpg-to-png',
     name: 'JPG to PNG Converter',
-    description: 'Convert JPG images to PNG format with transparency support.',
+    description: 'Convert JPG images to PNG format with full transparency support in your browser. No upload, no watermark — instant conversion and one-click download.',
     category: 'image',
     keywords: ['jpg', 'png', 'convert', 'transparent'],
     processingType: 'client'
@@ -390,7 +390,7 @@ export const TOOLS_REGISTRY: ToolMeta[] = [
   {
     slug: 'privacy-blur',
     name: 'Privacy Blur Tool',
-    description: 'Blur sensitive content (faces, text) in images for privacy protection.',
+    description: 'Blur sensitive content — faces, license plates, text — in images to protect privacy before sharing. Fully client-side, no image is ever uploaded to any server.',
     category: 'image',
     keywords: ['privacy', 'blur', 'redact', 'anonymize', 'face blur'],
     processingType: 'client'
@@ -402,7 +402,7 @@ export const TOOLS_REGISTRY: ToolMeta[] = [
   {
     slug: 'unit-converter',
     name: 'Unit Converter',
-    description: 'Convert between length, weight, temperature, and other measurement units.',
+    description: 'Convert between length, weight, temperature, area, volume, speed, and data units instantly. Covers metric, imperial, and scientific systems with real-time results.',
     category: 'converter',
     keywords: ['unit', 'convert', 'length', 'weight', 'temperature', 'measurement'],
     processingType: 'client'
@@ -450,7 +450,7 @@ export const TOOLS_REGISTRY: ToolMeta[] = [
   {
     slug: 'random-number',
     name: 'Random Number Generator',
-    description: 'Generate random numbers within a specified range.',
+    description: 'Generate truly random numbers within any custom range — single picks, bulk lists, unique sequences, and dice rolls. Perfect for giveaways, lotteries, and testing.',
     category: 'generator',
     keywords: ['random', 'number', 'generate', 'dice', 'lottery'],
     processingType: 'client'
@@ -594,7 +594,7 @@ export const TOOLS_REGISTRY: ToolMeta[] = [
   {
     slug: 'email-generator',
     name: 'Professional Email Generator',
-    description: 'Generate professional emails from templates — formal, follow-up, apology, and more.',
+    description: 'Generate professional emails from smart templates — introductions, follow-ups, apology notes, and more. Edit and copy in seconds, no account needed.',
     category: 'ai',
     keywords: ['email', 'template', 'professional', 'business', 'ai'],
     processingType: 'client'

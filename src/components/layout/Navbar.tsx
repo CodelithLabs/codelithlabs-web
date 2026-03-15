@@ -793,6 +793,8 @@ export function Navbar() {
               <input
                 ref={searchInputRef}
                 type="text"
+                id="desktop-nav-search"
+                name="desktopNavSearch"
                 value={searchQuery}
                 role="combobox"
                 aria-autocomplete="list"
@@ -1112,6 +1114,8 @@ export function Navbar() {
                   <Search className="w-4 h-4 text-zinc-500 absolute left-3 top-1/2 -translate-y-1/2" />
                   <input
                     type="text"
+                    id="mobile-nav-search"
+                    name="mobileNavSearch"
                     value={mobileSearchQuery}
                     role="combobox"
                     aria-autocomplete="list"

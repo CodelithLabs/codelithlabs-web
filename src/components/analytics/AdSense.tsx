@@ -7,7 +7,8 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Script from 'next/script';
+
+const ADSENSE_SRC = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6839552407587904';
 
 export default function AdSense() {
   const [hasConsent, setHasConsent] = useState(() => {
@@ -27,13 +28,18 @@ export default function AdSense() {
     return () => window.removeEventListener('cookie-consent-updated', handler);
   }, []);
 
-  if (!hasConsent) return null;
+  useEffect(() => {
+    if (!hasConsent) return;
 
-  return (
-    <Script
-      src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6839552407587904"
-      strategy="lazyOnload"
-      crossOrigin="anonymous"
-    />
-  );
+    const existing = document.querySelector<HTMLScriptElement>(`script[src^="${ADSENSE_SRC}"]`);
+    if (existing) return;
+
+    const script = document.createElement('script');
+    script.src = ADSENSE_SRC;
+    script.async = true;
+    script.crossOrigin = 'anonymous';
+    document.head.appendChild(script);
+  }, [hasConsent]);
+
+  return null;
 }

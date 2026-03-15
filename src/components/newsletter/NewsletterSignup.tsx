@@ -53,6 +53,15 @@ export function NewsletterSignup({ compact = false }: NewsletterSignupProps) {
 
       const data = await res.json();
 
+      if (res.ok && data?.configured === false) {
+        setStatus('error');
+        setErrorMsg(
+          data.error ||
+            'Newsletter is not configured in local development. Set CONVERTKIT_API_KEY and CONVERTKIT_FORM_ID in .env.local.'
+        );
+        return;
+      }
+
       if (!res.ok) {
         throw new Error(data.error || 'Subscription failed');
       }
@@ -89,6 +98,8 @@ export function NewsletterSignup({ compact = false }: NewsletterSignupProps) {
       <form onSubmit={handleSubmit} className="flex flex-col gap-2" data-testid="newsletter-signup">
         <input
           type="text"
+          id="newsletter-website-honeypot-compact"
+          name="website"
           value={website}
           onChange={(e) => setWebsite(e.target.value)}
           tabIndex={-1}
@@ -99,6 +110,9 @@ export function NewsletterSignup({ compact = false }: NewsletterSignupProps) {
         <div className="flex gap-2">
           <input
             type="email"
+            id="newsletter-email-compact"
+            name="email"
+            autoComplete="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="your@email.com"
@@ -163,6 +177,8 @@ export function NewsletterSignup({ compact = false }: NewsletterSignupProps) {
       <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3">
         <input
           type="text"
+          id="newsletter-website-honeypot"
+          name="website"
           value={website}
           onChange={(e) => setWebsite(e.target.value)}
           tabIndex={-1}
@@ -172,6 +188,9 @@ export function NewsletterSignup({ compact = false }: NewsletterSignupProps) {
         />
         <input
           type="email"
+          id="newsletter-email"
+          name="email"
+          autoComplete="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="your@email.com"

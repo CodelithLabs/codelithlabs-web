@@ -15,11 +15,16 @@ import { headers } from 'next/headers';
 import { defaultLocale, locales, type Locale } from '@/i18n/request';
 import { CSP_NONCE_HEADER } from '@/lib/csp';
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({
+    subsets: ["latin"],
+    preload: false,
+});
+
 const jetbrainsMono = JetBrains_Mono({
     subsets: ["latin"],
     variable: "--font-jetbrains",
     display: "swap",
+    preload: false,
 });
 
 export const metadata: Metadata = {

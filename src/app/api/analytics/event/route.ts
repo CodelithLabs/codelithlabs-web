@@ -166,6 +166,9 @@ export async function POST(request: Request) {
     }
 
     console.error('[Analytics] Event ingestion failed:', error);
-    return NextResponse.json({ error: 'Failed to ingest analytics event' }, { status: 500 });
+    return NextResponse.json(
+      { accepted: false, reason: 'analytics_ingestion_failed' },
+      { status: 202 }
+    );
   }
 }

@@ -4,7 +4,7 @@ import { JsonLdScript } from "@/components/security/JsonLdScript";
 export const metadata: Metadata = {
   title: "Research & Engineering — Technical Papers | CodelithLabs",
   description:
-    "Technical papers, architectural decisions, and engineering post-mortems from the CodelithLabs team. Systems engineering, web architecture, DevOps, and more.",
+    "Technical papers, architectural decisions, and engineering post-mortems from the CodelithLabs team. Deep dives into systems design, web architecture, performance, and DevOps.",
   keywords: [
     "engineering research",
     "technical papers",

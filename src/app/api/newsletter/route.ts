@@ -68,6 +68,19 @@ export async function POST(request: Request) {
 
     if (!apiKey || !formId) {
       console.error('[Newsletter] Missing CONVERTKIT_API_KEY or CONVERTKIT_FORM_ID');
+
+      if (process.env.NODE_ENV !== 'production') {
+        return NextResponse.json(
+          {
+            success: false,
+            configured: false,
+            error:
+              'Newsletter is not configured in local development. Set CONVERTKIT_API_KEY and CONVERTKIT_FORM_ID in .env.local.',
+          },
+          { status: 200 }
+        );
+      }
+
       return NextResponse.json(
         { error: 'Newsletter service not configured.' },
         { status: 503 }

@@ -425,7 +425,6 @@ export default function TeamPage() {
         className="min-h-screen overflow-x-hidden"
         style={{ background: "#050507", color: "#fff", fontFamily: "'DM Sans', 'Inter', sans-serif" }}
       >
-        <h1 style={{ display: 'none' }}>Our Team</h1>
         <ParticleField />
 
         {/* ── Grid Overlay ── */}
@@ -466,6 +465,7 @@ export default function TeamPage() {
               transition={{ duration: 0.8, delay: 0.1 }}
               className="text-5xl sm:text-6xl md:text-7xl font-black leading-[1.05] tracking-tighter mb-6"
             >
+              <span className="sr-only">CodelithLabs Team — </span>
               <span className="text-white">The Minds</span>
               <br />
               <span

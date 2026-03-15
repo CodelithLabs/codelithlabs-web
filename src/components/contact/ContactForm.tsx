@@ -201,6 +201,8 @@ export function ContactForm() {
           </label>
           <input
             type="text"
+            id="contact-name"
+            name="name"
             value={formData.name}
             onChange={(e) => updateField("name", e.target.value)}
             className={getInputClass("name")}
@@ -215,6 +217,8 @@ export function ContactForm() {
           </label>
           <input
             type="email"
+            id="contact-email"
+            name="email"
             value={formData.email}
             onChange={(e) => updateField("email", e.target.value)}
             className={getInputClass("email")}
@@ -231,6 +235,8 @@ export function ContactForm() {
           <label className="text-sm font-medium text-zinc-300">Phone</label>
           <input
             type="tel"
+            id="contact-phone"
+            name="phone"
             value={formData.phone}
             onChange={(e) => updateField("phone", e.target.value)}
             className={getInputClass("phone")}
@@ -243,6 +249,8 @@ export function ContactForm() {
           <label className="text-sm font-medium text-zinc-300">Company</label>
           <input
             type="text"
+            id="contact-company"
+            name="company"
             value={formData.company}
             onChange={(e) => updateField("company", e.target.value)}
             className={getInputClass("company")}
@@ -259,6 +267,8 @@ export function ContactForm() {
           Inquiry Type <span className="text-red-400">*</span>
         </label>
         <select
+          id="contact-subject"
+          name="subject"
           value={formData.subject}
           onChange={(e) => updateField("subject", e.target.value)}
           className={`${getInputClass("subject")} appearance-none`}
@@ -279,6 +289,8 @@ export function ContactForm() {
           Message <span className="text-red-400">*</span>
         </label>
         <textarea
+          id="contact-message"
+          name="message"
           value={formData.message}
           onChange={(e) => updateField("message", e.target.value)}
           className={`${getInputClass("message")} h-32 resize-none`}

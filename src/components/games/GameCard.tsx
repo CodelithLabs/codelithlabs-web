@@ -25,6 +25,8 @@ export function GameCard({ game, locale }: GameCardProps) {
           src={game.thumbnail}
           alt={`${game.title} game thumbnail`}
           fill
+          priority={game.isFeatured}
+          loading={game.isFeatured ? 'eager' : 'lazy'}
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           className="object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500"
         />

@@ -14,6 +14,7 @@ export function buildContentSecurityPolicy(nonce: string, isProduction: boolean)
     `script-src ${joinSources(
       `'self'`,
       `'nonce-${nonce}'`,
+      !isProduction && `'unsafe-eval'`,
       'https://www.googletagmanager.com',
       'https://www.google-analytics.com',
       'https://www.clarity.ms',
@@ -22,9 +23,8 @@ export function buildContentSecurityPolicy(nonce: string, isProduction: boolean)
       'https://checkout.razorpay.com',
       'https://challenges.cloudflare.com',
       'https://giscus.app',
-      // vercel.live toolbar is injected on preview deployments.
-      // VERCEL_ENV is 'production' only on the main domain; 'preview' on PR deploys.
-      process.env.VERCEL_ENV !== 'production' && 'https://vercel.live'
+      // Vercel may inject feedback tooling scripts from this domain.
+      'https://vercel.live'
     )}`,
     `style-src ${joinSources(`'self'`, `'unsafe-inline'`, 'https://fonts.googleapis.com')}`,
     `img-src ${joinSources(`'self'`, 'data:', 'blob:', 'https:')}`,
