@@ -144,8 +144,14 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Invalid analytics event payload' }, { status: 400 });
     }
 
-    const session = await auth();
-    const userId = session?.user?.id ?? null;
+    // auth() may throw if NEXTAUTH_SECRET is unconfigured — treat as unauthenticated
+    let userId: string | null = null;
+    try {
+      const session = await auth();
+      userId = session?.user?.id ?? null;
+    } catch {
+      // Not authenticated or auth not configured — proceed without userId
+    }
     const ipHash = buildIpHash(ip);
 
     await persistEvent(parsed.data, userId, ipHash, userAgent);

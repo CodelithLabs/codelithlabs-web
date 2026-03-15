@@ -17,10 +17,12 @@ export function buildContentSecurityPolicy(nonce: string, isProduction: boolean)
       'https://www.googletagmanager.com',
       'https://www.google-analytics.com',
       'https://www.clarity.ms',
+      'https://scripts.clarity.ms',
       'https://pagead2.googlesyndication.com',
       'https://checkout.razorpay.com',
       'https://challenges.cloudflare.com',
-      'https://giscus.app'
+      'https://giscus.app',
+      !isProduction && 'https://vercel.live'
     )}`,
     `style-src ${joinSources(`'self'`, `'unsafe-inline'`, 'https://fonts.googleapis.com')}`,
     `img-src ${joinSources(`'self'`, 'data:', 'blob:', 'https:')}`,
@@ -35,6 +37,7 @@ export function buildContentSecurityPolicy(nonce: string, isProduction: boolean)
       'https://pagead2.googlesyndication.com',
       'https://googleads.g.doubleclick.net',
       'https://ep1.adtrafficquality.google',
+      'https://ep2.adtrafficquality.google',
       'https://fundingchoicesmessages.google.com',
       'https://api.razorpay.com',
       'https://checkout.razorpay.com',
@@ -50,7 +53,9 @@ export function buildContentSecurityPolicy(nonce: string, isProduction: boolean)
       'https://giscus.app',
       'https://www.google.com',
       'https://googleads.g.doubleclick.net',
-      'https://tpc.googlesyndication.com'
+      'https://tpc.googlesyndication.com',
+      'https://ep1.adtrafficquality.google',
+      'https://ep2.adtrafficquality.google'
     )}`,
     `worker-src 'self' blob:`,
     `media-src 'self' blob:`,
