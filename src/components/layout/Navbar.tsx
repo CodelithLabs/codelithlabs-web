@@ -44,6 +44,7 @@ import { useSession, signIn, signOut } from "next-auth/react";
 import { defaultLocale, locales, type Locale } from "@/i18n/request";
 import { trackClientAnalytics } from "@/lib/analytics/client";
 import { LocaleSwitcher } from "./LocaleSwitcher";
+import { useUser } from "@/lib/user-context";
 import enMessages from "../../../messages/en.json";
 import esMessages from "../../../messages/es.json";
 import ptMessages from "../../../messages/pt.json";
@@ -213,6 +214,7 @@ export function Navbar() {
   const lastSearchFocusRef = useRef<HTMLElement | null>(null);
   const savedScrollTopRef = useRef(0);
   const { data: session, status } = useSession();
+  const { isPremium } = useUser();
 
   const currentLocale = useMemo<Locale>(() => {
     const firstSegment = pathname?.split("/")[1] as Locale | undefined;
@@ -978,6 +980,11 @@ export function Navbar() {
                       <User className="w-4 h-4 text-blue-400" />
                     </div>
                   )}
+                    {isPremium && (
+                      <span className="hidden sm:flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/15 text-amber-400 border border-amber-500/30 leading-none">
+                        ⚡ PRO
+                      </span>
+                    )}
                   <ChevronDown className={`w-3.5 h-3.5 text-zinc-400 transition-transform ${accountMenuOpen ? "rotate-180" : ""}`} />
                 </button>
 

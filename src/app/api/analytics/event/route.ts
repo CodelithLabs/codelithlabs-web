@@ -75,23 +75,32 @@ function toSafeDate(timestamp?: number): Date {
 async function persistEvent(input: AnalyticsEventInput, userId: string | null, ipHash: string | null, userAgent: string | null) {
   const occurredAt = toSafeDate(input.occurredAt);
 
-  await prisma.analyticsEvent.create({
-    data: {
-      eventName: input.eventName,
-      eventType: input.eventType,
-      source: input.source,
-      path: normalizePath(input.path),
-      locale: input.locale,
-      toolSlug: input.toolSlug,
-      gameSlug: input.gameSlug,
-      sessionId: input.sessionId,
-      ipHash,
-      userAgent: userAgent?.slice(0, USER_AGENT_MAX) ?? null,
-      metadata: input.metadata,
-      occurredAt,
-      userId,
-    },
-  });
+  const eventData = {
+    eventName: input.eventName,
+    eventType: input.eventType,
+    source: input.source,
+    path: normalizePath(input.path),
+    locale: input.locale,
+    toolSlug: input.toolSlug,
+    gameSlug: input.gameSlug,
+    sessionId: input.sessionId,
+    ipHash,
+    userAgent: userAgent?.slice(0, USER_AGENT_MAX) ?? null,
+    metadata: input.metadata,
+    occurredAt,
+    userId,
+  };
+
+  try {
+    await prisma.analyticsEvent.create({ data: eventData });
+  } catch (err) {
+    // userId from a stale/invalidated session — retry anonymously
+    if (err instanceof Prisma.PrismaClientKnownRequestError && err.code === 'P2003') {
+      await prisma.analyticsEvent.create({ data: { ...eventData, userId: null } });
+    } else {
+      throw err;
+    }
+  }
 
   if (input.eventType !== 'PAGE_VIEW') return;
 

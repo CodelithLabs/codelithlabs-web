@@ -1,0 +1,10 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" fill="#111827"/>
+  <rect x="350" y="120" width="500" height="390" rx="22" fill="#1d4ed8"/>
+  <g>
+    <circle cx="410" cy="180" r="30" fill="#facc15"/><circle cx="480" cy="180" r="30" fill="#ef4444"/><circle cx="550" cy="180" r="30" fill="#facc15"/><circle cx="620" cy="180" r="30" fill="#ef4444"/><circle cx="690" cy="180" r="30" fill="#facc15"/><circle cx="760" cy="180" r="30" fill="#ef4444"/>
+    <circle cx="410" cy="250" r="30" fill="#ef4444"/><circle cx="480" cy="250" r="30" fill="#facc15"/><circle cx="550" cy="250" r="30" fill="#ef4444"/><circle cx="620" cy="250" r="30" fill="#facc15"/><circle cx="690" cy="250" r="30" fill="#ef4444"/><circle cx="760" cy="250" r="30" fill="#facc15"/>
+  </g>
+  <text x="80" y="140" fill="#e5e7eb" font-size="62" font-family="Arial, sans-serif" font-weight="700">CONNECT FOUR</text>
+  <text x="80" y="200" fill="#93c5fd" font-size="30" font-family="Arial, sans-serif">Free browser strategy game · CodelithLabs</text>
+</svg>

@@ -8,10 +8,12 @@ import type { Locale } from '@/i18n/request';
 
 interface GameHubProps {
   games: GameMeta[];
+  upcomingGames?: GameMeta[];
+  launchGames?: GameMeta[];
   locale: Locale;
 }
 
-export function GameHub({ games, locale }: GameHubProps) {
+export function GameHub({ games, upcomingGames = [], launchGames = [], locale }: GameHubProps) {
   const t = useTranslations('Games.hub');
   const featuredGame = games.find((game) => game.isFeatured) ?? games[0];
 
@@ -81,6 +83,57 @@ export function GameHub({ games, locale }: GameHubProps) {
           </div>
         )}
       </div>
+
+      {launchGames.length > 0 && (
+        <div className="px-6 pb-20 max-w-5xl mx-auto">
+          <h2 className="font-mono text-zinc-300 text-sm tracking-widest uppercase mb-6 border-b border-zinc-900 pb-3">
+            🚀 New Launch Wave
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {launchGames.map((game) => (
+              <GameCard key={`launch-${game.slug}`} game={game} locale={locale} />
+            ))}
+          </div>
+        </div>
+      )}
+
+      {upcomingGames.length > 0 && (
+          <div className="px-6 pb-20 max-w-5xl mx-auto">
+            <h2 className="font-mono text-zinc-600 text-xs tracking-widest uppercase mb-6 border-b border-zinc-900 pb-3">
+              ▷ Coming Soon
+            </h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {upcomingGames.map((game) => (
+                <div
+                  key={game.slug}
+                  className="relative overflow-hidden rounded-lg border border-zinc-900 bg-zinc-950/50 opacity-60 cursor-not-allowed"
+                >
+                  <div className="relative aspect-video bg-zinc-900 overflow-hidden flex items-center justify-center">
+                    <span className="font-mono text-zinc-700 text-xs uppercase tracking-widest">No Preview</span>
+                    <span className="absolute top-2 left-2 bg-zinc-800 text-zinc-500 text-xs font-mono px-2 py-0.5 rounded uppercase tracking-wider">
+                      Coming Soon
+                    </span>
+                  </div>
+                  <div className="p-4">
+                    <h3 className="font-mono text-zinc-500 font-bold tracking-widest text-sm uppercase mb-1">
+                      {game.title}
+                    </h3>
+                    <div className="flex flex-wrap gap-1 mt-2">
+                      {game.genre.map((g) => (
+                        <span key={g} className="text-zinc-700 text-[10px] font-mono border border-zinc-900 px-1.5 py-0.5 rounded uppercase">
+                          {g}
+                        </span>
+                      ))}
+                    </div>
+                    <p className="mt-3 text-zinc-700 text-xs font-mono tracking-widest uppercase">
+                      {game.releaseDate ? `Est. ${new Date(game.releaseDate).toLocaleDateString('en', { month: 'short', year: 'numeric' })}` : 'TBD'}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
     </div>
   );
 }

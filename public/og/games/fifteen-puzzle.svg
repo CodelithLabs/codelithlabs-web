@@ -1,0 +1,16 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" fill="#111827"/>
+  <rect x="360" y="110" width="480" height="420" rx="20" fill="#1f2937" stroke="#374151"/>
+  <g font-family="Arial, sans-serif" font-size="36" font-weight="700" text-anchor="middle" fill="#f9fafb">
+    <rect x="390" y="140" width="90" height="90" rx="10" fill="#334155"/><text x="435" y="196">1</text>
+    <rect x="490" y="140" width="90" height="90" rx="10" fill="#334155"/><text x="535" y="196">2</text>
+    <rect x="590" y="140" width="90" height="90" rx="10" fill="#334155"/><text x="635" y="196">3</text>
+    <rect x="690" y="140" width="90" height="90" rx="10" fill="#334155"/><text x="735" y="196">4</text>
+    <rect x="390" y="240" width="90" height="90" rx="10" fill="#334155"/><text x="435" y="296">5</text>
+    <rect x="490" y="240" width="90" height="90" rx="10" fill="#334155"/><text x="535" y="296">6</text>
+    <rect x="590" y="240" width="90" height="90" rx="10" fill="#334155"/><text x="635" y="296">7</text>
+    <rect x="690" y="240" width="90" height="90" rx="10" fill="#334155"/><text x="735" y="296">8</text>
+  </g>
+  <text x="80" y="140" fill="#e5e7eb" font-size="62" font-family="Arial, sans-serif" font-weight="700">15 PUZZLE</text>
+  <text x="80" y="198" fill="#94a3b8" font-size="30" font-family="Arial, sans-serif">Sliding number game · CodelithLabs</text>
+</svg>

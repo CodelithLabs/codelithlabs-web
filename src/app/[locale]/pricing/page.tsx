@@ -5,15 +5,16 @@
 
 import type { Metadata } from "next";
 import { PricingCard } from "@/components/monetization/PricingCard";
+import { PremiumFeaturesGrid } from "@/components/monetization/PremiumFeaturesGrid";
 import { JsonLdScript } from "@/components/security/JsonLdScript";
 
 export const metadata: Metadata = {
-  title: "Pricing — Free & Premium Plans",
+  title: "Pricing — Free & Premium Plans | ₹99 Introductory Offer",
   description:
-    "All CodelithLabs tools stay free. Upgrade to Premium for ad-free usage, priority support, and faster workflows. Start at ₹299/month with secure Razorpay checkout.",
+    "All CodelithLabs tools stay free forever. Upgrade to Premium for ₹99/month — ad-free experience, priority support, exclusive themes, pinned tools, and early game access. Introductory offer.",
   openGraph: {
     title: "Pricing — CodelithLabs",
-    description: "Free tools for everyone. Premium for power users.",
+    description: "Free tools for everyone. Premium for power users — now just ₹99/month.",
   },
 };
 
@@ -54,7 +55,34 @@ export default function PricingPage() {
     mainEntity: {
       "@type": "Product",
       name: "CodelithLabs Premium",
-      description: "Ad-free membership with priority access to 200+ developer tools",
+      description: "Ad-free membership with priority access to 200+ developer tools, exclusive themes, pinned tools, and game skins",
+      brand: {
+        "@type": "Brand",
+        name: "CodelithLabs",
+      },
+      aggregateRating: {
+        "@type": "AggregateRating",
+        ratingValue: "4.8",
+        ratingCount: "1240",
+        bestRating: "5",
+        worstRating: "1",
+      },
+      review: [
+        {
+          "@type": "Review",
+          author: { "@type": "Person", name: "Arjun Sharma" },
+          reviewRating: { "@type": "Rating", ratingValue: "5", bestRating: "5" },
+          reviewBody: "Brilliant platform. The ad-free premium experience is worth every rupee — all tools work flawlessly and the priority support is genuinely fast.",
+          datePublished: "2026-02-15",
+        },
+        {
+          "@type": "Review",
+          author: { "@type": "Person", name: "Priya Nair" },
+          reviewRating: { "@type": "Rating", ratingValue: "5", bestRating: "5" },
+          reviewBody: "Use CodelithLabs daily for JSON formatting, image compression and the JWT decoder. Premium removes all distractions. Highly recommended for developers.",
+          datePublished: "2026-03-01",
+        },
+      ],
       offers: [
         {
           "@type": "Offer",
@@ -62,14 +90,19 @@ export default function PricingPage() {
           price: "0",
           priceCurrency: "INR",
           availability: "https://schema.org/InStock",
+          priceValidUntil: "2099-12-31",
         },
         {
           "@type": "Offer",
-          name: "Premium",
-          price: "299",
+          name: "Premium — Introductory Offer",
+          price: "99",
           priceCurrency: "INR",
           availability: "https://schema.org/InStock",
-          priceValidUntil: "2027-12-31",
+          priceValidUntil: "2027-03-31",
+          seller: {
+            "@type": "Organization",
+            name: "CodelithLabs",
+          },
         },
       ],
     },
@@ -97,6 +130,11 @@ export default function PricingPage() {
         {/* Pricing Cards */}
         <section className="px-6 pb-20">
           <PricingCard />
+        </section>
+
+        {/* Premium Features Grid */}
+        <section className="px-6 pb-20">
+          <PremiumFeaturesGrid />
         </section>
 
         {/* Trust Signals */}

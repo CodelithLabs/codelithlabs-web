@@ -12,10 +12,36 @@ import type { BlogPost, BlogFrontmatter } from "@/types/blog";
 
 const BLOG_DIR = path.join(process.cwd(), "content", "blog");
 
+const CATEGORY_CLUSTER_TAG: Record<string, string> = {
+  developer: "developer tools",
+  security: "security best practices",
+  finance: "fintech",
+  tools: "online tools",
+  writing: "content optimization",
+  design: "ui design",
+  health: "health tools",
+};
+
 /** Estimate reading time in minutes from raw markdown */
 function estimateReadingTime(text: string): number {
   const words = text.trim().split(/\s+/).length;
   return Math.max(1, Math.ceil(words / 220));
+}
+
+function normalizeTags(fm: BlogFrontmatter): string[] {
+  const sourceTags = Array.isArray(fm.tags) ? fm.tags : [];
+  const normalized = sourceTags
+    .map((tag) => tag?.toString().trim().toLowerCase())
+    .filter((tag): tag is string => Boolean(tag));
+
+  const categoryKey = fm.category?.toString().trim().toLowerCase();
+  const clusterTag = categoryKey ? CATEGORY_CLUSTER_TAG[categoryKey] : undefined;
+
+  if (clusterTag && !normalized.includes(clusterTag)) {
+    normalized.push(clusterTag);
+  }
+
+  return [...new Set(normalized)];
 }
 
 /**
@@ -38,6 +64,7 @@ export async function getBlogPost(slug: string): Promise<BlogPost | null> {
     frontmatter: {
       ...fm,
       slug: fm.slug || slug,
+      tags: normalizeTags(fm),
       readingTime: fm.readingTime ?? estimateReadingTime(content),
     },
     contentHtml: result.toString(),
@@ -75,4 +102,37 @@ export async function getAllBlogPosts(): Promise<BlogPost[]> {
 export async function getAllBlogSlugs(): Promise<string[]> {
   const posts = await getAllBlogPosts();
   return posts.map((p) => p.frontmatter.slug);
+}
+
+/**
+ * Return top related posts based on category + tag overlap.
+ */
+export async function getRelatedBlogPosts(slug: string, limit = 3): Promise<BlogPost[]> {
+  const posts = await getAllBlogPosts();
+  const current = posts.find((post) => post.frontmatter.slug === slug);
+  if (!current) return [];
+
+  const currentTags = new Set(current.frontmatter.tags ?? []);
+  const currentCategory = current.frontmatter.category?.toLowerCase() ?? "";
+
+  const scored = posts
+    .filter((post) => post.frontmatter.slug !== slug)
+    .map((post) => {
+      const candidateTags = post.frontmatter.tags ?? [];
+      const overlap = candidateTags.reduce((score, tag) => score + (currentTags.has(tag) ? 1 : 0), 0);
+      const sameCategory = (post.frontmatter.category?.toLowerCase() ?? "") === currentCategory ? 2 : 0;
+      return {
+        post,
+        score: overlap + sameCategory,
+        freshness: new Date(post.frontmatter.datePublished).getTime(),
+      };
+    })
+    .sort((a, b) => {
+      if (b.score !== a.score) return b.score - a.score;
+      return b.freshness - a.freshness;
+    })
+    .slice(0, limit)
+    .map((entry) => entry.post);
+
+  return scored;
 }

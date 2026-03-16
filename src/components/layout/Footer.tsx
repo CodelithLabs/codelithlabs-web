@@ -130,7 +130,7 @@ export function Footer() {
       {/* Newsletter Signup */}
       <div className="border-b border-white/[0.06]">
         <div className="max-w-7xl mx-auto px-6 py-8">
-          <NewsletterSignup />
+          <NewsletterSignup waitlist />
         </div>
       </div>
 

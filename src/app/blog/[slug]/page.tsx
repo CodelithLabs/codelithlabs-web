@@ -6,7 +6,7 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { getBlogPost, getAllBlogSlugs } from "@/lib/blog-loader";
+import { getBlogPost, getAllBlogSlugs, getRelatedBlogPosts } from "@/lib/blog-loader";
 import { GiscusComments } from "@/components/blog/GiscusComments";
 import { NewsletterSignup } from "@/components/newsletter/NewsletterSignup";
 import { BlogAdTop, BlogAdMid, BlogAdBottom } from "@/components/ads/BlogAds";
@@ -99,6 +99,7 @@ export default async function BlogPostPage({ params }: PageProps) {
   const { slug, locale } = await params;
   const post = await getBlogPost(slug);
   if (!post) notFound();
+  const relatedPosts = await getRelatedBlogPosts(slug, 3);
 
   const fm = post.frontmatter;
   const activeLocale = locale ?? defaultLocale;
@@ -226,6 +227,27 @@ export default async function BlogPostPage({ params }: PageProps) {
 
           {/* Popular Tools — internal linking for SEO */}
           <PopularTools />
+
+          {/* Related blog guides — contextual internal links */}
+          {relatedPosts.length > 0 && (
+            <section className="mt-10 pt-8 border-t border-zinc-800">
+              <h2 className="text-xl font-semibold text-white mb-4">Related Guides</h2>
+              <div className="grid gap-3 sm:grid-cols-3">
+                {relatedPosts.map((related) => (
+                  <Link
+                    key={related.frontmatter.slug}
+                    href={`/blog/${related.frontmatter.slug}`}
+                    className="rounded-xl border border-zinc-800 bg-zinc-900/50 p-4 hover:border-blue-500/40 transition-colors"
+                  >
+                    <p className="text-xs text-blue-400 mb-2">{related.frontmatter.category || "Guide"}</p>
+                    <h3 className="text-sm font-medium text-zinc-100 leading-snug line-clamp-3">
+                      {related.frontmatter.title}
+                    </h3>
+                  </Link>
+                ))}
+              </div>
+            </section>
+          )}
 
           {/* Back link */}
           <div className="mt-10">

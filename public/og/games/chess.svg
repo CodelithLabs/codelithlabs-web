@@ -1,0 +1,14 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" fill="#0b1020"/>
+  <rect x="380" y="90" width="450" height="450" rx="16" fill="#0f172a" stroke="#334155"/>
+  <g>
+    <rect x="380" y="90" width="56" height="56" fill="#e5e7eb"/><rect x="436" y="90" width="56" height="56" fill="#1f2937"/>
+    <rect x="492" y="90" width="56" height="56" fill="#e5e7eb"/><rect x="548" y="90" width="56" height="56" fill="#1f2937"/>
+    <rect x="604" y="90" width="56" height="56" fill="#e5e7eb"/><rect x="660" y="90" width="56" height="56" fill="#1f2937"/>
+    <rect x="716" y="90" width="56" height="56" fill="#e5e7eb"/><rect x="772" y="90" width="56" height="56" fill="#1f2937"/>
+  </g>
+  <text x="560" y="360" fill="#ef4444" font-size="120" font-family="Arial, sans-serif" text-anchor="middle">♚</text>
+  <text x="650" y="280" fill="#22d3ee" font-size="110" font-family="Arial, sans-serif" text-anchor="middle">♕</text>
+  <text x="80" y="140" fill="#f8fafc" font-size="64" font-family="Arial, sans-serif" font-weight="700">CHESS VS CPU</text>
+  <text x="80" y="200" fill="#94a3b8" font-size="30" font-family="Arial, sans-serif">Play free online · CodelithLabs</text>
+</svg>

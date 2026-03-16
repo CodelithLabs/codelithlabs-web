@@ -11,6 +11,7 @@ import {
 } from 'lucide-react';
 import { getTranslations } from 'next-intl/server';
 import { getToolCount, getCategoryStats } from '@/lib/tools-registry';
+import { getAllGames } from '@/lib/games-registry';
 import { generateLocaleMetadata } from '@/lib/locale-meta';
 import { type Locale } from '@/i18n/request';
 
@@ -107,6 +108,9 @@ export default async function HomePage({
   const t = await getTranslations({ locale });
   const toolCount = getToolCount();
   const categoryStats = getCategoryStats();
+  const launchGames = getAllGames()
+    .filter((g) => g.tags.some((tag) => tag.startsWith('launch-wave-')))
+    .slice(0, 6);
 
   const withLocale = (href: string) => (href === '/' ? `/${locale}` : `/${locale}${href}`);
   const formatCategoryLabel = (category: string) =>
@@ -236,6 +240,36 @@ export default async function HomePage({
       <Suspense fallback={<div className="py-24 px-6 bg-zinc-950/30 animate-pulse" />}>
         <FeaturedProjects />
       </Suspense>
+
+      {/* ── New Game Launch Section ── */}
+      {launchGames.length > 0 && (
+        <section className="py-20 px-6 border-t border-white/[0.06] bg-zinc-950/20">
+          <div className="max-w-6xl mx-auto">
+            <div className="flex items-center justify-between mb-8">
+              <div>
+                <p className="text-xs tracking-widest uppercase text-zinc-500 font-mono">Games</p>
+                <h2 className="text-3xl md:text-4xl font-bold text-white mt-2">🚀 New Launch Wave</h2>
+              </div>
+              <Link href={withLocale('/games')} className="text-sm font-mono uppercase tracking-widest text-blue-400 hover:text-blue-300">
+                View all games →
+              </Link>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {launchGames.map((game) => (
+                <Link
+                  key={game.slug}
+                  href={withLocale(`/games/${game.slug}`)}
+                  className="rounded-xl border border-white/[0.08] bg-white/[0.02] p-5 hover:bg-white/[0.05] transition-colors"
+                >
+                  <p className="text-xs font-mono uppercase tracking-widest text-zinc-500">{game.genre.join(' · ')}</p>
+                  <h3 className="text-white font-bold mt-2">{game.title}</h3>
+                  <p className="text-zinc-400 text-sm mt-2">Play instantly in browser. Mobile friendly. No signup.</p>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* ── AD: Mid-page ── */}
       <HomeAdMid />

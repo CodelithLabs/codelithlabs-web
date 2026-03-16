@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { GameHub } from '@/components/games/GameHub';
-import { getAllGames } from '@/lib/games-registry';
+import { getAllGames, getUpcomingGames } from '@/lib/games-registry';
 import type { Locale } from '@/i18n/request';
 import { JsonLdScript } from '@/components/security/JsonLdScript';
 
@@ -59,12 +59,14 @@ export default async function GamesPage({
 }) {
   const { locale } = await params;
   const games = getAllGames();
+  const upcomingGames = getUpcomingGames();
+  const launchGames = games.filter((g) => g.tags.some((tag) => tag.startsWith('launch-wave-')));
 
   return (
     <>
       <JsonLdScript id="games-hub-schema" data={jsonLd} />
       <h1 className="sr-only">Free Browser Games</h1>
-      <GameHub games={games} locale={locale} />
+      <GameHub games={games} upcomingGames={upcomingGames} launchGames={launchGames} locale={locale} />
     </>
   );
 }

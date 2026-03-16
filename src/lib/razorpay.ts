@@ -1,7 +1,7 @@
 import crypto from "crypto";
 
 export const PREMIUM_PLAN_CODE = "premium_monthly";
-export const PREMIUM_AMOUNT_PAISE = 29900;
+export const PREMIUM_AMOUNT_PAISE = 9900; // Introductory offer: ₹99 (was ₹299)
 export const PREMIUM_CURRENCY = "INR";
 export const PREMIUM_DURATION_MONTHS = 1;
 
