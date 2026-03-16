@@ -1,17 +1,17 @@
 ---
 title: "Privacy Blur Tool - Free Online Tool"
-description: "Blur sensitive content (faces, text) in images for privacy protection."
+description: "Blur sensitive content — faces, license plates, text — in images to protect privacy before sharing. Fully client-side, no image is ever uploaded to any server."
 keywords: ["privacy","blur","redact","anonymize","face blur"]
 category: "image"
 slug: "privacy-blur"
-datePublished: "2026-02-28T22:33:40.307Z"
-dateModified: "2026-02-28T22:33:40.307Z"
+datePublished: "2026-03-15T19:33:33.855Z"
+dateModified: "2026-03-15T19:33:33.855Z"
 author: "CodelithLabs Team"
 ---
 
 # Privacy Blur Tool
 
-Blur sensitive content (faces, text) in images for privacy protection.
+Blur sensitive content — faces, license plates, text — in images to protect privacy before sharing. Fully client-side, no image is ever uploaded to any server.
 
 ## 🚀 Features
 
@@ -149,7 +149,7 @@ Help others discover Privacy Blur Tool:
 
 ---
 
-**Last Updated**: March 1, 2026
+**Last Updated**: March 15, 2026
 
 **Author**: CodelithLabs Engineering Team
 

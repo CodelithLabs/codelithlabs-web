@@ -1,17 +1,17 @@
 ---
 title: "Case Converter - Free Online Tool"
-description: "Convert text to uppercase, lowercase, title case, sentence case, and more."
+description: "Convert text to uppercase, lowercase, title case, sentence case, camelCase, and more instantly with a privacy-first Case Converter."
 keywords: ["uppercase","lowercase","title case","text transform"]
 category: "text"
 slug: "case-converter"
-datePublished: "2026-02-28T22:33:40.285Z"
-dateModified: "2026-02-28T22:33:40.285Z"
+datePublished: "2026-03-15T19:33:33.839Z"
+dateModified: "2026-03-15T19:33:33.839Z"
 author: "CodelithLabs Team"
 ---
 
 # Case Converter
 
-Convert text to uppercase, lowercase, title case, sentence case, and more.
+Convert text to uppercase, lowercase, title case, sentence case, camelCase, and more instantly with a privacy-first Case Converter.
 
 ## 🚀 Features
 
@@ -148,7 +148,7 @@ Help others discover Case Converter:
 
 ---
 
-**Last Updated**: March 1, 2026
+**Last Updated**: March 15, 2026
 
 **Author**: CodelithLabs Engineering Team
 

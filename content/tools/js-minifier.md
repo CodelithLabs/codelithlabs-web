@@ -1,17 +1,17 @@
 ---
 title: "JavaScript Minifier - Format Online Free"
-description: "Minify JavaScript code to reduce file size."
+description: "Minify JavaScript by stripping whitespace and comments to cut file size and speed up page loads. Processed entirely in your browser — no upload required."
 keywords: ["javascript","js","minify","compress"]
 category: "formatter"
 slug: "js-minifier"
-datePublished: "2026-02-28T22:33:40.301Z"
-dateModified: "2026-02-28T22:33:40.301Z"
+datePublished: "2026-03-15T19:33:33.851Z"
+dateModified: "2026-03-15T19:33:33.851Z"
 author: "CodelithLabs Team"
 ---
 
 # JavaScript Minifier
 
-Minify JavaScript code to reduce file size.
+Minify JavaScript by stripping whitespace and comments to cut file size and speed up page loads. Processed entirely in your browser — no upload required.
 
 ## 🚀 Features
 
@@ -149,7 +149,7 @@ Help others discover JavaScript Minifier:
 
 ---
 
-**Last Updated**: March 1, 2026
+**Last Updated**: March 15, 2026
 
 **Author**: CodelithLabs Engineering Team
 

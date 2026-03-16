@@ -1,17 +1,17 @@
 ---
 title: "HTML Formatter - Format Online Free"
-description: "Beautify and indent HTML code for better readability."
+description: "Beautify and auto-indent messy HTML code for better readability and debugging. Paste your HTML and get clean, properly nested output instantly in your browser."
 keywords: ["html","format","beautify","indent"]
 category: "formatter"
 slug: "html-formatter"
-datePublished: "2026-02-28T22:33:40.300Z"
-dateModified: "2026-02-28T22:33:40.300Z"
+datePublished: "2026-03-15T19:33:33.850Z"
+dateModified: "2026-03-15T19:33:33.850Z"
 author: "CodelithLabs Team"
 ---
 
 # HTML Formatter
 
-Beautify and indent HTML code for better readability.
+Beautify and auto-indent messy HTML code for better readability and debugging. Paste your HTML and get clean, properly nested output instantly in your browser.
 
 ## 🚀 Features
 
@@ -148,7 +148,7 @@ Help others discover HTML Formatter:
 
 ---
 
-**Last Updated**: March 1, 2026
+**Last Updated**: March 15, 2026
 
 **Author**: CodelithLabs Engineering Team
 

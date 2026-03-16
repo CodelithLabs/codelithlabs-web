@@ -4,8 +4,8 @@ description: "Calculate sunrise, sunset, and day length for any location and dat
 keywords: ["sunrise","sunset","solar","daylight","dawn","dusk"]
 category: "geo"
 slug: "sunrise-sunset"
-datePublished: "2026-02-28T22:33:40.337Z"
-dateModified: "2026-02-28T22:33:40.337Z"
+datePublished: "2026-03-15T19:33:33.868Z"
+dateModified: "2026-03-15T19:33:33.868Z"
 author: "CodelithLabs Team"
 ---
 
@@ -148,7 +148,7 @@ Help others discover Sunrise & Sunset Calculator:
 
 ---
 
-**Last Updated**: March 1, 2026
+**Last Updated**: March 15, 2026
 
 **Author**: CodelithLabs Engineering Team
 

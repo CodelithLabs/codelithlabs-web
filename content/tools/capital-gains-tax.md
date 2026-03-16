@@ -4,8 +4,8 @@ description: "Calculate LTCG/STCG tax on equity, debt funds, and real estate wit
 keywords: ["capital gains","ltcg","stcg","tax","equity","india"]
 category: "finance"
 slug: "capital-gains-tax"
-datePublished: "2026-02-28T22:33:40.335Z"
-dateModified: "2026-02-28T22:33:40.335Z"
+datePublished: "2026-03-15T19:33:33.867Z"
+dateModified: "2026-03-15T19:33:33.867Z"
 author: "CodelithLabs Team"
 ---
 
@@ -148,7 +148,7 @@ Help others discover Capital Gains Tax Calculator (India):
 
 ---
 
-**Last Updated**: March 1, 2026
+**Last Updated**: March 15, 2026
 
 **Author**: CodelithLabs Engineering Team
 

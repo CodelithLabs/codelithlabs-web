@@ -4,8 +4,8 @@ description: "Compare returns across FD, PPF, NPS, Gold, Nifty 50, and more Indi
 keywords: ["investment","compare","fd","ppf","nps","gold","nifty","india"]
 category: "finance"
 slug: "investment-comparator"
-datePublished: "2026-02-28T22:33:40.330Z"
-dateModified: "2026-02-28T22:33:40.330Z"
+datePublished: "2026-03-15T19:33:33.864Z"
+dateModified: "2026-03-15T19:33:33.864Z"
 author: "CodelithLabs Team"
 ---
 
@@ -148,7 +148,7 @@ Help others discover Investment Comparator (India):
 
 ---
 
-**Last Updated**: March 1, 2026
+**Last Updated**: March 15, 2026
 
 **Author**: CodelithLabs Engineering Team
 

@@ -4,8 +4,8 @@ description: "Convert between numbers and Roman numerals (I, V, X, L, C, D, M)."
 keywords: ["roman","numeral","convert","number","ancient"]
 category: "converter"
 slug: "roman-numeral"
-datePublished: "2026-02-28T22:33:40.312Z"
-dateModified: "2026-02-28T22:33:40.312Z"
+datePublished: "2026-03-15T19:33:33.858Z"
+dateModified: "2026-03-15T19:33:33.858Z"
 author: "CodelithLabs Team"
 ---
 
@@ -149,7 +149,7 @@ Help others discover Roman Numeral Converter:
 
 ---
 
-**Last Updated**: March 1, 2026
+**Last Updated**: March 15, 2026
 
 **Author**: CodelithLabs Engineering Team
 

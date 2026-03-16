@@ -4,8 +4,8 @@ description: "Pick colors and convert between HEX, RGB, HSL, CMYK with shades an
 keywords: ["color","picker","hex","rgb","hsl","cmyk","converter"]
 category: "converter"
 slug: "color-picker"
-datePublished: "2026-02-28T22:33:40.342Z"
-dateModified: "2026-02-28T22:33:40.342Z"
+datePublished: "2026-03-15T19:33:33.871Z"
+dateModified: "2026-03-15T19:33:33.871Z"
 author: "CodelithLabs Team"
 ---
 
@@ -149,7 +149,7 @@ Help others discover Color Picker & Converter:
 
 ---
 
-**Last Updated**: March 1, 2026
+**Last Updated**: March 15, 2026
 
 **Author**: CodelithLabs Engineering Team
 

@@ -4,8 +4,8 @@ description: "Calculate India income tax under Old and New regime for FY 2025-26
 keywords: ["income tax","india","tax calculator","old regime","new regime","section 87a"]
 category: "finance"
 slug: "tax-calculator-india"
-datePublished: "2026-02-28T22:33:40.329Z"
-dateModified: "2026-02-28T22:33:40.329Z"
+datePublished: "2026-03-15T19:33:33.864Z"
+dateModified: "2026-03-15T19:33:33.864Z"
 author: "CodelithLabs Team"
 ---
 
@@ -148,7 +148,7 @@ Help others discover Income Tax Calculator (India):
 
 ---
 
-**Last Updated**: March 1, 2026
+**Last Updated**: March 15, 2026
 
 **Author**: CodelithLabs Engineering Team
 

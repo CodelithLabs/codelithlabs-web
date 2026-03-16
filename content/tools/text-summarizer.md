@@ -4,8 +4,8 @@ description: "Automatically summarize long texts into concise key points using e
 keywords: ["summarize","summary","tldr","text","ai","extract"]
 category: "ai"
 slug: "text-summarizer"
-datePublished: "2026-02-28T22:33:40.324Z"
-dateModified: "2026-02-28T22:33:40.324Z"
+datePublished: "2026-03-15T19:33:33.861Z"
+dateModified: "2026-03-15T19:33:33.861Z"
 author: "CodelithLabs Team"
 ---
 
@@ -148,7 +148,7 @@ Help others discover Text Summarizer:
 
 ---
 
-**Last Updated**: March 1, 2026
+**Last Updated**: March 15, 2026
 
 **Author**: CodelithLabs Engineering Team
 

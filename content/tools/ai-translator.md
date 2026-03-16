@@ -4,8 +4,8 @@ description: "Translate common phrases between 10+ languages instantly with offl
 keywords: ["translate","language","translation","multilingual","ai"]
 category: "ai"
 slug: "ai-translator"
-datePublished: "2026-02-28T22:33:40.327Z"
-dateModified: "2026-02-28T22:33:40.327Z"
+datePublished: "2026-03-15T19:33:33.863Z"
+dateModified: "2026-03-15T19:33:33.863Z"
 author: "CodelithLabs Team"
 ---
 
@@ -148,7 +148,7 @@ Help others discover Multi-Language Translator:
 
 ---
 
-**Last Updated**: March 1, 2026
+**Last Updated**: March 15, 2026
 
 **Author**: CodelithLabs Engineering Team
 

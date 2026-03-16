@@ -4,8 +4,8 @@ description: "Convert images to Base64 encoded strings for embedding."
 keywords: ["image","base64","convert","embed"]
 category: "image"
 slug: "image-to-base64"
-datePublished: "2026-02-28T22:33:40.304Z"
-dateModified: "2026-02-28T22:33:40.304Z"
+datePublished: "2026-03-15T19:33:33.852Z"
+dateModified: "2026-03-15T19:33:33.852Z"
 author: "CodelithLabs Team"
 ---
 
@@ -149,7 +149,7 @@ Help others discover Image to Base64:
 
 ---
 
-**Last Updated**: March 1, 2026
+**Last Updated**: March 15, 2026
 
 **Author**: CodelithLabs Engineering Team
 

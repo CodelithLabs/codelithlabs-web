@@ -4,8 +4,8 @@ description: "Create professional invoices with itemized billing, tax calculatio
 keywords: ["invoice","billing","receipt","business","generator"]
 category: "finance"
 slug: "invoice-generator"
-datePublished: "2026-02-28T22:33:40.332Z"
-dateModified: "2026-02-28T22:33:40.332Z"
+datePublished: "2026-03-15T19:33:33.865Z"
+dateModified: "2026-03-15T19:33:33.865Z"
 author: "CodelithLabs Team"
 ---
 
@@ -148,7 +148,7 @@ Help others discover Invoice Generator:
 
 ---
 
-**Last Updated**: March 1, 2026
+**Last Updated**: March 15, 2026
 
 **Author**: CodelithLabs Engineering Team
 

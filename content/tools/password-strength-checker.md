@@ -4,8 +4,8 @@ description: "Check how strong your password is against common attacks."
 keywords: ["password","strength","security","check"]
 category: "security"
 slug: "password-strength-checker"
-datePublished: "2026-02-28T22:33:40.299Z"
-dateModified: "2026-02-28T22:33:40.299Z"
+datePublished: "2026-03-15T19:33:33.849Z"
+dateModified: "2026-03-15T19:33:33.849Z"
 author: "CodelithLabs Team"
 ---
 
@@ -148,7 +148,7 @@ Help others discover Password Strength Checker:
 
 ---
 
-**Last Updated**: March 1, 2026
+**Last Updated**: March 15, 2026
 
 **Author**: CodelithLabs Engineering Team
 

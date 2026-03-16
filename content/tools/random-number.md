@@ -1,17 +1,17 @@
 ---
 title: "Random Number Generator - Generate Free Online"
-description: "Generate random numbers within a specified range."
+description: "Generate truly random numbers within any custom range — single picks, bulk lists, unique sequences, and dice rolls. Perfect for giveaways, lotteries, and testing."
 keywords: ["random","number","generate","dice","lottery"]
 category: "generator"
 slug: "random-number"
-datePublished: "2026-02-28T22:33:40.312Z"
-dateModified: "2026-02-28T22:33:40.312Z"
+datePublished: "2026-03-15T19:33:33.858Z"
+dateModified: "2026-03-15T19:33:33.858Z"
 author: "CodelithLabs Team"
 ---
 
 # Random Number Generator
 
-Generate random numbers within a specified range.
+Generate truly random numbers within any custom range — single picks, bulk lists, unique sequences, and dice rolls. Perfect for giveaways, lotteries, and testing.
 
 ## 🚀 Features
 
@@ -148,7 +148,7 @@ Help others discover Random Number Generator:
 
 ---
 
-**Last Updated**: March 1, 2026
+**Last Updated**: March 15, 2026
 
 **Author**: CodelithLabs Engineering Team
 

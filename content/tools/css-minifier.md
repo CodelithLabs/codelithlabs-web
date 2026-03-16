@@ -1,17 +1,17 @@
 ---
 title: "CSS Minifier - Format Online Free"
-description: "Minify CSS code to reduce file size for production."
+description: "Minify CSS code by removing whitespace, comments, and redundant rules to reduce file size for faster page loads. Instant results, no upload needed."
 keywords: ["css","minify","compress","optimize"]
 category: "formatter"
 slug: "css-minifier"
-datePublished: "2026-02-28T22:33:40.300Z"
-dateModified: "2026-02-28T22:33:40.300Z"
+datePublished: "2026-03-15T19:33:33.850Z"
+dateModified: "2026-03-15T19:33:33.850Z"
 author: "CodelithLabs Team"
 ---
 
 # CSS Minifier
 
-Minify CSS code to reduce file size for production.
+Minify CSS code by removing whitespace, comments, and redundant rules to reduce file size for faster page loads. Instant results, no upload needed.
 
 ## 🚀 Features
 
@@ -148,7 +148,7 @@ Help others discover CSS Minifier:
 
 ---
 
-**Last Updated**: March 1, 2026
+**Last Updated**: March 15, 2026
 
 **Author**: CodelithLabs Engineering Team
 

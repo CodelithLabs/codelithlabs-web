@@ -4,8 +4,8 @@ description: "Paste code and get a line-by-line explanation of what it does, wit
 keywords: ["code","explain","programming","learn","ai"]
 category: "ai"
 slug: "code-explainer"
-datePublished: "2026-02-28T22:33:40.327Z"
-dateModified: "2026-02-28T22:33:40.327Z"
+datePublished: "2026-03-15T19:33:33.862Z"
+dateModified: "2026-03-15T19:33:33.862Z"
 author: "CodelithLabs Team"
 ---
 
@@ -148,7 +148,7 @@ Help others discover Code Explainer:
 
 ---
 
-**Last Updated**: March 1, 2026
+**Last Updated**: March 15, 2026
 
 **Author**: CodelithLabs Engineering Team
 

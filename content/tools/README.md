@@ -1,75 +1,87 @@
 # CodelithLabs Tools Content
 
-Auto-generated on: 2026-02-28T22:33:40.346Z
+Auto-generated on: 2026-03-15T19:33:33.900Z
 
-Total Tools: 96
+Total Tools: 201
 
 ## Categories
 
 - **text**: 6 tools
-- **developer**: 12 tools
+- **developer**: 32 tools
 - **encoder**: 3 tools
-- **converter**: 11 tools
+- **converter**: 17 tools
 - **generator**: 4 tools
-- **calculator**: 4 tools
+- **calculator**: 7 tools
 - **security**: 2 tools
 - **formatter**: 4 tools
 - **seo**: 7 tools
-- **image**: 12 tools
+- **image**: 13 tools
 - **ai**: 9 tools
 - **finance**: 15 tools
 - **geo**: 7 tools
+- **ai-repurpose**: 10 tools
+- **fintech**: 14 tools
+- **local-seo**: 10 tools
+- **niche-calculator**: 10 tools
+- **business**: 8 tools
+- **design**: 7 tools
+- **math**: 6 tools
+- **health**: 6 tools
+- **writing**: 4 tools
 
 ## All Tools
 
-- [Word Counter](word-counter.md) - Count words, characters, sentences, and paragraphs in your text instantly.
-- [Case Converter](case-converter.md) - Convert text to uppercase, lowercase, title case, sentence case, and more.
+- [Word Counter](word-counter.md) - Count words, characters, sentences, paragraphs, and reading time instantly. Privacy-first Word Counter with keyword density — text never leaves your browser.
+- [Case Converter](case-converter.md) - Convert text to uppercase, lowercase, title case, sentence case, camelCase, and more instantly with a privacy-first Case Converter.
 - [Text Diff Checker](text-diff.md) - Compare two texts and highlight the differences between them.
 - [Lorem Ipsum Generator](lorem-ipsum-generator.md) - Generate placeholder text for your designs and mockups.
 - [JSON Formatter & Validator](json-formatter.md) - Format, beautify, and validate JSON data with syntax highlighting.
-- [Base64 Encoder/Decoder](base64-encoder.md) - Encode text to Base64 or decode Base64 to plain text.
+- [Base64 Encoder/Decoder](base64-encoder.md) - Encode plain text or binary data to Base64 or decode Base64 strings back to text instantly. 100% client-side — your data never leaves the browser.
 - [URL Encoder/Decoder](url-encoder.md) - Encode or decode URLs for safe transmission.
-- [Regex Tester](regex-tester.md) - Test and debug regular expressions with real-time matching.
+- [Regex Tester](regex-tester.md) - Test and debug regular expressions with real-time match highlighting, capture groups, and flags support — all processed client-side in your browser.
 - [HTML Entity Encoder](html-entity-encoder.md) - Convert special characters to HTML entities and vice versa.
 - [JWT Decoder](jwt-decoder.md) - Decode and inspect JSON Web Tokens without verification.
-- [Color Converter](color-converter.md) - Convert colors between HEX, RGB, HSL, and other formats.
-- [Markdown to HTML](markdown-to-html.md) - Convert Markdown text to clean HTML code.
+- [Color Converter](color-converter.md) - Convert colors between HEX, RGB, HSL, HSV, and CMYK formats instantly. Visual color picker with live preview and one-click copy for designers and developers.
+- [Markdown to HTML](markdown-to-html.md) - Convert Markdown text to clean, ready-to-use HTML code instantly. Supports headings, links, lists, code blocks, and inline formatting — no server required.
 - [CSV to JSON Converter](csv-to-json.md) - Transform CSV data into JSON format instantly.
 - [JSON to CSV Converter](json-to-csv.md) - Convert JSON arrays to CSV format for spreadsheets.
 - [YAML to JSON Converter](yaml-to-json.md) - Convert YAML configuration to JSON format.
 - [Unix Timestamp Converter](unix-timestamp-converter.md) - Convert Unix timestamps to human-readable dates and vice versa.
-- [UUID Generator](uuid-generator.md) - Generate random UUIDs (v4) for your applications.
+- [UUID Generator](uuid-generator.md) - Generate cryptographically random UUIDs (v4) in bulk for databases, APIs, and distributed systems. One-click copy, batch generation — entirely client-side.
 - [Password Generator](password-generator.md) - Generate strong, secure random passwords with custom options.
-- [QR Code Generator](qr-code-generator.md) - Create QR codes for URLs, text, or contact information.
-- [Percentage Calculator](percentage-calculator.md) - Calculate percentages, percentage change, and more.
-- [BMI Calculator](bmi-calculator.md) - Calculate your Body Mass Index based on height and weight.
-- [Age Calculator](age-calculator.md) - Calculate exact age in years, months, and days from birthdate.
-- [Loan EMI Calculator](loan-calculator.md) - Calculate monthly EMI payments for loans with interest.
+- [QR Code Generator](qr-code-generator.md) - Generate scan-reliable QR codes for URLs, text, Wi-Fi, contact cards, email, and phone with customizable size, colors, and error correction.
+- [Percentage Calculator](percentage-calculator.md) - Calculate percentages, percentage change, increase/decrease, and what percent X is of Y. Free online calculator with instant results and no sign-up.
+- [BMI Calculator](bmi-calculator.md) - Calculate your Body Mass Index (BMI) using height and weight in metric or imperial units. Understand healthy weight ranges with WHO category explanations.
+- [Age Calculator](age-calculator.md) - Calculate exact age in years, months, and days from your birthdate instantly, with privacy-first client-side processing and no data upload.
+- [Loan EMI Calculator](loan-calculator.md) - Calculate monthly EMI, total interest payable, and amortization schedule for home, car, or personal loans. Supports any loan amount, rate, and tenure.
+- [Calorie Calculator](calorie-calculator.md) - Calculate daily calorie needs based on age, weight, height, and activity level.
+- [Discount Calculator](discount-calculator.md) - Calculate discounted prices, savings, and percentage off instantly.
+- [Tip Calculator](tip-calculator.md) - Calculate tip amounts and split bills among multiple people easily.
 - [Hash Generator](hash-generator.md) - Generate MD5, SHA-1, SHA-256, and SHA-512 hashes.
 - [Password Strength Checker](password-strength-checker.md) - Check how strong your password is against common attacks.
 - [SQL Formatter](sql-formatter.md) - Format and beautify SQL queries for better readability.
-- [HTML Formatter](html-formatter.md) - Beautify and indent HTML code for better readability.
-- [CSS Minifier](css-minifier.md) - Minify CSS code to reduce file size for production.
-- [JavaScript Minifier](js-minifier.md) - Minify JavaScript code to reduce file size.
-- [Meta Tag Generator](meta-tag-generator.md) - Generate SEO-optimized meta tags for your web pages.
+- [HTML Formatter](html-formatter.md) - Beautify and auto-indent messy HTML code for better readability and debugging. Paste your HTML and get clean, properly nested output instantly in your browser.
+- [CSS Minifier](css-minifier.md) - Minify CSS code by removing whitespace, comments, and redundant rules to reduce file size for faster page loads. Instant results, no upload needed.
+- [JavaScript Minifier](js-minifier.md) - Minify JavaScript by stripping whitespace and comments to cut file size and speed up page loads. Processed entirely in your browser — no upload required.
+- [Meta Tag Generator](meta-tag-generator.md) - Generate SEO-optimized meta tags, Open Graph, and Twitter Card markup for any web page. Copy the complete HTML snippet and boost your search visibility instantly.
 - [Open Graph Generator](open-graph-generator.md) - Create Open Graph meta tags for social media sharing.
 - [Robots.txt Generator](robots-txt-generator.md) - Generate robots.txt files for search engine crawlers.
-- [Sitemap XML Generator](sitemap-generator.md) - Create XML sitemaps for better search engine indexing.
+- [Sitemap XML Generator](sitemap-generator.md) - Generate valid XML sitemaps from your URL list with changefreq, priority, and lastmod fields — download and submit to Google, Bing, or any search engine.
 - [Image to Base64](image-to-base64.md) - Convert images to Base64 encoded strings for embedding.
 - [Image Resizer](image-resizer.md) - Resize images to specific dimensions in your browser.
 - [Image Compressor](image-compressor.md) - Compress images to reduce file size without losing quality.
-- [Image Cropper](image-cropper.md) - Crop images to custom dimensions directly in browser.
+- [Image Cropper](image-cropper.md) - Crop images to custom dimensions or fixed aspect ratios (1:1, 16:9, 4:3) directly in your browser. Live preview, instant download, and zero file upload needed.
 - [PNG to JPG Converter](png-to-jpg.md) - Convert PNG images to JPG format in your browser.
-- [JPG to PNG Converter](jpg-to-png.md) - Convert JPG images to PNG format with transparency support.
+- [JPG to PNG Converter](jpg-to-png.md) - Convert JPG images to PNG format with full transparency support in your browser. No upload, no watermark — instant conversion and one-click download.
 - [Social Media Image Resizer](social-media-resizer.md) - Resize images to perfect dimensions for Instagram, Twitter, Facebook, YouTube, and more.
-- [Privacy Blur Tool](privacy-blur.md) - Blur sensitive content (faces, text) in images for privacy protection.
-- [Unit Converter](unit-converter.md) - Convert between length, weight, temperature, and other measurement units.
+- [Privacy Blur Tool](privacy-blur.md) - Blur sensitive content — faces, license plates, text — in images to protect privacy before sharing. Fully client-side, no image is ever uploaded to any server.
+- [Unit Converter](unit-converter.md) - Convert between length, weight, temperature, area, volume, speed, and data units instantly. Covers metric, imperial, and scientific systems with real-time results.
 - [JSON to YAML Converter](json-to-yaml.md) - Convert JSON data to YAML format for configuration files.
 - [WebP Converter](webp-converter.md) - Convert images to modern WebP format for better web performance.
 - [Image Filters](image-filters.md) - Apply filters to images: grayscale, sepia, invert, brightness, contrast, blur.
 - [Text to Slug Converter](text-to-slug.md) - Convert text to URL-friendly slugs for permalinks and SEO.
 - [Duplicate Line Remover](duplicate-remover.md) - Remove duplicate lines from text while preserving unique entries.
-- [Random Number Generator](random-number.md) - Generate random numbers within a specified range.
+- [Random Number Generator](random-number.md) - Generate truly random numbers within any custom range — single picks, bulk lists, unique sequences, and dice rolls. Perfect for giveaways, lotteries, and testing.
 - [Roman Numeral Converter](roman-numeral.md) - Convert between numbers and Roman numerals (I, V, X, L, C, D, M).
 - [Binary Converter](binary-converter.md) - Convert text to binary and binary to text.
 - [Sentiment Analyzer](sentiment-analyzer.md) - Analyze the emotional tone and sentiment of any text using AI algorithms.
@@ -84,7 +96,7 @@ Total Tools: 96
 - [Word Frequency Counter](word-frequency-counter.md) - Analyze word frequency, find most-used words, and get detailed text statistics.
 - [Code Explainer](code-explainer.md) - Paste code and get a line-by-line explanation of what it does, with language detection.
 - [Multi-Language Translator](ai-translator.md) - Translate common phrases between 10+ languages instantly with offline dictionary.
-- [Professional Email Generator](email-generator.md) - Generate professional emails from templates — formal, follow-up, apology, and more.
+- [Professional Email Generator](email-generator.md) - Generate professional emails from smart templates — introductions, follow-ups, apology notes, and more. Edit and copy in seconds, no account needed.
 - [Compound Interest Calculator](compound-interest-calculator.md) - Calculate compound interest with monthly contributions and see year-by-year growth projections.
 - [Income Tax Calculator (India)](tax-calculator-india.md) - Calculate India income tax under Old and New regime for FY 2025-26 with Section 87A rebate.
 - [CTC to In-Hand Salary Calculator](salary-calculator.md) - Calculate monthly in-hand salary from annual CTC including PF, HRA, and deductions (India).
@@ -118,6 +130,108 @@ Total Tools: 96
 - [README Generator](readme-generator.md) - Create professional GitHub README files with badges, features, and installation steps.
 - [CSS Gradient Generator](css-gradient-generator.md) - Create beautiful linear, radial, and conic gradients with live preview and copy-ready CSS.
 - [Website Security Checker](website-security-checker.md) - Quick security analysis — checks HTTPS, domain trust, phishing patterns, and more.
+- [Blog to Twitter Thread](blog-to-twitter-thread.md) - Convert any blog post into a numbered Twitter/X thread with optimized character counts and hashtags.
+- [Blog to LinkedIn Post](blog-to-linkedin-post.md) - Transform blog articles into engaging LinkedIn posts with hooks, bullets, and hashtags.
+- [Article to Bullet Points](article-to-bullet-points.md) - Summarize any article into clean bullet points using extractive key-sentence analysis.
+- [YouTube Script to Blog](youtube-script-to-blog.md) - Convert YouTube video scripts and transcripts into structured, SEO-ready blog posts.
+- [Podcast Notes Generator](podcast-notes-generator.md) - Generate professional podcast show notes with topics, timestamps, and resources from transcripts.
+- [Email Newsletter to Tweet](email-to-tweet.md) - Convert email newsletter content into multiple tweet variations with hooks and CTAs.
+- [Long Form to Short Form](long-form-to-short.md) - Condense long-form content into platform-specific short formats for Twitter, LinkedIn, Instagram, and TikTok.
+- [Text to FAQ Generator](text-to-faq.md) - Generate FAQ question-answer pairs from any article with JSON-LD FAQPage schema output.
+- [Content to Carousel Slides](content-to-carousel.md) - Transform blog content into slide-by-slide carousel format for LinkedIn and Instagram.
+- [Meeting Notes to Action Items](meeting-to-actions.md) - Extract action items, assignees, and deadlines from meeting notes automatically.
+- [TypeScript to JavaScript](typescript-to-js.md) - Strip TypeScript type annotations, interfaces, and generics to get clean JavaScript code.
+- [JSON Schema Generator](json-schema-generator.md) - Auto-generate JSON Schema (Draft-07 / 2020-12) from any JSON object with nested definitions.
+- [SQL to MongoDB Query](sql-to-mongodb.md) - Convert SQL SELECT statements to MongoDB find/aggregate queries with projections and sorting.
+- [GraphQL Query Builder](graphql-query-builder.md) - Build GraphQL queries, mutations, and fragments visually without writing raw syntax.
+- [Docker Compose Generator](docker-compose-generator.md) - Generate docker-compose.yml files visually with service presets for Nginx, Postgres, Redis, and more.
+- [.env File Editor](dotenv-editor.md) - Parse, edit, and export .env files visually. 100% client-side — your secrets never leave your browser.
+- [Git Ignore Generator](gitignore-generator.md) - Generate .gitignore files by selecting languages and frameworks. Combine templates and download instantly.
+- [Chmod Calculator](chmod-calculator.md) - Calculate Linux file permissions visually. Toggle read/write/execute and get octal + symbolic notation.
+- [HTTP Status Code Reference](http-status-codes.md) - Searchable reference for all HTTP status codes (1xx–5xx) with descriptions, causes, and examples.
+- [Regex Patterns Library](regex-library.md) - 100+ ready-to-use regex patterns for email, phone, URL, dates, IP, and more. Copy and test instantly.
+- [GST Calculator (India)](gst-calculator-india.md) - Calculate GST with CGST/SGST/IGST breakdown for all slabs (5%, 12%, 18%, 28%). Add or remove GST from any amount.
+- [PPF Calculator (India)](ppf-calculator.md) - Calculate Public Provident Fund maturity with year-by-year breakdown. Latest PPF interest rate with 15-25 year projections.
+- [SIP Step-Up Calculator](sip-stepup-calculator.md) - Calculate SIP returns with annual step-up increases. Compare regular vs step-up SIP corpus growth over time.
+- [FD Interest Calculator (India)](fd-calculator-india.md) - Calculate Fixed Deposit maturity with quarterly/monthly compounding and TDS deduction. Senior citizen rates supported.
+- [Gratuity Calculator (India)](gratuity-calculator-india.md) - Calculate gratuity as per Indian law. Enter salary and service years for exact amount with eligibility check.
+- [NPS Calculator (India)](nps-calculator-india.md) - Calculate NPS corpus and monthly pension at retirement. Estimate annuity and lump sum withdrawal amounts.
+- [VAT Calculator](vat-calculator.md) - Calculate VAT for any country. Add or remove VAT with pre-loaded rates for EU, UK, and 50+ countries.
+- [Freelance Rate Calculator](freelance-rate-calculator.md) - Calculate your freelance hourly, daily, and project rates based on income goals, expenses, and taxes.
+- [ROI Calculator](roi-calculator.md) - Calculate Return on Investment as percentage and absolute gain. Supports annualized ROI for multi-year periods.
+- [Markup vs Margin Calculator](markup-vs-margin.md) - Understand and calculate the difference between markup and margin. Enter cost price and get both instantly.
+- [Car Loan EMI Calculator (India)](car-loan-emi-calculator-india.md) - Calculate car loan EMI, total interest, and payment schedule for Indian banks. Compare rates across HDFC, SBI, ICICI.
+- [Home Loan Calculator (India)](home-loan-calculator-india.md) - Calculate home loan EMI and eligibility for Indian banks. Get amortization schedule and tax benefit estimates.
+- [Income Tax Calculator (India)](income-tax-calculator-india.md) - Calculate income tax under old and new regime for FY 2024-25. Compare tax liability with HRA, 80C, and other deductions.
+- [SIP Calculator (India)](sip-calculator-india.md) - Calculate SIP returns and maturity value for mutual funds. See how monthly investments grow with compound interest.
+- [Local Business Schema Generator](local-business-schema.md) - Generate LocalBusiness JSON-LD schema for Google rich results. Fill out the form, copy valid structured data.
+- [NAP Consistency Checker](nap-checker.md) - Check Name, Address, Phone consistency across business listings. Find and fix mismatches for local SEO.
+- [Review Response Generator](review-response-generator.md) - Generate professional responses to Google reviews. Templates for positive, negative, and neutral reviews.
+- [GMB Post Generator](gmb-post-generator.md) - Create engaging Google Business Profile posts for updates, events, and offers with CTA buttons.
+- [Service Area Schema Generator](service-area-schema.md) - Generate ServiceAreaBusiness JSON-LD schema for businesses without a storefront. Define service areas by city or radius.
+- [Local Citation Formatter](citation-formatter.md) - Format business info for local citations across Yelp, BBB, YellowPages, and 10+ directories consistently.
+- [Local Keywords Generator](local-keywords-generator.md) - Generate 50+ local SEO keyword variations from a seed keyword and location. "Near me" combos included.
+- [Hours of Operation Schema](hours-schema-generator.md) - Generate OpeningHoursSpecification JSON-LD for Google. Set hours per day with lunch breaks and special hours.
+- [FAQ Schema Generator](faq-schema-generator.md) - Generate FAQPage JSON-LD schema for Google rich results. Add Q&A pairs and copy valid structured data.
+- [Product Schema Generator](product-schema-generator.md) - Generate Product JSON-LD schema for Google Shopping rich results with price, reviews, and availability.
+- [Indian Wedding Budget Calculator](wedding-budget-calculator.md) - Plan your Indian wedding budget across venue, catering, decor, photography, and more. Track allocation and spending.
+- [Electricity Bill Calculator (India)](electricity-bill-calculator.md) - Calculate electricity bill with state-wise tariff slabs. Domestic and commercial rates with fuel surcharge.
+- [Paint Calculator](paint-calculator.md) - Calculate paint needed for walls. Enter room dimensions, number of coats, subtract doors/windows. Get liters and cost.
+- [Fuel Cost Calculator](fuel-cost-calculator.md) - Calculate fuel cost for road trips. Enter distance, vehicle mileage, and fuel price. Round-trip support.
+- [Tile Calculator](tile-calculator.md) - Calculate tiles needed for floors and walls. Enter dimensions, tile size, and wastage percentage for accurate counts.
+- [Home Loan Affordability Calculator](home-loan-affordability.md) - Calculate how much home loan you can afford based on income, EMIs, and FOIR rules. India-specific eligibility.
+- [EMI to Principal Interest Breakdown](emi-principal-calculator.md) - See how your EMI splits between principal and interest. Full amortization schedule with month-wise breakdown.
+- [Daily Water Intake Calculator](water-intake-calculator.md) - Calculate daily water intake based on weight, activity level, and climate. Hourly hydration schedule included.
+- [Sleep Cycle Calculator](sleep-cycle-calculator.md) - Find optimal bedtime or wake time based on 90-minute sleep cycles. Wake up refreshed every morning.
+- [Carbon Footprint Calculator](carbon-footprint-calculator.md) - Calculate your carbon footprint from travel, energy, diet, and shopping. India-specific emission factors included.
+- [Meeting Cost Calculator](meeting-cost-calculator.md) - Calculate the true cost of meetings based on attendee salaries and duration. Optimize team productivity.
+- [Product Pricing Calculator](pricing-calculator.md) - Calculate optimal product pricing with cost, markup, and profit margin analysis.
+- [Invoice Number Generator](invoice-number-generator.md) - Generate sequential invoice numbers with customizable prefixes and formats.
+- [Business Name Generator](business-name-generator.md) - Generate creative business name ideas based on keywords, industry, and style preferences.
+- [SWOT Analysis Generator](swot-analysis-generator.md) - Create structured SWOT analysis for business planning. Export as PDF or share link.
+- [Payroll Calculator](payroll-calculator.md) - Calculate employee payroll with deductions, taxes, and net salary. India-specific PF and ESI support.
+- [Working Days Calculator](working-days-calculator.md) - Calculate working days between dates excluding weekends and Indian holidays.
+- [Contract Generator](contract-generator.md) - Generate basic freelance and service contracts with customizable terms and conditions.
+- [Aspect Ratio Calculator](aspect-ratio-calculator.md) - Calculate aspect ratios and resize dimensions while maintaining proportions.
+- [SVG to PNG Converter](svg-to-png.md) - Convert SVG vector graphics to PNG images with custom resolution and background.
+- [Favicon Generator](favicon-generator.md) - Generate favicons in all sizes from a single image. Includes ICO, PNG, and Apple Touch icons.
+- [Pixel to REM Converter](pixel-to-rem.md) - Convert pixels to REM units for responsive web design. Customizable base font size.
+- [CSS Box Shadow Generator](box-shadow-generator.md) - Create and preview CSS box shadows with visual controls. Copy ready-to-use code.
+- [Border Radius Generator](border-radius-generator.md) - Create custom border radius shapes with visual preview. Generate CSS code instantly.
+- [Color Shades Generator](color-shades-generator.md) - Generate lighter and darker shades of any color. Perfect for creating color palettes.
+- [Glassmorphism Generator](glassmorphism-generator.md) - Create glassmorphism effects with visual preview. Generate CSS for frosted glass UI.
+- [HTML to Markdown Converter](html-to-markdown.md) - Convert HTML to clean Markdown format. Preserves links, images, and formatting.
+- [JSON to TypeScript Types](json-to-typescript.md) - Generate TypeScript interfaces from JSON data. Supports nested objects and arrays.
+- [SQL to Prisma Schema](sql-to-prisma.md) - Convert SQL DDL statements to Prisma schema format for modern database workflows.
+- [CSS to Tailwind Converter](css-to-tailwind.md) - Convert vanilla CSS to Tailwind CSS classes. Map common CSS properties to utility classes.
+- [NPM Package Checker](npm-package-checker.md) - Check NPM package stats, downloads, dependencies, and security vulnerabilities.
+- [cURL to Fetch Converter](curl-to-fetch.md) - Convert cURL commands to JavaScript fetch code. Supports headers, body, and auth.
+- [JSON to Go Struct](json-to-go.md) - Generate Go struct definitions from JSON data with proper field tags.
+- [Base64 Image Encoder](base64-image-encoder.md) - Convert images to Base64 encoded data URIs for embedding in HTML/CSS.
+- [Git Command Generator](git-command-generator.md) - Generate complex Git commands with visual interface. Supports branching, rebasing, cherry-pick.
+- [ENV to JSON Converter](env-to-json.md) - Convert .env environment files to JSON format and vice versa.
+- [Scientific Calculator](scientific-calculator.md) - Full-featured scientific calculator with trigonometry, logarithms, and memory functions.
+- [Fraction Calculator](fraction-calculator.md) - Add, subtract, multiply, and divide fractions. Simplify and convert to decimals.
+- [Quadratic Equation Solver](quadratic-equation-solver.md) - Solve quadratic equations and find roots. Shows step-by-step solution.
+- [Matrix Calculator](matrix-calculator.md) - Perform matrix operations: addition, multiplication, determinant, inverse.
+- [Probability Calculator](probability-calculator.md) - Calculate probabilities for various events and distributions.
+- [Area Calculator](area-calculator.md) - Calculate area of various shapes: circle, triangle, rectangle, trapezoid, and more.
+- [Body Fat Calculator](body-fat-calculator.md) - Estimate body fat percentage using Navy method. Enter measurements for accurate results.
+- [Ideal Weight Calculator](ideal-weight-calculator.md) - Calculate your ideal weight based on height, age, and gender using multiple formulas.
+- [Macro Calculator](macro-calculator.md) - Calculate daily macronutrient needs (protein, carbs, fat) based on your fitness goals.
+- [Heart Rate Zone Calculator](heart-rate-zone-calculator.md) - Calculate target heart rate zones for optimal cardio training.
+- [Pregnancy Due Date Calculator](pregnancy-due-date-calculator.md) - Calculate estimated due date and pregnancy milestones from last period or conception date.
+- [Running Pace Calculator](pace-calculator.md) - Calculate running pace, time, or distance for marathons and training.
+- [Headline Analyzer](headline-analyzer.md) - Analyze headlines for emotional appeal, power words, and click-worthiness.
+- [Reading Time Calculator](reading-time-calculator.md) - Calculate estimated reading time for articles and blog posts.
+- [Call to Action Generator](cta-generator.md) - Generate compelling CTAs for landing pages, emails, and ads.
+- [Professional Bio Generator](bio-generator.md) - Generate professional bios for LinkedIn, Twitter, and websites.
+- [Temperature Converter](temperature-converter.md) - Convert between Celsius, Fahrenheit, and Kelvin temperatures.
+- [Speed Converter](speed-converter.md) - Convert speed between km/h, mph, m/s, knots, and more.
+- [Weight Converter](weight-converter.md) - Convert weight between kg, lbs, ounces, grams, and stones.
+- [Length Converter](length-converter.md) - Convert length between meters, feet, inches, miles, and kilometers.
+- [Data Size Converter](data-size-converter.md) - Convert between bytes, KB, MB, GB, TB with binary and decimal units.
+- [Number to Words Converter](number-to-words.md) - Convert numbers to written words in English and Hindi for cheques and documents.
 
 ---
 

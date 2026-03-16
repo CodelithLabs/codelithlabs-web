@@ -4,8 +4,8 @@ description: "Track current time across multiple time zones with live updates."
 keywords: ["world clock","timezone","time","global","live"]
 category: "geo"
 slug: "world-clock"
-datePublished: "2026-02-28T22:33:40.336Z"
-dateModified: "2026-02-28T22:33:40.336Z"
+datePublished: "2026-03-15T19:33:33.868Z"
+dateModified: "2026-03-15T19:33:33.868Z"
 author: "CodelithLabs Team"
 ---
 
@@ -148,7 +148,7 @@ Help others discover World Clock:
 
 ---
 
-**Last Updated**: March 1, 2026
+**Last Updated**: March 15, 2026
 
 **Author**: CodelithLabs Engineering Team
 

@@ -4,8 +4,8 @@ description: "Format and beautify SQL queries for better readability."
 keywords: ["sql","format","beautify","query"]
 category: "formatter"
 slug: "sql-formatter"
-datePublished: "2026-02-28T22:33:40.299Z"
-dateModified: "2026-02-28T22:33:40.299Z"
+datePublished: "2026-03-15T19:33:33.850Z"
+dateModified: "2026-03-15T19:33:33.850Z"
 author: "CodelithLabs Team"
 ---
 
@@ -148,7 +148,7 @@ Help others discover SQL Formatter:
 
 ---
 
-**Last Updated**: March 1, 2026
+**Last Updated**: March 15, 2026
 
 **Author**: CodelithLabs Engineering Team
 

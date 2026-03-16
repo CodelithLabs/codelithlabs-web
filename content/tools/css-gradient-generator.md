@@ -4,8 +4,8 @@ description: "Create beautiful linear, radial, and conic gradients with live pre
 keywords: ["gradient","css","linear","radial","conic","design","background"]
 category: "developer"
 slug: "css-gradient-generator"
-datePublished: "2026-02-28T22:33:40.345Z"
-dateModified: "2026-02-28T22:33:40.345Z"
+datePublished: "2026-03-15T19:33:33.873Z"
+dateModified: "2026-03-15T19:33:33.873Z"
 author: "CodelithLabs Team"
 ---
 
@@ -148,7 +148,7 @@ Help others discover CSS Gradient Generator:
 
 ---
 
-**Last Updated**: March 1, 2026
+**Last Updated**: March 15, 2026
 
 **Author**: CodelithLabs Engineering Team
 

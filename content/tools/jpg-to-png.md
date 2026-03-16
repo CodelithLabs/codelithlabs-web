@@ -1,17 +1,17 @@
 ---
 title: "JPG to PNG Converter - Free Online Tool"
-description: "Convert JPG images to PNG format with transparency support."
+description: "Convert JPG images to PNG format with full transparency support in your browser. No upload, no watermark — instant conversion and one-click download."
 keywords: ["jpg","png","convert","transparent"]
 category: "image"
 slug: "jpg-to-png"
-datePublished: "2026-02-28T22:33:40.306Z"
-dateModified: "2026-02-28T22:33:40.306Z"
+datePublished: "2026-03-15T19:33:33.854Z"
+dateModified: "2026-03-15T19:33:33.854Z"
 author: "CodelithLabs Team"
 ---
 
 # JPG to PNG Converter
 
-Convert JPG images to PNG format with transparency support.
+Convert JPG images to PNG format with full transparency support in your browser. No upload, no watermark — instant conversion and one-click download.
 
 ## 🚀 Features
 
@@ -148,7 +148,7 @@ Help others discover JPG to PNG Converter:
 
 ---
 
-**Last Updated**: March 1, 2026
+**Last Updated**: March 15, 2026
 
 **Author**: CodelithLabs Engineering Team
 

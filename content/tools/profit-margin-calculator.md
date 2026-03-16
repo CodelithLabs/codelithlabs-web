@@ -4,8 +4,8 @@ description: "Calculate gross profit, margin percentage, and markup from cost an
 keywords: ["profit","margin","markup","revenue","business","calculator"]
 category: "finance"
 slug: "profit-margin-calculator"
-datePublished: "2026-02-28T22:33:40.331Z"
-dateModified: "2026-02-28T22:33:40.331Z"
+datePublished: "2026-03-15T19:33:33.865Z"
+dateModified: "2026-03-15T19:33:33.865Z"
 author: "CodelithLabs Team"
 ---
 
@@ -148,7 +148,7 @@ Help others discover Profit Margin Calculator:
 
 ---
 
-**Last Updated**: March 1, 2026
+**Last Updated**: March 15, 2026
 
 **Author**: CodelithLabs Engineering Team
 
