@@ -1,0 +1,10 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" fill="#0f172a"/>
+  <circle cx="320" cy="300" r="70" fill="#1e3a8a"/><text x="320" y="312" text-anchor="middle" fill="#dbeafe" font-size="34" font-family="Arial" font-weight="700">CODE</text>
+  <circle cx="560" cy="300" r="70" fill="#1d4ed8"/><text x="560" y="312" text-anchor="middle" fill="#dbeafe" font-size="34" font-family="Arial" font-weight="700">CADA</text>
+  <circle cx="800" cy="300" r="70" fill="#0ea5e9"/><text x="800" y="312" text-anchor="middle" fill="#ecfeff" font-size="34" font-family="Arial" font-weight="700">DATA</text>
+  <line x1="390" y1="300" x2="490" y2="300" stroke="#93c5fd" stroke-width="8"/>
+  <line x1="630" y1="300" x2="730" y2="300" stroke="#93c5fd" stroke-width="8"/>
+  <text x="80" y="140" fill="#f8fafc" font-size="62" font-family="Arial, sans-serif" font-weight="700">WORD WIRE</text>
+  <text x="80" y="198" fill="#93c5fd" font-size="30" font-family="Arial, sans-serif">Connect words through smart letter shifts</text>
+</svg>

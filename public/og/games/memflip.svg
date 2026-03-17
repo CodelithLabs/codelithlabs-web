@@ -1,0 +1,12 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" fill="#0b1020"/>
+  <rect x="120" y="100" width="960" height="430" rx="22" fill="#111827" stroke="#334155"/>
+  <rect x="220" y="190" width="120" height="120" rx="18" fill="#1f2937"/>
+  <rect x="370" y="190" width="120" height="120" rx="18" fill="#374151"/>
+  <rect x="520" y="190" width="120" height="120" rx="18" fill="#1f2937"/>
+  <text x="280" y="268" text-anchor="middle" fill="#22d3ee" font-size="56" font-family="Arial">◆</text>
+  <text x="430" y="268" text-anchor="middle" fill="#34d399" font-size="56" font-family="Arial">●</text>
+  <text x="580" y="268" text-anchor="middle" fill="#f59e0b" font-size="56" font-family="Arial">▲</text>
+  <text x="700" y="270" fill="#f8fafc" font-size="64" font-family="Arial, sans-serif" font-weight="700">MEM FLIP</text>
+  <text x="700" y="326" fill="#a5b4fc" font-size="30" font-family="Arial, sans-serif">Remember the sequence</text>
+</svg>

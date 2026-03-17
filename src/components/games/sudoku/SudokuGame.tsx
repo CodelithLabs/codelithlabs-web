@@ -46,32 +46,35 @@ export default function SudokuGame({ locale }: Props) {
   const score = Math.max(0, solvedCount * 10 - mistakes * 5 + (won ? 300 : 0));
   const leaderboard = usePseudoLeaderboard('sudoku', score || best);
 
-  useEffect(() => {
-    const complete = grid.every((row, r) => row.every((n, c) => n === SOLUTION[r][c]));
-    if (complete && !won) {
-      setWon(true);
-      beep(980, 0.12, 'triangle');
-      if (score > best) {
-        setBest(score);
-        if (typeof window !== 'undefined') localStorage.setItem('sudoku_best', String(score));
-      }
-    }
-  }, [grid, won, beep, score, best]);
-
   const writeCell = (value: number) => {
     if (!selected || won) return;
     const { r, c } = selected;
     if (PUZZLE[r][c] !== 0) return;
 
+    let solvedAfterWrite = false;
     setGrid((prev) => {
       const next = prev.map((row) => [...row]);
       next[r][c] = value;
+      solvedAfterWrite = next.every((row, rr) => row.every((n, cc) => n === SOLUTION[rr][cc]));
       return next;
     });
 
     if (value === 0) return;
     if (value === SOLUTION[r][c]) {
       beep(680, 0.05, 'sine');
+      if (solvedAfterWrite) {
+        setWon(true);
+        beep(980, 0.12, 'triangle');
+        setBest((prev) => {
+          const solvedCountAfter = solvedCount + 1;
+          const nextScore = Math.max(0, solvedCountAfter * 10 - mistakes * 5 + 300);
+          if (nextScore > prev) {
+            if (typeof window !== 'undefined') localStorage.setItem('sudoku_best', String(nextScore));
+            return nextScore;
+          }
+          return prev;
+        });
+      }
     } else {
       setMistakes((m) => m + 1);
       beep(180, 0.12, 'sawtooth');

@@ -1,16 +1,13 @@
 'use client';
 
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 
 export function useGameAudio() {
   const ctxRef = useRef<AudioContext | null>(null);
-  const [muted, setMuted] = useState(false);
-
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-    const saved = localStorage.getItem('games_muted');
-    setMuted(saved === '1');
-  }, []);
+  const [muted, setMuted] = useState(() => {
+    if (typeof window === 'undefined') return false;
+    return localStorage.getItem('games_muted') === '1';
+  });
 
   const ensureContext = useCallback(() => {
     if (typeof window === 'undefined') return null;

@@ -35,7 +35,8 @@
     "tools:wave3": "node scripts/generate-wave-launch-list.js --wave=3 --size=25",
     "tools:wave3:dedupe": "node scripts/generate-wave-launch-list.js --wave=3 --size=25 --exclude-similar --threshold=2",
     "tools:wave3:dedupe:quota": "node scripts/generate-wave-launch-list.js --wave=3 --size=25 --exclude-similar --threshold=2 --min-category-quota=1",
-    "tools:wave3:dedupe:quota:fallback": "node scripts/generate-wave-launch-list.js --wave=3 --size=25 --exclude-similar --threshold=2 --min-category-quota=1 --progressive-fallback"
+    "tools:wave3:dedupe:quota:fallback": "node scripts/generate-wave-launch-list.js --wave=3 --size=25 --exclude-similar --threshold=2 --min-category-quota=1 --progressive-fallback",
+    "games:report": "node scripts/generate-games-launch-report.js"
   },
   "dependencies": {
     "@ducanh2912/next-pwa": "^10.2.9",

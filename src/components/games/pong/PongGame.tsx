@@ -1,10 +1,11 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { Locale } from '@/i18n/request';
 import { GameFrame } from '@/components/games/shared/GameFrame';
 import { useGameAudio } from '@/components/games/shared/useGameAudio';
 import { usePseudoLeaderboard } from '@/components/games/shared/usePseudoLeaderboard';
+import { createPerfStatsTracker, getOrCreatePerfSessionTag } from '@/components/games/shared/perfStats';
 
 const W = 520;
 const H = 300;
@@ -24,6 +25,33 @@ export default function PongGame({ locale }: Props) {
   const [best, setBest] = useState(() => (typeof window !== 'undefined' ? Number(localStorage.getItem('pong_best') ?? 0) : 0));
   const { muted, beep, toggleMuted } = useGameAudio();
 
+  const playerYRef = useRef(playerY);
+  const cpuYRef = useRef(cpuY);
+  const playerScoreRef = useRef(playerScore);
+  const cpuScoreRef = useRef(cpuScore);
+  const bestRef = useRef(best);
+  const perfSessionTagRef = useRef('');
+
+  useEffect(() => {
+    playerYRef.current = playerY;
+  }, [playerY]);
+
+  useEffect(() => {
+    cpuYRef.current = cpuY;
+  }, [cpuY]);
+
+  useEffect(() => {
+    playerScoreRef.current = playerScore;
+  }, [playerScore]);
+
+  useEffect(() => {
+    cpuScoreRef.current = cpuScore;
+  }, [cpuScore]);
+
+  useEffect(() => {
+    bestRef.current = best;
+  }, [best]);
+
   const score = playerScore * 100;
   const leaderboard = usePseudoLeaderboard('pong', score || best);
 
@@ -37,15 +65,24 @@ export default function PongGame({ locale }: Props) {
   }, []);
 
   useEffect(() => {
-    if (playerScore >= 7 || cpuScore >= 7) return;
+    const perfEnabled = process.env.NODE_ENV !== 'production';
+    if (!perfSessionTagRef.current) {
+      perfSessionTagRef.current = getOrCreatePerfSessionTag();
+    }
+    const perf = createPerfStatsTracker('[Perf][Pong] ', 240, perfEnabled, perfSessionTagRef.current);
+    let lastTick = performance.now();
 
     const t = window.setInterval(() => {
-      setCpuY((y) => {
-        const center = y + PADDLE_H / 2;
-        if (center < ball.y - 8) return Math.min(H - PADDLE_H, y + 3.3);
-        if (center > ball.y + 8) return Math.max(0, y - 3.3);
-        return y;
-      });
+      if (perfEnabled) {
+        const now = performance.now();
+        const dtMs = now - lastTick;
+        lastTick = now;
+        perf.sample(dtMs);
+      }
+
+      if (playerScoreRef.current >= 7 || cpuScoreRef.current >= 7) {
+        return;
+      }
 
       setBall((prev) => {
         let x = prev.x + prev.vx;
@@ -53,34 +90,57 @@ export default function PongGame({ locale }: Props) {
         let vx = prev.vx;
         let vy = prev.vy;
 
+        setCpuY((cpuPrev) => {
+          const center = cpuPrev + PADDLE_H / 2;
+          let nextCpu = cpuPrev;
+          if (center < prev.y - 8) nextCpu = Math.min(H - PADDLE_H, cpuPrev + 3.3);
+          if (center > prev.y + 8) nextCpu = Math.max(0, cpuPrev - 3.3);
+          cpuYRef.current = nextCpu;
+          return nextCpu;
+        });
+
         if (y <= 0 || y >= H) {
           vy *= -1;
           beep(300, 0.03, 'square');
         }
 
-        const hitPlayer = x <= 24 && y >= playerY && y <= playerY + PADDLE_H;
-        const hitCpu = x >= W - 24 && y >= cpuY && y <= cpuY + PADDLE_H;
+        const hitPlayer = x <= 24 && y >= playerYRef.current && y <= playerYRef.current + PADDLE_H;
+        const hitCpu = x >= W - 24 && y >= cpuYRef.current && y <= cpuYRef.current + PADDLE_H;
 
         if (hitPlayer) {
           vx = Math.abs(vx) + 0.15;
-          vy += ((y - (playerY + PADDLE_H / 2)) / PADDLE_H) * 1.2;
+          vy += ((y - (playerYRef.current + PADDLE_H / 2)) / PADDLE_H) * 1.2;
           beep(550, 0.04, 'triangle');
         }
 
         if (hitCpu) {
           vx = -Math.abs(vx) - 0.15;
-          vy += ((y - (cpuY + PADDLE_H / 2)) / PADDLE_H) * 1.2;
+          vy += ((y - (cpuYRef.current + PADDLE_H / 2)) / PADDLE_H) * 1.2;
           beep(420, 0.04, 'triangle');
         }
 
         if (x < -10) {
-          setCpuScore((s) => s + 1);
+          setCpuScore((s) => {
+            const nextCpu = s + 1;
+            cpuScoreRef.current = nextCpu;
+            return nextCpu;
+          });
           beep(150, 0.12, 'sawtooth');
           return { x: W / 2, y: H / 2, vx: 4, vy: 2.2 };
         }
 
         if (x > W + 10) {
-          setPlayerScore((s) => s + 1);
+          setPlayerScore((s) => {
+            const nextPlayerScore = s + 1;
+            playerScoreRef.current = nextPlayerScore;
+            const nextScore = nextPlayerScore * 100;
+            if (nextScore > bestRef.current) {
+              bestRef.current = nextScore;
+              if (typeof window !== 'undefined') localStorage.setItem('pong_best', String(nextScore));
+              setBest(nextScore);
+            }
+            return nextPlayerScore;
+          });
           beep(820, 0.08, 'triangle');
           return { x: W / 2, y: H / 2, vx: -4, vy: 2.2 };
         }
@@ -89,22 +149,22 @@ export default function PongGame({ locale }: Props) {
       });
     }, 16);
 
-    return () => clearInterval(t);
-  }, [ball.y, playerY, cpuY, beep, playerScore, cpuScore]);
-
-  useEffect(() => {
-    if (score > best) {
-      setBest(score);
-      if (typeof window !== 'undefined') localStorage.setItem('pong_best', String(score));
-    }
-  }, [score, best]);
+    return () => {
+      clearInterval(t);
+      perf.flush();
+    };
+  }, [beep]);
 
   const reset = () => {
     setPlayerY(110);
+    playerYRef.current = 110;
     setCpuY(110);
+    cpuYRef.current = 110;
     setBall({ x: W / 2, y: H / 2, vx: 4, vy: 2.2 });
     setPlayerScore(0);
+    playerScoreRef.current = 0;
     setCpuScore(0);
+    cpuScoreRef.current = 0;
   };
 
   return (

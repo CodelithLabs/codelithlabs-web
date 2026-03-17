@@ -5,6 +5,7 @@ import { useTranslations } from 'next-intl';
 import { GameCard } from './GameCard';
 import type { GameMeta } from '@/lib/games-registry';
 import type { Locale } from '@/i18n/request';
+import { Rocket, Trophy, Gamepad2, Sparkles } from 'lucide-react';
 
 interface GameHubProps {
   games: GameMeta[];
@@ -32,7 +33,8 @@ export function GameHub({ games, upcomingGames = [], launchGames = [], locale }:
       </div>
 
       <div className="px-6 py-16 max-w-5xl mx-auto">
-        <p className="text-red-800 font-mono text-xs tracking-widest uppercase mb-4">
+        <p className="text-red-800 font-mono text-xs tracking-widest uppercase mb-4 inline-flex items-center gap-2">
+          <Sparkles className="h-4 w-4" />
           CodelithLabs / {t('section')}
         </p>
         <h1 className="text-4xl md:text-6xl font-black tracking-tight text-white mb-4">
@@ -51,13 +53,13 @@ export function GameHub({ games, upcomingGames = [], launchGames = [], locale }:
               href={`/${locale}/games/${featuredGame.slug}`}
               className="inline-flex items-center gap-2 rounded-xl border border-red-900/70 bg-red-950/40 px-4 py-3 text-sm font-mono uppercase tracking-widest text-red-300 transition-colors hover:border-red-700 hover:text-white"
             >
-              ▶ Play {featuredGame.title}
+              <Gamepad2 className="h-4 w-4" /> Play {featuredGame.title}
             </Link>
           )}
         </div>
         <div className="flex gap-2 mt-6 flex-wrap">
           {(
-            ['badge_privacy', 'badge_free', 'badge_noAccount', 'badge_offline'] as const
+            ['badge_privacy', 'badge_free', 'badge_offline'] as const
           ).map((key) => (
             <span
               key={key}
@@ -86,8 +88,8 @@ export function GameHub({ games, upcomingGames = [], launchGames = [], locale }:
 
       {launchGames.length > 0 && (
         <div className="px-6 pb-20 max-w-5xl mx-auto">
-          <h2 className="font-mono text-zinc-300 text-sm tracking-widest uppercase mb-6 border-b border-zinc-900 pb-3">
-            🚀 New Launch Wave
+          <h2 className="font-mono text-zinc-300 text-sm tracking-widest uppercase mb-6 border-b border-zinc-900 pb-3 inline-flex items-center gap-2">
+            <Rocket className="h-4 w-4 text-cyan-300" /> New Launch Wave
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {launchGames.map((game) => (
@@ -99,8 +101,8 @@ export function GameHub({ games, upcomingGames = [], launchGames = [], locale }:
 
       {upcomingGames.length > 0 && (
           <div className="px-6 pb-20 max-w-5xl mx-auto">
-            <h2 className="font-mono text-zinc-600 text-xs tracking-widest uppercase mb-6 border-b border-zinc-900 pb-3">
-              ▷ Coming Soon
+            <h2 className="font-mono text-zinc-600 text-xs tracking-widest uppercase mb-6 border-b border-zinc-900 pb-3 inline-flex items-center gap-2">
+              <Trophy className="h-3.5 w-3.5" /> Coming Soon
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {upcomingGames.map((game) => (

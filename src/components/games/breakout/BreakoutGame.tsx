@@ -103,7 +103,17 @@ export default function BreakoutGame({ locale }: Props) {
               nextY <= brick.y + BRICK_H;
             if (overlap) {
               collision = true;
-              setScore((s) => s + 15);
+              setScore((s) => {
+                const nextScore = s + 15;
+                setBest((prev) => {
+                  if (nextScore > prev) {
+                    if (typeof window !== 'undefined') localStorage.setItem('breakout_best', String(nextScore));
+                    return nextScore;
+                  }
+                  return prev;
+                });
+                return nextScore;
+              });
               beep(740, 0.03, 'sine');
               return { ...brick, alive: false };
             }
@@ -128,13 +138,6 @@ export default function BreakoutGame({ locale }: Props) {
 
     return () => clearInterval(t);
   }, [running, paddleX, lives, cleared, beep]);
-
-  useEffect(() => {
-    if (score > best) {
-      setBest(score);
-      if (typeof window !== 'undefined') localStorage.setItem('breakout_best', String(score));
-    }
-  }, [score, best]);
 
   const reset = () => {
     setPaddleX(BOARD_W / 2 - PADDLE_W / 2);

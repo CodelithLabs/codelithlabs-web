@@ -72,6 +72,20 @@ function toSafeDate(timestamp?: number): Date {
   return parsed;
 }
 
+async function resolveExistingUserId(candidate: string | null): Promise<string | null> {
+  if (!candidate) return null;
+
+  try {
+    const user = await prisma.user.findUnique({
+      where: { id: candidate },
+      select: { id: true },
+    });
+    return user?.id ?? null;
+  } catch {
+    return null;
+  }
+}
+
 async function persistEvent(input: AnalyticsEventInput, userId: string | null, ipHash: string | null, userAgent: string | null) {
   const occurredAt = toSafeDate(input.occurredAt);
 
@@ -157,7 +171,7 @@ export async function POST(request: Request) {
     let userId: string | null = null;
     try {
       const session = await auth();
-      userId = session?.user?.id ?? null;
+      userId = await resolveExistingUserId(session?.user?.id ?? null);
     } catch {
       // Not authenticated or auth not configured — proceed without userId
     }

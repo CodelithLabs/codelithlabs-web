@@ -1,8 +1,10 @@
 'use client';
 
 import { useEffect, useState, useCallback, useRef } from 'react';
-import Link from 'next/link';
 import type { Locale } from '@/i18n/request';
+import { GameFrame } from '@/components/games/shared/GameFrame';
+import { usePseudoLeaderboard } from '@/components/games/shared/usePseudoLeaderboard';
+import { useGameAudio } from '@/components/games/shared/useGameAudio';
 
 type Board = (number | null)[][];
 type Dir = 'up' | 'down' | 'left' | 'right';
@@ -125,25 +127,44 @@ interface TileGameProps {
   locale: Locale;
 }
 
+const LEVEL_TARGETS = [2048, 4096, 8192] as const;
+
+function getMaxTile(board: Board): number {
+  let max = 0;
+  for (const row of board) {
+    for (const tile of row) {
+      if (tile && tile > max) max = tile;
+    }
+  }
+  return max;
+}
+
 export default function TileGame({ locale }: TileGameProps) {
   const [board, setBoard] = useState<Board>(initBoard);
   const [score, setScore] = useState(0);
+  const [levelIndex, setLevelIndex] = useState(0);
   const [best, setBest] = useState(() => {
     if (typeof window !== 'undefined') return Number(localStorage.getItem('tile2048_best') ?? 0);
     return 0;
   });
   const [gameOver, setGameOver] = useState(false);
-  const [won, setWon] = useState(false);
-  const [keepGoing, setKeepGoing] = useState(false);
+  const [levelCleared, setLevelCleared] = useState(false);
   const [isNewBest, setIsNewBest] = useState(false);
+  const { muted, beep, toggleMuted } = useGameAudio();
+  const level = levelIndex + 1;
+  const currentTarget = LEVEL_TARGETS[Math.min(levelIndex, LEVEL_TARGETS.length - 1)];
+  const leaderboard = usePseudoLeaderboard(`tile2048-l${level}`, Math.max(score, best));
 
   const handleMove = useCallback((dir: Dir) => {
-    if (gameOver || (won && !keepGoing)) return;
+    if (gameOver || levelCleared) return;
+
+    let gainedPoints = 0;
     setBoard((prev) => {
       const { board: moved, score: gained, moved: didMove } = move(prev, dir);
       if (!didMove) return prev;
 
       const withNew = addRandom(moved);
+      gainedPoints = gained;
 
       setScore((s) => {
         const next = s + gained;
@@ -158,19 +179,31 @@ export default function TileGame({ locale }: TileGameProps) {
         return next;
       });
 
-      if (!keepGoing && hasWon(withNew)) setWon(true);
+      const maxTile = getMaxTile(withNew);
+      if (maxTile >= currentTarget) {
+        setLevelCleared(true);
+      }
       if (isGameOver(withNew)) setGameOver(true);
       return withNew;
     });
-  }, [gameOver, won, keepGoing]);
+
+    if (gainedPoints > 0) {
+      beep(640, 0.04, 'triangle');
+    }
+  }, [beep, currentTarget, gameOver, levelCleared]);
 
   const restart = useCallback(() => {
     setBoard(initBoard());
     setScore(0);
     setGameOver(false);
-    setWon(false);
-    setKeepGoing(false);
+    setLevelIndex(0);
+    setLevelCleared(false);
     setIsNewBest(false);
+  }, []);
+
+  const continueNextLevel = useCallback(() => {
+    setLevelIndex((prev) => Math.min(prev + 1, LEVEL_TARGETS.length - 1));
+    setLevelCleared(false);
   }, []);
 
   // Keyboard
@@ -207,23 +240,17 @@ export default function TileGame({ locale }: TileGameProps) {
   }, [handleMove]);
 
   return (
-    <div className="min-h-screen bg-black text-white flex flex-col">
-      {/* Header */}
-      <div className="border-b border-zinc-900 px-6 py-3 flex items-center justify-between">
-        <Link href={`/${locale}/games`} className="text-zinc-600 hover:text-white font-mono text-xs tracking-widest uppercase transition-colors">
-          ← Games
-        </Link>
-        <div className="flex items-center gap-6 font-mono text-xs text-zinc-500">
-          <span>SCORE <span className="text-white font-bold">{score}</span></span>
-          <span>BEST <span className="text-yellow-400 font-bold">{best}</span></span>
-        </div>
-        <button onClick={restart} className="font-mono text-xs text-zinc-600 hover:text-white uppercase tracking-widest transition-colors">
-          New Game
-        </button>
-      </div>
-
-      {/* Board */}
-      <div className="flex-1 flex items-center justify-center p-4">
+    <GameFrame
+      locale={locale}
+      title="2048"
+      score={score}
+      best={best}
+      muted={muted}
+      onToggleMuted={toggleMuted}
+      controls={`Arrow keys/WASD, swipe, or mobile D-pad · level ${level} target ${currentTarget}`}
+      leaderboard={leaderboard}
+    >
+      <div className="flex flex-col items-center gap-4">
         <div className="relative">
           <div className="grid grid-cols-4 gap-2 p-3 bg-zinc-950 rounded-xl border border-zinc-900 select-none" style={{ width: 320 }}>
             {board.flat().map((val, i) => (
@@ -237,24 +264,24 @@ export default function TileGame({ locale }: TileGameProps) {
             ))}
           </div>
 
-          {/* Won overlay */}
-          {won && !keepGoing && (
+          <div className="mt-2 text-center font-mono text-xs text-cyan-300">Level {level} · Target {currentTarget}</div>
+
+          {levelCleared && (
             <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 bg-black/80 rounded-xl">
-              <p className="font-mono text-3xl font-black text-yellow-400">YOU WIN!</p>
+              <p className="font-mono text-2xl font-black text-yellow-400">LEVEL CLEAR</p>
               {isNewBest && <p className="font-mono text-xs text-yellow-300 animate-pulse tracking-widest">★ NEW BEST ★</p>}
               <div className="flex gap-3">
-                <button onClick={() => setKeepGoing(true)} className="px-5 py-2 rounded-lg border border-yellow-700 bg-yellow-900/30 text-yellow-300 font-mono text-xs tracking-widest uppercase hover:bg-yellow-800/40 transition-colors">
-                  Keep Going
+                <button onClick={continueNextLevel} className="px-5 py-2 rounded-lg border border-yellow-700 bg-yellow-900/30 text-yellow-300 font-mono text-xs tracking-widest uppercase hover:bg-yellow-800/40 transition-colors">
+                  Next Target
                 </button>
                 <button onClick={restart} className="px-5 py-2 rounded-lg border border-zinc-700 bg-zinc-900/60 text-zinc-300 font-mono text-xs tracking-widest uppercase hover:border-zinc-500 transition-colors">
-                  New Game
+                  New Run
                 </button>
               </div>
             </div>
           )}
 
-          {/* Game over overlay */}
-          {gameOver && !won && (
+          {gameOver && (
             <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 bg-black/85 rounded-xl">
               <p className="font-mono text-3xl font-black text-red-400">GAME OVER</p>
               {isNewBest && <p className="font-mono text-xs text-yellow-300 animate-pulse tracking-widest">★ NEW BEST ★</p>}
@@ -265,14 +292,18 @@ export default function TileGame({ locale }: TileGameProps) {
             </div>
           )}
         </div>
-      </div>
 
-      {/* Controls hint */}
-      <div className="border-t border-zinc-900 px-6 py-3 flex justify-center">
-        <p className="font-mono text-zinc-700 text-[10px] tracking-widest text-center">
-          ARROW KEYS / WASD — SLIDE &nbsp;·&nbsp; SWIPE ON MOBILE
-        </p>
+        <div className="grid grid-cols-3 gap-2 max-w-[220px] w-full select-none">
+          <button className="col-start-2 px-4 py-2 rounded border border-zinc-700 text-xs font-mono" onClick={() => handleMove('up')} aria-label="Move up">↑</button>
+          <button className="col-start-1 row-start-2 px-4 py-2 rounded border border-zinc-700 text-xs font-mono" onClick={() => handleMove('left')} aria-label="Move left">←</button>
+          <button className="col-start-2 row-start-2 px-4 py-2 rounded border border-zinc-700 text-xs font-mono" onClick={() => handleMove('down')} aria-label="Move down">↓</button>
+          <button className="col-start-3 row-start-2 px-4 py-2 rounded border border-zinc-700 text-xs font-mono" onClick={() => handleMove('right')} aria-label="Move right">→</button>
+        </div>
+
+        <button onClick={restart} className="font-mono text-xs text-zinc-600 hover:text-white uppercase tracking-widest transition-colors">
+          New Game
+        </button>
       </div>
-    </div>
+    </GameFrame>
   );
 }

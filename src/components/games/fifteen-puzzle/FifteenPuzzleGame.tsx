@@ -59,29 +59,38 @@ export default function FifteenPuzzleGame({ locale }: Props) {
     return () => clearInterval(t);
   }, [won]);
 
-  useEffect(() => {
-    const complete = tiles.every((v, i) => v === SOLVED[i]);
-    if (complete && !won) {
-      setWon(true);
-      beep(940, 0.14, 'triangle');
-      if (score > best) {
-        setBest(score);
-        if (typeof window !== 'undefined') localStorage.setItem('fifteen_puzzle_best', String(score));
-      }
-    }
-  }, [tiles, won, beep, score, best]);
-
   const moveTile = (index: number) => {
     if (won) return;
     const blank = tiles.indexOf(0);
     if (!canMove(index, blank)) return;
 
+    let nextTiles: number[] | null = null;
     setTiles((prev) => {
       const next = [...prev];
       [next[index], next[blank]] = [next[blank], next[index]];
+      nextTiles = next;
       return next;
     });
-    setMoves((m) => m + 1);
+    setMoves((m) => {
+      const nextMoves = m + 1;
+      const finalTiles = nextTiles;
+      if (finalTiles) {
+        const complete = finalTiles.every((v, i) => v === SOLVED[i]);
+        if (complete) {
+          setWon(true);
+          beep(940, 0.14, 'triangle');
+          const nextScore = Math.max(0, 2200 - nextMoves * 20 - seconds * 4 + 400);
+          setBest((prev) => {
+            if (nextScore > prev) {
+              if (typeof window !== 'undefined') localStorage.setItem('fifteen_puzzle_best', String(nextScore));
+              return nextScore;
+            }
+            return prev;
+          });
+        }
+      }
+      return nextMoves;
+    });
     beep(500, 0.03, 'square');
   };
 

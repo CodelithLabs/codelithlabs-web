@@ -1,13 +1,15 @@
 'use client';
 
 import { useEffect, useRef, useState, useCallback } from 'react';
-import Link from 'next/link';
 import type { Locale } from '@/i18n/request';
+import { GameFrame } from '@/components/games/shared/GameFrame';
+import { usePseudoLeaderboard } from '@/components/games/shared/usePseudoLeaderboard';
+import { useGameAudio } from '@/components/games/shared/useGameAudio';
 
 const GRID = 20;
 const CELL = 20;
 const SIZE = GRID * CELL;
-const TICK_MS = 130;
+const BASE_TICK_MS = 150;
 
 type Dir = 'U' | 'D' | 'L' | 'R';
 type Point = { x: number; y: number };
@@ -33,14 +35,19 @@ export default function SnakeGame({ locale }: SnakeGameProps) {
   const nextDirRef = useRef<Dir>('R');
   const appleRef = useRef<Point>(randCell());
   const tickRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const { muted, beep, toggleMuted } = useGameAudio();
 
   const [phase, setPhase] = useState<'idle' | 'playing' | 'over'>('idle');
   const [score, setScore] = useState(0);
+  const [level, setLevel] = useState(1);
   const [best, setBest] = useState(() => {
     if (typeof window !== 'undefined') return Number(localStorage.getItem('snake_best') ?? 0);
     return 0;
   });
   const [isNewBest, setIsNewBest] = useState(false);
+  const leaderboard = usePseudoLeaderboard('snake', Math.max(score, best));
+
+  const tickMs = Math.max(70, BASE_TICK_MS - (level - 1) * 10);
 
   const resetGame = useCallback(() => {
     snakeRef.current = initSnake();
@@ -48,6 +55,7 @@ export default function SnakeGame({ locale }: SnakeGameProps) {
     nextDirRef.current = 'R';
     appleRef.current = randCell();
     setScore(0);
+    setLevel(1);
     setIsNewBest(false);
   }, []);
 
@@ -96,6 +104,7 @@ export default function SnakeGame({ locale }: SnakeGameProps) {
     if (snakeRef.current.some((s) => s.x === next.x && s.y === next.y)) {
       if (tickRef.current) clearInterval(tickRef.current);
       setPhase('over');
+      beep(150, 0.12, 'sawtooth');
       setBest((prev) => {
         const newScore = snakeRef.current.length - 2;
         if (newScore > prev) {
@@ -112,7 +121,12 @@ export default function SnakeGame({ locale }: SnakeGameProps) {
     snakeRef.current = [next, ...snakeRef.current.slice(0, ateApple ? undefined : -1)];
 
     if (ateApple) {
-      setScore((s) => s + 1);
+      setScore((s) => {
+        const nextScore = s + 1;
+        setLevel(Math.floor(nextScore / 6) + 1);
+        return nextScore;
+      });
+      beep(780, 0.05, 'triangle');
       let newApple: Point;
       do { newApple = randCell(); }
       while (snakeRef.current.some((s) => s.x === newApple.x && s.y === newApple.y));
@@ -120,15 +134,20 @@ export default function SnakeGame({ locale }: SnakeGameProps) {
     }
 
     draw();
-  }, [draw]);
+  }, [beep, draw]);
 
   const startGame = useCallback(() => {
     resetGame();
     setPhase('playing');
-    if (tickRef.current) clearInterval(tickRef.current);
-    tickRef.current = setInterval(tick, TICK_MS);
     draw();
-  }, [resetGame, tick, draw]);
+  }, [draw, resetGame]);
+
+  const setDirection = useCallback((d: Dir) => {
+    const OPPOSITES: Record<Dir, Dir> = { U: 'D', D: 'U', L: 'R', R: 'L' };
+    if (d !== OPPOSITES[dirRef.current]) {
+      nextDirRef.current = d;
+    }
+  }, []);
 
   // Keyboard controls
   useEffect(() => {
@@ -142,7 +161,7 @@ export default function SnakeGame({ locale }: SnakeGameProps) {
     const onKey = (e: KeyboardEvent) => {
       const d = MAP[e.key];
       if (d && d !== OPPOSITES[dirRef.current]) {
-        nextDirRef.current = d;
+        setDirection(d);
         e.preventDefault();
       }
       if (e.key === ' ') {
@@ -151,7 +170,7 @@ export default function SnakeGame({ locale }: SnakeGameProps) {
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [phase, startGame]);
+  }, [phase, setDirection, startGame]);
 
   // Touch swipe
   useEffect(() => {
@@ -164,54 +183,50 @@ export default function SnakeGame({ locale }: SnakeGameProps) {
       let d: Dir;
       if (Math.abs(dx) > Math.abs(dy)) d = dx > 0 ? 'R' : 'L';
       else d = dy > 0 ? 'D' : 'U';
-      if (d !== OPPOSITES[dirRef.current]) nextDirRef.current = d;
+      if (d !== OPPOSITES[dirRef.current]) setDirection(d);
     };
     window.addEventListener('touchstart', onStart, { passive: true });
     window.addEventListener('touchend', onEnd, { passive: true });
     return () => { window.removeEventListener('touchstart', onStart); window.removeEventListener('touchend', onEnd); };
-  }, []);
+  }, [setDirection]);
 
   // Redraw loop when playing
   useEffect(() => {
     if (phase === 'playing') {
       if (tickRef.current) clearInterval(tickRef.current);
-      tickRef.current = setInterval(tick, TICK_MS);
+      tickRef.current = setInterval(tick, tickMs);
     }
     return () => { if (tickRef.current) clearInterval(tickRef.current); };
-  }, [phase, tick]);
+  }, [phase, tick, tickMs]);
 
   // Initial draw
   useEffect(() => { draw(); }, [draw]);
 
   return (
-    <div className="min-h-screen bg-black text-white flex flex-col">
-      {/* Header */}
-      <div className="border-b border-zinc-900 px-6 py-3 flex items-center justify-between">
-        <Link href={`/${locale}/games`} className="text-zinc-600 hover:text-white font-mono text-xs tracking-widest uppercase transition-colors">
-          ← Games
-        </Link>
-        <div className="flex items-center gap-6 font-mono text-xs text-zinc-500">
-          <span>SCORE <span className="text-white font-bold">{score}</span></span>
-          <span>BEST <span className="text-green-400 font-bold">{best}</span></span>
-        </div>
-      </div>
-
-      {/* Canvas area */}
-      <div className="flex-1 flex items-center justify-center p-4 relative">
+    <GameFrame
+      locale={locale}
+      title="Snake"
+      score={score}
+      best={best}
+      muted={muted}
+      onToggleMuted={toggleMuted}
+      controls={`Arrow keys/WASD or swipe/D-pad · space to start · level ${level} · speed ${tickMs}ms`}
+      leaderboard={leaderboard}
+    >
+      <div className="flex flex-col items-center gap-4">
         <div className="relative" style={{ width: SIZE, height: SIZE }}>
           <canvas
             ref={canvasRef}
             width={SIZE}
             height={SIZE}
-            className="block rounded-lg border border-zinc-900"
+            className="block rounded-lg border border-zinc-900 w-full max-w-[400px] h-auto"
           />
 
-          {/* Overlay: idle */}
           {phase === 'idle' && (
             <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 bg-black/80 rounded-lg">
               <h1 className="font-mono text-4xl font-black tracking-widest text-white">SNAKE</h1>
               <p className="font-mono text-zinc-500 text-xs tracking-widest text-center px-4">
-                ARROW KEYS / WASD TO STEER · SPACE TO START
+                LEVELS UNLOCK EVERY 6 APPLES
               </p>
               <button
                 onClick={startGame}
@@ -222,7 +237,6 @@ export default function SnakeGame({ locale }: SnakeGameProps) {
             </div>
           )}
 
-          {/* Overlay: game over */}
           {phase === 'over' && (
             <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 bg-black/85 rounded-lg">
               <h2 className="font-mono text-3xl font-black tracking-widest text-red-400">GAME OVER</h2>
@@ -230,6 +244,7 @@ export default function SnakeGame({ locale }: SnakeGameProps) {
                 <p className="font-mono text-yellow-400 text-sm tracking-widest animate-pulse">★ NEW BEST ★</p>
               )}
               <p className="font-mono text-zinc-400 text-sm">Score: <span className="text-white font-bold">{score}</span></p>
+              <p className="font-mono text-zinc-500 text-xs">Reached level {level}</p>
               <button
                 onClick={startGame}
                 className="mt-2 px-8 py-3 rounded-lg border border-zinc-700 bg-zinc-900/60 text-white font-mono text-sm tracking-widest uppercase hover:border-zinc-500 transition-colors"
@@ -239,14 +254,14 @@ export default function SnakeGame({ locale }: SnakeGameProps) {
             </div>
           )}
         </div>
-      </div>
 
-      {/* Controls hint */}
-      <div className="border-t border-zinc-900 px-6 py-3 flex justify-center">
-        <p className="font-mono text-zinc-700 text-[10px] tracking-widest text-center">
-          ARROW KEYS / WASD — STEER &nbsp;·&nbsp; SWIPE ON MOBILE
-        </p>
+        <div className="grid grid-cols-3 gap-2 max-w-[220px] w-full select-none">
+          <button className="col-start-2 px-4 py-2 rounded border border-zinc-700 text-xs font-mono" onClick={() => setDirection('U')} aria-label="Move up">↑</button>
+          <button className="col-start-1 row-start-2 px-4 py-2 rounded border border-zinc-700 text-xs font-mono" onClick={() => setDirection('L')} aria-label="Move left">←</button>
+          <button className="col-start-2 row-start-2 px-4 py-2 rounded border border-zinc-700 text-xs font-mono" onClick={() => setDirection('D')} aria-label="Move down">↓</button>
+          <button className="col-start-3 row-start-2 px-4 py-2 rounded border border-zinc-700 text-xs font-mono" onClick={() => setDirection('R')} aria-label="Move right">→</button>
+        </div>
       </div>
-    </div>
+    </GameFrame>
   );
 }

@@ -1,14 +1,17 @@
 'use client';
 
-import { useState, useCallback } from 'react';
-import Link from 'next/link';
+import { useMemo, useState } from 'react';
 import type { Locale } from '@/i18n/request';
+import { GameFrame } from '@/components/games/shared/GameFrame';
+import { useGameAudio } from '@/components/games/shared/useGameAudio';
+import { usePseudoLeaderboard } from '@/components/games/shared/usePseudoLeaderboard';
+import { Shield, Route, DollarSign, Users, Target, Crown } from 'lucide-react';
 
 interface CrewMember {
   id: string;
   name: string;
   role: 'hacker' | 'driver' | 'lookout' | 'safecracker';
-  skill: number; // 1-5
+  skill: number;
   assigned: boolean;
 }
 
@@ -16,7 +19,7 @@ interface HeistScenario {
   id: string;
   title: string;
   vault: string;
-  security: number; // 1-5, what team skill is needed
+  security: number;
   route: string;
   loot: string;
   requiredRoles: CrewMember['role'][];
@@ -74,91 +77,108 @@ export default function HeistGame({ locale }: HeistGameProps) {
   const [crew, setCrew] = useState<CrewMember[]>(CREW_POOL.map((c) => ({ ...c, assigned: false })));
   const [result, setResult] = useState<Result | null>(null);
   const [resultMsg, setResultMsg] = useState('');
+  const [score, setScore] = useState(0);
+  const [best, setBest] = useState(() => (typeof window !== 'undefined' ? Number(localStorage.getItem('heist_best') ?? 0) : 0));
+  const [level, setLevel] = useState(1);
+  const { muted, beep, toggleMuted } = useGameAudio();
 
-  const toggleCrew = useCallback((id: string) => {
-    setCrew((prev) => prev.map((c) => c.id === id ? { ...c, assigned: !c.assigned } : c));
-  }, []);
+  const assignedCrew = useMemo(() => crew.filter((c) => c.assigned), [crew]);
+  const leaderboard = usePseudoLeaderboard('heist', Math.max(score, best));
 
-  const assignedCrew = crew.filter((c) => c.assigned);
-
-  const runHeist = useCallback(() => {
-    if (!selectedScenario) return;
-    const assigned = crew.filter((c) => c.assigned);
-
-    // Check required roles
-    const rolesPresent = selectedScenario.requiredRoles.every((r) => assigned.some((a) => a.role === r));
-    const avgSkill = assigned.length ? assigned.reduce((s, a) => s + a.skill, 0) / assigned.length : 0;
-
-    let res: Result;
-    if (!rolesPresent) {
-      res = 'failed';
-      setResultMsg('Your crew is missing a critical role. The job fell apart at the vault.');
-    } else if (avgSkill >= selectedScenario.security) {
-      res = 'success';
-      setResultMsg(`Perfect execution. Your crew secured ${selectedScenario.loot} and vanished without a trace.`);
-    } else if (avgSkill >= selectedScenario.security - 1) {
-      res = 'partial';
-      setResultMsg('The job went sideways — you got out with half the loot but lost one crew member.');
-    } else {
-      res = 'failed';
-      setResultMsg('Security was too tight. Your crew panicked and the job collapsed.');
+  function persistBest(next: number) {
+    if (next > best) {
+      setBest(next);
+      if (typeof window !== 'undefined') localStorage.setItem('heist_best', String(next));
     }
-    setResult(res);
-    setPhase('result');
-  }, [selectedScenario, crew]);
+  }
 
-  const restart = useCallback(() => {
+  function toggleCrew(id: string) {
+    setCrew((prev) => prev.map((c) => c.id === id ? { ...c, assigned: !c.assigned } : c));
+  }
+
+  function runHeist() {
+    if (!selectedScenario) return;
+    const rolesPresent = selectedScenario.requiredRoles.every((r) => assignedCrew.some((a) => a.role === r));
+    const avgSkill = assignedCrew.length ? assignedCrew.reduce((s, a) => s + a.skill, 0) / assignedCrew.length : 0;
+
+    let nextResult: Result;
+    let points = 0;
+
+    if (!rolesPresent) {
+      nextResult = 'failed';
+      setResultMsg('Critical role missing. Security team locked down the target before entry.');
+      points = Math.max(0, Math.floor(score * 0.7));
+      beep(170, 0.1, 'sawtooth');
+    } else if (avgSkill >= selectedScenario.security + 0.6) {
+      nextResult = 'success';
+      setResultMsg(`Flawless operation. Crew extracted ${selectedScenario.loot} with zero trace.`);
+      points = score + 220 + level * 40;
+      setLevel((l) => l + 1);
+      beep(920, 0.1, 'triangle');
+    } else if (avgSkill >= selectedScenario.security - 0.3) {
+      nextResult = 'partial';
+      setResultMsg('Operation succeeded with heat. You escaped with partial loot after a loud exfil.');
+      points = score + 110 + level * 20;
+      beep(650, 0.08, 'square');
+    } else {
+      nextResult = 'failed';
+      setResultMsg('Crew underpowered. The vault breach failed and the team had to abort.');
+      points = Math.max(0, Math.floor(score * 0.8));
+      beep(180, 0.1, 'sawtooth');
+    }
+
+    setResult(nextResult);
+    setScore(points);
+    persistBest(points);
+    setPhase('result');
+  }
+
+  function restartRound() {
     setPhase('scenario');
     setSelectedScenario(null);
     setCrew(CREW_POOL.map((c) => ({ ...c, assigned: false })));
     setResult(null);
     setResultMsg('');
-  }, []);
+  }
 
   return (
-    <div className="min-h-screen bg-black text-white flex flex-col">
-      {/* Header */}
-      <div className="border-b border-zinc-900 px-6 py-3 flex items-center justify-between">
-        <Link href={`/${locale}/games`} className="text-zinc-600 hover:text-white font-mono text-xs tracking-widest uppercase transition-colors">
-          ← Games
-        </Link>
-        <span className="font-mono text-xs text-zinc-600 tracking-widest uppercase">Heist Planner</span>
-        {phase !== 'scenario' && (
-          <button onClick={restart} className="font-mono text-xs text-zinc-600 hover:text-white uppercase tracking-widest transition-colors">
-            Reset
-          </button>
-        )}
-      </div>
+    <GameFrame
+      locale={locale}
+      title="Heist Planner"
+      score={score}
+      best={best}
+      muted={muted}
+      onToggleMuted={toggleMuted}
+      requiresLogin
+      controls={`Phase-2 tactical mode · level ${level} · build role-complete crews for high-value extractions`}
+      leaderboard={leaderboard}
+    >
+      <div className="space-y-5">
+        <div className="flex flex-wrap gap-2 text-xs font-mono">
+          <span className="inline-flex items-center gap-1 rounded border border-zinc-700 px-2 py-1 text-cyan-300"><Crown className="h-3.5 w-3.5" /> Level {level}</span>
+          <span className="inline-flex items-center gap-1 rounded border border-zinc-700 px-2 py-1 text-amber-300"><Target className="h-3.5 w-3.5" /> Mission Score</span>
+          <span className="inline-flex items-center gap-1 rounded border border-zinc-700 px-2 py-1 text-emerald-300"><DollarSign className="h-3.5 w-3.5" /> Ranked Loot Runs</span>
+        </div>
 
-      <div className="flex-1 max-w-2xl mx-auto w-full px-4 py-8">
-
-        {/* Phase: Choose Scenario */}
         {phase === 'scenario' && (
-          <div className="space-y-6">
-            <div>
-              <h1 className="font-mono text-2xl font-black tracking-wider text-white mb-1">CHOOSE YOUR TARGET</h1>
-              <p className="text-zinc-600 font-mono text-xs tracking-widest">Select a heist location</p>
-            </div>
+          <div className="space-y-3">
+            <h2 className="font-mono text-xl font-black tracking-wider">🎯 Choose Target</h2>
             <div className="grid gap-3">
               {SCENARIOS.map((s) => (
                 <button
                   key={s.id}
                   onClick={() => { setSelectedScenario(s); setPhase('crew'); }}
-                  className="text-left p-4 rounded-lg border border-zinc-800 bg-zinc-950 hover:border-red-900 hover:bg-zinc-900/50 transition-all group"
+                  className="group text-left p-4 rounded-xl border border-zinc-800 bg-zinc-950 hover:border-fuchsia-700/50 hover:bg-zinc-900/70 transition-all"
                 >
                   <div className="flex items-start justify-between gap-4">
                     <div>
-                      <h3 className="font-mono text-white font-bold tracking-widest text-sm uppercase group-hover:text-red-400 transition-colors">{s.title}</h3>
+                      <p className="font-mono text-sm uppercase tracking-widest text-white group-hover:text-fuchsia-300">{s.title}</p>
                       <p className="text-zinc-500 text-xs mt-1">{s.vault}</p>
-                      <p className="text-zinc-600 text-xs mt-1">Loot: <span className="text-zinc-400">{s.loot}</span></p>
+                      <p className="text-zinc-600 text-xs mt-1 inline-flex items-center gap-1"><Route className="h-3.5 w-3.5" /> {s.route}</p>
                     </div>
-                    <div className="shrink-0">
-                      <div className="flex gap-0.5">
-                        {Array.from({ length: 5 }).map((_, i) => (
-                          <div key={i} className={`w-2 h-4 rounded-sm ${i < s.security ? 'bg-red-600' : 'bg-zinc-800'}`} />
-                        ))}
-                      </div>
-                      <p className="text-zinc-700 text-[10px] font-mono mt-1 tracking-wider">SECURITY</p>
+                    <div className="text-right">
+                      <p className="text-[10px] text-zinc-500 uppercase tracking-widest inline-flex items-center gap-1"><Shield className="h-3.5 w-3.5" /> Security</p>
+                      <p className="text-red-300 text-sm font-mono">{'█'.repeat(s.security)}</p>
                     </div>
                   </div>
                 </button>
@@ -167,131 +187,59 @@ export default function HeistGame({ locale }: HeistGameProps) {
           </div>
         )}
 
-        {/* Phase: Assemble Crew */}
         {phase === 'crew' && selectedScenario && (
-          <div className="space-y-6">
-            <div>
-              <h1 className="font-mono text-2xl font-black tracking-wider text-white mb-1">ASSEMBLE YOUR CREW</h1>
-              <p className="text-zinc-500 font-mono text-xs">Target: <span className="text-red-400">{selectedScenario.title}</span></p>
-              <p className="text-zinc-600 text-xs mt-1 font-mono">
-                Required: {selectedScenario.requiredRoles.map((r) => ROLE_LABELS[r]).join(', ')}
-              </p>
-            </div>
-
+          <div className="space-y-3">
+            <h2 className="font-mono text-xl font-black tracking-wider">🧠 Assemble Crew</h2>
+            <p className="text-zinc-500 text-xs font-mono inline-flex items-center gap-1"><Users className="h-3.5 w-3.5" /> Required: {selectedScenario.requiredRoles.map((r) => ROLE_LABELS[r]).join(', ')}</p>
             <div className="grid gap-2">
               {crew.map((member) => (
                 <button
                   key={member.id}
                   onClick={() => toggleCrew(member.id)}
-                  className={`flex items-center justify-between p-3 rounded-lg border transition-all ${
-                    member.assigned
-                      ? 'border-green-700 bg-green-900/20 text-green-300'
-                      : 'border-zinc-800 bg-zinc-950 text-zinc-400 hover:border-zinc-600'
-                  }`}
+                  className={`p-3 rounded-lg border transition-all flex items-center justify-between ${member.assigned ? 'border-emerald-700 bg-emerald-950/20' : 'border-zinc-800 bg-zinc-950 hover:border-zinc-600'}`}
                 >
-                  <div className="text-left">
-                    <div className="font-mono font-bold text-sm tracking-widest">{member.name}</div>
-                    <div className="text-xs mt-0.5">{ROLE_LABELS[member.role]}</div>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <div className="flex gap-0.5">
-                      {Array.from({ length: 5 }).map((_, i) => (
-                        <div key={i} className={`w-2 h-3 rounded-sm ${i < member.skill ? (member.assigned ? 'bg-green-500' : 'bg-zinc-500') : 'bg-zinc-800'}`} />
-                      ))}
-                    </div>
-                    <span className="font-mono text-xs">{member.assigned ? '✓' : '+'}</span>
-                  </div>
+                  <span className="font-mono text-sm text-white">{member.name} · <span className="text-zinc-400 text-xs">{ROLE_LABELS[member.role]}</span></span>
+                  <span className="font-mono text-xs text-zinc-300">Skill {member.skill}/5 {member.assigned ? '✅' : '➕'}</span>
                 </button>
               ))}
             </div>
-
-            <div className="flex gap-3">
-              <button
-                onClick={() => setPhase('scenario')}
-                className="flex-1 py-3 rounded-lg border border-zinc-800 text-zinc-500 font-mono text-xs tracking-widest uppercase hover:border-zinc-600 transition-colors"
-              >
-                ← Back
-              </button>
-              <button
-                onClick={() => setPhase('review')}
-                disabled={assignedCrew.length === 0}
-                className="flex-1 py-3 rounded-lg border border-red-900/70 bg-red-950/30 text-red-300 font-mono text-xs tracking-widest uppercase hover:bg-red-900/40 transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
-              >
-                Review Plan →
-              </button>
+            <div className="flex gap-2">
+              <button onClick={() => setPhase('scenario')} className="px-4 py-2 rounded-lg border border-zinc-700 text-xs font-mono uppercase">Back</button>
+              <button onClick={() => setPhase('review')} disabled={assignedCrew.length === 0} className="px-4 py-2 rounded-lg border border-fuchsia-700/50 text-xs font-mono uppercase disabled:opacity-50">Review</button>
             </div>
           </div>
         )}
 
-        {/* Phase: Review */}
         {phase === 'review' && selectedScenario && (
-          <div className="space-y-6">
-            <h1 className="font-mono text-2xl font-black tracking-wider text-white">FINAL REVIEW</h1>
-
-            <div className="p-4 rounded-lg border border-zinc-800 bg-zinc-950 space-y-3">
-              <div className="flex justify-between text-xs font-mono">
-                <span className="text-zinc-600 tracking-widest uppercase">Target</span>
-                <span className="text-white">{selectedScenario.title}</span>
-              </div>
-              <div className="flex justify-between text-xs font-mono">
-                <span className="text-zinc-600 tracking-widest uppercase">Route</span>
-                <span className="text-zinc-300 text-right max-w-[60%]">{selectedScenario.route}</span>
-              </div>
-              <div className="flex justify-between text-xs font-mono">
-                <span className="text-zinc-600 tracking-widest uppercase">Loot</span>
-                <span className="text-yellow-400">{selectedScenario.loot}</span>
-              </div>
+          <div className="space-y-3">
+            <h2 className="font-mono text-xl font-black tracking-wider">🛰️ Execution Review</h2>
+            <div className="rounded-lg border border-zinc-800 bg-zinc-950 p-3 text-xs font-mono space-y-2">
+              <p className="text-zinc-300"><span className="text-zinc-500">Target:</span> {selectedScenario.title}</p>
+              <p className="text-zinc-300"><span className="text-zinc-500">Route:</span> {selectedScenario.route}</p>
+              <p className="text-amber-300"><span className="text-zinc-500">Loot:</span> {selectedScenario.loot}</p>
             </div>
-
-            <div>
-              <p className="font-mono text-xs text-zinc-600 tracking-widest uppercase mb-2">Your Crew ({assignedCrew.length})</p>
-              <div className="space-y-1">
-                {assignedCrew.map((c) => (
-                  <div key={c.id} className="flex justify-between items-center py-1.5 px-3 rounded bg-zinc-900 border border-zinc-800">
-                    <span className="font-mono text-sm text-white">{c.name}</span>
-                    <span className="text-zinc-500 text-xs">{ROLE_LABELS[c.role]}</span>
-                  </div>
-                ))}
-              </div>
+            <div className="space-y-1">
+              {assignedCrew.map((c) => (
+                <div key={c.id} className="rounded border border-zinc-800 bg-zinc-950 px-3 py-2 text-xs font-mono text-zinc-300">{c.name} · {ROLE_LABELS[c.role]} · Skill {c.skill}</div>
+              ))}
             </div>
-
-            <div className="flex gap-3">
-              <button onClick={() => setPhase('crew')} className="flex-1 py-3 rounded-lg border border-zinc-800 text-zinc-500 font-mono text-xs tracking-widest uppercase hover:border-zinc-600 transition-colors">
-                ← Crew
-              </button>
-              <button onClick={runHeist} className="flex-1 py-3 rounded-lg border border-red-800 bg-red-900/30 text-red-200 font-mono text-xs tracking-widest uppercase hover:bg-red-800/50 transition-colors animate-pulse">
-                ▶ EXECUTE HEIST
-              </button>
+            <div className="flex gap-2">
+              <button onClick={() => setPhase('crew')} className="px-4 py-2 rounded-lg border border-zinc-700 text-xs font-mono uppercase">Edit Crew</button>
+              <button onClick={runHeist} className="px-4 py-2 rounded-lg border border-red-700/60 bg-red-900/30 text-xs font-mono uppercase animate-pulse">Execute</button>
             </div>
           </div>
         )}
 
-        {/* Phase: Result */}
         {phase === 'result' && result && (
-          <div className="space-y-6 text-center">
-            <div className={`text-6xl font-black font-mono tracking-widest ${
-              result === 'success' ? 'text-green-400' : result === 'partial' ? 'text-yellow-400' : 'text-red-400'
-            }`}>
-              {result === 'success' ? 'CLEAN' : result === 'partial' ? 'CLOSE' : 'BLOWN'}
-            </div>
-            <div className={`text-sm font-mono tracking-wider ${
-              result === 'success' ? 'text-green-500' : result === 'partial' ? 'text-yellow-500' : 'text-red-500'
-            }`}>
-              {result === 'success' ? 'HEIST COMPLETE' : result === 'partial' ? 'PARTIAL SUCCESS' : 'HEIST FAILED'}
-            </div>
-            <p className="text-zinc-400 text-sm font-mono leading-relaxed max-w-md mx-auto">{resultMsg}</p>
-            {selectedScenario && result === 'success' && (
-              <div className="p-3 rounded-lg border border-yellow-800 bg-yellow-900/10">
-                <p className="text-yellow-400 font-mono text-xs tracking-widest">LOOT SECURED</p>
-                <p className="text-yellow-300 text-sm mt-1">{selectedScenario.loot}</p>
-              </div>
-            )}
-            <button onClick={restart} className="mt-4 px-8 py-3 rounded-lg border border-zinc-700 bg-zinc-900/60 text-white font-mono text-sm tracking-widest uppercase hover:border-zinc-500 transition-colors">
-              Plan Another Heist
-            </button>
+          <div className="space-y-3 text-center">
+            <p className={`font-mono text-4xl font-black tracking-widest ${result === 'success' ? 'text-emerald-400' : result === 'partial' ? 'text-yellow-400' : 'text-red-400'}`}>
+              {result === 'success' ? 'CLEAN HIT' : result === 'partial' ? 'MESSY WIN' : 'BURNED'}
+            </p>
+            <p className="text-zinc-400 text-sm">{resultMsg}</p>
+            <button onClick={restartRound} className="px-4 py-2 rounded-lg border border-zinc-700 text-xs font-mono uppercase">Plan Next Heist</button>
           </div>
         )}
       </div>
-    </div>
+    </GameFrame>
   );
 }

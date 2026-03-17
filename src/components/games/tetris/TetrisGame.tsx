@@ -1,10 +1,11 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { Locale } from '@/i18n/request';
 import { GameFrame } from '@/components/games/shared/GameFrame';
 import { usePseudoLeaderboard } from '@/components/games/shared/usePseudoLeaderboard';
 import { useGameAudio } from '@/components/games/shared/useGameAudio';
+import { createPerfStatsTracker, getOrCreatePerfSessionTag } from '@/components/games/shared/perfStats';
 
 const W = 10;
 const H = 20;
@@ -48,27 +49,59 @@ export default function TetrisGame({ locale }: Props) {
   const [over, setOver] = useState(false);
   const { muted, beep, toggleMuted } = useGameAudio();
 
+  const boardRef = useRef(board);
+  const pieceRef = useRef(piece);
+  const scoreRef = useRef(score);
+  const bestRef = useRef(best);
+  const overRef = useRef(over);
+  const perfSessionTagRef = useRef('');
+
+  useEffect(() => {
+    boardRef.current = board;
+  }, [board]);
+
+  useEffect(() => {
+    pieceRef.current = piece;
+  }, [piece]);
+
+  useEffect(() => {
+    scoreRef.current = score;
+  }, [score]);
+
+  useEffect(() => {
+    bestRef.current = best;
+  }, [best]);
+
+  useEffect(() => {
+    overRef.current = over;
+  }, [over]);
+
   const leaderboard = usePseudoLeaderboard('tetris', score || best);
 
-  const spawn = () => {
+  const spawn = useCallback((nextBoard: Cell[][], nextScore: number) => {
     const shape = SHAPES[Math.floor(Math.random() * SHAPES.length)];
     const np = { x: Math.floor((W - shape[0].length) / 2), y: 0, shape };
-    if (collides(board, np)) {
+    if (collides(nextBoard, np)) {
       setOver(true);
-      if (score > best) {
-        setBest(score);
-        if (typeof window !== 'undefined') localStorage.setItem('tetris_best', String(score));
+      overRef.current = true;
+      if (nextScore > bestRef.current) {
+        bestRef.current = nextScore;
+        setBest(nextScore);
+        if (typeof window !== 'undefined') localStorage.setItem('tetris_best', String(nextScore));
       }
     }
+    pieceRef.current = np;
     setPiece(np);
-  };
+  }, []);
 
-  const merge = () => {
-    const next = board.map((r) => [...r]) as Cell[][];
-    piece.shape.forEach((row, ry) => row.forEach((v, rx) => {
+  const merge = useCallback(() => {
+    const boardNow = boardRef.current;
+    const pieceNow = pieceRef.current;
+    const next = boardNow.map((r) => [...r]) as Cell[][];
+    pieceNow.shape.forEach((row, ry) => row.forEach((v, rx) => {
       if (v) {
-        const yy = piece.y + ry;
-        if (yy >= 0) next[yy][piece.x + rx] = 1;
+        const yy = pieceNow.y + ry;
+        if (yy >= 0) next[yy][pieceNow.x + rx] = 1;
       }
     }));
 
@@ -82,47 +115,97 @@ export default function TetrisGame({ locale }: Props) {
       }
     }
 
+    const nextScore = scoreRef.current + cleared * 120;
     if (cleared > 0) {
-      setScore((s) => s + cleared * 120);
+      scoreRef.current = nextScore;
+      setScore(nextScore);
+      if (nextScore > bestRef.current) {
+        bestRef.current = nextScore;
+        setBest(nextScore);
+        if (typeof window !== 'undefined') localStorage.setItem('tetris_best', String(nextScore));
+      }
       beep(860, 0.08, 'triangle');
     }
 
+    boardRef.current = next;
     setBoard(next);
-    spawn();
-  };
+    spawn(next, nextScore);
+  }, [beep, spawn]);
 
   useEffect(() => {
-    if (over) return;
+    const perfEnabled = process.env.NODE_ENV !== 'production';
+    if (!perfSessionTagRef.current) {
+      perfSessionTagRef.current = getOrCreatePerfSessionTag();
+    }
+    const perf = createPerfStatsTracker('[Perf][Tetris] ', 30, perfEnabled, perfSessionTagRef.current);
+    let lastTick = performance.now();
+
     const t = window.setInterval(() => {
+      if (perfEnabled) {
+        const now = performance.now();
+        const dtMs = now - lastTick;
+        lastTick = now;
+        perf.sample(dtMs);
+      }
+
+      if (overRef.current) return;
       setPiece((p) => {
+        pieceRef.current = p;
         const np = { ...p, y: p.y + 1 };
-        if (collides(board, np)) {
+        if (collides(boardRef.current, np)) {
           merge();
           return p;
         }
+        pieceRef.current = np;
         return np;
       });
     }, 550);
-    return () => clearInterval(t);
-  }, [board, over]);
+    return () => {
+      clearInterval(t);
+      perf.flush();
+    };
+  }, [merge]);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (over) return;
-      if (e.key === 'ArrowLeft') setPiece((p) => (collides(board, { ...p, x: p.x - 1 }) ? p : { ...p, x: p.x - 1 }));
-      if (e.key === 'ArrowRight') setPiece((p) => (collides(board, { ...p, x: p.x + 1 }) ? p : { ...p, x: p.x + 1 }));
-      if (e.key === 'ArrowDown') setPiece((p) => (collides(board, { ...p, y: p.y + 1 }) ? p : { ...p, y: p.y + 1 }));
+      if (overRef.current) return;
+      if (e.key === 'ArrowLeft') {
+        setPiece((p) => {
+          const np = { ...p, x: p.x - 1 };
+          const nextPiece = collides(boardRef.current, np) ? p : np;
+          pieceRef.current = nextPiece;
+          return nextPiece;
+        });
+      }
+      if (e.key === 'ArrowRight') {
+        setPiece((p) => {
+          const np = { ...p, x: p.x + 1 };
+          const nextPiece = collides(boardRef.current, np) ? p : np;
+          pieceRef.current = nextPiece;
+          return nextPiece;
+        });
+      }
+      if (e.key === 'ArrowDown') {
+        setPiece((p) => {
+          const np = { ...p, y: p.y + 1 };
+          const nextPiece = collides(boardRef.current, np) ? p : np;
+          pieceRef.current = nextPiece;
+          return nextPiece;
+        });
+      }
       if (e.key === 'ArrowUp') {
         setPiece((p) => {
           const rp = { ...p, shape: rotate(p.shape) };
-          return collides(board, rp) ? p : rp;
+          const nextPiece = collides(boardRef.current, rp) ? p : rp;
+          pieceRef.current = nextPiece;
+          return nextPiece;
         });
         beep(540, 0.03, 'square');
       }
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [board, over, beep]);
+  }, [beep]);
 
   const cells = useMemo(() => {
     const temp = board.map((r) => [...r]) as Cell[][];
@@ -136,10 +219,15 @@ export default function TetrisGame({ locale }: Props) {
 
   const restart = () => {
     setBoard(empty());
+    boardRef.current = empty();
     setScore(0);
+    scoreRef.current = 0;
     setOver(false);
+    overRef.current = false;
     const shape = SHAPES[Math.floor(Math.random() * SHAPES.length)];
-    setPiece({ x: 3, y: 0, shape });
+    const nextPiece = { x: 3, y: 0, shape };
+    pieceRef.current = nextPiece;
+    setPiece(nextPiece);
   };
 
   return (

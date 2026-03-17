@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import type { Locale } from '@/i18n/request';
 import { GameFrame } from '@/components/games/shared/GameFrame';
 import { usePseudoLeaderboard } from '@/components/games/shared/usePseudoLeaderboard';
@@ -12,11 +12,15 @@ function scramble(word: string) {
   return word.split('').sort(() => Math.random() - 0.5).join('');
 }
 
+function pickWord() {
+  return WORDS[Math.floor(Math.random() * WORDS.length)];
+}
+
 interface Props { locale: Locale }
 
 export default function WordScrambleGame({ locale }: Props) {
-  const target = useMemo(() => WORDS[Math.floor(Math.random() * WORDS.length)], []);
-  const [scrambled, setScrambled] = useState(scramble(target));
+  const [target, setTarget] = useState(() => pickWord());
+  const [scrambled, setScrambled] = useState(() => scramble(target));
   const [input, setInput] = useState('');
   const [score, setScore] = useState(0);
   const [best, setBest] = useState(() => (typeof window !== 'undefined' ? Number(localStorage.getItem('word_scramble_best') ?? 0) : 0));
@@ -26,7 +30,8 @@ export default function WordScrambleGame({ locale }: Props) {
   const leaderboard = usePseudoLeaderboard('word-scramble', score);
 
   const nextWord = () => {
-    const nw = WORDS[Math.floor(Math.random() * WORDS.length)];
+    const nw = pickWord();
+    setTarget(nw);
     setScrambled(scramble(nw));
     setInput('');
     setMessage('New word loaded');

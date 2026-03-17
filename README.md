@@ -50,6 +50,7 @@ Run locally:
 
 - Generate/update tool content: `npm run generate-content`
 - Generate OG assets: `npm run og:generate`
+- Regenerate games launch tracking report after game launch metadata changes (for example updates in `src/lib/games-registry.ts` to `isLive`, `releaseDate`, or `launch-wave-*` tags): `npm run games:report`
 
 ## Contributing
 

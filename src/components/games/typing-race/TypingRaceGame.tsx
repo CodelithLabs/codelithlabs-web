@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { Locale } from '@/i18n/request';
 import { GameFrame } from '@/components/games/shared/GameFrame';
 import { usePseudoLeaderboard } from '@/components/games/shared/usePseudoLeaderboard';
@@ -15,23 +15,26 @@ const PASSAGES = [
 interface Props { locale: Locale }
 
 export default function TypingRaceGame({ locale }: Props) {
-  const passage = useMemo(() => PASSAGES[Math.floor(Math.random() * PASSAGES.length)], []);
+  const [passage] = useState(() => PASSAGES[Math.floor(Math.random() * PASSAGES.length)]);
   const [value, setValue] = useState('');
   const [startedAt, setStartedAt] = useState<number | null>(null);
+  const [now, setNow] = useState<number | null>(null);
   const [best, setBest] = useState(() => (typeof window !== 'undefined' ? Number(localStorage.getItem('typing_race_best') ?? 0) : 0));
   const { muted, beep, toggleMuted } = useGameAudio();
 
   const done = value.length >= passage.length;
-  const elapsedMin = startedAt ? Math.max((Date.now() - startedAt) / 60000, 1 / 60000) : 1;
+  const elapsedMin = startedAt
+    ? Math.max((((now ?? startedAt) - startedAt) / 60000), 1 / 60000)
+    : 1;
   const wpm = done ? Math.round((passage.split(' ').length / elapsedMin)) : 0;
   const accuracy = Math.max(0, Math.round((Array.from(value).filter((c, i) => c === passage[i]).length / Math.max(1, value.length)) * 100));
   const score = done ? Math.max(0, wpm * 10 + accuracy * 3) : 0;
 
   useEffect(() => {
-    if (!done || score <= best) return;
-    setBest(score);
-    if (typeof window !== 'undefined') localStorage.setItem('typing_race_best', String(score));
-  }, [done, score, best]);
+    if (!startedAt || done) return;
+    const id = window.setInterval(() => setNow(Date.now()), 100);
+    return () => window.clearInterval(id);
+  }, [done, startedAt]);
 
   const leaderboard = usePseudoLeaderboard('typing-race', score || best);
 
@@ -51,8 +54,30 @@ export default function TypingRaceGame({ locale }: Props) {
         <textarea
           value={value}
           onChange={(e) => {
-            if (!startedAt) setStartedAt(Date.now());
-            setValue(e.target.value.slice(0, passage.length));
+            const ts = Date.now();
+            let started = startedAt;
+            if (!startedAt) {
+              setStartedAt(ts);
+              setNow(ts);
+              started = ts;
+            }
+            const nextValue = e.target.value.slice(0, passage.length);
+            setValue(nextValue);
+
+            if (started && nextValue.length >= passage.length) {
+              const elapsed = Math.max((ts - started) / 60000, 1 / 60000);
+              const nextWpm = Math.round((passage.split(' ').length / elapsed));
+              const nextAccuracy = Math.max(0, Math.round((Array.from(nextValue).filter((c, i) => c === passage[i]).length / Math.max(1, nextValue.length)) * 100));
+              const nextScore = Math.max(0, nextWpm * 10 + nextAccuracy * 3);
+              setBest((prev) => {
+                if (nextScore > prev) {
+                  if (typeof window !== 'undefined') localStorage.setItem('typing_race_best', String(nextScore));
+                  return nextScore;
+                }
+                return prev;
+              });
+            }
+
             beep(540, 0.015, 'triangle');
           }}
           rows={4}

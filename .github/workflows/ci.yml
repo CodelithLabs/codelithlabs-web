@@ -72,6 +72,12 @@ jobs:
       - name: SEO audits
         run: npm run seo:audit
 
+      # ── Gate 4.1: Games launch report drift check ───────────────────────
+      - name: Verify games launch report is up to date
+        run: |
+          npm run games:report
+          git diff --exit-code -- docs/reports/games-launch-report.md
+
       # ── Publish SEO trend snapshot for PR review ────────────────────────
       - name: Upload SEO trend report artifact
         if: ${{ always() }}

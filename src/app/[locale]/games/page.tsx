@@ -15,12 +15,12 @@ export async function generateMetadata({
   const { locale } = await params;
 
   return {
-    title: 'Free Browser Games — No Signup, Privacy-First | CodelithLabs',
+    title: 'Browser Games — Ranked, Login-Powered, Privacy-First | CodelithLabs',
     description:
-      'Play free browser games instantly. No account, no tracking, no download. Arcade and horror games that run entirely in your browser.',
+      'Play polished browser games with real player leaderboards. Sign in for ranked gameplay, secure score tracking, and competitive progression.',
     keywords: [
       'free browser games',
-      'play online games no signup',
+      'ranked browser games',
       'privacy games no tracking',
       'html5 games',
       'webgl browser games',
@@ -28,7 +28,7 @@ export async function generateMetadata({
     ],
     openGraph: {
       title: 'Free Browser Games | CodelithLabs',
-      description: 'Play instantly. No signup. No tracking.',
+      description: 'Play instantly. Real ranked players. Privacy-first design.',
       url: `${BASE_URL}/${locale}/games`,
       images: [{ url: '/og/games/hub.jpg', width: 1200, height: 630 }],
       type: 'website',

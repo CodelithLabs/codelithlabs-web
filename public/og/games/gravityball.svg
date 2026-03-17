@@ -1,0 +1,11 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" fill="#020617"/>
+  <rect x="460" y="90" width="280" height="450" rx="16" fill="#0f172a" stroke="#334155"/>
+  <rect x="520" y="90" width="48" height="170" fill="#0891b2"/>
+  <rect x="520" y="360" width="48" height="180" fill="#0891b2"/>
+  <rect x="640" y="90" width="48" height="200" fill="#0891b2"/>
+  <rect x="640" y="390" width="48" height="150" fill="#0891b2"/>
+  <circle cx="600" cy="320" r="18" fill="#4ade80"/>
+  <text x="80" y="140" fill="#e2e8f0" font-size="64" font-family="Arial, sans-serif" font-weight="700">GRAVITY BALL</text>
+  <text x="80" y="200" fill="#93c5fd" font-size="30" font-family="Arial, sans-serif">Flip gravity. Thread the gaps.</text>
+</svg>
