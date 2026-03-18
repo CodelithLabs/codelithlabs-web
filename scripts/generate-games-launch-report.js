@@ -35,6 +35,24 @@ function getWaveNumber(tags) {
   return Number(waveTag.replace('launch-wave-', ''));
 }
 
+function buildSourceFingerprint(games) {
+  const canonicalGames = games
+    .map((game) => ({
+      slug: game.slug,
+      title: game.title,
+      isLive: game.isLive,
+      releaseDate: game.releaseDate,
+      tags: [...game.tags].sort(),
+    }))
+    .sort((a, b) => a.slug.localeCompare(b.slug));
+
+  return crypto
+    .createHash('sha256')
+    .update(JSON.stringify(canonicalGames))
+    .digest('hex')
+    .slice(0, 12);
+}
+
 function toMarkdown(games, sourceHash = 'unknown') {
   const liveGames = games.filter((g) => g.isLive);
   const upcomingGames = games.filter((g) => !g.isLive);
@@ -107,7 +125,7 @@ function main() {
     throw new Error('No game entries were parsed from games registry.');
   }
 
-  const sourceHash = crypto.createHash('sha256').update(source).digest('hex').slice(0, 12);
+  const sourceHash = buildSourceFingerprint(games);
   const markdown = toMarkdown(games, sourceHash);
   fs.writeFileSync(OUTPUT_PATH, markdown, 'utf8');
 
@@ -123,6 +141,7 @@ if (require.main === module) {
 module.exports = {
   parseGamesRegistry,
   getWaveNumber,
+  buildSourceFingerprint,
   toMarkdown,
   main,
 };
