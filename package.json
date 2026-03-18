@@ -3,8 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "postinstall": "prisma generate",
     "dev": "node --no-deprecation ./node_modules/next/dist/bin/next dev",
     "dev:trace-deprecations": "node --trace-deprecation ./node_modules/next/dist/bin/next dev",
+    "prebuild": "prisma generate",
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
