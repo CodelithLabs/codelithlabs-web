@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const crypto = require('crypto');
 
 const ROOT = path.join(__dirname, '..');
 const REGISTRY_PATH = path.join(ROOT, 'src', 'lib', 'games-registry.ts');
@@ -34,7 +35,7 @@ function getWaveNumber(tags) {
   return Number(waveTag.replace('launch-wave-', ''));
 }
 
-function toMarkdown(games) {
+function toMarkdown(games, sourceHash = 'unknown') {
   const liveGames = games.filter((g) => g.isLive);
   const upcomingGames = games.filter((g) => !g.isLive);
 
@@ -91,7 +92,7 @@ function toMarkdown(games) {
       .join('\n')}`
     : '## Upcoming Games (0)\n\n- none';
 
-  return `# Games Launch Report (Auto-Derived)\n\nGenerated: ${new Date().toISOString()}\n\nSource: \`src/lib/games-registry.ts\`\n\n## Summary\n\n${summaryLines}\n\n${waveSections}\n\n${liveWithoutWaveSection}\n\n${upcomingSection}\n`;
+  return `# Games Launch Report (Auto-Derived)\n\nGenerated-From-Hash: ${sourceHash}\n\nSource: \`src/lib/games-registry.ts\`\n\n## Summary\n\n${summaryLines}\n\n${waveSections}\n\n${liveWithoutWaveSection}\n\n${upcomingSection}\n`;
 }
 
 function main() {
@@ -106,7 +107,8 @@ function main() {
     throw new Error('No game entries were parsed from games registry.');
   }
 
-  const markdown = toMarkdown(games);
+  const sourceHash = crypto.createHash('sha256').update(source).digest('hex').slice(0, 12);
+  const markdown = toMarkdown(games, sourceHash);
   fs.writeFileSync(OUTPUT_PATH, markdown, 'utf8');
 
   console.log('🎮 Games launch report generated');

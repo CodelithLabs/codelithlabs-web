@@ -1,13 +1,13 @@
 # Games Launch Report (Auto-Derived)
 
-Generated: 2026-03-17T19:09:04.510Z
+Generated-From-Hash: 61ba9a07f226
 
 Source: `src/lib/games-registry.ts`
 
 ## Summary
 
-- Total games in registry: 26
-- Live games: 24
+- Total games in registry: 28
+- Live games: 26
 - Upcoming games: 2
 - Live games with launch-wave tags: 20
 
@@ -51,9 +51,11 @@ Source: `src/lib/games-registry.ts`
 | 1 | Mem Flip | `memflip` | 2026-10-01 |
 | 2 | Gravity Ball | `gravityball` | 2026-10-15 |
 
-## Live Games Without launch-wave Tag (4)
+## Live Games Without launch-wave Tag (6)
 
+- Custom Flappy (`custom-flappy`)
 - Heist Planner (`heist`)
+- Mouse Maze (`mouse-maze`)
 - Snake (`snake`)
 - 2048 (`tile2048`)
 - VOID (`void`)

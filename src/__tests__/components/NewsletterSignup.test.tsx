@@ -11,83 +11,98 @@ import { NewsletterSignup } from '@/components/newsletter/NewsletterSignup';
 // Mock fetch globally
 const mockFetch = vi.fn();
 global.fetch = mockFetch;
+const WAITLIST_STORAGE_KEY = 'codelithlabs_waitlist_joined_v1';
+
+const storage = new Map<string, string>();
+const localStorageMock = {
+  getItem: vi.fn((key: string) => storage.get(key) ?? null),
+  setItem: vi.fn((key: string, value: string) => {
+    storage.set(key, String(value));
+  }),
+  removeItem: vi.fn((key: string) => {
+    storage.delete(key);
+  }),
+  clear: vi.fn(() => {
+    storage.clear();
+  }),
+};
+
+Object.defineProperty(window, 'localStorage', {
+  value: localStorageMock,
+  configurable: true,
+});
 
 describe('NewsletterSignup', () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    window.localStorage.clear();
   });
 
-  it('renders the email input and submit button', () => {
+  it('renders the email input and waitlist submit button', () => {
     render(<NewsletterSignup />);
     expect(screen.getByPlaceholderText(/email/i)).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /subscribe/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /join.*waitlist/i })).toBeInTheDocument();
   });
 
   it('renders compact variant', () => {
     render(<NewsletterSignup compact />);
     expect(screen.getByPlaceholderText(/email/i)).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /join.*waitlist|subscribe/i })).toBeInTheDocument();
   });
 
-  it('submits email and shows success message', async () => {
-    mockFetch.mockResolvedValueOnce({
-      ok: true,
-      json: () => Promise.resolve({ success: true, pendingConfirmation: true }),
-    });
-
+  it('submits waitlist email, persists local marker, and hides the form', async () => {
     render(<NewsletterSignup />);
     const user = userEvent.setup();
 
     await user.type(screen.getByPlaceholderText(/email/i), 'test@example.com');
-    await user.click(screen.getByRole('button', { name: /subscribe/i }));
+    await user.click(screen.getByRole('button', { name: /join.*waitlist/i }));
 
     await waitFor(() => {
-      expect(screen.getByText(/confirm your subscription/i)).toBeInTheDocument();
+      expect(screen.getByText(/on the waitlist/i)).toBeInTheDocument();
     });
 
-    expect(mockFetch).toHaveBeenCalledWith('/api/newsletter/', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: 'test@example.com' }),
-    });
+    expect(window.localStorage.getItem(WAITLIST_STORAGE_KEY)).toBe('1');
+    expect(mockFetch).not.toHaveBeenCalled();
   });
 
-  it('shows error message on API failure', async () => {
-    mockFetch.mockResolvedValueOnce({
-      ok: false,
-      json: () => Promise.resolve({ error: 'Invalid email address' }),
+  it('shows error message if localStorage write fails', async () => {
+    const setItemSpy = vi.spyOn(window.localStorage, 'setItem').mockImplementation(() => {
+      throw new Error('Storage blocked');
     });
 
     render(<NewsletterSignup />);
     const user = userEvent.setup();
 
     await user.type(screen.getByPlaceholderText(/email/i), 'bad@email');
-    await user.click(screen.getByRole('button', { name: /subscribe/i }));
+    await user.click(screen.getByRole('button', { name: /join.*waitlist/i }));
 
     await waitFor(() => {
-      expect(screen.getByText(/invalid email/i)).toBeInTheDocument();
+      expect(screen.getByText(/storage blocked/i)).toBeInTheDocument();
     });
+
+    setItemSpy.mockRestore();
   });
 
-  it('shows error message on network failure', async () => {
-    mockFetch.mockRejectedValueOnce(new Error('Network error'));
+  it('shows joined state immediately when marker already exists in localStorage', async () => {
+    window.localStorage.setItem(WAITLIST_STORAGE_KEY, '1');
 
     render(<NewsletterSignup />);
-    const user = userEvent.setup();
-
-    await user.type(screen.getByPlaceholderText(/email/i), 'test@example.com');
-    await user.click(screen.getByRole('button', { name: /subscribe/i }));
 
     await waitFor(() => {
-      expect(screen.getByText(/network error/i)).toBeInTheDocument();
+      expect(screen.getByText(/on the waitlist/i)).toBeInTheDocument();
     });
+
+    expect(screen.queryByPlaceholderText(/email/i)).not.toBeInTheDocument();
+    expect(mockFetch).not.toHaveBeenCalled();
   });
 
   it('does not submit when email is empty', async () => {
     render(<NewsletterSignup />);
 
-    fireEvent.submit(screen.getByRole('button', { name: /subscribe/i }).closest('form')!);
+    fireEvent.submit(screen.getByRole('button', { name: /join.*waitlist/i }).closest('form')!);
 
     expect(mockFetch).not.toHaveBeenCalled();
+    expect(window.localStorage.getItem(WAITLIST_STORAGE_KEY)).not.toBe('1');
   });
 
   it('renders a stable test id for e2e selectors', () => {
